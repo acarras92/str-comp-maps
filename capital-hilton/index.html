@@ -6,7 +6,6 @@
   <title>Capital Hilton – STR Comp Set Map</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       height: 100vh;
@@ -14,8 +13,6 @@
       flex-direction: column;
       background: #f5f5f5;
     }
-
-    /* ── HEADER ── */
     .header {
       background: #1a2744;
       border-bottom: 3px solid #2956b2;
@@ -81,15 +78,11 @@
       color: #8fa8d8;
       margin-left: 10px;
     }
-
-    /* ── LAYOUT ── */
     .main {
       display: flex;
       flex: 1;
       overflow: hidden;
     }
-
-    /* ── SIDEBAR ── */
     .sidebar {
       width: 290px;
       background: #ffffff;
@@ -101,7 +94,6 @@
       box-shadow: 2px 0 8px rgba(0,0,0,0.06);
       z-index: 5;
     }
-
     .sb-section {
       padding: 14px 14px;
       border-bottom: 1px solid #eaecf0;
@@ -114,8 +106,6 @@
       margin-bottom: 10px;
       font-weight: 600;
     }
-
-    /* Legend */
     .legend-row {
       display: flex;
       align-items: center;
@@ -130,8 +120,6 @@
       border: 2px solid rgba(0,0,0,0.15);
       flex-shrink: 0;
     }
-
-    /* Performance grid */
     .perf-label {
       font-size: 10px;
       color: #8090b0;
@@ -161,8 +149,6 @@
     .p-value { font-size: 13px; font-weight: 700; color: #1a2744; margin: 1px 0; }
     .p-index { font-size: 9px; color: #2d8a2d; font-weight: 600; }
     .perf-cell.comp-cell .p-value { color: #444; }
-
-    /* Hotel list */
     .hotel-item {
       display: flex;
       align-items: flex-start;
@@ -177,7 +163,6 @@
     .hotel-item:hover { background: #f0f5ff; }
     .hotel-item.is-subject { background: #fff5f5; }
     .hotel-item.is-subject:hover { background: #ffe8e8; }
-
     .h-pin {
       width: 24px; height: 24px;
       border-radius: 50%;
@@ -188,7 +173,6 @@
     }
     .pin-subject { background: #c62828; color: #fff; }
     .pin-comp    { background: #1565c0; color: #fff; }
-
     .h-info h4 {
       font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3;
     }
@@ -211,7 +195,6 @@
       color: #b71c1c;
       margin-left: 4px;
     }
-
     .sidebar-footer {
       padding: 8px 14px;
       font-size: 10px;
@@ -219,11 +202,7 @@
       border-top: 1px solid #eaecf0;
       margin-top: auto;
     }
-
-    /* ── MAP ── */
     #map { flex: 1; }
-
-    /* ── GOOGLE INFO WINDOW ── */
     .gm-iw {
       font-family: 'Segoe UI', Arial, sans-serif;
       min-width: 230px;
@@ -269,11 +248,10 @@
 </head>
 <body>
 
-<!-- ── HEADER ── -->
 <div class="header">
   <div class="header-left">
-    <h1>Capital Hilton — STR Competitive Set Map</h1>
-    <p>Washington, DC &nbsp;·&nbsp; STR Report: December 2025 &nbsp;·&nbsp; 1 Subject + 6 Comps &nbsp;·&nbsp; 3,853 Comp Rooms</p>
+    <h1>Capital Hilton &mdash; STR Competitive Set Map</h1>
+    <p>Washington, DC &nbsp;&middot;&nbsp; STR Report: December 2025 &nbsp;&middot;&nbsp; 1 Subject + 6 Comps &nbsp;&middot;&nbsp; 3,853 Comp Rooms</p>
   </div>
   <div class="header-right">
     <div class="kpi-card">
@@ -293,16 +271,12 @@
       <div class="k-value">$203.6</div>
       <div class="k-index">RGI: 114.1</div>
     </div>
-    <div class="str-badge">Running 12-Month · Dec 2025</div>
+    <div class="str-badge">Running 12-Month &middot; December 2025</div>
   </div>
 </div>
 
-<!-- ── MAIN ── -->
 <div class="main">
-
-  <!-- ── SIDEBAR ── -->
   <div class="sidebar">
-
     <div class="sb-section">
       <h3>Legend</h3>
       <div class="legend-row"><div class="leg-dot" style="background:#c62828;"></div> Subject Property</div>
@@ -310,7 +284,7 @@
     </div>
 
     <div class="sb-section">
-      <h3>R12 Performance — Dec 2025</h3>
+      <h3>R12 Performance &mdash; December 2025</h3>
       <div class="perf-label">Capital Hilton (Subject)</div>
       <div class="perf-grid">
         <div class="perf-cell">
@@ -347,17 +321,16 @@
     </div>
 
     <div class="sb-section" style="flex:1; border-bottom:none;">
-      <h3>Properties — Click to Navigate</h3>
+      <h3>Properties &mdash; Click to Navigate</h3>
       <div id="hotel-list"></div>
     </div>
 
     <div class="sidebar-footer">
-      Source: STR Report · Data through December 2025<br/>
+      Source: STR Report &middot; Data through December 2025<br/>
       Performance set excludes subject property per STR methodology
     </div>
   </div>
 
-  <!-- ── MAP ── -->
   <div id="map"></div>
 </div>
 
@@ -365,77 +338,83 @@
   const HOTELS = [
     {
       id: 0, subject: true,
-      name: "Capital Hilton",
-      brand: "Hilton Hotels & Resorts",
-      operator: "Hilton Worldwide",
-      owner: "Ashford Hospitality Trust, Inc.",
-      address: "1001 16th St NW, Washington, DC 20036",
+      name: "Capital Hilton", brand: "",
+      operator: "",
+      address: "1001 16th St NW, Washington, DC 20036".trim(),
+      city: "Washington, DC",
       rooms: 559, strId: "9720",
       lat: 38.9006, lng: -77.0349,
-      occ: "74.3%", adr: "$273.9", revpar: "$203.6"
+      occ: "74.3%", adr: "$273.9", revpar: "$203.6",
     },
     {
       id: 1, subject: false,
-      name: "Hyatt Regency Washington on Capitol Hill",
-      brand: "Hyatt Regency",
-      operator: "Hyatt",
-      address: "400 New Jersey Ave NW, Washington, DC 20001",
+      name: "Hyatt Regency Washington on Capitol Hill", brand: "",
+      operator: "",
+      address: ", Washington, DC 20001".trim(),
+      city: "Washington, DC",
       rooms: 840, strId: "5769",
-      lat: 38.8966, lng: -77.0079
+      lat: 38.8966, lng: -77.0079,
+
     },
     {
       id: 2, subject: false,
-      name: "The Westin Washington, D.C. City Center",
-      brand: "Westin Hotels & Resorts",
-      operator: "Marriott International",
-      address: "1400 M St NW, Washington, DC 20005",
+      name: "The Westin Washington, D.C. City Center", brand: "",
+      operator: "",
+      address: ", Washington, DC 20005".trim(),
+      city: "Washington, DC",
       rooms: 410, strId: "12761",
-      lat: 38.9067, lng: -77.0326
+      lat: 38.9067, lng: -77.0326,
+
     },
     {
       id: 3, subject: false,
-      name: "JW Marriott Hotel Washington, DC",
-      brand: "JW Marriott",
-      operator: "Marriott International",
-      address: "1331 Pennsylvania Ave NW, Washington, DC 20004",
+      name: "JW Marriott Hotel Washington", brand: "",
+      operator: "",
+      address: ", Washington, DC 20004".trim(),
+      city: "Washington, DC",
       rooms: 777, strId: "6790",
-      lat: 38.8971, lng: -77.0303
+      lat: 38.8971, lng: -77.0303,
+
     },
     {
       id: 4, subject: false,
-      name: "The Mayflower Hotel, Autograph Collection",
-      brand: "Autograph Collection (Marriott)",
-      operator: "Marriott International",
-      address: "1127 Connecticut Ave NW, Washington, DC 20036",
+      name: "The Mayflower Hotel, Autograph Collection", brand: "",
+      operator: "",
+      address: ", Washington, DC 20036".trim(),
+      city: "Washington, DC",
       rooms: 585, strId: "10342",
-      lat: 38.9055, lng: -77.0416
+      lat: 38.9055, lng: -77.0416,
+
     },
     {
       id: 5, subject: false,
-      name: "Le Méridien Madison, Washington, DC",
-      brand: "Le Méridien (Marriott)",
-      operator: "Marriott International",
-      address: "1177 15th St NW, Washington, DC 20005",
+      name: "Le Meridien Madison, Washington, DC", brand: "",
+      operator: "",
+      address: ", Washington, DC 20005".trim(),
+      city: "Washington, DC",
       rooms: 356, strId: "12754",
-      lat: 38.9046, lng: -77.0349
+      lat: 38.9046, lng: -77.0349,
+
     },
     {
       id: 6, subject: false,
-      name: "Hamilton Hotel",
-      brand: "Independent",
-      operator: "HHM Hotels",
-      address: "1001 14th St NW, Washington, DC 20005",
+      name: "Hamilton Hotel", brand: "",
+      operator: "",
+      address: ", Washington, DC 20005".trim(),
+      city: "Washington, DC",
       rooms: 326, strId: "33217",
-      lat: 38.9011, lng: -77.0320
-    }
+      lat: 38.9011, lng: -77.032,
+
+    },
   ];
 
   let map, infoWindow;
   const markers = [];
 
   function initMap() {
+    const subj = HOTELS.find(h => h.subject);
     map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 38.9010, lng: -77.0260 },
+      center: { lat: 38.90174285714286, lng: -77.0306 },
       zoom: 14,
       mapTypeControl: true,
       mapTypeControlOptions: {
@@ -452,10 +431,9 @@
 
     infoWindow = new google.maps.InfoWindow({ maxWidth: 290 });
 
-    // Dashed radius circle around subject
     new google.maps.Circle({
       map,
-      center: { lat: 38.9006, lng: -77.0349 },
+      center: { lat: subj.lat, lng: subj.lng },
       radius: 800,
       strokeColor: '#c62828',
       strokeOpacity: 0.4,
@@ -465,7 +443,6 @@
       clickable: false
     });
 
-    // Build markers + sidebar list
     const listEl = document.getElementById('hotel-list');
     const bounds = new google.maps.LatLngBounds();
 
@@ -473,7 +450,6 @@
       const label = h.subject ? '★' : String(i);
       const color = h.subject ? '#c62828' : '#1565c0';
 
-      // SVG pin
       const svgIcon = {
         url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
           <svg xmlns="http://www.w3.org/2000/svg" width="38" height="46" viewBox="0 0 38 46">
@@ -501,7 +477,6 @@
       markers.push(marker);
       bounds.extend({ lat: h.lat, lng: h.lng });
 
-      // Info window content
       const statsHtml = h.subject
         ? `<hr class="gm-iw-divider"/>
            <div class="gm-iw-stats">
@@ -509,11 +484,8 @@
              <div class="gm-stat"><div class="gm-stat-label">ADR</div><div class="gm-stat-value">${h.adr}</div></div>
              <div class="gm-stat"><div class="gm-stat-label">RevPAR</div><div class="gm-stat-value">${h.revpar}</div></div>
            </div>
-           <div class="gm-iw-note">Running 12-Month · Source: STR</div>`
+           <div class="gm-iw-note">Running 12-Month &middot; Source: STR</div>`
         : `<div class="gm-iw-masked">Individual comp performance masked per STR policy</div>`;
-
-      const ownerLine = h.owner
-        ? `<div class="gm-iw-meta" style="color:#8090b0;font-size:10px;">Owner: ${h.owner}</div>` : '';
 
       const iwContent = `
         <div class="gm-iw">
@@ -525,7 +497,6 @@
           </div>
           <div class="gm-iw-meta" style="margin-top:6px;">${h.address}</div>
           <div class="gm-iw-meta">Operator: ${h.operator}</div>
-          ${ownerLine}
           <div class="gm-iw-str">STR ID: ${h.strId}</div>
           ${statsHtml}
         </div>`;
@@ -535,7 +506,6 @@
         infoWindow.open(map, marker);
       });
 
-      // Sidebar list item
       const item = document.createElement('div');
       item.className = `hotel-item${h.subject ? ' is-subject' : ''}`;
       item.innerHTML = `
