@@ -23,8 +23,8 @@ import requests
 
 # ── Configuration ──
 PYTHON = sys.executable
-DROP_FOLDER = r"C:\Users\acarr\Documents\STR Drops"
-REPO_DIR = r"C:\Users\acarr\str-comp-maps"
+DROP_FOLDER = r"C:\Users\acarr\OneDrive\Documents\STR Drops"
+REPO_DIR = r"C:\Users\acarr\OneDrive\Documents\Claude\Projects\str-comp-maps"
 GEOCACHE_PATH = os.path.join(REPO_DIR, "geocache.json")
 GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 API_KEY = "AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU"
