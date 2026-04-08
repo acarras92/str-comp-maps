@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STR Comp Set Maps — Highgate Capital</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #1a2744;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 700px;
+      width: 100%;
+      padding: 60px 24px;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: #8fa8d8;
+      margin-bottom: 40px;
+    }
+    .map-list {
+      list-style: none;
+    }
+    .map-list li {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .map-list a {
+      display: block;
+      padding: 16px 12px;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: background 0.15s;
+      border-radius: 6px;
+    }
+    .map-list a:hover {
+      background: rgba(255,255,255,0.06);
+    }
+    .map-list .meta {
+      font-size: 11px;
+      color: #8fa8d8;
+      margin-top: 2px;
+    }
+    .footer {
+      margin-top: auto;
+      padding: 24px;
+      font-size: 11px;
+      color: #5a6f94;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>STR Competitive Set Maps</h1>
+    <p class="subtitle">Highgate Capital &mdash; Interactive comp set maps powered by STR data</p>
+    <ul class="map-list">
+      <!-- MAPS_START -->
+      <li>
+        <a href="./capital-hilton/">
+          Capital Hilton &mdash; Washington, DC
+          <div class="meta">STR Report: December 2025 &middot; 1 Subject + 6 Comps &middot; 3,853 Comp Rooms</div>
+        </a>
+      </li>
+      <!-- MAPS_END -->
+    </ul>
+  </div>
+  <div class="footer">Generated with STR Comp Set Map Generator</div>
+</body>
+</html>
