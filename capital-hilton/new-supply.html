@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capital Hilton – New Supply Pipeline Map</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f5f5f5;
+    }
+    .header {
+      background: #1a2744;
+      border-bottom: 3px solid #2956b2;
+      padding: 11px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    .header-left h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+    .header-left p {
+      font-size: 11px;
+      color: #8fa8d8;
+      margin-top: 2px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 5px;
+      padding: 7px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #c5d5f5;
+      text-decoration: none;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+    }
+    .pipeline-badge {
+      background: rgba(230,126,34,0.15);
+      border: 1px solid rgba(230,126,34,0.4);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 10px;
+      color: #e67e22;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    .sidebar {
+      width: 290px;
+      background: #ffffff;
+      border-right: 1px solid #dde3ed;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-shrink: 0;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+      z-index: 5;
+    }
+    .sb-section {
+      padding: 14px 14px;
+      border-bottom: 1px solid #eaecf0;
+    }
+    .sb-section h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: #8090b0;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: #334;
+    }
+    .leg-dot {
+      width: 13px; height: 13px;
+      border-radius: 50%;
+      border: 2px solid rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .hotel-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 8px 6px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .hotel-item:last-child { border-bottom: none; }
+    .hotel-item:hover { background: #fef5ee; }
+    .h-pin {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .pin-pipeline { background: #e67e22; color: #fff; }
+    .pin-subject  { background: #c62828; color: #fff; }
+    .h-info h4 {
+      font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3;
+    }
+    .h-info .h-meta {
+      font-size: 10px; color: #7080a0; margin-top: 1px;
+    }
+    .h-badge {
+      display: inline-block;
+      background: #fef0e0;
+      border: 1px solid #f5d5a5;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 10px;
+      color: #bf6516;
+      margin-top: 3px;
+    }
+    .h-badge.subject-badge {
+      background: #fdecea;
+      border-color: #f5c0bc;
+      color: #b71c1c;
+      margin-left: 4px;
+    }
+    .sidebar-footer {
+      padding: 8px 14px;
+      font-size: 10px;
+      color: #aabbd0;
+      border-top: 1px solid #eaecf0;
+      margin-top: auto;
+    }
+    #map { flex: 1; }
+    .gm-iw {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-width: 230px;
+      max-width: 270px;
+    }
+    .gm-iw-title {
+      font-size: 14px; font-weight: 700; color: #1a2744;
+      line-height: 1.3; margin-bottom: 2px;
+    }
+    .gm-iw-brand {
+      font-size: 10px; color: #8090b0; text-transform: uppercase;
+      letter-spacing: 0.5px; margin-bottom: 8px;
+    }
+    .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
+    .gm-iw-badge {
+      display: inline-block;
+      background: #fef0e0; border: 1px solid #f5d5a5;
+      border-radius: 3px; padding: 2px 6px;
+      font-size: 10px; color: #bf6516; margin-bottom: 6px;
+    }
+    .gm-iw-subject-badge {
+      display: inline-block;
+      background: #fdecea; border: 1px solid #f5c0bc;
+      border-radius: 3px; padding: 2px 6px;
+      font-size: 10px; color: #b71c1c;
+      margin-left: 5px; margin-bottom: 6px;
+    }
+    .gm-iw-divider {
+      border: none; border-top: 1px solid #eaecf0;
+      margin: 8px 0;
+    }
+    .gm-iw-note { font-size: 9px; color: #aabbd0; margin-top: 5px; }
+    .gm-iw-str { font-size: 10px; color: #c0c8da; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Capital Hilton &mdash; New Supply Pipeline Map</h1>
+    <p>Washington, DC &nbsp;&middot;&nbsp; 5 Pipeline Hotels &nbsp;&middot;&nbsp; Potential Competitive Impact</p>
+  </div>
+  <div class="header-right">
+    <a class="nav-btn" href="index.html">&larr; Comp Set Map</a>
+    <div class="pipeline-badge">Pipeline / New Supply</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sb-section">
+      <h3>Legend</h3>
+      <div class="legend-row"><div class="leg-dot" style="background:#c62828;"></div> Subject Property (Capital Hilton)</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#e67e22;"></div> New Supply / Pipeline (5 Hotels)</div>
+    </div>
+
+    <div class="sb-section" style="flex:1; border-bottom:none;">
+      <h3>Pipeline Hotels &mdash; Click to Navigate</h3>
+      <div id="hotel-list"></div>
+    </div>
+
+    <div class="sidebar-footer">
+      New Supply Pipeline &middot; Washington, DC Market<br/>
+      Locations are approximate and based on publicly available information
+    </div>
+  </div>
+
+  <div id="map"></div>
+</div>
+
+<script>
+  const HOTELS = [
+    {
+      id: 0, subject: true,
+      name: "Capital Hilton", brand: "Hilton Hotels & Resorts",
+      address: "1001 16th St NW, Washington, DC 20036",
+      status: "Existing — Subject Property",
+      lat: 38.9032196, lng: -77.0357171,
+      rooms: 559
+    },
+    {
+      id: 1, subject: false,
+      name: "Tempo by Hilton DC Downtown", brand: "Tempo by Hilton",
+      address: "1776 K Street NW, Washington, DC",
+      status: "Pipeline",
+      lat: 38.90212289999999, lng: -77.0413265,
+      rooms: null
+    },
+    {
+      id: 2, subject: false,
+      name: "CitizenM Washington Georgetown", brand: "CitizenM",
+      address: "Near Key Bridge, Georgetown, Washington, DC",
+      status: "Pipeline",
+      lat: 38.9050618, lng: -77.0686358,
+      rooms: null
+    },
+    {
+      id: 3, subject: false,
+      name: "The Hoya Hotel", brand: "Independent",
+      address: "Georgetown University, Washington, DC",
+      status: "Pipeline",
+      lat: 38.9076089, lng: -77.07225849999999,
+      rooms: null
+    },
+    {
+      id: 4, subject: false,
+      name: "Aloft Hotel Mt. Vernon Triangle", brand: "Aloft Hotels",
+      address: "Mt. Vernon Triangle, Washington, DC",
+      status: "Pipeline",
+      lat: 38.9024949, lng: -77.01896049999999,
+      rooms: null
+    },
+    {
+      id: 5, subject: false,
+      name: "Marriott Tribute Portfolio Chinatown", brand: "Tribute Portfolio",
+      address: "Near Capital One Arena, Washington, DC",
+      status: "Pipeline",
+      lat: 38.8981675, lng: -77.02085679999999,
+      rooms: null
+    }
+  ];
+
+  let map, infoWindow;
+  const markers = [];
+
+  function initMap() {
+    const subj = HOTELS.find(h => h.subject);
+
+    // Compute center from all hotels
+    const avgLat = HOTELS.reduce((s, h) => s + h.lat, 0) / HOTELS.length;
+    const avgLng = HOTELS.reduce((s, h) => s + h.lng, 0) / HOTELS.length;
+
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: avgLat, lng: avgLng },
+      zoom: 13,
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.TOP_RIGHT
+      },
+      streetViewControl: true,
+      fullscreenControl: true,
+      styles: [
+        { featureType: "poi.business", stylers: [{ visibility: "off" }] },
+        { featureType: "transit", stylers: [{ visibility: "simplified" }] }
+      ]
+    });
+
+    infoWindow = new google.maps.InfoWindow({ maxWidth: 290 });
+
+    // Radius circle around subject property
+    new google.maps.Circle({
+      map,
+      center: { lat: subj.lat, lng: subj.lng },
+      radius: 800,
+      strokeColor: '#c62828',
+      strokeOpacity: 0.4,
+      strokeWeight: 1.5,
+      fillColor: '#c62828',
+      fillOpacity: 0.04,
+      clickable: false
+    });
+
+    const listEl = document.getElementById('hotel-list');
+    const bounds = new google.maps.LatLngBounds();
+
+    HOTELS.forEach((h, i) => {
+      const label = h.subject ? '\u2605' : String(i);
+      const color = h.subject ? '#c62828' : '#e67e22';
+
+      const svgIcon = {
+        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="46" viewBox="0 0 38 46">
+            <filter id="s">
+              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/>
+            </filter>
+            <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
+                  fill="${color}" stroke="white" stroke-width="1.5" filter="url(#s)"/>
+            <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
+                  font-family="Arial,sans-serif" font-size="${h.subject ? 14 : 13}"
+                  font-weight="bold" fill="white">${label}</text>
+          </svg>`),
+        scaledSize: new google.maps.Size(38, 46),
+        anchor: new google.maps.Point(19, 44)
+      };
+
+      const marker = new google.maps.Marker({
+        position: { lat: h.lat, lng: h.lng },
+        map,
+        icon: svgIcon,
+        title: h.name,
+        zIndex: h.subject ? 100 : i
+      });
+
+      markers.push(marker);
+      bounds.extend({ lat: h.lat, lng: h.lng });
+
+      const roomsHtml = h.rooms
+        ? `<span class="gm-iw-badge">${h.rooms.toLocaleString()} Keys</span>`
+        : `<span class="gm-iw-badge">Room Count TBD</span>`;
+
+      const iwContent = `
+        <div class="gm-iw">
+          <div class="gm-iw-title">${h.name}</div>
+          <div class="gm-iw-brand">${h.brand}</div>
+          <div>
+            ${roomsHtml}
+            ${h.subject ? '<span class="gm-iw-subject-badge">Subject Property</span>' : ''}
+          </div>
+          <div class="gm-iw-meta" style="margin-top:6px;">${h.address}</div>
+          <div class="gm-iw-meta">Status: ${h.status}</div>
+          ${!h.subject ? '<div class="gm-iw-note">Location approximate &middot; Pipeline project</div>' : ''}
+        </div>`;
+
+      marker.addListener('click', () => {
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+
+      // Only add pipeline hotels to sidebar list (subject shown in legend)
+      if (!h.subject) {
+        const item = document.createElement('div');
+        item.className = 'hotel-item';
+        item.innerHTML = `
+          <div class="h-pin pin-pipeline">${label}</div>
+          <div class="h-info">
+            <h4>${h.name}</h4>
+            <div class="h-meta">${h.address}</div>
+            <span class="h-badge">Pipeline</span>
+          </div>`;
+        item.addEventListener('click', () => {
+          map.panTo({ lat: h.lat, lng: h.lng });
+          map.setZoom(16);
+          infoWindow.setContent(iwContent);
+          infoWindow.open(map, marker);
+        });
+        listEl.appendChild(item);
+      }
+    });
+
+    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+  }
+</script>
+
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap"
+  async defer>
+</script>
+
+</body>
+</html>
