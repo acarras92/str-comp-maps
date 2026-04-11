@@ -133,6 +133,7 @@
     }
     .pin-pipeline { background: #e67e22; color: #fff; }
     .pin-subject  { background: #c62828; color: #fff; }
+    .pin-former   { background: #757575; color: #fff; }
     .h-info h4 {
       font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3;
     }
@@ -154,6 +155,11 @@
       border-color: #f5c0bc;
       color: #b71c1c;
       margin-left: 4px;
+    }
+    .h-badge.former-badge {
+      background: #efefef;
+      border-color: #c0c0c0;
+      color: #555;
     }
     .sidebar-footer {
       padding: 8px 14px;
@@ -190,6 +196,13 @@
       font-size: 10px; color: #b71c1c;
       margin-left: 5px; margin-bottom: 6px;
     }
+    .gm-iw-former-badge {
+      display: inline-block;
+      background: #efefef; border: 1px solid #c0c0c0;
+      border-radius: 3px; padding: 2px 6px;
+      font-size: 10px; color: #555;
+      margin-bottom: 6px;
+    }
     .gm-iw-divider {
       border: none; border-top: 1px solid #eaecf0;
       margin: 8px 0;
@@ -203,7 +216,7 @@
 <div class="header">
   <div class="header-left">
     <h1>Capital Hilton &mdash; New Supply Pipeline Map</h1>
-    <p>Washington, DC &nbsp;&middot;&nbsp; 5 Pipeline Hotels &nbsp;&middot;&nbsp; Potential Competitive Impact</p>
+    <p>Washington, DC &nbsp;&middot;&nbsp; 5 Pipeline Hotels &nbsp;&middot;&nbsp; 6 Former Supply &nbsp;&middot;&nbsp; 1,795 Keys Removed</p>
   </div>
   <div class="header-right">
     <a class="nav-btn" href="index.html">&larr; Comp Set Map</a>
@@ -217,11 +230,17 @@
       <h3>Legend</h3>
       <div class="legend-row"><div class="leg-dot" style="background:#c62828;"></div> Subject Property (Capital Hilton)</div>
       <div class="legend-row"><div class="leg-dot" style="background:#e67e22;"></div> New Supply / Pipeline (5 Hotels)</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#757575;"></div> Former Supply / Permanent Closures (6 Hotels)</div>
+    </div>
+
+    <div class="sb-section">
+      <h3>Pipeline Hotels &mdash; Click to Navigate</h3>
+      <div id="hotel-list"></div>
     </div>
 
     <div class="sb-section" style="flex:1; border-bottom:none;">
-      <h3>Pipeline Hotels &mdash; Click to Navigate</h3>
-      <div id="hotel-list"></div>
+      <h3>Former Supply (Permanent Closures) &mdash; 1,795 Keys Removed</h3>
+      <div id="former-list"></div>
     </div>
 
     <div class="sidebar-footer">
@@ -282,6 +301,54 @@
       status: "Pipeline",
       lat: 38.8981675, lng: -77.02085679999999,
       rooms: null
+    },
+    {
+      id: 6, subject: false, category: "former",
+      name: "Fairfax at Embassy Row", brand: "Autograph Collection",
+      address: "2100 Massachusetts Ave NW, Washington, DC 20008",
+      status: "Permanently Closed",
+      lat: 38.9105256, lng: -77.0471161,
+      rooms: 259
+    },
+    {
+      id: 7, subject: false, category: "former",
+      name: "Avenue Suites", brand: "Independent",
+      address: "2500 Pennsylvania Ave NW, Washington, DC 20037",
+      status: "Permanently Closed",
+      lat: 38.90358670000001, lng: -77.0535668,
+      rooms: 124
+    },
+    {
+      id: 8, subject: false, category: "former",
+      name: "Embassy Circle Guest House", brand: "Independent",
+      address: "2224 R St NW, Washington, DC 20008",
+      status: "Permanently Closed",
+      lat: 38.9124256, lng: -77.04980759999999,
+      rooms: 11
+    },
+    {
+      id: 9, subject: false, category: "former",
+      name: "Georgetown Suites", brand: "Independent",
+      address: "1111 30th St NW, Washington, DC 20007",
+      status: "Permanently Closed",
+      lat: 38.9046728, lng: -77.05837910000001,
+      rooms: 222
+    },
+    {
+      id: 10, subject: false, category: "former",
+      name: "Adams Inn", brand: "Independent",
+      address: "1746 Lanier Pl NW, Washington, DC 20009",
+      status: "Permanently Closed",
+      lat: 38.9245461, lng: -77.0416122,
+      rooms: 27
+    },
+    {
+      id: 11, subject: false, category: "former",
+      name: "Marriott Wardman Park", brand: "Marriott Hotels",
+      address: "2660 Woodley Rd NW, Washington, DC 20008",
+      status: "Permanently Closed",
+      lat: 38.9247051, lng: -77.0542636,
+      rooms: 1152
     }
   ];
 
@@ -327,11 +394,22 @@
     });
 
     const listEl = document.getElementById('hotel-list');
+    const formerListEl = document.getElementById('former-list');
     const bounds = new google.maps.LatLngBounds();
 
+    let formerIndex = 0;
+
     HOTELS.forEach((h, i) => {
-      const label = h.subject ? '\u2605' : String(i);
-      const color = h.subject ? '#c62828' : '#e67e22';
+      const isFormer = h.category === 'former';
+      let label, color;
+      if (h.subject) {
+        label = '\u2605'; color = '#c62828';
+      } else if (isFormer) {
+        formerIndex++;
+        label = 'F' + formerIndex; color = '#757575';
+      } else {
+        label = String(i); color = '#e67e22';
+      }
 
       const svgIcon = {
         url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
@@ -342,8 +420,8 @@
             <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
                   fill="${color}" stroke="white" stroke-width="1.5" filter="url(#s)"/>
             <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
-                  font-family="Arial,sans-serif" font-size="${h.subject ? 14 : 13}"
-                  font-weight="bold" fill="white">${label}</text>
+                  font-family="Arial,sans-serif" font-size="${h.subject ? 14 : (isFormer ? 10 : 13)}"
+                  font-weight="bold" fill="white">${isFormer ? '✕' + label.slice(1) : label}</text>
           </svg>`),
         scaledSize: new google.maps.Size(38, 46),
         anchor: new google.maps.Point(19, 44)
@@ -361,20 +439,22 @@
       bounds.extend({ lat: h.lat, lng: h.lng });
 
       const roomsHtml = h.rooms
-        ? `<span class="gm-iw-badge">${h.rooms.toLocaleString()} Keys</span>`
+        ? `<span class="${isFormer ? 'gm-iw-former-badge' : 'gm-iw-badge'}">${h.rooms.toLocaleString()} Keys${isFormer ? ' — Removed' : ''}</span>`
         : `<span class="gm-iw-badge">Room Count TBD</span>`;
 
       const iwContent = `
         <div class="gm-iw">
-          <div class="gm-iw-title">${h.name}</div>
+          <div class="gm-iw-title">${isFormer ? '<s>' + h.name + '</s>' : h.name}</div>
           <div class="gm-iw-brand">${h.brand}</div>
           <div>
             ${roomsHtml}
             ${h.subject ? '<span class="gm-iw-subject-badge">Subject Property</span>' : ''}
+            ${isFormer ? '<span class="gm-iw-former-badge">Permanently Closed</span>' : ''}
           </div>
           <div class="gm-iw-meta" style="margin-top:6px;">${h.address}</div>
           <div class="gm-iw-meta">Status: ${h.status}</div>
-          ${!h.subject ? '<div class="gm-iw-note">Location approximate &middot; Pipeline project</div>' : ''}
+          ${!h.subject && !isFormer ? '<div class="gm-iw-note">Location approximate &middot; Pipeline project</div>' : ''}
+          ${isFormer ? '<div class="gm-iw-note">Permanent closure &middot; Supply removed from market</div>' : ''}
         </div>`;
 
       marker.addListener('click', () => {
@@ -382,16 +462,22 @@
         infoWindow.open(map, marker);
       });
 
-      // Only add pipeline hotels to sidebar list (subject shown in legend)
+      // Add hotels to appropriate sidebar list
       if (!h.subject) {
+        const targetList = isFormer ? formerListEl : listEl;
+        const pinClass = isFormer ? 'pin-former' : 'pin-pipeline';
+        const badgeClass = isFormer ? 'h-badge former-badge' : 'h-badge';
+        const badgeText = isFormer ? 'Permanently Closed' : 'Pipeline';
+        const roomsText = h.rooms ? ` &middot; ${h.rooms.toLocaleString()} keys` : '';
         const item = document.createElement('div');
         item.className = 'hotel-item';
+        if (isFormer) item.style.opacity = '0.75';
         item.innerHTML = `
-          <div class="h-pin pin-pipeline">${label}</div>
+          <div class="h-pin ${pinClass}">${label}</div>
           <div class="h-info">
-            <h4>${h.name}</h4>
-            <div class="h-meta">${h.address}</div>
-            <span class="h-badge">Pipeline</span>
+            <h4>${isFormer ? '<s>' + h.name + '</s>' : h.name}</h4>
+            <div class="h-meta">${h.address}${roomsText}</div>
+            <span class="${badgeClass}">${badgeText}</span>
           </div>`;
         item.addEventListener('click', () => {
           map.panTo({ lat: h.lat, lng: h.lng });
@@ -399,7 +485,7 @@
           infoWindow.setContent(iwContent);
           infoWindow.open(map, marker);
         });
-        listEl.appendChild(item);
+        targetList.appendChild(item);
       }
     });
 
