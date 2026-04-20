@@ -39,7 +39,7 @@
   <aside id="sidebar">
     <header>
       <h1>STR Comp Sets — Global View</h1>
-      <div class="sub">24 comp sets · 153 unique hotels</div>
+      <div class="sub">25 comp sets · 160 unique hotels</div>
     </header>
     <div id="controls">
       <button onclick="toggleAll(true)">Show all</button>
@@ -53,9 +53,23 @@
 <script>
 const COMP_SETS = [
   {
+    "slug": "aka-white-house",
+    "name": "AKA White House",
+    "color": "#e6194B",
+    "report_period": "December 2025",
+    "comp_rooms": 1088,
+    "subj_occ": "80.5%",
+    "subj_adr": "$302.9",
+    "subj_revpar": "$244.0",
+    "mpi": "106.8",
+    "ari": "119.6",
+    "rgi": "127.8",
+    "hotel_count": 7
+  },
+  {
     "slug": "cameo-beverly-hills-lxr-hotels--resorts",
     "name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-    "color": "#e6194B",
+    "color": "#3cb44b",
     "report_period": "December 2025",
     "comp_rooms": 1953,
     "subj_occ": "52.6%",
@@ -69,7 +83,7 @@ const COMP_SETS = [
   {
     "slug": "capital-hilton",
     "name": "Capital Hilton",
-    "color": "#3cb44b",
+    "color": "#4363d8",
     "report_period": "December 2025",
     "comp_rooms": 3853,
     "subj_occ": "74.3%",
@@ -83,7 +97,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-austin-downtown",
     "name": "citizenM Austin Downtown",
-    "color": "#4363d8",
+    "color": "#f58231",
     "report_period": "February 2026",
     "comp_rooms": 2091,
     "subj_occ": "64.7%",
@@ -97,7 +111,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-boston-back-bay",
     "name": "citizenM Boston Back Bay",
-    "color": "#f58231",
+    "color": "#911eb4",
     "report_period": "February 2026",
     "comp_rooms": 2659,
     "subj_occ": "86.2%",
@@ -111,7 +125,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-boston-north-station",
     "name": "citizenM Boston North Station",
-    "color": "#911eb4",
+    "color": "#42d4f4",
     "report_period": "February 2026",
     "comp_rooms": 1092,
     "subj_occ": "88.7%",
@@ -125,7 +139,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-chicago-downtown",
     "name": "citizenM Chicago Downtown",
-    "color": "#42d4f4",
+    "color": "#f032e6",
     "report_period": "February 2026",
     "comp_rooms": 1724,
     "subj_occ": "77.2%",
@@ -139,7 +153,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-los-angeles-downtown",
     "name": "citizenM Los Angeles Downtown",
-    "color": "#f032e6",
+    "color": "#bfef45",
     "report_period": "February 2026",
     "comp_rooms": 1681,
     "subj_occ": "83.9%",
@@ -153,7 +167,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-menlo-park-hotel",
     "name": "citizenM Menlo Park hotel",
-    "color": "#bfef45",
+    "color": "#fabed4",
     "report_period": "February 2026",
     "comp_rooms": 1384,
     "subj_occ": "46.8%",
@@ -167,7 +181,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-miami-brickell-hotel",
     "name": "citizenM Miami Brickell hotel",
-    "color": "#fabed4",
+    "color": "#469990",
     "report_period": "February 2026",
     "comp_rooms": 1412,
     "subj_occ": "88.1%",
@@ -181,7 +195,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-miami-south-beach",
     "name": "citizenM Miami South Beach",
-    "color": "#469990",
+    "color": "#dcbeff",
     "report_period": "February 2026",
     "comp_rooms": 1161,
     "subj_occ": "83.2%",
@@ -195,7 +209,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-miami-world-center",
     "name": "citizenM Miami World Center",
-    "color": "#dcbeff",
+    "color": "#9A6324",
     "report_period": "February 2026",
     "comp_rooms": 1575,
     "subj_occ": "81.3%",
@@ -209,7 +223,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-new-york-bowery",
     "name": "citizenM New York Bowery",
-    "color": "#9A6324",
+    "color": "#800000",
     "report_period": "February 2026",
     "comp_rooms": 1775,
     "subj_occ": "92.0%",
@@ -223,7 +237,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-new-york-times-square",
     "name": "citizenM New York Times Square",
-    "color": "#800000",
+    "color": "#aaffc3",
     "report_period": "February 2026",
     "comp_rooms": 1220,
     "subj_occ": "93.6%",
@@ -237,7 +251,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-san-francisco-union-square",
     "name": "citizenM San Francisco Union Square",
-    "color": "#aaffc3",
+    "color": "#808000",
     "report_period": "February 2026",
     "comp_rooms": 1094,
     "subj_occ": "90.5%",
@@ -251,7 +265,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-seattle-pioneer-square",
     "name": "citizenM Seattle Pioneer Square",
-    "color": "#808000",
+    "color": "#ffd8b1",
     "report_period": "February 2026",
     "comp_rooms": 1363,
     "subj_occ": "74.2%",
@@ -265,7 +279,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-seattle-south-lake",
     "name": "citizenM Seattle South Lake",
-    "color": "#ffd8b1",
+    "color": "#000075",
     "report_period": "February 2026",
     "comp_rooms": 1678,
     "subj_occ": "79.4%",
@@ -279,7 +293,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-washington-dc-capitol",
     "name": "citizenM Washington DC Capitol",
-    "color": "#000075",
+    "color": "#a9a9a9",
     "report_period": "February 2026",
     "comp_rooms": 2262,
     "subj_occ": "81.4%",
@@ -293,7 +307,7 @@ const COMP_SETS = [
   {
     "slug": "citizenm-washington-dc-noma",
     "name": "citizenM Washington DC NoMa",
-    "color": "#a9a9a9",
+    "color": "#e6beff",
     "report_period": "February 2026",
     "comp_rooms": 1628,
     "subj_occ": "68.3%",
@@ -307,7 +321,7 @@ const COMP_SETS = [
   {
     "slug": "hyatt-centric-delfina-santa-monica",
     "name": "Hyatt Centric Delfina Santa Monica",
-    "color": "#e6beff",
+    "color": "#ff8c00",
     "report_period": "December 2025",
     "comp_rooms": 1423,
     "subj_occ": "65.3%",
@@ -321,7 +335,7 @@ const COMP_SETS = [
   {
     "slug": "loews-hollywood-hotel",
     "name": "Loews Hollywood Hotel",
-    "color": "#ff8c00",
+    "color": "#008080",
     "report_period": "December 2025",
     "comp_rooms": 3010,
     "subj_occ": "65.8%",
@@ -335,7 +349,7 @@ const COMP_SETS = [
   {
     "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
     "name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-    "color": "#008080",
+    "color": "#8b4513",
     "report_period": "February 2026",
     "comp_rooms": 1383,
     "subj_occ": "73.9%",
@@ -349,7 +363,7 @@ const COMP_SETS = [
   {
     "slug": "the-london-west-hollywood",
     "name": "The London West Hollywood",
-    "color": "#8b4513",
+    "color": "#2f4f4f",
     "report_period": "October 2025",
     "comp_rooms": 1788,
     "subj_occ": "68.9%",
@@ -363,7 +377,7 @@ const COMP_SETS = [
   {
     "slug": "the-ritz-carlton-washington-dc",
     "name": "The Ritz-Carlton, Washington, D.C.",
-    "color": "#2f4f4f",
+    "color": "#ff1493",
     "report_period": "December 2025",
     "comp_rooms": 1853,
     "subj_occ": "67.5%",
@@ -377,7 +391,7 @@ const COMP_SETS = [
   {
     "slug": "viceroy-santa-monica",
     "name": "Viceroy Santa Monica",
-    "color": "#ff1493",
+    "color": "#e6194B",
     "report_period": "December 2025",
     "comp_rooms": 1042,
     "subj_occ": "73.7%",
@@ -391,6 +405,118 @@ const COMP_SETS = [
 ];
 const HOTELS = [
   {
+    "name": "AKA White House",
+    "city_state": "Washington, DC",
+    "zip": "200064699",
+    "rooms": 141,
+    "lat": 38.9000628,
+    "lng": -77.0404004,
+    "memberships": [
+      {
+        "slug": "aka-white-house",
+        "subject_name": "AKA White House",
+        "color": "#e6194B",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Club Quarters Washington, DC, White House",
+    "city_state": "Washington, DC",
+    "zip": "20006",
+    "rooms": 161,
+    "lat": 38.9010596,
+    "lng": -77.0391674,
+    "memberships": [
+      {
+        "slug": "aka-white-house",
+        "subject_name": "AKA White House",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sofitel Washington DC Lafayette Square",
+    "city_state": "Washington, DC",
+    "zip": "20005",
+    "rooms": 237,
+    "lat": 38.90047819999999,
+    "lng": -77.03400599999999,
+    "memberships": [
+      {
+        "slug": "aka-white-house",
+        "subject_name": "AKA White House",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hotel AKA Washington Circle",
+    "city_state": "Washington, DC",
+    "zip": "20037",
+    "rooms": 151,
+    "lat": 38.9034054,
+    "lng": -77.0497749,
+    "memberships": [
+      {
+        "slug": "aka-white-house",
+        "subject_name": "AKA White House",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Residence Inn Washington DC Dupont Circle",
+    "city_state": "Washington, DC",
+    "zip": "20037",
+    "rooms": 107,
+    "lat": 38.9094048,
+    "lng": -77.0473822,
+    "memberships": [
+      {
+        "slug": "aka-white-house",
+        "subject_name": "AKA White House",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Homewood Suites by Hilton Washington, D.C. Downtown",
+    "city_state": "Washington, DC",
+    "zip": "20005",
+    "rooms": 175,
+    "lat": 38.90653,
+    "lng": -77.0334506,
+    "memberships": [
+      {
+        "slug": "aka-white-house",
+        "subject_name": "AKA White House",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hampton by Hilton Inn Washington DC/ White House",
+    "city_state": "Washington, DC",
+    "zip": "200063901",
+    "rooms": 116,
+    "lat": 38.9006021,
+    "lng": -77.031455,
+    "memberships": [
+      {
+        "slug": "aka-white-house",
+        "subject_name": "AKA White House",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
     "name": "Cameo Beverly Hills, LXR Hotels & Resorts",
     "city_state": "Los Angeles, CA",
     "zip": "900351108",
@@ -401,7 +527,7 @@ const HOTELS = [
       {
         "slug": "cameo-beverly-hills-lxr-hotels--resorts",
         "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-        "color": "#e6194B",
+        "color": "#3cb44b",
         "role": "subject"
       }
     ]
@@ -417,13 +543,13 @@ const HOTELS = [
       {
         "slug": "cameo-beverly-hills-lxr-hotels--resorts",
         "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-        "color": "#e6194B",
+        "color": "#3cb44b",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "subject"
       }
     ]
@@ -439,19 +565,19 @@ const HOTELS = [
       {
         "slug": "cameo-beverly-hills-lxr-hotels--resorts",
         "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-        "color": "#e6194B",
+        "color": "#3cb44b",
         "role": "comp"
       },
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -467,7 +593,7 @@ const HOTELS = [
       {
         "slug": "cameo-beverly-hills-lxr-hotels--resorts",
         "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-        "color": "#e6194B",
+        "color": "#3cb44b",
         "role": "comp"
       }
     ]
@@ -483,19 +609,19 @@ const HOTELS = [
       {
         "slug": "cameo-beverly-hills-lxr-hotels--resorts",
         "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-        "color": "#e6194B",
+        "color": "#3cb44b",
         "role": "comp"
       },
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "subject"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -511,7 +637,7 @@ const HOTELS = [
       {
         "slug": "cameo-beverly-hills-lxr-hotels--resorts",
         "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-        "color": "#e6194B",
+        "color": "#3cb44b",
         "role": "comp"
       }
     ]
@@ -527,7 +653,7 @@ const HOTELS = [
       {
         "slug": "cameo-beverly-hills-lxr-hotels--resorts",
         "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-        "color": "#e6194B",
+        "color": "#3cb44b",
         "role": "comp"
       }
     ]
@@ -543,7 +669,7 @@ const HOTELS = [
       {
         "slug": "cameo-beverly-hills-lxr-hotels--resorts",
         "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-        "color": "#e6194B",
+        "color": "#3cb44b",
         "role": "comp"
       }
     ]
@@ -559,7 +685,7 @@ const HOTELS = [
       {
         "slug": "cameo-beverly-hills-lxr-hotels--resorts",
         "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-        "color": "#e6194B",
+        "color": "#3cb44b",
         "role": "comp"
       }
     ]
@@ -575,13 +701,13 @@ const HOTELS = [
       {
         "slug": "cameo-beverly-hills-lxr-hotels--resorts",
         "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
-        "color": "#e6194B",
+        "color": "#3cb44b",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -597,7 +723,7 @@ const HOTELS = [
       {
         "slug": "capital-hilton",
         "subject_name": "Capital Hilton",
-        "color": "#3cb44b",
+        "color": "#4363d8",
         "role": "subject"
       }
     ]
@@ -613,7 +739,7 @@ const HOTELS = [
       {
         "slug": "capital-hilton",
         "subject_name": "Capital Hilton",
-        "color": "#3cb44b",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -629,7 +755,7 @@ const HOTELS = [
       {
         "slug": "capital-hilton",
         "subject_name": "Capital Hilton",
-        "color": "#3cb44b",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -645,7 +771,7 @@ const HOTELS = [
       {
         "slug": "capital-hilton",
         "subject_name": "Capital Hilton",
-        "color": "#3cb44b",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -661,7 +787,7 @@ const HOTELS = [
       {
         "slug": "capital-hilton",
         "subject_name": "Capital Hilton",
-        "color": "#3cb44b",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -677,7 +803,7 @@ const HOTELS = [
       {
         "slug": "capital-hilton",
         "subject_name": "Capital Hilton",
-        "color": "#3cb44b",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -693,7 +819,7 @@ const HOTELS = [
       {
         "slug": "capital-hilton",
         "subject_name": "Capital Hilton",
-        "color": "#3cb44b",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -709,7 +835,7 @@ const HOTELS = [
       {
         "slug": "citizenm-austin-downtown",
         "subject_name": "citizenM Austin Downtown",
-        "color": "#4363d8",
+        "color": "#f58231",
         "role": "subject"
       }
     ]
@@ -725,7 +851,7 @@ const HOTELS = [
       {
         "slug": "citizenm-austin-downtown",
         "subject_name": "citizenM Austin Downtown",
-        "color": "#4363d8",
+        "color": "#f58231",
         "role": "comp"
       }
     ]
@@ -741,7 +867,7 @@ const HOTELS = [
       {
         "slug": "citizenm-austin-downtown",
         "subject_name": "citizenM Austin Downtown",
-        "color": "#4363d8",
+        "color": "#f58231",
         "role": "comp"
       }
     ]
@@ -757,7 +883,7 @@ const HOTELS = [
       {
         "slug": "citizenm-austin-downtown",
         "subject_name": "citizenM Austin Downtown",
-        "color": "#4363d8",
+        "color": "#f58231",
         "role": "comp"
       }
     ]
@@ -773,7 +899,7 @@ const HOTELS = [
       {
         "slug": "citizenm-austin-downtown",
         "subject_name": "citizenM Austin Downtown",
-        "color": "#4363d8",
+        "color": "#f58231",
         "role": "comp"
       }
     ]
@@ -789,7 +915,7 @@ const HOTELS = [
       {
         "slug": "citizenm-austin-downtown",
         "subject_name": "citizenM Austin Downtown",
-        "color": "#4363d8",
+        "color": "#f58231",
         "role": "comp"
       }
     ]
@@ -805,7 +931,7 @@ const HOTELS = [
       {
         "slug": "citizenm-austin-downtown",
         "subject_name": "citizenM Austin Downtown",
-        "color": "#4363d8",
+        "color": "#f58231",
         "role": "comp"
       }
     ]
@@ -821,7 +947,7 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-back-bay",
         "subject_name": "citizenM Boston Back Bay",
-        "color": "#f58231",
+        "color": "#911eb4",
         "role": "subject"
       }
     ]
@@ -837,7 +963,7 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-back-bay",
         "subject_name": "citizenM Boston Back Bay",
-        "color": "#f58231",
+        "color": "#911eb4",
         "role": "comp"
       }
     ]
@@ -853,13 +979,13 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-back-bay",
         "subject_name": "citizenM Boston Back Bay",
-        "color": "#f58231",
+        "color": "#911eb4",
         "role": "comp"
       },
       {
         "slug": "citizenm-boston-north-station",
         "subject_name": "citizenM Boston North Station",
-        "color": "#911eb4",
+        "color": "#42d4f4",
         "role": "comp"
       }
     ]
@@ -875,7 +1001,7 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-back-bay",
         "subject_name": "citizenM Boston Back Bay",
-        "color": "#f58231",
+        "color": "#911eb4",
         "role": "comp"
       }
     ]
@@ -891,7 +1017,7 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-back-bay",
         "subject_name": "citizenM Boston Back Bay",
-        "color": "#f58231",
+        "color": "#911eb4",
         "role": "comp"
       }
     ]
@@ -907,7 +1033,7 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-back-bay",
         "subject_name": "citizenM Boston Back Bay",
-        "color": "#f58231",
+        "color": "#911eb4",
         "role": "comp"
       }
     ]
@@ -923,7 +1049,7 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-back-bay",
         "subject_name": "citizenM Boston Back Bay",
-        "color": "#f58231",
+        "color": "#911eb4",
         "role": "comp"
       }
     ]
@@ -939,7 +1065,7 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-north-station",
         "subject_name": "citizenM Boston North Station",
-        "color": "#911eb4",
+        "color": "#42d4f4",
         "role": "subject"
       }
     ]
@@ -955,7 +1081,7 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-north-station",
         "subject_name": "citizenM Boston North Station",
-        "color": "#911eb4",
+        "color": "#42d4f4",
         "role": "comp"
       }
     ]
@@ -971,7 +1097,7 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-north-station",
         "subject_name": "citizenM Boston North Station",
-        "color": "#911eb4",
+        "color": "#42d4f4",
         "role": "comp"
       }
     ]
@@ -987,7 +1113,7 @@ const HOTELS = [
       {
         "slug": "citizenm-boston-north-station",
         "subject_name": "citizenM Boston North Station",
-        "color": "#911eb4",
+        "color": "#42d4f4",
         "role": "comp"
       }
     ]
@@ -1003,7 +1129,7 @@ const HOTELS = [
       {
         "slug": "citizenm-chicago-downtown",
         "subject_name": "citizenM Chicago Downtown",
-        "color": "#42d4f4",
+        "color": "#f032e6",
         "role": "subject"
       }
     ]
@@ -1019,7 +1145,7 @@ const HOTELS = [
       {
         "slug": "citizenm-chicago-downtown",
         "subject_name": "citizenM Chicago Downtown",
-        "color": "#42d4f4",
+        "color": "#f032e6",
         "role": "comp"
       }
     ]
@@ -1035,7 +1161,7 @@ const HOTELS = [
       {
         "slug": "citizenm-chicago-downtown",
         "subject_name": "citizenM Chicago Downtown",
-        "color": "#42d4f4",
+        "color": "#f032e6",
         "role": "comp"
       }
     ]
@@ -1051,7 +1177,7 @@ const HOTELS = [
       {
         "slug": "citizenm-chicago-downtown",
         "subject_name": "citizenM Chicago Downtown",
-        "color": "#42d4f4",
+        "color": "#f032e6",
         "role": "comp"
       }
     ]
@@ -1067,7 +1193,7 @@ const HOTELS = [
       {
         "slug": "citizenm-chicago-downtown",
         "subject_name": "citizenM Chicago Downtown",
-        "color": "#42d4f4",
+        "color": "#f032e6",
         "role": "comp"
       }
     ]
@@ -1083,7 +1209,7 @@ const HOTELS = [
       {
         "slug": "citizenm-chicago-downtown",
         "subject_name": "citizenM Chicago Downtown",
-        "color": "#42d4f4",
+        "color": "#f032e6",
         "role": "comp"
       }
     ]
@@ -1099,7 +1225,7 @@ const HOTELS = [
       {
         "slug": "citizenm-chicago-downtown",
         "subject_name": "citizenM Chicago Downtown",
-        "color": "#42d4f4",
+        "color": "#f032e6",
         "role": "comp"
       }
     ]
@@ -1115,7 +1241,7 @@ const HOTELS = [
       {
         "slug": "citizenm-los-angeles-downtown",
         "subject_name": "citizenM Los Angeles Downtown",
-        "color": "#f032e6",
+        "color": "#bfef45",
         "role": "subject"
       }
     ]
@@ -1131,7 +1257,7 @@ const HOTELS = [
       {
         "slug": "citizenm-los-angeles-downtown",
         "subject_name": "citizenM Los Angeles Downtown",
-        "color": "#f032e6",
+        "color": "#bfef45",
         "role": "comp"
       }
     ]
@@ -1147,7 +1273,7 @@ const HOTELS = [
       {
         "slug": "citizenm-los-angeles-downtown",
         "subject_name": "citizenM Los Angeles Downtown",
-        "color": "#f032e6",
+        "color": "#bfef45",
         "role": "comp"
       }
     ]
@@ -1163,7 +1289,7 @@ const HOTELS = [
       {
         "slug": "citizenm-los-angeles-downtown",
         "subject_name": "citizenM Los Angeles Downtown",
-        "color": "#f032e6",
+        "color": "#bfef45",
         "role": "comp"
       }
     ]
@@ -1179,7 +1305,7 @@ const HOTELS = [
       {
         "slug": "citizenm-los-angeles-downtown",
         "subject_name": "citizenM Los Angeles Downtown",
-        "color": "#f032e6",
+        "color": "#bfef45",
         "role": "comp"
       }
     ]
@@ -1195,7 +1321,7 @@ const HOTELS = [
       {
         "slug": "citizenm-los-angeles-downtown",
         "subject_name": "citizenM Los Angeles Downtown",
-        "color": "#f032e6",
+        "color": "#bfef45",
         "role": "comp"
       }
     ]
@@ -1211,7 +1337,7 @@ const HOTELS = [
       {
         "slug": "citizenm-menlo-park-hotel",
         "subject_name": "citizenM Menlo Park hotel",
-        "color": "#bfef45",
+        "color": "#fabed4",
         "role": "subject"
       }
     ]
@@ -1227,7 +1353,7 @@ const HOTELS = [
       {
         "slug": "citizenm-menlo-park-hotel",
         "subject_name": "citizenM Menlo Park hotel",
-        "color": "#bfef45",
+        "color": "#fabed4",
         "role": "comp"
       }
     ]
@@ -1243,7 +1369,7 @@ const HOTELS = [
       {
         "slug": "citizenm-menlo-park-hotel",
         "subject_name": "citizenM Menlo Park hotel",
-        "color": "#bfef45",
+        "color": "#fabed4",
         "role": "comp"
       }
     ]
@@ -1259,7 +1385,7 @@ const HOTELS = [
       {
         "slug": "citizenm-menlo-park-hotel",
         "subject_name": "citizenM Menlo Park hotel",
-        "color": "#bfef45",
+        "color": "#fabed4",
         "role": "comp"
       }
     ]
@@ -1275,7 +1401,7 @@ const HOTELS = [
       {
         "slug": "citizenm-menlo-park-hotel",
         "subject_name": "citizenM Menlo Park hotel",
-        "color": "#bfef45",
+        "color": "#fabed4",
         "role": "comp"
       }
     ]
@@ -1291,7 +1417,7 @@ const HOTELS = [
       {
         "slug": "citizenm-menlo-park-hotel",
         "subject_name": "citizenM Menlo Park hotel",
-        "color": "#bfef45",
+        "color": "#fabed4",
         "role": "comp"
       }
     ]
@@ -1307,7 +1433,7 @@ const HOTELS = [
       {
         "slug": "citizenm-menlo-park-hotel",
         "subject_name": "citizenM Menlo Park hotel",
-        "color": "#bfef45",
+        "color": "#fabed4",
         "role": "comp"
       }
     ]
@@ -1323,7 +1449,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-brickell-hotel",
         "subject_name": "citizenM Miami Brickell hotel",
-        "color": "#fabed4",
+        "color": "#469990",
         "role": "subject"
       }
     ]
@@ -1339,7 +1465,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-brickell-hotel",
         "subject_name": "citizenM Miami Brickell hotel",
-        "color": "#fabed4",
+        "color": "#469990",
         "role": "comp"
       }
     ]
@@ -1355,7 +1481,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-brickell-hotel",
         "subject_name": "citizenM Miami Brickell hotel",
-        "color": "#fabed4",
+        "color": "#469990",
         "role": "comp"
       }
     ]
@@ -1371,7 +1497,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-brickell-hotel",
         "subject_name": "citizenM Miami Brickell hotel",
-        "color": "#fabed4",
+        "color": "#469990",
         "role": "comp"
       }
     ]
@@ -1387,7 +1513,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-brickell-hotel",
         "subject_name": "citizenM Miami Brickell hotel",
-        "color": "#fabed4",
+        "color": "#469990",
         "role": "comp"
       }
     ]
@@ -1403,7 +1529,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-brickell-hotel",
         "subject_name": "citizenM Miami Brickell hotel",
-        "color": "#fabed4",
+        "color": "#469990",
         "role": "comp"
       }
     ]
@@ -1419,7 +1545,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-south-beach",
         "subject_name": "citizenM Miami South Beach",
-        "color": "#469990",
+        "color": "#dcbeff",
         "role": "subject"
       }
     ]
@@ -1435,7 +1561,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-south-beach",
         "subject_name": "citizenM Miami South Beach",
-        "color": "#469990",
+        "color": "#dcbeff",
         "role": "comp"
       }
     ]
@@ -1451,7 +1577,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-south-beach",
         "subject_name": "citizenM Miami South Beach",
-        "color": "#469990",
+        "color": "#dcbeff",
         "role": "comp"
       }
     ]
@@ -1467,7 +1593,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-south-beach",
         "subject_name": "citizenM Miami South Beach",
-        "color": "#469990",
+        "color": "#dcbeff",
         "role": "comp"
       }
     ]
@@ -1483,7 +1609,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-south-beach",
         "subject_name": "citizenM Miami South Beach",
-        "color": "#469990",
+        "color": "#dcbeff",
         "role": "comp"
       }
     ]
@@ -1499,7 +1625,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-south-beach",
         "subject_name": "citizenM Miami South Beach",
-        "color": "#469990",
+        "color": "#dcbeff",
         "role": "comp"
       }
     ]
@@ -1515,7 +1641,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-south-beach",
         "subject_name": "citizenM Miami South Beach",
-        "color": "#469990",
+        "color": "#dcbeff",
         "role": "comp"
       }
     ]
@@ -1531,7 +1657,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-world-center",
         "subject_name": "citizenM Miami World Center",
-        "color": "#dcbeff",
+        "color": "#9A6324",
         "role": "subject"
       }
     ]
@@ -1547,7 +1673,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-world-center",
         "subject_name": "citizenM Miami World Center",
-        "color": "#dcbeff",
+        "color": "#9A6324",
         "role": "comp"
       }
     ]
@@ -1563,7 +1689,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-world-center",
         "subject_name": "citizenM Miami World Center",
-        "color": "#dcbeff",
+        "color": "#9A6324",
         "role": "comp"
       }
     ]
@@ -1579,7 +1705,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-world-center",
         "subject_name": "citizenM Miami World Center",
-        "color": "#dcbeff",
+        "color": "#9A6324",
         "role": "comp"
       }
     ]
@@ -1595,7 +1721,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-world-center",
         "subject_name": "citizenM Miami World Center",
-        "color": "#dcbeff",
+        "color": "#9A6324",
         "role": "comp"
       }
     ]
@@ -1611,7 +1737,7 @@ const HOTELS = [
       {
         "slug": "citizenm-miami-world-center",
         "subject_name": "citizenM Miami World Center",
-        "color": "#dcbeff",
+        "color": "#9A6324",
         "role": "comp"
       }
     ]
@@ -1627,7 +1753,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-bowery",
         "subject_name": "citizenM New York Bowery",
-        "color": "#9A6324",
+        "color": "#800000",
         "role": "subject"
       }
     ]
@@ -1643,7 +1769,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-bowery",
         "subject_name": "citizenM New York Bowery",
-        "color": "#9A6324",
+        "color": "#800000",
         "role": "comp"
       }
     ]
@@ -1659,7 +1785,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-bowery",
         "subject_name": "citizenM New York Bowery",
-        "color": "#9A6324",
+        "color": "#800000",
         "role": "comp"
       }
     ]
@@ -1675,7 +1801,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-bowery",
         "subject_name": "citizenM New York Bowery",
-        "color": "#9A6324",
+        "color": "#800000",
         "role": "comp"
       }
     ]
@@ -1691,7 +1817,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-bowery",
         "subject_name": "citizenM New York Bowery",
-        "color": "#9A6324",
+        "color": "#800000",
         "role": "comp"
       }
     ]
@@ -1707,7 +1833,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-bowery",
         "subject_name": "citizenM New York Bowery",
-        "color": "#9A6324",
+        "color": "#800000",
         "role": "comp"
       }
     ]
@@ -1723,7 +1849,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-times-square",
         "subject_name": "citizenM New York Times Square",
-        "color": "#800000",
+        "color": "#aaffc3",
         "role": "subject"
       }
     ]
@@ -1739,7 +1865,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-times-square",
         "subject_name": "citizenM New York Times Square",
-        "color": "#800000",
+        "color": "#aaffc3",
         "role": "comp"
       }
     ]
@@ -1755,7 +1881,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-times-square",
         "subject_name": "citizenM New York Times Square",
-        "color": "#800000",
+        "color": "#aaffc3",
         "role": "comp"
       }
     ]
@@ -1771,7 +1897,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-times-square",
         "subject_name": "citizenM New York Times Square",
-        "color": "#800000",
+        "color": "#aaffc3",
         "role": "comp"
       }
     ]
@@ -1787,7 +1913,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-times-square",
         "subject_name": "citizenM New York Times Square",
-        "color": "#800000",
+        "color": "#aaffc3",
         "role": "comp"
       }
     ]
@@ -1803,7 +1929,7 @@ const HOTELS = [
       {
         "slug": "citizenm-new-york-times-square",
         "subject_name": "citizenM New York Times Square",
-        "color": "#800000",
+        "color": "#aaffc3",
         "role": "comp"
       }
     ]
@@ -1819,7 +1945,7 @@ const HOTELS = [
       {
         "slug": "citizenm-san-francisco-union-square",
         "subject_name": "citizenM San Francisco Union Square",
-        "color": "#aaffc3",
+        "color": "#808000",
         "role": "subject"
       }
     ]
@@ -1835,7 +1961,7 @@ const HOTELS = [
       {
         "slug": "citizenm-san-francisco-union-square",
         "subject_name": "citizenM San Francisco Union Square",
-        "color": "#aaffc3",
+        "color": "#808000",
         "role": "comp"
       }
     ]
@@ -1851,7 +1977,7 @@ const HOTELS = [
       {
         "slug": "citizenm-san-francisco-union-square",
         "subject_name": "citizenM San Francisco Union Square",
-        "color": "#aaffc3",
+        "color": "#808000",
         "role": "comp"
       }
     ]
@@ -1867,7 +1993,7 @@ const HOTELS = [
       {
         "slug": "citizenm-san-francisco-union-square",
         "subject_name": "citizenM San Francisco Union Square",
-        "color": "#aaffc3",
+        "color": "#808000",
         "role": "comp"
       }
     ]
@@ -1883,7 +2009,7 @@ const HOTELS = [
       {
         "slug": "citizenm-san-francisco-union-square",
         "subject_name": "citizenM San Francisco Union Square",
-        "color": "#aaffc3",
+        "color": "#808000",
         "role": "comp"
       }
     ]
@@ -1899,7 +2025,7 @@ const HOTELS = [
       {
         "slug": "citizenm-san-francisco-union-square",
         "subject_name": "citizenM San Francisco Union Square",
-        "color": "#aaffc3",
+        "color": "#808000",
         "role": "comp"
       }
     ]
@@ -1915,7 +2041,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-pioneer-square",
         "subject_name": "citizenM Seattle Pioneer Square",
-        "color": "#808000",
+        "color": "#ffd8b1",
         "role": "subject"
       }
     ]
@@ -1931,7 +2057,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-pioneer-square",
         "subject_name": "citizenM Seattle Pioneer Square",
-        "color": "#808000",
+        "color": "#ffd8b1",
         "role": "comp"
       }
     ]
@@ -1947,7 +2073,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-pioneer-square",
         "subject_name": "citizenM Seattle Pioneer Square",
-        "color": "#808000",
+        "color": "#ffd8b1",
         "role": "comp"
       }
     ]
@@ -1963,7 +2089,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-pioneer-square",
         "subject_name": "citizenM Seattle Pioneer Square",
-        "color": "#808000",
+        "color": "#ffd8b1",
         "role": "comp"
       }
     ]
@@ -1979,7 +2105,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-pioneer-square",
         "subject_name": "citizenM Seattle Pioneer Square",
-        "color": "#808000",
+        "color": "#ffd8b1",
         "role": "comp"
       }
     ]
@@ -1995,7 +2121,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-pioneer-square",
         "subject_name": "citizenM Seattle Pioneer Square",
-        "color": "#808000",
+        "color": "#ffd8b1",
         "role": "comp"
       }
     ]
@@ -2011,7 +2137,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-south-lake",
         "subject_name": "citizenM Seattle South Lake",
-        "color": "#ffd8b1",
+        "color": "#000075",
         "role": "subject"
       }
     ]
@@ -2027,7 +2153,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-south-lake",
         "subject_name": "citizenM Seattle South Lake",
-        "color": "#ffd8b1",
+        "color": "#000075",
         "role": "comp"
       }
     ]
@@ -2043,7 +2169,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-south-lake",
         "subject_name": "citizenM Seattle South Lake",
-        "color": "#ffd8b1",
+        "color": "#000075",
         "role": "comp"
       }
     ]
@@ -2059,7 +2185,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-south-lake",
         "subject_name": "citizenM Seattle South Lake",
-        "color": "#ffd8b1",
+        "color": "#000075",
         "role": "comp"
       }
     ]
@@ -2075,7 +2201,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-south-lake",
         "subject_name": "citizenM Seattle South Lake",
-        "color": "#ffd8b1",
+        "color": "#000075",
         "role": "comp"
       }
     ]
@@ -2091,7 +2217,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-south-lake",
         "subject_name": "citizenM Seattle South Lake",
-        "color": "#ffd8b1",
+        "color": "#000075",
         "role": "comp"
       }
     ]
@@ -2107,7 +2233,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-south-lake",
         "subject_name": "citizenM Seattle South Lake",
-        "color": "#ffd8b1",
+        "color": "#000075",
         "role": "comp"
       }
     ]
@@ -2123,7 +2249,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-south-lake",
         "subject_name": "citizenM Seattle South Lake",
-        "color": "#ffd8b1",
+        "color": "#000075",
         "role": "comp"
       }
     ]
@@ -2139,7 +2265,7 @@ const HOTELS = [
       {
         "slug": "citizenm-seattle-south-lake",
         "subject_name": "citizenM Seattle South Lake",
-        "color": "#ffd8b1",
+        "color": "#000075",
         "role": "comp"
       }
     ]
@@ -2155,7 +2281,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-capitol",
         "subject_name": "citizenM Washington DC Capitol",
-        "color": "#000075",
+        "color": "#a9a9a9",
         "role": "subject"
       }
     ]
@@ -2171,7 +2297,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-capitol",
         "subject_name": "citizenM Washington DC Capitol",
-        "color": "#000075",
+        "color": "#a9a9a9",
         "role": "comp"
       }
     ]
@@ -2187,7 +2313,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-capitol",
         "subject_name": "citizenM Washington DC Capitol",
-        "color": "#000075",
+        "color": "#a9a9a9",
         "role": "comp"
       }
     ]
@@ -2203,7 +2329,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-capitol",
         "subject_name": "citizenM Washington DC Capitol",
-        "color": "#000075",
+        "color": "#a9a9a9",
         "role": "comp"
       }
     ]
@@ -2219,7 +2345,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-capitol",
         "subject_name": "citizenM Washington DC Capitol",
-        "color": "#000075",
+        "color": "#a9a9a9",
         "role": "comp"
       }
     ]
@@ -2235,7 +2361,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-capitol",
         "subject_name": "citizenM Washington DC Capitol",
-        "color": "#000075",
+        "color": "#a9a9a9",
         "role": "comp"
       }
     ]
@@ -2251,7 +2377,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-capitol",
         "subject_name": "citizenM Washington DC Capitol",
-        "color": "#000075",
+        "color": "#a9a9a9",
         "role": "comp"
       }
     ]
@@ -2267,7 +2393,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-capitol",
         "subject_name": "citizenM Washington DC Capitol",
-        "color": "#000075",
+        "color": "#a9a9a9",
         "role": "comp"
       }
     ]
@@ -2283,7 +2409,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-capitol",
         "subject_name": "citizenM Washington DC Capitol",
-        "color": "#000075",
+        "color": "#a9a9a9",
         "role": "comp"
       }
     ]
@@ -2299,7 +2425,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-noma",
         "subject_name": "citizenM Washington DC NoMa",
-        "color": "#a9a9a9",
+        "color": "#e6beff",
         "role": "subject"
       }
     ]
@@ -2315,7 +2441,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-noma",
         "subject_name": "citizenM Washington DC NoMa",
-        "color": "#a9a9a9",
+        "color": "#e6beff",
         "role": "comp"
       }
     ]
@@ -2331,7 +2457,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-noma",
         "subject_name": "citizenM Washington DC NoMa",
-        "color": "#a9a9a9",
+        "color": "#e6beff",
         "role": "comp"
       }
     ]
@@ -2347,7 +2473,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-noma",
         "subject_name": "citizenM Washington DC NoMa",
-        "color": "#a9a9a9",
+        "color": "#e6beff",
         "role": "comp"
       }
     ]
@@ -2363,7 +2489,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-noma",
         "subject_name": "citizenM Washington DC NoMa",
-        "color": "#a9a9a9",
+        "color": "#e6beff",
         "role": "comp"
       }
     ]
@@ -2379,7 +2505,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-noma",
         "subject_name": "citizenM Washington DC NoMa",
-        "color": "#a9a9a9",
+        "color": "#e6beff",
         "role": "comp"
       }
     ]
@@ -2395,7 +2521,7 @@ const HOTELS = [
       {
         "slug": "citizenm-washington-dc-noma",
         "subject_name": "citizenM Washington DC NoMa",
-        "color": "#a9a9a9",
+        "color": "#e6beff",
         "role": "comp"
       }
     ]
@@ -2411,7 +2537,7 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#e6beff",
+        "color": "#ff8c00",
         "role": "subject"
       }
     ]
@@ -2427,7 +2553,7 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#e6beff",
+        "color": "#ff8c00",
         "role": "comp"
       }
     ]
@@ -2443,7 +2569,7 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#e6beff",
+        "color": "#ff8c00",
         "role": "comp"
       }
     ]
@@ -2459,7 +2585,7 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#e6beff",
+        "color": "#ff8c00",
         "role": "comp"
       }
     ]
@@ -2475,13 +2601,13 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#e6beff",
+        "color": "#ff8c00",
         "role": "comp"
       },
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#ff1493",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
@@ -2497,7 +2623,7 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#e6beff",
+        "color": "#ff8c00",
         "role": "comp"
       }
     ]
@@ -2513,7 +2639,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "subject"
       }
     ]
@@ -2529,7 +2655,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       }
     ]
@@ -2545,7 +2671,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       }
     ]
@@ -2561,7 +2687,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       }
     ]
@@ -2577,7 +2703,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       }
     ]
@@ -2593,7 +2719,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       }
     ]
@@ -2609,7 +2735,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       }
     ]
@@ -2625,13 +2751,13 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2647,13 +2773,13 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2669,7 +2795,7 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2685,7 +2811,7 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2701,7 +2827,7 @@ const HOTELS = [
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2717,7 +2843,7 @@ const HOTELS = [
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2733,7 +2859,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "subject"
       }
     ]
@@ -2749,7 +2875,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2765,7 +2891,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2781,7 +2907,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2797,7 +2923,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2813,7 +2939,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2829,7 +2955,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#ff1493",
+        "color": "#e6194B",
         "role": "subject"
       }
     ]
@@ -2845,7 +2971,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#ff1493",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
@@ -2861,7 +2987,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#ff1493",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
@@ -2877,7 +3003,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#ff1493",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
@@ -2893,7 +3019,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#ff1493",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
