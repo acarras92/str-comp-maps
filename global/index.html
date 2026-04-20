@@ -39,7 +39,7 @@
   <aside id="sidebar">
     <header>
       <h1>STR Comp Sets — Global View</h1>
-      <div class="sub">23 comp sets · 146 unique hotels</div>
+      <div class="sub">24 comp sets · 153 unique hotels</div>
     </header>
     <div id="controls">
       <button onclick="toggleAll(true)">Show all</button>
@@ -319,9 +319,23 @@ const COMP_SETS = [
     "hotel_count": 6
   },
   {
+    "slug": "loews-hollywood-hotel",
+    "name": "Loews Hollywood Hotel",
+    "color": "#ff8c00",
+    "report_period": "December 2025",
+    "comp_rooms": 3010,
+    "subj_occ": "65.8%",
+    "subj_adr": "$215.5",
+    "subj_revpar": "$141.8",
+    "mpi": "88.8",
+    "ari": "95.8",
+    "rgi": "85.1",
+    "hotel_count": 7
+  },
+  {
     "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
     "name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-    "color": "#ff8c00",
+    "color": "#008080",
     "report_period": "February 2026",
     "comp_rooms": 1383,
     "subj_occ": "73.9%",
@@ -335,7 +349,7 @@ const COMP_SETS = [
   {
     "slug": "the-london-west-hollywood",
     "name": "The London West Hollywood",
-    "color": "#008080",
+    "color": "#8b4513",
     "report_period": "October 2025",
     "comp_rooms": 1788,
     "subj_occ": "68.9%",
@@ -349,7 +363,7 @@ const COMP_SETS = [
   {
     "slug": "the-ritz-carlton-washington-dc",
     "name": "The Ritz-Carlton, Washington, D.C.",
-    "color": "#8b4513",
+    "color": "#2f4f4f",
     "report_period": "December 2025",
     "comp_rooms": 1853,
     "subj_occ": "67.5%",
@@ -363,7 +377,7 @@ const COMP_SETS = [
   {
     "slug": "viceroy-santa-monica",
     "name": "Viceroy Santa Monica",
-    "color": "#2f4f4f",
+    "color": "#ff1493",
     "report_period": "December 2025",
     "comp_rooms": 1042,
     "subj_occ": "73.7%",
@@ -409,7 +423,7 @@ const HOTELS = [
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "subject"
       }
     ]
@@ -431,13 +445,13 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -475,13 +489,13 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "subject"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -567,7 +581,7 @@ const HOTELS = [
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2467,7 +2481,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2489,6 +2503,118 @@ const HOTELS = [
     ]
   },
   {
+    "name": "Loews Hollywood Hotel",
+    "city_state": "Los Angeles, CA",
+    "zip": "900284403",
+    "rooms": 628,
+    "lat": 34.1032806,
+    "lng": -118.339338,
+    "memberships": [
+      {
+        "slug": "loews-hollywood-hotel",
+        "subject_name": "Loews Hollywood Hotel",
+        "color": "#ff8c00",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "The Biltmore Los Angeles",
+    "city_state": "Los Angeles, CA",
+    "zip": "900712602",
+    "rooms": 451,
+    "lat": 34.0497246,
+    "lng": -118.2541501,
+    "memberships": [
+      {
+        "slug": "loews-hollywood-hotel",
+        "subject_name": "Loews Hollywood Hotel",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Omni Los Angeles Hotel at California Plaza",
+    "city_state": "Los Angeles, CA",
+    "zip": "90012",
+    "rooms": 453,
+    "lat": 34.0525758,
+    "lng": -118.2505914,
+    "memberships": [
+      {
+        "slug": "loews-hollywood-hotel",
+        "subject_name": "Loews Hollywood Hotel",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Hollywood Roosevelt",
+    "city_state": "Hollywood, CA",
+    "zip": "90028",
+    "rooms": 300,
+    "lat": 34.1011504,
+    "lng": -118.3417817,
+    "memberships": [
+      {
+        "slug": "loews-hollywood-hotel",
+        "subject_name": "Loews Hollywood Hotel",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sheraton Hotel Universal City",
+    "city_state": "Universal City, CA",
+    "zip": "91608",
+    "rooms": 466,
+    "lat": 34.1374847,
+    "lng": -118.3595459,
+    "memberships": [
+      {
+        "slug": "loews-hollywood-hotel",
+        "subject_name": "Loews Hollywood Hotel",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sheraton Grand Los Angeles",
+    "city_state": "Los Angeles, CA",
+    "zip": "90017",
+    "rooms": 496,
+    "lat": 34.0478628,
+    "lng": -118.2583756,
+    "memberships": [
+      {
+        "slug": "loews-hollywood-hotel",
+        "subject_name": "Loews Hollywood Hotel",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Kimpton The Everly Hollywood",
+    "city_state": "Los Angeles, CA",
+    "zip": "900285253",
+    "rooms": 216,
+    "lat": 34.1038877,
+    "lng": -118.3247527,
+    "memberships": [
+      {
+        "slug": "loews-hollywood-hotel",
+        "subject_name": "Loews Hollywood Hotel",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
     "name": "W Hotel Los Angeles West Beverly Hills",
     "city_state": "Los Angeles, CA",
     "zip": "90024",
@@ -2499,13 +2625,13 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2521,13 +2647,13 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2543,7 +2669,7 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       }
     ]
@@ -2559,7 +2685,7 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#ff8c00",
+        "color": "#008080",
         "role": "comp"
       }
     ]
@@ -2575,7 +2701,7 @@ const HOTELS = [
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2591,7 +2717,7 @@ const HOTELS = [
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#008080",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2607,7 +2733,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "subject"
       }
     ]
@@ -2623,7 +2749,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2639,7 +2765,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2655,7 +2781,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2671,7 +2797,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2687,7 +2813,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#8b4513",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2703,7 +2829,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "subject"
       }
     ]
@@ -2719,7 +2845,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2735,7 +2861,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2751,7 +2877,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2767,7 +2893,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#2f4f4f",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]

@@ -58,12 +58,21 @@ def coord_for(hotel, cache):
 
 
 def parse_comp_set(xlsx_path, cache):
-    """Return dict with subject, comps, report_period — or None on failure."""
+    """Return dict with subject, comps, report_period — or None on failure.
+
+    For multi-comp-set files (Response_1/_2/_3), falls back to _1.
+    """
+    suffix = ""
     try:
         hotels, report_period, _, comp_rooms = parse_response_sheet(xlsx_path)
-    except Exception as e:
-        print(f"  SKIP {os.path.basename(xlsx_path)}: {e}")
-        return None
+    except Exception:
+        try:
+            hotels, report_period, _, comp_rooms = parse_response_sheet(xlsx_path, "_1")
+            suffix = "_1"
+            print(f"  (using comp set 1 for {os.path.basename(xlsx_path)})")
+        except Exception as e:
+            print(f"  SKIP {os.path.basename(xlsx_path)}: {e}")
+            return None
 
     subject = next((h for h in hotels if h["subject"]), None)
     if subject is None:
@@ -71,7 +80,7 @@ def parse_comp_set(xlsx_path, cache):
         return None
 
     try:
-        perf = parse_glance_sheet(xlsx_path)
+        perf = parse_glance_sheet(xlsx_path, suffix)
     except Exception:
         perf = {}
 

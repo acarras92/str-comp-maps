@@ -43,9 +43,13 @@ def find_str_file(explicit_path=None):
     return newest
 
 
-def parse_response_sheet(path):
-    """Parse the Response sheet for hotel list and metadata."""
-    df = pd.read_excel(path, sheet_name="Response", header=None)
+def parse_response_sheet(path, sheet_suffix=""):
+    """Parse the Response sheet for hotel list and metadata.
+
+    sheet_suffix: "" for standard files; "_1", "_2", ... for multi-comp-set
+    files that have Response_1, Response_2, etc.
+    """
+    df = pd.read_excel(path, sheet_name=f"Response{sheet_suffix}", header=None)
 
     # Extract subject address from row 1, col 1
     address_raw = str(df.iloc[1, 1])
@@ -94,9 +98,9 @@ def parse_response_sheet(path):
     return hotels, report_period, subject_street, comp_rooms
 
 
-def parse_glance_sheet(path):
+def parse_glance_sheet(path, sheet_suffix=""):
     """Parse the Glance sheet for R12 performance metrics."""
-    df = pd.read_excel(path, sheet_name="Glance", header=None)
+    df = pd.read_excel(path, sheet_name=f"Glance{sheet_suffix}", header=None)
 
     # Find the Running 12 Month row
     r12_row = None
@@ -735,23 +739,26 @@ def main():
     parser = argparse.ArgumentParser(description="Generate STR Comp Set Map")
     parser.add_argument("file", nargs="?", help="Path to STR Excel file (auto-detects from drop folder if omitted)")
     parser.add_argument("--deploy", action="store_true", help="Push to GitHub Pages after generating")
+    parser.add_argument("--comp-set", type=int, default=None, help="For multi-comp-set files, which set to use (1, 2, ...) — maps to Response_N/Glance_N sheets")
     args = parser.parse_args()
+
+    suffix = f"_{args.comp_set}" if args.comp_set else ""
 
     # Find the STR file
     str_path = find_str_file(args.file)
-    print(f"Processing: {str_path}\n")
+    print(f"Processing: {str_path}{' [comp set ' + str(args.comp_set) + ']' if suffix else ''}\n")
 
     # Parse Response sheet
-    print("Parsing Response sheet...")
-    hotels, report_period, subject_street, comp_rooms = parse_response_sheet(str_path)
+    print(f"Parsing Response{suffix} sheet...")
+    hotels, report_period, subject_street, comp_rooms = parse_response_sheet(str_path, suffix)
     subject = next(h for h in hotels if h["subject"])
     print(f"  Subject: {subject['name']} ({subject['rooms']} rooms)")
     print(f"  Comps: {len(hotels) - 1} hotels, {comp_rooms:,} rooms")
     print(f"  Report Period: {report_period}")
 
     # Parse Glance sheet
-    print("\nParsing Glance sheet...")
-    perf = parse_glance_sheet(str_path)
+    print(f"\nParsing Glance{suffix} sheet...")
+    perf = parse_glance_sheet(str_path, suffix)
     if perf:
         print(f"  R12 Occ: {perf['subj_occ']} (MPI: {perf['mpi']})")
         print(f"  R12 ADR: {perf['subj_adr']} (ARI: {perf['ari']})")
