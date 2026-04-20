@@ -1,0 +1,2905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STR Comp Sets — Global Map</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  #app { display: flex; height: 100vh; }
+  #sidebar { width: 320px; background: #f7f7f8; border-right: 1px solid #e5e5e7; overflow-y: auto; }
+  #sidebar header { padding: 16px 18px; border-bottom: 1px solid #e5e5e7; background: #fff; }
+  #sidebar h1 { font-size: 16px; margin: 0 0 4px; }
+  #sidebar .sub { font-size: 12px; color: #6b7280; }
+  #controls { padding: 10px 14px; border-bottom: 1px solid #e5e5e7; display: flex; gap: 8px; }
+  #controls button { flex: 1; padding: 6px 8px; font-size: 11px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; }
+  #controls button:hover { background: #f3f4f6; }
+  .legend { padding: 6px 0; }
+  .legend-item { display: flex; align-items: center; gap: 10px; padding: 8px 14px; cursor: pointer; border-bottom: 1px solid #eef0f2; font-size: 13px; }
+  .legend-item:hover { background: #eef2ff; }
+  .legend-item.off { opacity: 0.35; }
+  .legend-swatch { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.15); }
+  .legend-text { flex: 1; line-height: 1.25; min-width: 0; }
+  .legend-name { font-weight: 600; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .legend-meta { font-size: 11px; color: #6b7280; }
+  #map { flex: 1; }
+  .iw { font-size: 13px; line-height: 1.4; max-width: 240px; }
+  .iw h3 { margin: 0 0 4px; font-size: 14px; }
+  .iw .addr { color: #6b7280; font-size: 12px; margin-bottom: 8px; }
+  .iw .mem { padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+  .iw .mem .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .iw .mem .role { font-size: 11px; color: #6b7280; margin-left: 4px; }
+  .iw a { color: #2563eb; text-decoration: none; font-size: 12px; }
+  .iw a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <header>
+      <h1>STR Comp Sets — Global View</h1>
+      <div class="sub">23 comp sets · 146 unique hotels</div>
+    </header>
+    <div id="controls">
+      <button onclick="toggleAll(true)">Show all</button>
+      <button onclick="toggleAll(false)">Hide all</button>
+    </div>
+    <div class="legend" id="legend"></div>
+  </aside>
+  <div id="map"></div>
+</div>
+
+<script>
+const COMP_SETS = [
+  {
+    "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+    "name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+    "color": "#e6194B",
+    "report_period": "December 2025",
+    "comp_rooms": 1953,
+    "subj_occ": "52.6%",
+    "subj_adr": "$280.2",
+    "subj_revpar": "$147.4",
+    "mpi": "74.0",
+    "ari": "69.7",
+    "rgi": "51.6",
+    "hotel_count": 10
+  },
+  {
+    "slug": "capital-hilton",
+    "name": "Capital Hilton",
+    "color": "#3cb44b",
+    "report_period": "December 2025",
+    "comp_rooms": 3853,
+    "subj_occ": "74.3%",
+    "subj_adr": "$273.9",
+    "subj_revpar": "$203.6",
+    "mpi": "120.4",
+    "ari": "94.8",
+    "rgi": "114.1",
+    "hotel_count": 7
+  },
+  {
+    "slug": "citizenm-austin-downtown",
+    "name": "citizenM Austin Downtown",
+    "color": "#4363d8",
+    "report_period": "February 2026",
+    "comp_rooms": 2091,
+    "subj_occ": "64.7%",
+    "subj_adr": "$162.2",
+    "subj_revpar": "$104.9",
+    "mpi": "103.6",
+    "ari": "73.8",
+    "rgi": "76.5",
+    "hotel_count": 7
+  },
+  {
+    "slug": "citizenm-boston-back-bay",
+    "name": "citizenM Boston Back Bay",
+    "color": "#f58231",
+    "report_period": "February 2026",
+    "comp_rooms": 2659,
+    "subj_occ": "86.2%",
+    "subj_adr": "$229.2",
+    "subj_revpar": "$197.6",
+    "mpi": "131.4",
+    "ari": "84.1",
+    "rgi": "110.4",
+    "hotel_count": 7
+  },
+  {
+    "slug": "citizenm-boston-north-station",
+    "name": "citizenM Boston North Station",
+    "color": "#911eb4",
+    "report_period": "February 2026",
+    "comp_rooms": 1092,
+    "subj_occ": "88.7%",
+    "subj_adr": "$239.7",
+    "subj_revpar": "$212.7",
+    "mpi": "111.7",
+    "ari": "90.1",
+    "rgi": "100.7",
+    "hotel_count": 5
+  },
+  {
+    "slug": "citizenm-chicago-downtown",
+    "name": "citizenM Chicago Downtown",
+    "color": "#42d4f4",
+    "report_period": "February 2026",
+    "comp_rooms": 1724,
+    "subj_occ": "77.2%",
+    "subj_adr": "$196.0",
+    "subj_revpar": "$151.4",
+    "mpi": "113.6",
+    "ari": "86.0",
+    "rgi": "97.7",
+    "hotel_count": 7
+  },
+  {
+    "slug": "citizenm-los-angeles-downtown",
+    "name": "citizenM Los Angeles Downtown",
+    "color": "#f032e6",
+    "report_period": "February 2026",
+    "comp_rooms": 1681,
+    "subj_occ": "83.9%",
+    "subj_adr": "$137.7",
+    "subj_revpar": "$115.5",
+    "mpi": "112.2",
+    "ari": "80.1",
+    "rgi": "89.9",
+    "hotel_count": 6
+  },
+  {
+    "slug": "citizenm-menlo-park-hotel",
+    "name": "citizenM Menlo Park hotel",
+    "color": "#bfef45",
+    "report_period": "February 2026",
+    "comp_rooms": 1384,
+    "subj_occ": "46.8%",
+    "subj_adr": "$319.3",
+    "subj_revpar": "$149.5",
+    "mpi": "64.1",
+    "ari": "117.7",
+    "rgi": "75.5",
+    "hotel_count": 7
+  },
+  {
+    "slug": "citizenm-miami-brickell-hotel",
+    "name": "citizenM Miami Brickell hotel",
+    "color": "#fabed4",
+    "report_period": "February 2026",
+    "comp_rooms": 1412,
+    "subj_occ": "88.1%",
+    "subj_adr": "$186.7",
+    "subj_revpar": "$164.4",
+    "mpi": "106.6",
+    "ari": "78.5",
+    "rgi": "83.7",
+    "hotel_count": 6
+  },
+  {
+    "slug": "citizenm-miami-south-beach",
+    "name": "citizenM Miami South Beach",
+    "color": "#469990",
+    "report_period": "February 2026",
+    "comp_rooms": 1161,
+    "subj_occ": "83.2%",
+    "subj_adr": "$171.5",
+    "subj_revpar": "$142.8",
+    "mpi": "109.7",
+    "ari": "84.9",
+    "rgi": "93.1",
+    "hotel_count": 7
+  },
+  {
+    "slug": "citizenm-miami-world-center",
+    "name": "citizenM Miami World Center",
+    "color": "#dcbeff",
+    "report_period": "February 2026",
+    "comp_rooms": 1575,
+    "subj_occ": "81.3%",
+    "subj_adr": "$165.9",
+    "subj_revpar": "$134.8",
+    "mpi": "132.6",
+    "ari": "87.6",
+    "rgi": "116.1",
+    "hotel_count": 6
+  },
+  {
+    "slug": "citizenm-new-york-bowery",
+    "name": "citizenM New York Bowery",
+    "color": "#9A6324",
+    "report_period": "February 2026",
+    "comp_rooms": 1775,
+    "subj_occ": "92.0%",
+    "subj_adr": "$290.1",
+    "subj_revpar": "$266.9",
+    "mpi": "107.2",
+    "ari": "92.4",
+    "rgi": "99.1",
+    "hotel_count": 6
+  },
+  {
+    "slug": "citizenm-new-york-times-square",
+    "name": "citizenM New York Times Square",
+    "color": "#800000",
+    "report_period": "February 2026",
+    "comp_rooms": 1220,
+    "subj_occ": "93.6%",
+    "subj_adr": "$292.5",
+    "subj_revpar": "$273.8",
+    "mpi": "110.1",
+    "ari": "104.4",
+    "rgi": "114.9",
+    "hotel_count": 6
+  },
+  {
+    "slug": "citizenm-san-francisco-union-square",
+    "name": "citizenM San Francisco Union Square",
+    "color": "#aaffc3",
+    "report_period": "February 2026",
+    "comp_rooms": 1094,
+    "subj_occ": "90.5%",
+    "subj_adr": "$215.2",
+    "subj_revpar": "$194.7",
+    "mpi": "130.0",
+    "ari": "87.6",
+    "rgi": "113.8",
+    "hotel_count": 6
+  },
+  {
+    "slug": "citizenm-seattle-pioneer-square",
+    "name": "citizenM Seattle Pioneer Square",
+    "color": "#808000",
+    "report_period": "February 2026",
+    "comp_rooms": 1363,
+    "subj_occ": "74.2%",
+    "subj_adr": "$169.7",
+    "subj_revpar": "$125.9",
+    "mpi": "111.9",
+    "ari": "76.6",
+    "rgi": "85.7",
+    "hotel_count": 6
+  },
+  {
+    "slug": "citizenm-seattle-south-lake",
+    "name": "citizenM Seattle South Lake",
+    "color": "#ffd8b1",
+    "report_period": "February 2026",
+    "comp_rooms": 1678,
+    "subj_occ": "79.4%",
+    "subj_adr": "$162.1",
+    "subj_revpar": "$128.7",
+    "mpi": "110.7",
+    "ari": "78.1",
+    "rgi": "86.5",
+    "hotel_count": 9
+  },
+  {
+    "slug": "citizenm-washington-dc-capitol",
+    "name": "citizenM Washington DC Capitol",
+    "color": "#000075",
+    "report_period": "February 2026",
+    "comp_rooms": 2262,
+    "subj_occ": "81.4%",
+    "subj_adr": "$157.1",
+    "subj_revpar": "$127.8",
+    "mpi": "112.6",
+    "ari": "70.9",
+    "rgi": "79.9",
+    "hotel_count": 9
+  },
+  {
+    "slug": "citizenm-washington-dc-noma",
+    "name": "citizenM Washington DC NoMa",
+    "color": "#a9a9a9",
+    "report_period": "February 2026",
+    "comp_rooms": 1628,
+    "subj_occ": "68.3%",
+    "subj_adr": "$141.7",
+    "subj_revpar": "$96.8",
+    "mpi": "91.2",
+    "ari": "75.2",
+    "rgi": "68.5",
+    "hotel_count": 7
+  },
+  {
+    "slug": "hyatt-centric-delfina-santa-monica",
+    "name": "Hyatt Centric Delfina Santa Monica",
+    "color": "#e6beff",
+    "report_period": "December 2025",
+    "comp_rooms": 1423,
+    "subj_occ": "65.3%",
+    "subj_adr": "$236.1",
+    "subj_revpar": "$154.2",
+    "mpi": "78.9",
+    "ari": "77.8",
+    "rgi": "61.4",
+    "hotel_count": 6
+  },
+  {
+    "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
+    "name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
+    "color": "#ff8c00",
+    "report_period": "February 2026",
+    "comp_rooms": 1383,
+    "subj_occ": "73.9%",
+    "subj_adr": "$331.3",
+    "subj_revpar": "$244.9",
+    "mpi": "105.4",
+    "ari": "72.0",
+    "rgi": "75.8",
+    "hotel_count": 6
+  },
+  {
+    "slug": "the-london-west-hollywood",
+    "name": "The London West Hollywood",
+    "color": "#008080",
+    "report_period": "October 2025",
+    "comp_rooms": 1788,
+    "subj_occ": "68.9%",
+    "subj_adr": "$449.2",
+    "subj_revpar": "$309.3",
+    "mpi": "92.0",
+    "ari": "138.5",
+    "rgi": "127.4",
+    "hotel_count": 8
+  },
+  {
+    "slug": "the-ritz-carlton-washington-dc",
+    "name": "The Ritz-Carlton, Washington, D.C.",
+    "color": "#8b4513",
+    "report_period": "December 2025",
+    "comp_rooms": 1853,
+    "subj_occ": "67.5%",
+    "subj_adr": "$555.0",
+    "subj_revpar": "$374.5",
+    "mpi": "111.3",
+    "ari": "103.8",
+    "rgi": "115.5",
+    "hotel_count": 6
+  },
+  {
+    "slug": "viceroy-santa-monica",
+    "name": "Viceroy Santa Monica",
+    "color": "#2f4f4f",
+    "report_period": "December 2025",
+    "comp_rooms": 1042,
+    "subj_occ": "73.7%",
+    "subj_adr": "$346.9",
+    "subj_revpar": "$255.6",
+    "mpi": "108.0",
+    "ari": "62.5",
+    "rgi": "67.5",
+    "hotel_count": 6
+  }
+];
+const HOTELS = [
+  {
+    "name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+    "city_state": "Los Angeles, CA",
+    "zip": "900351108",
+    "rooms": 143,
+    "lat": 34.0553631,
+    "lng": -118.3984861,
+    "memberships": [
+      {
+        "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+        "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+        "color": "#e6194B",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "The London West Hollywood",
+    "city_state": "West Hollywood, CA",
+    "zip": "900693802",
+    "rooms": 226,
+    "lat": 34.089957,
+    "lng": -118.3850689,
+    "memberships": [
+      {
+        "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+        "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+        "color": "#e6194B",
+        "role": "comp"
+      },
+      {
+        "slug": "the-london-west-hollywood",
+        "subject_name": "The London West Hollywood",
+        "color": "#008080",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "L'Ermitage Beverly Hills",
+    "city_state": "Beverly Hills, CA",
+    "zip": "90210",
+    "rooms": 116,
+    "lat": 34.0726057,
+    "lng": -118.3953843,
+    "memberships": [
+      {
+        "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+        "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+        "color": "#e6194B",
+        "role": "comp"
+      },
+      {
+        "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
+        "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
+        "color": "#ff8c00",
+        "role": "comp"
+      },
+      {
+        "slug": "the-london-west-hollywood",
+        "subject_name": "The London West Hollywood",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sixty Beverly Hills",
+    "city_state": "Beverly Hills, CA",
+    "zip": "90212",
+    "rooms": 118,
+    "lat": 34.0667845,
+    "lng": -118.3961223,
+    "memberships": [
+      {
+        "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+        "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
+    "city_state": "Los Angeles, CA",
+    "zip": "900484001",
+    "rooms": 297,
+    "lat": 34.0700076,
+    "lng": -118.3768816,
+    "memberships": [
+      {
+        "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+        "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+        "color": "#e6194B",
+        "role": "comp"
+      },
+      {
+        "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
+        "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
+        "color": "#ff8c00",
+        "role": "subject"
+      },
+      {
+        "slug": "the-london-west-hollywood",
+        "subject_name": "The London West Hollywood",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The West Hollywood EDITION",
+    "city_state": "West Hollywood, CA",
+    "zip": "900691819",
+    "rooms": 190,
+    "lat": 34.0904618,
+    "lng": -118.3893231,
+    "memberships": [
+      {
+        "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+        "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "1 Hotel West Hollywood",
+    "city_state": "Los Angeles, CA",
+    "zip": "900691912",
+    "rooms": 284,
+    "lat": 34.0942422,
+    "lng": -118.3756038,
+    "memberships": [
+      {
+        "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+        "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Hollywood Grande, Autograph Collection",
+    "city_state": "Los Angeles, CA",
+    "zip": "900287308",
+    "rooms": 190,
+    "lat": 34.0989016,
+    "lng": -118.3314309,
+    "memberships": [
+      {
+        "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+        "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Sun Rose West Hollywood",
+    "city_state": "West Hollywood, CA",
+    "zip": "900691910",
+    "rooms": 149,
+    "lat": 34.094859,
+    "lng": -118.3734168,
+    "memberships": [
+      {
+        "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+        "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Andaz West Hollywood",
+    "city_state": "West Hollywood, CA",
+    "zip": "90069",
+    "rooms": 240,
+    "lat": 34.0952684,
+    "lng": -118.3734709,
+    "memberships": [
+      {
+        "slug": "cameo-beverly-hills-lxr-hotels--resorts",
+        "subject_name": "Cameo Beverly Hills, LXR Hotels & Resorts",
+        "color": "#e6194B",
+        "role": "comp"
+      },
+      {
+        "slug": "the-london-west-hollywood",
+        "subject_name": "The London West Hollywood",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Capital Hilton",
+    "city_state": "Washington, DC",
+    "zip": "20036",
+    "rooms": 559,
+    "lat": 38.9032196,
+    "lng": -77.0357171,
+    "memberships": [
+      {
+        "slug": "capital-hilton",
+        "subject_name": "Capital Hilton",
+        "color": "#3cb44b",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Regency Washington on Capitol Hill",
+    "city_state": "Washington, DC",
+    "zip": "20001",
+    "rooms": 840,
+    "lat": 38.89543990000001,
+    "lng": -77.01168,
+    "memberships": [
+      {
+        "slug": "capital-hilton",
+        "subject_name": "Capital Hilton",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Westin Washington, D.C. City Center",
+    "city_state": "Washington, DC",
+    "zip": "20005",
+    "rooms": 410,
+    "lat": 38.9052525,
+    "lng": -77.0333279,
+    "memberships": [
+      {
+        "slug": "capital-hilton",
+        "subject_name": "Capital Hilton",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "JW Marriott Hotel Washington",
+    "city_state": "Washington, DC",
+    "zip": "20004",
+    "rooms": 777,
+    "lat": 38.89659,
+    "lng": -77.031471,
+    "memberships": [
+      {
+        "slug": "capital-hilton",
+        "subject_name": "Capital Hilton",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Mayflower Hotel, Autograph Collection",
+    "city_state": "Washington, DC",
+    "zip": "20036",
+    "rooms": 585,
+    "lat": 38.9046238,
+    "lng": -77.03989949999999,
+    "memberships": [
+      {
+        "slug": "capital-hilton",
+        "subject_name": "Capital Hilton",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Le Meridien Madison, Washington, DC",
+    "city_state": "Washington, DC",
+    "zip": "20005",
+    "rooms": 356,
+    "lat": 38.9052359,
+    "lng": -77.0340823,
+    "memberships": [
+      {
+        "slug": "capital-hilton",
+        "subject_name": "Capital Hilton",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hamilton Hotel",
+    "city_state": "Washington, DC",
+    "zip": "20005",
+    "rooms": 326,
+    "lat": 38.9029733,
+    "lng": -77.03156059999999,
+    "memberships": [
+      {
+        "slug": "capital-hilton",
+        "subject_name": "Capital Hilton",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Austin Downtown",
+    "city_state": "Austin, TX",
+    "zip": "78701",
+    "rooms": 344,
+    "lat": 30.269103,
+    "lng": -97.743638,
+    "memberships": [
+      {
+        "slug": "citizenm-austin-downtown",
+        "subject_name": "citizenM Austin Downtown",
+        "color": "#4363d8",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Downright Austin, a Renaissance Hotel",
+    "city_state": "Austin, TX",
+    "zip": "78701",
+    "rooms": 367,
+    "lat": 30.2701298,
+    "lng": -97.7340318,
+    "memberships": [
+      {
+        "slug": "citizenm-austin-downtown",
+        "subject_name": "citizenM Austin Downtown",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Omni Austin Hotel Downtown",
+    "city_state": "Austin, TX",
+    "zip": "78701",
+    "rooms": 393,
+    "lat": 30.268867,
+    "lng": -97.740425,
+    "memberships": [
+      {
+        "slug": "citizenm-austin-downtown",
+        "subject_name": "citizenM Austin Downtown",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Aloft Austin Downtown",
+    "city_state": "Austin, TX",
+    "zip": "787013208",
+    "rooms": 278,
+    "lat": 30.26867409999999,
+    "lng": -97.74204979999999,
+    "memberships": [
+      {
+        "slug": "citizenm-austin-downtown",
+        "subject_name": "citizenM Austin Downtown",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Centric Congress Avenue Austin",
+    "city_state": "Austin, TX",
+    "zip": "787013216",
+    "rooms": 246,
+    "lat": 30.2697029,
+    "lng": -97.7419974,
+    "memberships": [
+      {
+        "slug": "citizenm-austin-downtown",
+        "subject_name": "citizenM Austin Downtown",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "tommie Austin",
+    "city_state": "Austin, TX",
+    "zip": "78701",
+    "rooms": 193,
+    "lat": 30.266745,
+    "lng": -97.741053,
+    "memberships": [
+      {
+        "slug": "citizenm-austin-downtown",
+        "subject_name": "citizenM Austin Downtown",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard Austin Downtown/Convention Center",
+    "city_state": "Austin, TX",
+    "zip": "787013612",
+    "rooms": 270,
+    "lat": 30.2656742,
+    "lng": -97.7404885,
+    "memberships": [
+      {
+        "slug": "citizenm-austin-downtown",
+        "subject_name": "citizenM Austin Downtown",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Boston Back Bay",
+    "city_state": "Boston, MA",
+    "zip": "21151827",
+    "rooms": 399,
+    "lat": 42.3479377,
+    "lng": -71.088701,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-back-bay",
+        "subject_name": "citizenM Boston Back Bay",
+        "color": "#f58231",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Boston Back Bay",
+    "city_state": "Boston, MA",
+    "zip": "2115",
+    "rooms": 390,
+    "lat": 42.34629779999999,
+    "lng": -71.0849425,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-back-bay",
+        "subject_name": "citizenM Boston Back Bay",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Wyndham Boston Beacon Hill",
+    "city_state": "Boston, MA",
+    "zip": "2114",
+    "rooms": 304,
+    "lat": 42.361719,
+    "lng": -71.06670140000001,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-back-bay",
+        "subject_name": "citizenM Boston Back Bay",
+        "color": "#f58231",
+        "role": "comp"
+      },
+      {
+        "slug": "citizenm-boston-north-station",
+        "subject_name": "citizenM Boston North Station",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard by Marriott Boston Downtown",
+    "city_state": "Boston, MA",
+    "zip": "2116",
+    "rooms": 319,
+    "lat": 42.3500654,
+    "lng": -71.0654299,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-back-bay",
+        "subject_name": "citizenM Boston Back Bay",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Revere Hotel Boston Common",
+    "city_state": "Boston, MA",
+    "zip": "2116",
+    "rooms": 356,
+    "lat": 42.3503792,
+    "lng": -71.0674669,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-back-bay",
+        "subject_name": "citizenM Boston Back Bay",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Omni Parker House",
+    "city_state": "Boston, MA",
+    "zip": "2108",
+    "rooms": 551,
+    "lat": 42.3577637,
+    "lng": -71.06010599999999,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-back-bay",
+        "subject_name": "citizenM Boston Back Bay",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "MOXY Boston Downtown",
+    "city_state": "Boston, MA",
+    "zip": "2116",
+    "rooms": 340,
+    "lat": 42.3508921,
+    "lng": -71.0646016,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-back-bay",
+        "subject_name": "citizenM Boston Back Bay",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Boston North Station",
+    "city_state": "Boston, MA",
+    "zip": "21141603",
+    "rooms": 272,
+    "lat": 42.3655618,
+    "lng": -71.0618501,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-north-station",
+        "subject_name": "citizenM Boston North Station",
+        "color": "#911eb4",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "The Godfrey Hotel Boston",
+    "city_state": "Boston, MA",
+    "zip": "2111",
+    "rooms": 242,
+    "lat": 42.3547202,
+    "lng": -71.06152039999999,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-north-station",
+        "subject_name": "citizenM Boston North Station",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Boston",
+    "city_state": "Boston, MA",
+    "zip": "2210",
+    "rooms": 326,
+    "lat": 42.3523364,
+    "lng": -71.047215,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-north-station",
+        "subject_name": "citizenM Boston North Station",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard Boston Downtown/North Station",
+    "city_state": "Boston, MA",
+    "zip": "2114",
+    "rooms": 220,
+    "lat": 42.36587129999999,
+    "lng": -71.05963849999999,
+    "memberships": [
+      {
+        "slug": "citizenm-boston-north-station",
+        "subject_name": "citizenM Boston North Station",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Chicago Downtown",
+    "city_state": "Chicago, IL",
+    "zip": "606017202",
+    "rooms": 280,
+    "lat": 41.8869626,
+    "lng": -87.6250513,
+    "memberships": [
+      {
+        "slug": "citizenm-chicago-downtown",
+        "subject_name": "citizenM Chicago Downtown",
+        "color": "#42d4f4",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hotel 55 Chicago Downtown",
+    "city_state": "Chicago, IL",
+    "zip": "606112727",
+    "rooms": 297,
+    "lat": 41.8931911,
+    "lng": -87.62602070000001,
+    "memberships": [
+      {
+        "slug": "citizenm-chicago-downtown",
+        "subject_name": "citizenM Chicago Downtown",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "theWit Chicago, a Hilton Hotel",
+    "city_state": "Chicago, IL",
+    "zip": "606012402",
+    "rooms": 310,
+    "lat": 41.88599689999999,
+    "lng": -87.6276317,
+    "memberships": [
+      {
+        "slug": "citizenm-chicago-downtown",
+        "subject_name": "citizenM Chicago Downtown",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "aloft Hotel Chicago Downtown River North",
+    "city_state": "Chicago, IL",
+    "zip": "60654",
+    "rooms": 272,
+    "lat": 41.89494759999999,
+    "lng": -87.63145449999999,
+    "memberships": [
+      {
+        "slug": "citizenm-chicago-downtown",
+        "subject_name": "citizenM Chicago Downtown",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Arlo Chicago",
+    "city_state": "Chicago, IL",
+    "zip": "60601",
+    "rooms": 218,
+    "lat": 41.8851439,
+    "lng": -87.6249203,
+    "memberships": [
+      {
+        "slug": "citizenm-chicago-downtown",
+        "subject_name": "citizenM Chicago Downtown",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Garden Inn Chicago Downtown Riverwalk",
+    "city_state": "Chicago, IL",
+    "zip": "60601",
+    "rooms": 191,
+    "lat": 41.8870046,
+    "lng": -87.62549039999999,
+    "memberships": [
+      {
+        "slug": "citizenm-chicago-downtown",
+        "subject_name": "citizenM Chicago Downtown",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "MOXY Chicago Downtown",
+    "city_state": "Chicago, IL",
+    "zip": "60654",
+    "rooms": 156,
+    "lat": 41.8918405,
+    "lng": -87.6331075,
+    "memberships": [
+      {
+        "slug": "citizenm-chicago-downtown",
+        "subject_name": "citizenM Chicago Downtown",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Los Angeles Downtown",
+    "city_state": "Los Angeles, CA",
+    "zip": "90013",
+    "rooms": 315,
+    "lat": 34.04909,
+    "lng": -118.24834,
+    "memberships": [
+      {
+        "slug": "citizenm-los-angeles-downtown",
+        "subject_name": "citizenM Los Angeles Downtown",
+        "color": "#f032e6",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "DoubleTree by Hilton Hotel Los Angeles Downtown",
+    "city_state": "Los Angeles, CA",
+    "zip": "90012",
+    "rooms": 434,
+    "lat": 34.0502965,
+    "lng": -118.2428822,
+    "memberships": [
+      {
+        "slug": "citizenm-los-angeles-downtown",
+        "subject_name": "citizenM Los Angeles Downtown",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Hoxton Downtown LA",
+    "city_state": "Los Angeles, CA",
+    "zip": "90015",
+    "rooms": 174,
+    "lat": 34.0397452,
+    "lng": -118.2585327,
+    "memberships": [
+      {
+        "slug": "citizenm-los-angeles-downtown",
+        "subject_name": "citizenM Los Angeles Downtown",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "STILE Downtown Los Angeles by Kasa",
+    "city_state": "Los Angeles, CA",
+    "zip": "900151609",
+    "rooms": 182,
+    "lat": 34.0418769,
+    "lng": -118.2570341,
+    "memberships": [
+      {
+        "slug": "citizenm-los-angeles-downtown",
+        "subject_name": "citizenM Los Angeles Downtown",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Indigo Los Angeles Downtown",
+    "city_state": "Los Angeles, CA",
+    "zip": "90017",
+    "rooms": 350,
+    "lat": 34.0473956,
+    "lng": -118.2646774,
+    "memberships": [
+      {
+        "slug": "citizenm-los-angeles-downtown",
+        "subject_name": "citizenM Los Angeles Downtown",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Freehand Los Angeles",
+    "city_state": "Los Angeles, CA",
+    "zip": "900143002",
+    "rooms": 226,
+    "lat": 34.0447551,
+    "lng": -118.2564556,
+    "memberships": [
+      {
+        "slug": "citizenm-los-angeles-downtown",
+        "subject_name": "citizenM Los Angeles Downtown",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Menlo Park hotel",
+    "city_state": "Menlo Park, CA",
+    "zip": "940251442",
+    "rooms": 240,
+    "lat": 37.482182,
+    "lng": -122.1666928,
+    "memberships": [
+      {
+        "slug": "citizenm-menlo-park-hotel",
+        "subject_name": "citizenM Menlo Park hotel",
+        "color": "#bfef45",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Crowne Plaza Palo Alto",
+    "city_state": "Palo Alto, CA",
+    "zip": "943064404",
+    "rooms": 195,
+    "lat": 37.405935,
+    "lng": -122.1215384,
+    "memberships": [
+      {
+        "slug": "citizenm-menlo-park-hotel",
+        "subject_name": "citizenM Menlo Park hotel",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Centric Mountain View",
+    "city_state": "Mountain View, CA",
+    "zip": "940405311",
+    "rooms": 167,
+    "lat": 37.4037604,
+    "lng": -122.1104469,
+    "memberships": [
+      {
+        "slug": "citizenm-menlo-park-hotel",
+        "subject_name": "citizenM Menlo Park hotel",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Garden Inn Palo Alto",
+    "city_state": "Palo Alto, CA",
+    "zip": "94306",
+    "rooms": 174,
+    "lat": 37.4092758,
+    "lng": -122.1231846,
+    "memberships": [
+      {
+        "slug": "citizenm-menlo-park-hotel",
+        "subject_name": "citizenM Menlo Park hotel",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Autograph Collection Hotel Nia",
+    "city_state": "Menlo Park, CA",
+    "zip": "940251136",
+    "rooms": 250,
+    "lat": 37.4826611,
+    "lng": -122.1765679,
+    "memberships": [
+      {
+        "slug": "citizenm-menlo-park-hotel",
+        "subject_name": "citizenM Menlo Park hotel",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard Redwood City",
+    "city_state": "Redwood City, CA",
+    "zip": "94063",
+    "rooms": 177,
+    "lat": 37.4955163,
+    "lng": -122.2261486,
+    "memberships": [
+      {
+        "slug": "citizenm-menlo-park-hotel",
+        "subject_name": "citizenM Menlo Park hotel",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hampton Inn & Suites San Mateo-San Francisco Airport",
+    "city_state": "San Mateo, CA",
+    "zip": "944032099",
+    "rooms": 181,
+    "lat": 37.5440103,
+    "lng": -122.2857274,
+    "memberships": [
+      {
+        "slug": "citizenm-menlo-park-hotel",
+        "subject_name": "citizenM Menlo Park hotel",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Miami Brickell hotel",
+    "city_state": "Miami, FL",
+    "zip": "33130",
+    "rooms": 252,
+    "lat": 25.7646388,
+    "lng": -80.19289549999999,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-brickell-hotel",
+        "subject_name": "citizenM Miami Brickell hotel",
+        "color": "#fabed4",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "JW Marriott Miami",
+    "city_state": "Miami, FL",
+    "zip": "33131",
+    "rooms": 296,
+    "lat": 25.7622638,
+    "lng": -80.1911552,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-brickell-hotel",
+        "subject_name": "citizenM Miami Brickell hotel",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Aloft Miami - Brickell",
+    "city_state": "Miami, FL",
+    "zip": "33130",
+    "rooms": 160,
+    "lat": 25.7641604,
+    "lng": -80.197186,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-brickell-hotel",
+        "subject_name": "citizenM Miami Brickell hotel",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hampton Inn & Suites Miami/Brickell-Downtown",
+    "city_state": "Miami, FL",
+    "zip": "33130",
+    "rooms": 221,
+    "lat": 25.7622861,
+    "lng": -80.1940128,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-brickell-hotel",
+        "subject_name": "citizenM Miami Brickell hotel",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Novotel Miami Brickell",
+    "city_state": "Miami, FL",
+    "zip": "331291115",
+    "rooms": 275,
+    "lat": 25.7597839,
+    "lng": -80.19692309999999,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-brickell-hotel",
+        "subject_name": "citizenM Miami Brickell hotel",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Centric Brickell Miami",
+    "city_state": "Miami, FL",
+    "zip": "331313540",
+    "rooms": 208,
+    "lat": 25.7628429,
+    "lng": -80.1900861,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-brickell-hotel",
+        "subject_name": "citizenM Miami Brickell hotel",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Miami South Beach",
+    "city_state": "Miami Beach, FL",
+    "zip": "33139",
+    "rooms": 168,
+    "lat": 25.7902885,
+    "lng": -80.14149619999999,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-south-beach",
+        "subject_name": "citizenM Miami South Beach",
+        "color": "#469990",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "The Gates Hotel South Beach",
+    "city_state": "Miami Beach, FL",
+    "zip": "33139",
+    "rooms": 235,
+    "lat": 25.7993599,
+    "lng": -80.127821,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-south-beach",
+        "subject_name": "citizenM Miami South Beach",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Gale South Beach, Curio Collection by Hilton",
+    "city_state": "Miami Beach, FL",
+    "zip": "33139",
+    "rooms": 87,
+    "lat": 25.7921419,
+    "lng": -80.13023,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-south-beach",
+        "subject_name": "citizenM Miami South Beach",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Dream South Beach",
+    "city_state": "Miami Beach, FL",
+    "zip": "33139",
+    "rooms": 107,
+    "lat": 25.7821791,
+    "lng": -80.1312201,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-south-beach",
+        "subject_name": "citizenM Miami South Beach",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "MOXY Miami South Beach",
+    "city_state": "Miami Beach, FL",
+    "zip": "331395015",
+    "rooms": 202,
+    "lat": 25.7798329,
+    "lng": -80.13243059999999,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-south-beach",
+        "subject_name": "citizenM Miami South Beach",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Kimpton Hotel Palomar South Beach",
+    "city_state": "Miami Beach, FL",
+    "zip": "331392412",
+    "rooms": 96,
+    "lat": 25.7926469,
+    "lng": -80.1416794,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-south-beach",
+        "subject_name": "citizenM Miami South Beach",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "the goodtime hotel, Miami Beach, a Tribute Portfolio Hotel",
+    "city_state": "Miami Beach, FL",
+    "zip": "331396207",
+    "rooms": 266,
+    "lat": 25.7761886,
+    "lng": -80.1332273,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-south-beach",
+        "subject_name": "citizenM Miami South Beach",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Miami World Center",
+    "city_state": "Miami, FL",
+    "zip": "331321814",
+    "rooms": 351,
+    "lat": 25.7811605,
+    "lng": -80.19069100000002,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-world-center",
+        "subject_name": "citizenM Miami World Center",
+        "color": "#dcbeff",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Holiday Inn Port of Miami Downtown",
+    "city_state": "Miami, FL",
+    "zip": "331322211",
+    "rooms": 200,
+    "lat": 25.777833,
+    "lng": -80.18882800000002,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-world-center",
+        "subject_name": "citizenM Miami World Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "YVE Hotel Miami",
+    "city_state": "Miami, FL",
+    "zip": "33132",
+    "rooms": 243,
+    "lat": 25.7760686,
+    "lng": -80.1882174,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-world-center",
+        "subject_name": "citizenM Miami World Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard Miami Downtown Brickell Area",
+    "city_state": "Miami, FL",
+    "zip": "33131",
+    "rooms": 233,
+    "lat": 25.7722558,
+    "lng": -80.1905867,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-world-center",
+        "subject_name": "citizenM Miami World Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Miami",
+    "city_state": "Miami, FL",
+    "zip": "33132",
+    "rooms": 222,
+    "lat": 25.7762606,
+    "lng": -80.1897584,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-world-center",
+        "subject_name": "citizenM Miami World Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "DoubleTree by Hilton Grand Hotel Biscayne Bay",
+    "city_state": "Miami, FL",
+    "zip": "331321180",
+    "rooms": 326,
+    "lat": 25.7914816,
+    "lng": -80.1861641,
+    "memberships": [
+      {
+        "slug": "citizenm-miami-world-center",
+        "subject_name": "citizenM Miami World Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM New York Bowery",
+    "city_state": "New York, NY",
+    "zip": "100022868",
+    "rooms": 300,
+    "lat": 40.7207157,
+    "lng": -73.99348429999999,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-bowery",
+        "subject_name": "citizenM New York Bowery",
+        "color": "#9A6324",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Indigo Lower East Side New York",
+    "city_state": "New York, NY",
+    "zip": "100021501",
+    "rooms": 294,
+    "lat": 40.721781,
+    "lng": -73.9877812,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-bowery",
+        "subject_name": "citizenM New York Bowery",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "NoMo SoHo",
+    "city_state": "New York, NY",
+    "zip": "10013",
+    "rooms": 264,
+    "lat": 40.71981419999999,
+    "lng": -74.00007339999999,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-bowery",
+        "subject_name": "citizenM New York Bowery",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Arlo SoHo",
+    "city_state": "New York, NY",
+    "zip": "100131412",
+    "rooms": 321,
+    "lat": 40.7244913,
+    "lng": -74.00796509999999,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-bowery",
+        "subject_name": "citizenM New York Bowery",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hotel 50 Bowery",
+    "city_state": "New York, NY",
+    "zip": "100134801",
+    "rooms": 229,
+    "lat": 40.7159543,
+    "lng": -73.9967673,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-bowery",
+        "subject_name": "citizenM New York Bowery",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Public Hotel",
+    "city_state": "New York, NY",
+    "zip": "10002",
+    "rooms": 367,
+    "lat": 40.7231104,
+    "lng": -73.9920935,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-bowery",
+        "subject_name": "citizenM New York Bowery",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM New York Times Square",
+    "city_state": "New York, NY",
+    "zip": "100196702",
+    "rooms": 230,
+    "lat": 40.76167290000001,
+    "lng": -73.9849744,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-times-square",
+        "subject_name": "citizenM New York Times Square",
+        "color": "#800000",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "The Muse New York",
+    "city_state": "New York, NY",
+    "zip": "100368501",
+    "rooms": 201,
+    "lat": 40.7577985,
+    "lng": -73.9837623,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-times-square",
+        "subject_name": "citizenM New York Times Square",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Time New York",
+    "city_state": "New York, NY",
+    "zip": "10019",
+    "rooms": 193,
+    "lat": 40.76098150000001,
+    "lng": -73.9855341,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-times-square",
+        "subject_name": "citizenM New York Times Square",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Dream Midtown",
+    "city_state": "New York, NY",
+    "zip": "100195467",
+    "rooms": 219,
+    "lat": 40.7644192,
+    "lng": -73.9819706,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-times-square",
+        "subject_name": "citizenM New York Times Square",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Ink 48 Hotel",
+    "city_state": "New York, NY",
+    "zip": "10036",
+    "rooms": 222,
+    "lat": 40.764568,
+    "lng": -73.995995,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-times-square",
+        "subject_name": "citizenM New York Times Square",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Distrikt Hotel New York City, Tapestry Collection by Hilton",
+    "city_state": "New York, NY",
+    "zip": "10018",
+    "rooms": 155,
+    "lat": 40.7566856,
+    "lng": -73.9928436,
+    "memberships": [
+      {
+        "slug": "citizenm-new-york-times-square",
+        "subject_name": "citizenM New York Times Square",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM San Francisco Union Square",
+    "city_state": "San Francisco, CA",
+    "zip": "941022208",
+    "rooms": 195,
+    "lat": 37.78577629999999,
+    "lng": -122.4074402,
+    "memberships": [
+      {
+        "slug": "citizenm-san-francisco-union-square",
+        "subject_name": "citizenM San Francisco Union Square",
+        "color": "#aaffc3",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Adagio, Autograph Collection",
+    "city_state": "San Francisco, CA",
+    "zip": "94102",
+    "rooms": 171,
+    "lat": 37.787047,
+    "lng": -122.412554,
+    "memberships": [
+      {
+        "slug": "citizenm-san-francisco-union-square",
+        "subject_name": "citizenM San Francisco Union Square",
+        "color": "#aaffc3",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Marker",
+    "city_state": "San Francisco, CA",
+    "zip": "94102",
+    "rooms": 208,
+    "lat": 37.7867033,
+    "lng": -122.4116961,
+    "memberships": [
+      {
+        "slug": "citizenm-san-francisco-union-square",
+        "subject_name": "citizenM San Francisco Union Square",
+        "color": "#aaffc3",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "AXIOM Hotel",
+    "city_state": "San Francisco, CA",
+    "zip": "94102",
+    "rooms": 152,
+    "lat": 37.7849078,
+    "lng": -122.4080482,
+    "memberships": [
+      {
+        "slug": "citizenm-san-francisco-union-square",
+        "subject_name": "citizenM San Francisco Union Square",
+        "color": "#aaffc3",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Canopy by Hilton San Francisco SoMa",
+    "city_state": "San Francisco, CA",
+    "zip": "941033109",
+    "rooms": 194,
+    "lat": 37.7824711,
+    "lng": -122.401969,
+    "memberships": [
+      {
+        "slug": "citizenm-san-francisco-union-square",
+        "subject_name": "citizenM San Francisco Union Square",
+        "color": "#aaffc3",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hampton by Hilton Inn San Francisco Downtown/Convention Center",
+    "city_state": "San Francisco, CA",
+    "zip": "941032911",
+    "rooms": 174,
+    "lat": 37.7936658,
+    "lng": -122.3964729,
+    "memberships": [
+      {
+        "slug": "citizenm-san-francisco-union-square",
+        "subject_name": "citizenM San Francisco Union Square",
+        "color": "#aaffc3",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Seattle Pioneer Square",
+    "city_state": "Seattle, WA",
+    "zip": "98104",
+    "rooms": 216,
+    "lat": 47.6019579,
+    "lng": -122.3358186,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-pioneer-square",
+        "subject_name": "citizenM Seattle Pioneer Square",
+        "color": "#808000",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Coast Seattle Downtown Hotel by APA",
+    "city_state": "Seattle, WA",
+    "zip": "98101",
+    "rooms": 256,
+    "lat": 47.6094,
+    "lng": -122.333268,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-pioneer-square",
+        "subject_name": "citizenM Seattle Pioneer Square",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Kimpton Hotel Monaco Seattle Downtown",
+    "city_state": "Seattle, WA",
+    "zip": "98101",
+    "rooms": 189,
+    "lat": 47.6068879,
+    "lng": -122.3341301,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-pioneer-square",
+        "subject_name": "citizenM Seattle Pioneer Square",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard Seattle Downtown Pioneer Square",
+    "city_state": "Seattle, WA",
+    "zip": "98104",
+    "rooms": 262,
+    "lat": 47.6028917,
+    "lng": -122.3327686,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-pioneer-square",
+        "subject_name": "citizenM Seattle Pioneer Square",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Silver Cloud Hotel Seattle Stadium",
+    "city_state": "Seattle, WA",
+    "zip": "98134",
+    "rooms": 211,
+    "lat": 47.59258,
+    "lng": -122.333692,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-pioneer-square",
+        "subject_name": "citizenM Seattle Pioneer Square",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Charter Hotel Seattle, Curio Collection by Hilton",
+    "city_state": "Seattle, WA",
+    "zip": "98101",
+    "rooms": 229,
+    "lat": 47.6109383,
+    "lng": -122.3400693,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-pioneer-square",
+        "subject_name": "citizenM Seattle Pioneer Square",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Seattle South Lake",
+    "city_state": "Seattle, WA",
+    "zip": "981095217",
+    "rooms": 264,
+    "lat": 47.6200117,
+    "lng": -122.338869,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-south-lake",
+        "subject_name": "citizenM Seattle South Lake",
+        "color": "#ffd8b1",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard Seattle Downtown Lake Union",
+    "city_state": "Seattle, WA",
+    "zip": "981093524",
+    "rooms": 250,
+    "lat": 47.6274506,
+    "lng": -122.3405917,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-south-lake",
+        "subject_name": "citizenM Seattle South Lake",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Holiday Inn Seattle Downtown - Lake Union",
+    "city_state": "Seattle, WA",
+    "zip": "98109",
+    "rooms": 197,
+    "lat": 47.62033,
+    "lng": -122.342822,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-south-lake",
+        "subject_name": "citizenM Seattle South Lake",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Max",
+    "city_state": "Seattle, WA",
+    "zip": "98101",
+    "rooms": 163,
+    "lat": 47.61428739999999,
+    "lng": -122.3367201,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-south-lake",
+        "subject_name": "citizenM Seattle South Lake",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Place Seattle/Downtown",
+    "city_state": "Seattle, WA",
+    "zip": "98109",
+    "rooms": 160,
+    "lat": 47.6188227,
+    "lng": -122.3446415,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-south-lake",
+        "subject_name": "citizenM Seattle South Lake",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "1 Hotel Seattle",
+    "city_state": "Seattle, WA",
+    "zip": "98121",
+    "rooms": 153,
+    "lat": 47.618244,
+    "lng": -122.337408,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-south-lake",
+        "subject_name": "citizenM Seattle South Lake",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Garden Inn Seattle Downtown",
+    "city_state": "Seattle, WA",
+    "zip": "981011453",
+    "rooms": 222,
+    "lat": 47.6164953,
+    "lng": -122.3324579,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-south-lake",
+        "subject_name": "citizenM Seattle South Lake",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "MOXY Seattle Downtown",
+    "city_state": "Seattle, WA",
+    "zip": "981094326",
+    "rooms": 146,
+    "lat": 47.6233885,
+    "lng": -122.336297,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-south-lake",
+        "subject_name": "citizenM Seattle South Lake",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "EVEN Hotels Seattle South Lake Union",
+    "city_state": "Seattle, WA",
+    "zip": "981095507",
+    "rooms": 123,
+    "lat": 47.6241049,
+    "lng": -122.3348251,
+    "memberships": [
+      {
+        "slug": "citizenm-seattle-south-lake",
+        "subject_name": "citizenM Seattle South Lake",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Washington DC Capitol",
+    "city_state": "Washington, DC",
+    "zip": "200243257",
+    "rooms": 252,
+    "lat": 38.8837279,
+    "lng": -77.01942629999999,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-capitol",
+        "subject_name": "citizenM Washington DC Capitol",
+        "color": "#000075",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Garden Inn Washington DC Downtown",
+    "city_state": "Washington, DC",
+    "zip": "20005",
+    "rooms": 300,
+    "lat": 38.9006021,
+    "lng": -77.031455,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-capitol",
+        "subject_name": "citizenM Washington DC Capitol",
+        "color": "#000075",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Washington DC",
+    "city_state": "Washington, DC",
+    "zip": "20001",
+    "rooms": 377,
+    "lat": 38.8953091,
+    "lng": -77.01085119999999,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-capitol",
+        "subject_name": "citizenM Washington DC Capitol",
+        "color": "#000075",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard Washington Capitol Hill/Navy Yard",
+    "city_state": "Washington, DC",
+    "zip": "20003",
+    "rooms": 204,
+    "lat": 38.8777723,
+    "lng": -77.0040947,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-capitol",
+        "subject_name": "citizenM Washington DC Capitol",
+        "color": "#000075",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Residence Inn Washington, DC National Mall",
+    "city_state": "Washington, DC",
+    "zip": "200243221",
+    "rooms": 233,
+    "lat": 38.88341860000001,
+    "lng": -77.01596010000002,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-capitol",
+        "subject_name": "citizenM Washington DC Capitol",
+        "color": "#000075",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Place Washington DC/National Mall",
+    "city_state": "Washington, DC",
+    "zip": "20024",
+    "rooms": 214,
+    "lat": 38.88292879999999,
+    "lng": -77.01797479999999,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-capitol",
+        "subject_name": "citizenM Washington DC Capitol",
+        "color": "#000075",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Motto by Hilton Washington DC City Center",
+    "city_state": "Washington, DC",
+    "zip": "20001",
+    "rooms": 245,
+    "lat": 38.8999528,
+    "lng": -77.02120230000001,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-capitol",
+        "subject_name": "citizenM Washington DC Capitol",
+        "color": "#000075",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "MOXY Washington, DC Downtown",
+    "city_state": "Washington, DC",
+    "zip": "20001",
+    "rooms": 200,
+    "lat": 38.9028672,
+    "lng": -77.0264925,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-capitol",
+        "subject_name": "citizenM Washington DC Capitol",
+        "color": "#000075",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt House Washington DC / The Wharf",
+    "city_state": "Washington, DC",
+    "zip": "20024",
+    "rooms": 237,
+    "lat": 38.8786728,
+    "lng": -77.0239713,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-capitol",
+        "subject_name": "citizenM Washington DC Capitol",
+        "color": "#000075",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "citizenM Washington DC NoMa",
+    "city_state": "Washington, DC",
+    "zip": "20002",
+    "rooms": 296,
+    "lat": 38.9066585,
+    "lng": -77.0062694,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-noma",
+        "subject_name": "citizenM Washington DC NoMa",
+        "color": "#a9a9a9",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard by Marriott Washington, DC/U.S. Capitol",
+    "city_state": "Washington, DC",
+    "zip": "200023582",
+    "rooms": 218,
+    "lat": 38.9078867,
+    "lng": -77.0032167,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-noma",
+        "subject_name": "citizenM Washington DC NoMa",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Garden Inn Washington DC US Capitol",
+    "city_state": "Washington, DC",
+    "zip": "20002",
+    "rooms": 204,
+    "lat": 38.9062586,
+    "lng": -77.00562819999999,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-noma",
+        "subject_name": "citizenM Washington DC NoMa",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hampton by Hilton Inn Washington-Downtown-Convention Center",
+    "city_state": "Washington, DC",
+    "zip": "20001",
+    "rooms": 228,
+    "lat": 38.901784,
+    "lng": -77.019465,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-noma",
+        "subject_name": "citizenM Washington DC NoMa",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Place Washington DC/US Capitol",
+    "city_state": "Washington, DC",
+    "zip": "200023325",
+    "rooms": 200,
+    "lat": 38.9075037,
+    "lng": -77.007744,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-noma",
+        "subject_name": "citizenM Washington DC NoMa",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Holiday Inn Express Washington DC Downtown",
+    "city_state": "Washington, DC",
+    "zip": "200012528",
+    "rooms": 247,
+    "lat": 38.9028519,
+    "lng": -77.0160109,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-noma",
+        "subject_name": "citizenM Washington DC NoMa",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Washington Marriott Capitol Hill",
+    "city_state": "Washington, DC",
+    "zip": "200026928",
+    "rooms": 235,
+    "lat": 38.9035743,
+    "lng": -77.00494739999999,
+    "memberships": [
+      {
+        "slug": "citizenm-washington-dc-noma",
+        "subject_name": "citizenM Washington DC NoMa",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Centric Delfina Santa Monica",
+    "city_state": "Santa Monica, CA",
+    "zip": "90405",
+    "rooms": 315,
+    "lat": 34.0105023,
+    "lng": -118.485599,
+    "memberships": [
+      {
+        "slug": "hyatt-centric-delfina-santa-monica",
+        "subject_name": "Hyatt Centric Delfina Santa Monica",
+        "color": "#e6beff",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Santa Monica Hotel & Suites",
+    "city_state": "Santa Monica, CA",
+    "zip": "90401",
+    "rooms": 286,
+    "lat": 34.0117276,
+    "lng": -118.4889904,
+    "memberships": [
+      {
+        "slug": "hyatt-centric-delfina-santa-monica",
+        "subject_name": "Hyatt Centric Delfina Santa Monica",
+        "color": "#e6beff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Marina del Rey Hotel",
+    "city_state": "Marina Del Rey, CA",
+    "zip": "90292",
+    "rooms": 164,
+    "lat": 33.9799284,
+    "lng": -118.4459625,
+    "memberships": [
+      {
+        "slug": "hyatt-centric-delfina-santa-monica",
+        "subject_name": "Hyatt Centric Delfina Santa Monica",
+        "color": "#e6beff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Marriott Marina Del Rey",
+    "city_state": "Marina Del Rey, CA",
+    "zip": "90292",
+    "rooms": 370,
+    "lat": 33.982173,
+    "lng": -118.4596619,
+    "memberships": [
+      {
+        "slug": "hyatt-centric-delfina-santa-monica",
+        "subject_name": "Hyatt Centric Delfina Santa Monica",
+        "color": "#e6beff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Huntley Santa Monica Beach",
+    "city_state": "Santa Monica, CA",
+    "zip": "90403",
+    "rooms": 204,
+    "lat": 34.0186938,
+    "lng": -118.5013534,
+    "memberships": [
+      {
+        "slug": "hyatt-centric-delfina-santa-monica",
+        "subject_name": "Hyatt Centric Delfina Santa Monica",
+        "color": "#e6beff",
+        "role": "comp"
+      },
+      {
+        "slug": "viceroy-santa-monica",
+        "subject_name": "Viceroy Santa Monica",
+        "color": "#2f4f4f",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Georgian",
+    "city_state": "Santa Monica, CA",
+    "zip": "904012116",
+    "rooms": 84,
+    "lat": 34.0137874,
+    "lng": -118.4973035,
+    "memberships": [
+      {
+        "slug": "hyatt-centric-delfina-santa-monica",
+        "subject_name": "Hyatt Centric Delfina Santa Monica",
+        "color": "#e6beff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "W Hotel Los Angeles West Beverly Hills",
+    "city_state": "Los Angeles, CA",
+    "zip": "90024",
+    "rooms": 297,
+    "lat": 34.0632746,
+    "lng": -118.4409504,
+    "memberships": [
+      {
+        "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
+        "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
+        "color": "#ff8c00",
+        "role": "comp"
+      },
+      {
+        "slug": "the-london-west-hollywood",
+        "subject_name": "The London West Hollywood",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Mondrian Los Angeles",
+    "city_state": "West Hollywood, CA",
+    "zip": "90069",
+    "rooms": 236,
+    "lat": 34.0945542,
+    "lng": -118.3741965,
+    "memberships": [
+      {
+        "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
+        "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
+        "color": "#ff8c00",
+        "role": "comp"
+      },
+      {
+        "slug": "the-london-west-hollywood",
+        "subject_name": "The London West Hollywood",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Four Seasons Hotel Los Angeles at Beverly Hills",
+    "city_state": "Los Angeles, CA",
+    "zip": "90048",
+    "rooms": 285,
+    "lat": 34.0730227,
+    "lng": -118.3892337,
+    "memberships": [
+      {
+        "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
+        "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sunset Marquis Hotel",
+    "city_state": "West Hollywood, CA",
+    "zip": "90069",
+    "rooms": 152,
+    "lat": 34.0922307,
+    "lng": -118.377474,
+    "memberships": [
+      {
+        "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
+        "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sunset Tower Hotel",
+    "city_state": "West Hollywood, CA",
+    "zip": "90069",
+    "rooms": 81,
+    "lat": 34.0952195,
+    "lng": -118.3722258,
+    "memberships": [
+      {
+        "slug": "the-london-west-hollywood",
+        "subject_name": "The London West Hollywood",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sofitel Los Angeles at Beverly Hills",
+    "city_state": "Los Angeles, CA",
+    "zip": "900483303",
+    "rooms": 295,
+    "lat": 34.0764178,
+    "lng": -118.3775087,
+    "memberships": [
+      {
+        "slug": "the-london-west-hollywood",
+        "subject_name": "The London West Hollywood",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Ritz-Carlton, Washington, D.C.",
+    "city_state": "Washington, DC",
+    "zip": "200371219",
+    "rooms": 300,
+    "lat": 38.9046966,
+    "lng": -77.0490792,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-washington-dc",
+        "subject_name": "The Ritz-Carlton, Washington, D.C.",
+        "color": "#8b4513",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Salamander Washington, D.C.",
+    "city_state": "Washington, DC",
+    "zip": "20024",
+    "rooms": 373,
+    "lat": 38.8837381,
+    "lng": -77.03009879999999,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-washington-dc",
+        "subject_name": "The Ritz-Carlton, Washington, D.C.",
+        "color": "#8b4513",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "InterContinental The Willard Washington D.C.",
+    "city_state": "Washington, DC",
+    "zip": "20004",
+    "rooms": 335,
+    "lat": 38.8968125,
+    "lng": -77.0322812,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-washington-dc",
+        "subject_name": "The Ritz-Carlton, Washington, D.C.",
+        "color": "#8b4513",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Fairmont Washington, D.C., Georgetown",
+    "city_state": "Washington, DC",
+    "zip": "20037",
+    "rooms": 413,
+    "lat": 38.9058213,
+    "lng": -77.0517041,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-washington-dc",
+        "subject_name": "The Ritz-Carlton, Washington, D.C.",
+        "color": "#8b4513",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Four Seasons Hotel Washington, DC",
+    "city_state": "Washington, DC",
+    "zip": "20007",
+    "rooms": 212,
+    "lat": 38.9048185,
+    "lng": -77.0572948,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-washington-dc",
+        "subject_name": "The Ritz-Carlton, Washington, D.C.",
+        "color": "#8b4513",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Park Hyatt Washington DC",
+    "city_state": "Washington, DC",
+    "zip": "20037",
+    "rooms": 220,
+    "lat": 38.90608659999999,
+    "lng": -77.0510944,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-washington-dc",
+        "subject_name": "The Ritz-Carlton, Washington, D.C.",
+        "color": "#8b4513",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy Santa Monica",
+    "city_state": "Santa Monica, CA",
+    "zip": "90401",
+    "rooms": 169,
+    "lat": 34.0080531,
+    "lng": -118.4903365,
+    "memberships": [
+      {
+        "slug": "viceroy-santa-monica",
+        "subject_name": "Viceroy Santa Monica",
+        "color": "#2f4f4f",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Casa Del Mar Hotel by the Sea Santa Monica",
+    "city_state": "Santa Monica, CA",
+    "zip": "90405",
+    "rooms": 129,
+    "lat": 34.0093515,
+    "lng": -118.4974682,
+    "memberships": [
+      {
+        "slug": "viceroy-santa-monica",
+        "subject_name": "Viceroy Santa Monica",
+        "color": "#2f4f4f",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Regent Santa Monica Beach",
+    "city_state": "Santa Monica, CA",
+    "zip": "90401",
+    "rooms": 167,
+    "lat": 34.0092602,
+    "lng": -118.4931265,
+    "memberships": [
+      {
+        "slug": "viceroy-santa-monica",
+        "subject_name": "Viceroy Santa Monica",
+        "color": "#2f4f4f",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sandbourne Santa Monica, Autograph Collection",
+    "city_state": "Santa Monica, CA",
+    "zip": "904013214",
+    "rooms": 175,
+    "lat": 34.0087825,
+    "lng": -118.4922624,
+    "memberships": [
+      {
+        "slug": "viceroy-santa-monica",
+        "subject_name": "Viceroy Santa Monica",
+        "color": "#2f4f4f",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Shutters On The Beach",
+    "city_state": "Santa Monica, CA",
+    "zip": "90405",
+    "rooms": 198,
+    "lat": 34.0068266,
+    "lng": -118.4918464,
+    "memberships": [
+      {
+        "slug": "viceroy-santa-monica",
+        "subject_name": "Viceroy Santa Monica",
+        "color": "#2f4f4f",
+        "role": "comp"
+      }
+    ]
+  }
+];
+const CENTER = { lat: 36.69361725, lng: -96.7298845 };
+let map;
+let markers = [];            // { marker, memberships }
+let bySet = {};            // slug → [markerRecord]
+let infoWindow;
+const activeSets = new Set(COMP_SETS.map(c => c.slug));
+
+function buildLegend() {
+  const el = document.getElementById('legend');
+  COMP_SETS.forEach(cs => {
+    const row = document.createElement('div');
+    row.className = 'legend-item';
+    row.dataset.slug = cs.slug;
+    row.innerHTML = `
+      <div class="legend-swatch" style="background:${cs.color}"></div>
+      <div class="legend-text">
+        <div class="legend-name">${cs.name}</div>
+        <div class="legend-meta">${cs.hotel_count} hotels · ${cs.report_period}</div>
+      </div>
+    `;
+    row.addEventListener('click', () => toggleSet(cs.slug));
+    el.appendChild(row);
+  });
+}
+
+function toggleSet(slug) {
+  if (activeSets.has(slug)) activeSets.delete(slug);
+  else activeSets.add(slug);
+  refresh();
+}
+
+function toggleAll(on) {
+  activeSets.clear();
+  if (on) COMP_SETS.forEach(c => activeSets.add(c.slug));
+  refresh();
+}
+
+function refresh() {
+  document.querySelectorAll('.legend-item').forEach(el => {
+    el.classList.toggle('off', !activeSets.has(el.dataset.slug));
+  });
+  markers.forEach(rec => {
+    const visibleMems = rec.memberships.filter(m => activeSets.has(m.slug));
+    if (visibleMems.length === 0) {
+      rec.marker.setMap(null);
+      return;
+    }
+    rec.marker.setMap(map);
+    // Prefer a subject role for icon style, else first active comp
+    const primary = visibleMems.find(m => m.role === 'subject') || visibleMems[0];
+    rec.marker.setIcon(iconFor(primary, visibleMems.length > 1));
+  });
+}
+
+function iconFor(primary, multi) {
+  if (primary.role === 'subject') {
+    return {
+      path: 'M 0,-14 L 4,-4 14,-4 6,2 9,12 0,6 -9,12 -6,2 -14,-4 -4,-4 Z',
+      fillColor: primary.color,
+      fillOpacity: 1.0,
+      strokeColor: '#ffffff',
+      strokeWeight: 2,
+      scale: 1.0,
+    };
+  }
+  return {
+    path: google.maps.SymbolPath.CIRCLE,
+    fillColor: primary.color,
+    fillOpacity: 0.95,
+    strokeColor: multi ? '#111827' : '#ffffff',
+    strokeWeight: multi ? 2 : 1.5,
+    scale: 8,
+  };
+}
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: CENTER,
+    zoom: 4,
+    mapTypeControl: true,
+    streetViewControl: false,
+    fullscreenControl: true,
+  });
+  infoWindow = new google.maps.InfoWindow();
+
+  HOTELS.forEach(h => {
+    const primary = h.memberships[0];
+    const marker = new google.maps.Marker({
+      position: { lat: h.lat, lng: h.lng },
+      map,
+      title: h.name,
+      icon: iconFor(primary, h.memberships.length > 1),
+      zIndex: primary.role === 'subject' ? 1000 : 100,
+    });
+    marker.addListener('click', () => {
+      const memsHtml = h.memberships
+        .filter(m => activeSets.has(m.slug))
+        .map(m => `<div class="mem">
+            <span class="dot" style="background:${m.color}"></span>
+            <a href="../${m.slug}/">${m.subject_name}</a>
+            <span class="role">${m.role}</span>
+          </div>`).join('');
+      infoWindow.setContent(`
+        <div class="iw">
+          <h3>${h.name}</h3>
+          <div class="addr">${h.city_state} ${h.zip} · ${h.rooms} rooms</div>
+          <div><strong>Appears in:</strong></div>
+          ${memsHtml}
+        </div>
+      `);
+      infoWindow.open(map, marker);
+    });
+    const rec = { marker, memberships: h.memberships };
+    markers.push(rec);
+    h.memberships.forEach(m => {
+      (bySet[m.slug] = bySet[m.slug] || []).push(rec);
+    });
+  });
+
+  // Fit bounds to all visible markers at load
+  const bounds = new google.maps.LatLngBounds();
+  HOTELS.forEach(h => bounds.extend({ lat: h.lat, lng: h.lng }));
+  map.fitBounds(bounds);
+}
+
+buildLegend();
+</script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap"></script>
+</body>
+</html>

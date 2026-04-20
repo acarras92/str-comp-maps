@@ -27,3 +27,6 @@ Restrict to https://acarras92.github.io/* in Google Cloud Console.
 
 ## Dependencies
 pip install pandas openpyxl requests
+
+## Skills location (Claude Code)
+C:\Users\acarr\OneDrive\Documents\Claude\skills\
