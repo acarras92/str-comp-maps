@@ -22,10 +22,13 @@ from generate_str_map import (
     REPO_DIR,
     GEOCACHE_PATH,
     API_KEY,
+    PAGES_BASE_URL,
     parse_response_sheet,
     parse_glance_sheet,
     geocode,
     make_slug,
+    verify_deploy,
+    _commit_and_push,
 )
 
 OUTPUT_DIR = os.path.join(REPO_DIR, "global")
@@ -416,9 +419,15 @@ def main():
     update_root_index_link()
 
     if args.deploy:
-        os.chdir(REPO_DIR)
-        os.system('git add . && git commit -m "Add global combined comp set map" && git push origin main')
-        print("\nLive at: https://acarras92.github.io/str-comp-maps/global/")
+        print("\nDeploying to GitHub Pages...")
+        _commit_and_push("Add global combined comp set map")
+        ok = verify_deploy([f"{PAGES_BASE_URL}/global/"])
+        print(f"\n{'=' * 60}")
+        print("DEPLOY VERIFIED [OK]" if ok else "DEPLOY INCOMPLETE — see warnings above")
+        print(f"  {PAGES_BASE_URL}/global/")
+        print('=' * 60)
+        if not ok:
+            sys.exit(2)
 
 
 if __name__ == "__main__":

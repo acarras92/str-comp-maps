@@ -5,9 +5,10 @@ Reads an STR Excel report, extracts the comp set, geocodes addresses,
 and generates an interactive Google Maps HTML file.
 
 Usage:
-    python generate_str_map.py              # auto-detect newest .xlsx in drop folder
-    python generate_str_map.py "path.xlsx"  # explicit file
-    python generate_str_map.py --deploy     # generate + push to GitHub Pages
+    python generate_str_map.py                          # auto-detect newest .xlsx in drop folder
+    python generate_str_map.py "path.xlsx"              # explicit single file
+    python generate_str_map.py FILE1 FILE2 FILE3        # batch: multiple files in one run
+    python generate_str_map.py --deploy ...             # + single commit, single push, verified deploy
 """
 
 import argparse
@@ -15,6 +16,7 @@ import glob
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 
@@ -28,6 +30,9 @@ REPO_DIR = r"C:\Users\acarr\OneDrive\Documents\Claude\Projects\str-comp-maps"
 GEOCACHE_PATH = os.path.join(REPO_DIR, "geocache.json")
 GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json"
 API_KEY = "AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU"
+REPO_SLUG = "acarras92/str-comp-maps"
+PAGES_BASE_URL = "https://acarras92.github.io/str-comp-maps"
+WORKFLOW_NAME = "Deploy to GitHub Pages"
 
 
 def find_str_file(explicit_path=None):
@@ -735,28 +740,20 @@ def update_root_index(slug, hotel_name, city_state, report_period, num_comps, co
     print(f"  Added {hotel_name} to root index.html")
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Generate STR Comp Set Map")
-    parser.add_argument("file", nargs="?", help="Path to STR Excel file (auto-detects from drop folder if omitted)")
-    parser.add_argument("--deploy", action="store_true", help="Push to GitHub Pages after generating")
-    parser.add_argument("--comp-set", type=int, default=None, help="For multi-comp-set files, which set to use (1, 2, ...) — maps to Response_N/Glance_N sheets")
-    args = parser.parse_args()
+def process_one(str_path, suffix=""):
+    """Generate a single hotel map. Returns {subject_name, slug, report_period}."""
+    label = f" [comp set {suffix.lstrip('_')}]" if suffix else ""
+    print(f"\n{'=' * 60}")
+    print(f"Processing: {str_path}{label}")
+    print('=' * 60)
 
-    suffix = f"_{args.comp_set}" if args.comp_set else ""
-
-    # Find the STR file
-    str_path = find_str_file(args.file)
-    print(f"Processing: {str_path}{' [comp set ' + str(args.comp_set) + ']' if suffix else ''}\n")
-
-    # Parse Response sheet
-    print(f"Parsing Response{suffix} sheet...")
+    print(f"\nParsing Response{suffix} sheet...")
     hotels, report_period, subject_street, comp_rooms = parse_response_sheet(str_path, suffix)
     subject = next(h for h in hotels if h["subject"])
     print(f"  Subject: {subject['name']} ({subject['rooms']} rooms)")
     print(f"  Comps: {len(hotels) - 1} hotels, {comp_rooms:,} rooms")
     print(f"  Report Period: {report_period}")
 
-    # Parse Glance sheet
     print(f"\nParsing Glance{suffix} sheet...")
     perf = parse_glance_sheet(str_path, suffix)
     if perf:
@@ -764,10 +761,8 @@ def main():
         print(f"  R12 ADR: {perf['subj_adr']} (ARI: {perf['ari']})")
         print(f"  R12 RevPAR: {perf['subj_revpar']} (RGI: {perf['rgi']})")
 
-    # Geocode
     geocode_all(hotels)
 
-    # Generate HTML
     print("Generating HTML...")
     html = generate_html(hotels, perf, report_period, comp_rooms)
 
@@ -779,21 +774,211 @@ def main():
         f.write(html)
     print(f"  Saved: {output_path}")
 
-    # Update root index
     print("\nUpdating root index...")
     comps = [h for h in hotels if not h["subject"]]
     update_root_index(slug, subject["name"], subject["city_state"], report_period, len(comps), comp_rooms)
 
-    # Deploy
-    if args.deploy:
-        print("\nDeploying to GitHub Pages...")
-        os.chdir(REPO_DIR)
-        os.system(f'git add . && git commit -m "Add {subject["name"]} comp set map - {report_period}" && git push origin main')
-        print(f"\nLive at: https://acarras92.github.io/str-comp-maps/{slug}/")
+    return {
+        "subject_name": subject["name"],
+        "slug": slug,
+        "report_period": report_period,
+    }
+
+
+def _regenerate_global_map():
+    """Regenerate the combined global map (used by batch deploys)."""
+    import generate_global_map as ggm
+    print(f"\n{'=' * 60}")
+    print("Regenerating global combined map...")
+    print('=' * 60)
+    comp_sets = ggm.build_payload()
+    if not comp_sets:
+        print("  WARNING: no comp sets parsed for global map")
+        return
+    os.makedirs(ggm.OUTPUT_DIR, exist_ok=True)
+    html = ggm.render_html(comp_sets)
+    with open(ggm.OUTPUT_PATH, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"  Global map saved: {ggm.OUTPUT_PATH}")
+    ggm.update_root_index_link()
+
+
+def _git(*args, check=True):
+    return subprocess.run(["git"] + list(args), cwd=REPO_DIR, check=check,
+                          capture_output=True, text=True)
+
+
+def _commit_and_push(commit_message):
+    """Stage all, commit if anything staged, push. Returns True if a commit was made."""
+    _git("add", ".")
+    staged = _git("diff", "--cached", "--quiet", check=False)
+    if staged.returncode == 0:
+        print("  Nothing to commit — workspace already up to date.")
+        return False
+    _git("commit", "-m", commit_message)
+    _git("push", "origin", "main")
+    print(f"  Committed + pushed: {commit_message}")
+    return True
+
+
+def verify_deploy(urls, timeout_seconds=180):
+    """After push: dispatch fresh workflow, poll for success on HEAD, curl URLs.
+
+    Returns True if deploy + URL checks all succeed, False otherwise.
+    """
+    local_head = _git("rev-parse", "HEAD").stdout.strip()
+    short = local_head[:7]
+    print(f"\n{'=' * 60}")
+    print(f"Verifying deploy for HEAD {short}")
+    print('=' * 60)
+
+    # (1) Dispatch a fresh workflow run on HEAD. Belt-and-suspenders against
+    # GitHub coalescing push events and dropping a trigger.
+    print("Dispatching workflow_dispatch run...")
+    try:
+        subprocess.run(
+            ["gh", "workflow", "run", WORKFLOW_NAME,
+             "--repo", REPO_SLUG, "--ref", "main"],
+            check=True, capture_output=True, text=True,
+        )
+    except subprocess.CalledProcessError as e:
+        err = (e.stderr or "").strip()
+        print(f"  WARNING: workflow dispatch failed: {err}")
+        print("  Continuing — push-triggered run may still succeed.")
+    except FileNotFoundError:
+        print("  WARNING: gh CLI not on PATH — skipping dispatch.")
+
+    # (2) Poll the Actions API until a completed successful run exists for HEAD.
+    print(f"Polling for successful deploy at {short} (up to {timeout_seconds}s)...")
+    start = time.time()
+    deploy_ok = False
+    last_status_line = ""
+    while time.time() - start < timeout_seconds:
+        try:
+            result = subprocess.run(
+                ["gh", "run", "list", "--repo", REPO_SLUG,
+                 "--workflow", WORKFLOW_NAME,
+                 "--limit", "5",
+                 "--json", "status,conclusion,headSha,databaseId"],
+                capture_output=True, text=True, check=True,
+            )
+            runs = json.loads(result.stdout)
+            matches = [r for r in runs if r["headSha"] == local_head]
+            if matches:
+                top = matches[0]
+                status_line = f"  run {top['databaseId']}: {top['status']}/{top['conclusion']}"
+                if status_line != last_status_line:
+                    print(status_line)
+                    last_status_line = status_line
+                if top["status"] == "completed" and top["conclusion"] == "success":
+                    deploy_ok = True
+                    break
+                if top["status"] == "completed" and top["conclusion"] not in ("success", None):
+                    print(f"  Run finished with conclusion={top['conclusion']}. Aborting verify.")
+                    break
+        except Exception as e:
+            print(f"  (poll error: {e})")
+        time.sleep(5)
+
+    if not deploy_ok:
+        print(f"\n  TIMEOUT / FAILURE: deploy for {short} did not complete successfully within {timeout_seconds}s.")
+        print(f"  Check: https://github.com/{REPO_SLUG}/actions")
+        return False
+
+    print(f"  Deploy succeeded on {short}.")
+
+    # Pages CDN can lag briefly after the workflow reports success.
+    time.sleep(4)
+
+    # (3) Curl each URL.
+    print("\nURL health check:")
+    all_ok = True
+    for url in urls:
+        try:
+            r = requests.head(url, allow_redirects=True, timeout=10)
+            code = r.status_code
+        except Exception as e:
+            code = f"error: {e}"
+        ok = code == 200
+        mark = "OK" if ok else "FAIL"
+        print(f"  [{mark}] {code}  {url}")
+        if not ok:
+            all_ok = False
+
+    return all_ok
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Generate STR Comp Set Map")
+    parser.add_argument("files", nargs="*",
+                        help="Path(s) to STR Excel file(s). Auto-detects newest in drop folder if omitted.")
+    parser.add_argument("--deploy", action="store_true", help="Push to GitHub Pages after generating")
+    parser.add_argument("--comp-set", type=int, default=None,
+                        help="For multi-comp-set files, which set to use (1, 2, ...) — maps to Response_N/Glance_N sheets")
+    args = parser.parse_args()
+
+    suffix = f"_{args.comp_set}" if args.comp_set else ""
+
+    files = list(args.files) if args.files else [find_str_file(None)]
+    is_batch = len(files) > 1
+
+    if is_batch and args.comp_set is not None:
+        print("WARNING: --comp-set applies to ALL files in batch mode.")
+
+    # Per-file generation (single or batch)
+    processed = []
+    for path in files:
+        meta = process_one(path, suffix)
+        processed.append(meta)
+
+    # In batch mode, also regenerate the global combined map so one commit covers everything.
+    if is_batch:
+        _regenerate_global_map()
+
+    # Summary of what will be deployed
+    print(f"\n{'=' * 60}")
+    print(f"Generated {len(processed)} map(s):")
+    for m in processed:
+        print(f"  - {m['subject_name']} -> /{m['slug']}/")
+    if is_batch:
+        print(f"  - Global combined map -> /global/")
+    print('=' * 60)
+
+    if not args.deploy:
+        print("\nTo deploy, re-run with --deploy")
+        for m in processed:
+            print(f"  Will be live at: {PAGES_BASE_URL}/{m['slug']}/")
+        return
+
+    # Deploy — single commit, single push, verified
+    print("\nDeploying to GitHub Pages...")
+    if is_batch:
+        names = ", ".join(m["subject_name"] for m in processed)
+        commit_msg = f"Add comp set maps: {names}"
     else:
-        print(f"\nTo deploy, run:")
-        print(f'  python generate_str_map.py --deploy')
-        print(f"\nWill be live at: https://acarras92.github.io/str-comp-maps/{slug}/")
+        m = processed[0]
+        commit_msg = f'Add {m["subject_name"]} comp set map - {m["report_period"]}'
+
+    committed = _commit_and_push(commit_msg)
+
+    # Even if nothing committed (idempotent re-run), still verify current HEAD is live.
+    urls = [f"{PAGES_BASE_URL}/{m['slug']}/" for m in processed]
+    if is_batch:
+        urls.append(f"{PAGES_BASE_URL}/global/")
+
+    ok = verify_deploy(urls)
+
+    print(f"\n{'=' * 60}")
+    if ok:
+        print("DEPLOY VERIFIED [OK]")
+    else:
+        print("DEPLOY INCOMPLETE — see warnings above")
+    for u in urls:
+        print(f"  {u}")
+    print('=' * 60)
+
+    if not ok:
+        sys.exit(2)
 
 
 if __name__ == "__main__":
