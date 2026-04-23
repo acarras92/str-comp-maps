@@ -849,32 +849,37 @@ def verify_deploy(urls, timeout_seconds=180):
         print("  WARNING: gh CLI not on PATH — skipping dispatch.")
 
     # (2) Poll the Actions API until a completed successful run exists for HEAD.
+    # With cancel-in-progress:true, several runs can share a SHA and only one
+    # needs to succeed — the cancelled siblings are expected and not a failure.
     print(f"Polling for successful deploy at {short} (up to {timeout_seconds}s)...")
     start = time.time()
     deploy_ok = False
-    last_status_line = ""
+    last_summary = ""
     while time.time() - start < timeout_seconds:
         try:
             result = subprocess.run(
                 ["gh", "run", "list", "--repo", REPO_SLUG,
                  "--workflow", WORKFLOW_NAME,
-                 "--limit", "5",
+                 "--limit", "10",
                  "--json", "status,conclusion,headSha,databaseId"],
                 capture_output=True, text=True, check=True,
             )
             runs = json.loads(result.stdout)
             matches = [r for r in runs if r["headSha"] == local_head]
             if matches:
-                top = matches[0]
-                status_line = f"  run {top['databaseId']}: {top['status']}/{top['conclusion']}"
-                if status_line != last_status_line:
-                    print(status_line)
-                    last_status_line = status_line
-                if top["status"] == "completed" and top["conclusion"] == "success":
+                summary = ", ".join(f"{r['databaseId']}={r['status']}/{r['conclusion']}" for r in matches)
+                if summary != last_summary:
+                    print(f"  {summary}")
+                    last_summary = summary
+                # Success if ANY matching run succeeded.
+                if any(r["status"] == "completed" and r["conclusion"] == "success" for r in matches):
                     deploy_ok = True
                     break
-                if top["status"] == "completed" and top["conclusion"] not in ("success", None):
-                    print(f"  Run finished with conclusion={top['conclusion']}. Aborting verify.")
+                # Fail only when ALL matching runs are completed AND none succeeded.
+                if all(r["status"] == "completed" for r in matches) and not any(
+                    r["conclusion"] == "success" for r in matches
+                ):
+                    print(f"  All matching runs finished without success. Aborting verify.")
                     break
         except Exception as e:
             print(f"  (poll error: {e})")
