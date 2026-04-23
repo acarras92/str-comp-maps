@@ -39,7 +39,7 @@
   <aside id="sidebar">
     <header>
       <h1>STR Comp Sets — Global View</h1>
-      <div class="sub">25 comp sets · 160 unique hotels</div>
+      <div class="sub">28 comp sets · 179 unique hotels</div>
     </header>
     <div id="controls">
       <button onclick="toggleAll(true)">Show all</button>
@@ -319,9 +319,37 @@ const COMP_SETS = [
     "hotel_count": 7
   },
   {
+    "slug": "four-seasons-hotel-austin",
+    "name": "Four Seasons Hotel Austin",
+    "color": "#ff8c00",
+    "report_period": "December 2025",
+    "comp_rooms": 1080,
+    "subj_occ": "52.7%",
+    "subj_adr": "$736.9",
+    "subj_revpar": "$388.5",
+    "mpi": "97.6",
+    "ari": "257.6",
+    "rgi": "251.6",
+    "hotel_count": 5
+  },
+  {
+    "slug": "four-seasons-scottsdale",
+    "name": "Four Seasons Scottsdale",
+    "color": "#008080",
+    "report_period": "December 2025",
+    "comp_rooms": 1674,
+    "subj_occ": "60.2%",
+    "subj_adr": "$867.3",
+    "subj_revpar": "$522.2",
+    "mpi": "88.2",
+    "ari": "188.1",
+    "rgi": "166.0",
+    "hotel_count": 5
+  },
+  {
     "slug": "hyatt-centric-delfina-santa-monica",
     "name": "Hyatt Centric Delfina Santa Monica",
-    "color": "#ff8c00",
+    "color": "#8b4513",
     "report_period": "December 2025",
     "comp_rooms": 1423,
     "subj_occ": "65.3%",
@@ -335,7 +363,7 @@ const COMP_SETS = [
   {
     "slug": "loews-hollywood-hotel",
     "name": "Loews Hollywood Hotel",
-    "color": "#008080",
+    "color": "#2f4f4f",
     "report_period": "December 2025",
     "comp_rooms": 3010,
     "subj_occ": "65.8%",
@@ -349,7 +377,7 @@ const COMP_SETS = [
   {
     "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
     "name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-    "color": "#8b4513",
+    "color": "#ff1493",
     "report_period": "February 2026",
     "comp_rooms": 1383,
     "subj_occ": "73.9%",
@@ -363,7 +391,7 @@ const COMP_SETS = [
   {
     "slug": "the-london-west-hollywood",
     "name": "The London West Hollywood",
-    "color": "#2f4f4f",
+    "color": "#e6194B",
     "report_period": "October 2025",
     "comp_rooms": 1788,
     "subj_occ": "68.9%",
@@ -375,9 +403,23 @@ const COMP_SETS = [
     "hotel_count": 8
   },
   {
+    "slug": "the-ritz-carlton-half-moon-bay",
+    "name": "The Ritz-Carlton, Half Moon Bay",
+    "color": "#3cb44b",
+    "report_period": "December 2025",
+    "comp_rooms": 3609,
+    "subj_occ": "60.4%",
+    "subj_adr": "$738.2",
+    "subj_revpar": "$446.1",
+    "mpi": "98.1",
+    "ari": "141.3",
+    "rgi": "138.6",
+    "hotel_count": 10
+  },
+  {
     "slug": "the-ritz-carlton-washington-dc",
     "name": "The Ritz-Carlton, Washington, D.C.",
-    "color": "#ff1493",
+    "color": "#4363d8",
     "report_period": "December 2025",
     "comp_rooms": 1853,
     "subj_occ": "67.5%",
@@ -391,7 +433,7 @@ const COMP_SETS = [
   {
     "slug": "viceroy-santa-monica",
     "name": "Viceroy Santa Monica",
-    "color": "#e6194B",
+    "color": "#f58231",
     "report_period": "December 2025",
     "comp_rooms": 1042,
     "subj_occ": "73.7%",
@@ -549,7 +591,7 @@ const HOTELS = [
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#2f4f4f",
+        "color": "#e6194B",
         "role": "subject"
       }
     ]
@@ -571,13 +613,13 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#8b4513",
+        "color": "#ff1493",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#2f4f4f",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
@@ -615,13 +657,13 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#8b4513",
+        "color": "#ff1493",
         "role": "subject"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#2f4f4f",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
@@ -707,7 +749,7 @@ const HOTELS = [
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#2f4f4f",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
@@ -2527,6 +2569,166 @@ const HOTELS = [
     ]
   },
   {
+    "name": "Four Seasons Hotel Austin",
+    "city_state": "Austin, TX",
+    "zip": "787014082",
+    "rooms": 286,
+    "lat": 30.26185589999999,
+    "lng": -97.74247919999999,
+    "memberships": [
+      {
+        "slug": "four-seasons-hotel-austin",
+        "subject_name": "Four Seasons Hotel Austin",
+        "color": "#ff8c00",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "W Austin",
+    "city_state": "Austin, TX",
+    "zip": "78701",
+    "rooms": 251,
+    "lat": 30.2654636,
+    "lng": -97.7467252,
+    "memberships": [
+      {
+        "slug": "four-seasons-hotel-austin",
+        "subject_name": "Four Seasons Hotel Austin",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Regency Austin",
+    "city_state": "Austin, TX",
+    "zip": "78704",
+    "rooms": 450,
+    "lat": 30.2607308,
+    "lng": -97.74716319999999,
+    "memberships": [
+      {
+        "slug": "four-seasons-hotel-austin",
+        "subject_name": "Four Seasons Hotel Austin",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Stephen F Austin Royal Sonesta Hotel",
+    "city_state": "Austin, TX",
+    "zip": "787013216",
+    "rooms": 190,
+    "lat": 30.2690545,
+    "lng": -97.74198849999999,
+    "memberships": [
+      {
+        "slug": "four-seasons-hotel-austin",
+        "subject_name": "Four Seasons Hotel Austin",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Driskill",
+    "city_state": "Austin, TX",
+    "zip": "78701",
+    "rooms": 189,
+    "lat": 30.2681502,
+    "lng": -97.74175509999999,
+    "memberships": [
+      {
+        "slug": "four-seasons-hotel-austin",
+        "subject_name": "Four Seasons Hotel Austin",
+        "color": "#ff8c00",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Four Seasons Scottsdale",
+    "city_state": "Scottsdale, AZ",
+    "zip": "85262",
+    "rooms": 210,
+    "lat": 33.7312546,
+    "lng": -111.8527616,
+    "memberships": [
+      {
+        "slug": "four-seasons-scottsdale",
+        "subject_name": "Four Seasons Scottsdale",
+        "color": "#008080",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Royal Palms Resort and Spa",
+    "city_state": "Phoenix, AZ",
+    "zip": "85018",
+    "rooms": 119,
+    "lat": 33.5047873,
+    "lng": -111.9688567,
+    "memberships": [
+      {
+        "slug": "four-seasons-scottsdale",
+        "subject_name": "Four Seasons Scottsdale",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Fairmont Scottsdale Princess",
+    "city_state": "Scottsdale, AZ",
+    "zip": "85255",
+    "rooms": 750,
+    "lat": 33.645177,
+    "lng": -111.917526,
+    "memberships": [
+      {
+        "slug": "four-seasons-scottsdale",
+        "subject_name": "Four Seasons Scottsdale",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Boulders Resort & Spa Scottsdale, Curio Collection by Hilton",
+    "city_state": "Scottsdale, AZ",
+    "zip": "85262",
+    "rooms": 160,
+    "lat": 33.8004156,
+    "lng": -111.9237056,
+    "memberships": [
+      {
+        "slug": "four-seasons-scottsdale",
+        "subject_name": "Four Seasons Scottsdale",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Phoenician, a Luxury Collection Resort, Scottsdale",
+    "city_state": "Scottsdale, AZ",
+    "zip": "852511949",
+    "rooms": 645,
+    "lat": 33.50577850000001,
+    "lng": -111.9495678,
+    "memberships": [
+      {
+        "slug": "four-seasons-scottsdale",
+        "subject_name": "Four Seasons Scottsdale",
+        "color": "#008080",
+        "role": "comp"
+      }
+    ]
+  },
+  {
     "name": "Hyatt Centric Delfina Santa Monica",
     "city_state": "Santa Monica, CA",
     "zip": "90405",
@@ -2537,7 +2739,7 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#ff8c00",
+        "color": "#8b4513",
         "role": "subject"
       }
     ]
@@ -2553,7 +2755,7 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#ff8c00",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2569,7 +2771,7 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#ff8c00",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2585,7 +2787,7 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#ff8c00",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2601,13 +2803,13 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#ff8c00",
+        "color": "#8b4513",
         "role": "comp"
       },
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#e6194B",
+        "color": "#f58231",
         "role": "comp"
       }
     ]
@@ -2623,7 +2825,7 @@ const HOTELS = [
       {
         "slug": "hyatt-centric-delfina-santa-monica",
         "subject_name": "Hyatt Centric Delfina Santa Monica",
-        "color": "#ff8c00",
+        "color": "#8b4513",
         "role": "comp"
       }
     ]
@@ -2639,7 +2841,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#008080",
+        "color": "#2f4f4f",
         "role": "subject"
       }
     ]
@@ -2655,7 +2857,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#008080",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2671,7 +2873,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#008080",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2687,7 +2889,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#008080",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2703,7 +2905,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#008080",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2719,7 +2921,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#008080",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2735,7 +2937,7 @@ const HOTELS = [
       {
         "slug": "loews-hollywood-hotel",
         "subject_name": "Loews Hollywood Hotel",
-        "color": "#008080",
+        "color": "#2f4f4f",
         "role": "comp"
       }
     ]
@@ -2751,13 +2953,13 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#8b4513",
+        "color": "#ff1493",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#2f4f4f",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
@@ -2773,13 +2975,13 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#8b4513",
+        "color": "#ff1493",
         "role": "comp"
       },
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#2f4f4f",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
@@ -2795,7 +2997,7 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#8b4513",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2811,7 +3013,7 @@ const HOTELS = [
       {
         "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
         "subject_name": "SLS Hotel, a Luxury Collection Hotel, Beverly Hills",
-        "color": "#8b4513",
+        "color": "#ff1493",
         "role": "comp"
       }
     ]
@@ -2827,7 +3029,7 @@ const HOTELS = [
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#2f4f4f",
+        "color": "#e6194B",
         "role": "comp"
       }
     ]
@@ -2843,7 +3045,173 @@ const HOTELS = [
       {
         "slug": "the-london-west-hollywood",
         "subject_name": "The London West Hollywood",
-        "color": "#2f4f4f",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Ritz-Carlton, Half Moon Bay",
+    "city_state": "Half Moon Bay, CA",
+    "zip": "94019",
+    "rooms": 261,
+    "lat": 37.4337889,
+    "lng": -122.4415087,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-half-moon-bay",
+        "subject_name": "The Ritz-Carlton, Half Moon Bay",
+        "color": "#3cb44b",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Fairmont Sonoma Mission Inn & Spa",
+    "city_state": "Sonoma, CA",
+    "zip": "95476",
+    "rooms": 226,
+    "lat": 38.3126489,
+    "lng": -122.4828941,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-half-moon-bay",
+        "subject_name": "The Ritz-Carlton, Half Moon Bay",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Del Coronado, Curio Collection by Hilton",
+    "city_state": "Coronado, CA",
+    "zip": "921182918",
+    "rooms": 938,
+    "lat": 32.6805447,
+    "lng": -117.178224,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-half-moon-bay",
+        "subject_name": "The Ritz-Carlton, Half Moon Bay",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Four Seasons Resort The Biltmore Santa Barbara",
+    "city_state": "Santa Barbara, CA",
+    "zip": "93108",
+    "rooms": 206,
+    "lat": 34.4173324,
+    "lng": -119.6420386,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-half-moon-bay",
+        "subject_name": "The Ritz-Carlton, Half Moon Bay",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Ritz-Carlton, Laguna Niguel",
+    "city_state": "Dana Point, CA",
+    "zip": "92629",
+    "rooms": 373,
+    "lat": 33.4748353,
+    "lng": -117.7200612,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-half-moon-bay",
+        "subject_name": "The Ritz-Carlton, Half Moon Bay",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Park Hyatt Aviara Resort Golf Club & Spa",
+    "city_state": "Carlsbad, CA",
+    "zip": "92011",
+    "rooms": 327,
+    "lat": 33.0994829,
+    "lng": -117.2857501,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-half-moon-bay",
+        "subject_name": "The Ritz-Carlton, Half Moon Bay",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Shutters On The Beach",
+    "city_state": "Santa Monica, CA",
+    "zip": "90405",
+    "rooms": 198,
+    "lat": 34.0068266,
+    "lng": -118.4918464,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-half-moon-bay",
+        "subject_name": "The Ritz-Carlton, Half Moon Bay",
+        "color": "#3cb44b",
+        "role": "comp"
+      },
+      {
+        "slug": "viceroy-santa-monica",
+        "subject_name": "Viceroy Santa Monica",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Regency Monterey Hotel & Spa on Del Monte Golf Course",
+    "city_state": "Monterey, CA",
+    "zip": "93940",
+    "rooms": 560,
+    "lat": 36.5917396,
+    "lng": -121.8771667,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-half-moon-bay",
+        "subject_name": "The Ritz-Carlton, Half Moon Bay",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Silverado Resort",
+    "city_state": "Napa, CA",
+    "zip": "94558",
+    "rooms": 341,
+    "lat": 38.3491745,
+    "lng": -122.2656878,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-half-moon-bay",
+        "subject_name": "The Ritz-Carlton, Half Moon Bay",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Carmel Valley Ranch",
+    "city_state": "Carmel, CA",
+    "zip": "93923",
+    "rooms": 179,
+    "lat": 36.51930189999999,
+    "lng": -121.806573,
+    "memberships": [
+      {
+        "slug": "the-ritz-carlton-half-moon-bay",
+        "subject_name": "The Ritz-Carlton, Half Moon Bay",
+        "color": "#3cb44b",
         "role": "comp"
       }
     ]
@@ -2859,7 +3227,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#ff1493",
+        "color": "#4363d8",
         "role": "subject"
       }
     ]
@@ -2875,7 +3243,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#ff1493",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -2891,7 +3259,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#ff1493",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -2907,7 +3275,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#ff1493",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -2923,7 +3291,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#ff1493",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -2939,7 +3307,7 @@ const HOTELS = [
       {
         "slug": "the-ritz-carlton-washington-dc",
         "subject_name": "The Ritz-Carlton, Washington, D.C.",
-        "color": "#ff1493",
+        "color": "#4363d8",
         "role": "comp"
       }
     ]
@@ -2955,7 +3323,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#e6194B",
+        "color": "#f58231",
         "role": "subject"
       }
     ]
@@ -2971,7 +3339,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#e6194B",
+        "color": "#f58231",
         "role": "comp"
       }
     ]
@@ -2987,7 +3355,7 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#e6194B",
+        "color": "#f58231",
         "role": "comp"
       }
     ]
@@ -3003,29 +3371,13 @@ const HOTELS = [
       {
         "slug": "viceroy-santa-monica",
         "subject_name": "Viceroy Santa Monica",
-        "color": "#e6194B",
-        "role": "comp"
-      }
-    ]
-  },
-  {
-    "name": "Shutters On The Beach",
-    "city_state": "Santa Monica, CA",
-    "zip": "90405",
-    "rooms": 198,
-    "lat": 34.0068266,
-    "lng": -118.4918464,
-    "memberships": [
-      {
-        "slug": "viceroy-santa-monica",
-        "subject_name": "Viceroy Santa Monica",
-        "color": "#e6194B",
+        "color": "#f58231",
         "role": "comp"
       }
     ]
   }
 ];
-const CENTER = { lat: 36.69361725, lng: -96.7298845 };
+const CENTER = { lat: 36.69361725, lng: -96.76505455 };
 let map;
 let markers = [];            // { marker, memberships }
 let bySet = {};            // slug → [markerRecord]
