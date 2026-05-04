@@ -20,6 +20,9 @@
   .legend-item:hover { background: #eef2ff; }
   .legend-item.off { opacity: 0.35; }
   .legend-swatch { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.15); }
+  .legend-swatch.diamond { border-radius: 0; transform: rotate(45deg); width: 12px; height: 12px; }
+  .legend-section { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: #6b7280; padding: 12px 14px 4px; }
+  .brand-tag { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 3px; background: #fef3c7; color: #92400e; margin-left: 6px; vertical-align: middle; letter-spacing: 0.4px; font-weight: 700; }
   .legend-text { flex: 1; line-height: 1.25; min-width: 0; }
   .legend-name { font-weight: 600; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .legend-meta { font-size: 11px; color: #6b7280; }
@@ -39,7 +42,7 @@
   <aside id="sidebar">
     <header>
       <h1>STR Comp Sets — Global View</h1>
-      <div class="sub">28 comp sets · 179 unique hotels</div>
+      <div class="sub">28 comp sets · 1 brand portfolios · 189 unique hotels</div>
     </header>
     <div id="controls">
       <button onclick="toggleAll(true)">Show all</button>
@@ -64,7 +67,8 @@ const COMP_SETS = [
     "mpi": "106.8",
     "ari": "119.6",
     "rgi": "127.8",
-    "hotel_count": 7
+    "hotel_count": 7,
+    "is_brand": false
   },
   {
     "slug": "cameo-beverly-hills-lxr-hotels--resorts",
@@ -78,7 +82,8 @@ const COMP_SETS = [
     "mpi": "74.0",
     "ari": "69.7",
     "rgi": "51.6",
-    "hotel_count": 10
+    "hotel_count": 10,
+    "is_brand": false
   },
   {
     "slug": "capital-hilton",
@@ -92,7 +97,8 @@ const COMP_SETS = [
     "mpi": "120.4",
     "ari": "94.8",
     "rgi": "114.1",
-    "hotel_count": 7
+    "hotel_count": 7,
+    "is_brand": false
   },
   {
     "slug": "citizenm-austin-downtown",
@@ -106,7 +112,8 @@ const COMP_SETS = [
     "mpi": "103.6",
     "ari": "73.8",
     "rgi": "76.5",
-    "hotel_count": 7
+    "hotel_count": 7,
+    "is_brand": false
   },
   {
     "slug": "citizenm-boston-back-bay",
@@ -120,7 +127,8 @@ const COMP_SETS = [
     "mpi": "131.4",
     "ari": "84.1",
     "rgi": "110.4",
-    "hotel_count": 7
+    "hotel_count": 7,
+    "is_brand": false
   },
   {
     "slug": "citizenm-boston-north-station",
@@ -134,7 +142,8 @@ const COMP_SETS = [
     "mpi": "111.7",
     "ari": "90.1",
     "rgi": "100.7",
-    "hotel_count": 5
+    "hotel_count": 5,
+    "is_brand": false
   },
   {
     "slug": "citizenm-chicago-downtown",
@@ -148,7 +157,8 @@ const COMP_SETS = [
     "mpi": "113.6",
     "ari": "86.0",
     "rgi": "97.7",
-    "hotel_count": 7
+    "hotel_count": 7,
+    "is_brand": false
   },
   {
     "slug": "citizenm-los-angeles-downtown",
@@ -162,7 +172,8 @@ const COMP_SETS = [
     "mpi": "112.2",
     "ari": "80.1",
     "rgi": "89.9",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
   },
   {
     "slug": "citizenm-menlo-park-hotel",
@@ -176,7 +187,8 @@ const COMP_SETS = [
     "mpi": "64.1",
     "ari": "117.7",
     "rgi": "75.5",
-    "hotel_count": 7
+    "hotel_count": 7,
+    "is_brand": false
   },
   {
     "slug": "citizenm-miami-brickell-hotel",
@@ -190,7 +202,8 @@ const COMP_SETS = [
     "mpi": "106.6",
     "ari": "78.5",
     "rgi": "83.7",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
   },
   {
     "slug": "citizenm-miami-south-beach",
@@ -204,7 +217,8 @@ const COMP_SETS = [
     "mpi": "109.7",
     "ari": "84.9",
     "rgi": "93.1",
-    "hotel_count": 7
+    "hotel_count": 7,
+    "is_brand": false
   },
   {
     "slug": "citizenm-miami-world-center",
@@ -218,7 +232,8 @@ const COMP_SETS = [
     "mpi": "132.6",
     "ari": "87.6",
     "rgi": "116.1",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
   },
   {
     "slug": "citizenm-new-york-bowery",
@@ -232,7 +247,8 @@ const COMP_SETS = [
     "mpi": "107.2",
     "ari": "92.4",
     "rgi": "99.1",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
   },
   {
     "slug": "citizenm-new-york-times-square",
@@ -246,7 +262,8 @@ const COMP_SETS = [
     "mpi": "110.1",
     "ari": "104.4",
     "rgi": "114.9",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
   },
   {
     "slug": "citizenm-san-francisco-union-square",
@@ -260,7 +277,8 @@ const COMP_SETS = [
     "mpi": "130.0",
     "ari": "87.6",
     "rgi": "113.8",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
   },
   {
     "slug": "citizenm-seattle-pioneer-square",
@@ -274,7 +292,8 @@ const COMP_SETS = [
     "mpi": "111.9",
     "ari": "76.6",
     "rgi": "85.7",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
   },
   {
     "slug": "citizenm-seattle-south-lake",
@@ -288,7 +307,8 @@ const COMP_SETS = [
     "mpi": "110.7",
     "ari": "78.1",
     "rgi": "86.5",
-    "hotel_count": 9
+    "hotel_count": 9,
+    "is_brand": false
   },
   {
     "slug": "citizenm-washington-dc-capitol",
@@ -302,7 +322,8 @@ const COMP_SETS = [
     "mpi": "112.6",
     "ari": "70.9",
     "rgi": "79.9",
-    "hotel_count": 9
+    "hotel_count": 9,
+    "is_brand": false
   },
   {
     "slug": "citizenm-washington-dc-noma",
@@ -316,7 +337,8 @@ const COMP_SETS = [
     "mpi": "91.2",
     "ari": "75.2",
     "rgi": "68.5",
-    "hotel_count": 7
+    "hotel_count": 7,
+    "is_brand": false
   },
   {
     "slug": "four-seasons-hotel-austin",
@@ -330,7 +352,8 @@ const COMP_SETS = [
     "mpi": "97.6",
     "ari": "257.6",
     "rgi": "251.6",
-    "hotel_count": 5
+    "hotel_count": 5,
+    "is_brand": false
   },
   {
     "slug": "four-seasons-scottsdale",
@@ -344,7 +367,8 @@ const COMP_SETS = [
     "mpi": "88.2",
     "ari": "188.1",
     "rgi": "166.0",
-    "hotel_count": 5
+    "hotel_count": 5,
+    "is_brand": false
   },
   {
     "slug": "hyatt-centric-delfina-santa-monica",
@@ -358,7 +382,8 @@ const COMP_SETS = [
     "mpi": "78.9",
     "ari": "77.8",
     "rgi": "61.4",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
   },
   {
     "slug": "loews-hollywood-hotel",
@@ -372,7 +397,8 @@ const COMP_SETS = [
     "mpi": "88.8",
     "ari": "95.8",
     "rgi": "85.1",
-    "hotel_count": 7
+    "hotel_count": 7,
+    "is_brand": false
   },
   {
     "slug": "sls-hotel-a-luxury-collection-hotel-beverly-hills",
@@ -386,7 +412,8 @@ const COMP_SETS = [
     "mpi": "105.4",
     "ari": "72.0",
     "rgi": "75.8",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
   },
   {
     "slug": "the-london-west-hollywood",
@@ -400,7 +427,8 @@ const COMP_SETS = [
     "mpi": "92.0",
     "ari": "138.5",
     "rgi": "127.4",
-    "hotel_count": 8
+    "hotel_count": 8,
+    "is_brand": false
   },
   {
     "slug": "the-ritz-carlton-half-moon-bay",
@@ -414,7 +442,8 @@ const COMP_SETS = [
     "mpi": "98.1",
     "ari": "141.3",
     "rgi": "138.6",
-    "hotel_count": 10
+    "hotel_count": 10,
+    "is_brand": false
   },
   {
     "slug": "the-ritz-carlton-washington-dc",
@@ -428,7 +457,8 @@ const COMP_SETS = [
     "mpi": "111.3",
     "ari": "103.8",
     "rgi": "115.5",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
   },
   {
     "slug": "viceroy-santa-monica",
@@ -442,7 +472,23 @@ const COMP_SETS = [
     "mpi": "108.0",
     "ari": "62.5",
     "rgi": "67.5",
-    "hotel_count": 6
+    "hotel_count": 6,
+    "is_brand": false
+  },
+  {
+    "slug": "brand-capella",
+    "name": "Capella (Brand)",
+    "color": "#7c2d12",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 10,
+    "is_brand": true
   }
 ];
 const HOTELS = [
@@ -3375,9 +3421,169 @@ const HOTELS = [
         "role": "comp"
       }
     ]
+  },
+  {
+    "name": "Capella Singapore",
+    "city_state": "Singapore, Singapore",
+    "zip": "",
+    "rooms": 0,
+    "lat": 1.2497222,
+    "lng": 103.8241667,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Sydney",
+    "city_state": "Sydney NSW 2000, Australia",
+    "zip": "",
+    "rooms": 0,
+    "lat": -33.8638571,
+    "lng": 151.2104059,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Bangkok",
+    "city_state": "Bangkok 10500, Thailand",
+    "zip": "",
+    "rooms": 0,
+    "lat": 13.7131047,
+    "lng": 100.5110225,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Ubud",
+    "city_state": "Ubud, Bali, Indonesia",
+    "zip": "",
+    "rooms": 0,
+    "lat": -8.4840173,
+    "lng": 115.2538549,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Hanoi",
+    "city_state": "Hanoi, Vietnam",
+    "zip": "",
+    "rooms": 0,
+    "lat": 21.0257164,
+    "lng": 105.8566886,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Sanya",
+    "city_state": "Sanya, Hainan, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 18.308759,
+    "lng": 109.742103,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Kuala Lumpur",
+    "city_state": "Kuala Lumpur, Malaysia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 3.1256755,
+    "lng": 101.7358515,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Washington, D.C., Georgetown",
+    "city_state": "Washington, DC 20007, United States",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.9039687,
+    "lng": -77.0615036,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Tokyo",
+    "city_state": "Tokyo, Japan",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.6861357,
+    "lng": 139.7215502,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Maldives",
+    "city_state": "Maldives",
+    "zip": "",
+    "rooms": 0,
+    "lat": 1.9430737,
+    "lng": 73.4180211,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
   }
 ];
-const CENTER = { lat: 36.69361725, lng: -96.76505455 };
+const CENTER = { lat: 6.881796750000003, lng: 14.363755900000008 };
 let map;
 let markers = [];            // { marker, memberships }
 let bySet = {};            // slug → [markerRecord]
@@ -3386,20 +3592,40 @@ const activeSets = new Set(COMP_SETS.map(c => c.slug));
 
 function buildLegend() {
   const el = document.getElementById('legend');
-  COMP_SETS.forEach(cs => {
+  const strSets = COMP_SETS.filter(c => !c.is_brand);
+  const brandSets = COMP_SETS.filter(c => c.is_brand);
+
+  function renderRow(cs) {
     const row = document.createElement('div');
     row.className = 'legend-item';
     row.dataset.slug = cs.slug;
+    const swatchClass = cs.is_brand ? 'legend-swatch diamond' : 'legend-swatch';
+    const tag = cs.is_brand ? '<span class="brand-tag">BRAND</span>' : '';
     row.innerHTML = `
-      <div class="legend-swatch" style="background:${cs.color}"></div>
+      <div class="${swatchClass}" style="background:${cs.color}"></div>
       <div class="legend-text">
-        <div class="legend-name">${cs.name}</div>
+        <div class="legend-name">${cs.name}${tag}</div>
         <div class="legend-meta">${cs.hotel_count} hotels · ${cs.report_period}</div>
       </div>
     `;
     row.addEventListener('click', () => toggleSet(cs.slug));
-    el.appendChild(row);
-  });
+    return row;
+  }
+
+  if (strSets.length) {
+    const h = document.createElement('div');
+    h.className = 'legend-section';
+    h.textContent = 'STR Comp Sets';
+    el.appendChild(h);
+    strSets.forEach(cs => el.appendChild(renderRow(cs)));
+  }
+  if (brandSets.length) {
+    const h = document.createElement('div');
+    h.className = 'legend-section';
+    h.textContent = 'Brand Portfolios';
+    el.appendChild(h);
+    brandSets.forEach(cs => el.appendChild(renderRow(cs)));
+  }
 }
 
 function toggleSet(slug) {
@@ -3425,8 +3651,11 @@ function refresh() {
       return;
     }
     rec.marker.setMap(map);
-    // Prefer a subject role for icon style, else first active comp
-    const primary = visibleMems.find(m => m.role === 'subject') || visibleMems[0];
+    // Icon priority: subject > brand > comp.
+    const primary =
+      visibleMems.find(m => m.role === 'subject') ||
+      visibleMems.find(m => m.role === 'brand') ||
+      visibleMems[0];
     rec.marker.setIcon(iconFor(primary, visibleMems.length > 1));
   });
 }
@@ -3435,6 +3664,16 @@ function iconFor(primary, multi) {
   if (primary.role === 'subject') {
     return {
       path: 'M 0,-14 L 4,-4 14,-4 6,2 9,12 0,6 -9,12 -6,2 -14,-4 -4,-4 Z',
+      fillColor: primary.color,
+      fillOpacity: 1.0,
+      strokeColor: '#ffffff',
+      strokeWeight: 2,
+      scale: 1.0,
+    };
+  }
+  if (primary.role === 'brand') {
+    return {
+      path: 'M 0,-11 L 11,0 0,11 -11,0 Z',
       fillColor: primary.color,
       fillOpacity: 1.0,
       strokeColor: '#ffffff',
@@ -3463,13 +3702,16 @@ function initMap() {
   infoWindow = new google.maps.InfoWindow();
 
   HOTELS.forEach(h => {
-    const primary = h.memberships[0];
+    const primary =
+      h.memberships.find(m => m.role === 'subject') ||
+      h.memberships.find(m => m.role === 'brand') ||
+      h.memberships[0];
     const marker = new google.maps.Marker({
       position: { lat: h.lat, lng: h.lng },
       map,
       title: h.name,
       icon: iconFor(primary, h.memberships.length > 1),
-      zIndex: primary.role === 'subject' ? 1000 : 100,
+      zIndex: primary.role === 'subject' ? 1000 : (primary.role === 'brand' ? 500 : 100),
     });
     marker.addListener('click', () => {
       const memsHtml = h.memberships

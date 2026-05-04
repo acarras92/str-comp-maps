@@ -33,6 +33,7 @@ from generate_str_map import (
 
 OUTPUT_DIR = os.path.join(REPO_DIR, "global")
 OUTPUT_PATH = os.path.join(OUTPUT_DIR, "index.html")
+BRANDS_DIR = os.path.join(REPO_DIR, "brands")
 
 # 24 visually distinct colors — cycled if more comp sets exist.
 PALETTE = [
@@ -110,6 +111,56 @@ def parse_comp_set(xlsx_path, cache):
     }
 
 
+def parse_brand(json_path, cache):
+    """Read a brand JSON and return a comp_set-shaped dict (is_brand=True).
+
+    Brands have no subject and no STR performance; every hotel is a portfolio
+    member. They're rendered with a distinct marker shape on the global map.
+    """
+    from generate_str_map import geocode  # late import to share cache logic
+
+    with open(json_path, "r", encoding="utf-8") as f:
+        brand = json.load(f)
+
+    hotels = []
+    for h in brand["hotels"]:
+        addr = h.get("address", "") or ""
+        city = h.get("city", "") or ""
+        country = h.get("country", "") or ""
+        # Same key format as generate_brand_map: name, addr, city country
+        q = f"{h['name']}, {addr}, {city} {country}".strip(", ")
+        loc = cache.get(q) or geocode(h["name"], addr, city, country)
+        if not loc:
+            print(f"  WARNING: could not geocode {h['name']} for brand {brand['brand']}")
+            continue
+        hotels.append({
+            "name": h["name"],
+            "city_state": ", ".join(x for x in [city, country] if x),
+            "zip": "",
+            "rooms": 0,
+            "subject": False,
+            "address": addr,
+            "lat": loc["lat"],
+            "lng": loc["lng"],
+        })
+
+    return {
+        "subject_name": f"{brand['brand']} (Brand)",
+        "slug": brand["slug"],
+        "report_period": "Brand portfolio",
+        "comp_rooms": "",
+        "subj_occ": "",
+        "subj_adr": "",
+        "subj_revpar": "",
+        "mpi": "",
+        "ari": "",
+        "rgi": "",
+        "hotels": hotels,
+        "is_brand": True,
+        "preferred_color": brand.get("color"),
+    }
+
+
 def build_payload():
     cache = load_cache()
     xlsx_files = sorted(
@@ -127,7 +178,21 @@ def build_payload():
     comp_sets.sort(key=lambda c: c["subject_name"].lower())
     for i, cs in enumerate(comp_sets):
         cs["color"] = PALETTE[i % len(PALETTE)]
-    return comp_sets
+
+    # Brands appear after STR comp sets in the legend, in their own section.
+    brand_files = sorted(glob.glob(os.path.join(BRANDS_DIR, "*.json")))
+    brand_sets = []
+    for path in brand_files:
+        print(f"Reading brand {os.path.basename(path)}")
+        cache = load_cache()  # reload — geocode() may have written new entries
+        bs = parse_brand(path, cache)
+        if bs["hotels"]:
+            brand_sets.append(bs)
+    brand_sets.sort(key=lambda c: c["subject_name"].lower())
+    for i, bs in enumerate(brand_sets):
+        bs["color"] = bs.get("preferred_color") or PALETTE[(len(comp_sets) + i) % len(PALETTE)]
+
+    return comp_sets + brand_sets
 
 
 def render_html(comp_sets):
@@ -150,7 +215,12 @@ def render_html(comp_sets):
                     "memberships": [],  # list of {slug, color, role}
                 }
                 hotels_by_key[key] = rec
-            role = "subject" if h["subject"] else "comp"
+            if cs.get("is_brand"):
+                role = "brand"
+            elif h["subject"]:
+                role = "subject"
+            else:
+                role = "comp"
             rec["memberships"].append({
                 "slug": cs["slug"],
                 "subject_name": cs["subject_name"],
@@ -180,11 +250,15 @@ def render_html(comp_sets):
             "ari": c["ari"],
             "rgi": c["rgi"],
             "hotel_count": sum(1 for h in c["hotels"] if h.get("lat")),
+            "is_brand": bool(c.get("is_brand")),
         }
         for c in comp_sets
     ], indent=2)
 
     hotels_js = json.dumps(hotels, indent=2)
+
+    n_str_sets = sum(1 for c in comp_sets if not c.get("is_brand"))
+    n_brand_sets = sum(1 for c in comp_sets if c.get("is_brand"))
 
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -208,6 +282,9 @@ def render_html(comp_sets):
   .legend-item:hover {{ background: #eef2ff; }}
   .legend-item.off {{ opacity: 0.35; }}
   .legend-swatch {{ width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.15); }}
+  .legend-swatch.diamond {{ border-radius: 0; transform: rotate(45deg); width: 12px; height: 12px; }}
+  .legend-section {{ font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: #6b7280; padding: 12px 14px 4px; }}
+  .brand-tag {{ display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 3px; background: #fef3c7; color: #92400e; margin-left: 6px; vertical-align: middle; letter-spacing: 0.4px; font-weight: 700; }}
   .legend-text {{ flex: 1; line-height: 1.25; min-width: 0; }}
   .legend-name {{ font-weight: 600; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
   .legend-meta {{ font-size: 11px; color: #6b7280; }}
@@ -227,7 +304,7 @@ def render_html(comp_sets):
   <aside id="sidebar">
     <header>
       <h1>STR Comp Sets — Global View</h1>
-      <div class="sub">{len(comp_sets)} comp sets · {len(hotels)} unique hotels</div>
+      <div class="sub">{n_str_sets} comp sets · {n_brand_sets} brand portfolios · {len(hotels)} unique hotels</div>
     </header>
     <div id="controls">
       <button onclick="toggleAll(true)">Show all</button>
@@ -250,20 +327,40 @@ const activeSets = new Set(COMP_SETS.map(c => c.slug));
 
 function buildLegend() {{
   const el = document.getElementById('legend');
-  COMP_SETS.forEach(cs => {{
+  const strSets = COMP_SETS.filter(c => !c.is_brand);
+  const brandSets = COMP_SETS.filter(c => c.is_brand);
+
+  function renderRow(cs) {{
     const row = document.createElement('div');
     row.className = 'legend-item';
     row.dataset.slug = cs.slug;
+    const swatchClass = cs.is_brand ? 'legend-swatch diamond' : 'legend-swatch';
+    const tag = cs.is_brand ? '<span class="brand-tag">BRAND</span>' : '';
     row.innerHTML = `
-      <div class="legend-swatch" style="background:${{cs.color}}"></div>
+      <div class="${{swatchClass}}" style="background:${{cs.color}}"></div>
       <div class="legend-text">
-        <div class="legend-name">${{cs.name}}</div>
+        <div class="legend-name">${{cs.name}}${{tag}}</div>
         <div class="legend-meta">${{cs.hotel_count}} hotels · ${{cs.report_period}}</div>
       </div>
     `;
     row.addEventListener('click', () => toggleSet(cs.slug));
-    el.appendChild(row);
-  }});
+    return row;
+  }}
+
+  if (strSets.length) {{
+    const h = document.createElement('div');
+    h.className = 'legend-section';
+    h.textContent = 'STR Comp Sets';
+    el.appendChild(h);
+    strSets.forEach(cs => el.appendChild(renderRow(cs)));
+  }}
+  if (brandSets.length) {{
+    const h = document.createElement('div');
+    h.className = 'legend-section';
+    h.textContent = 'Brand Portfolios';
+    el.appendChild(h);
+    brandSets.forEach(cs => el.appendChild(renderRow(cs)));
+  }}
 }}
 
 function toggleSet(slug) {{
@@ -289,8 +386,11 @@ function refresh() {{
       return;
     }}
     rec.marker.setMap(map);
-    // Prefer a subject role for icon style, else first active comp
-    const primary = visibleMems.find(m => m.role === 'subject') || visibleMems[0];
+    // Icon priority: subject > brand > comp.
+    const primary =
+      visibleMems.find(m => m.role === 'subject') ||
+      visibleMems.find(m => m.role === 'brand') ||
+      visibleMems[0];
     rec.marker.setIcon(iconFor(primary, visibleMems.length > 1));
   }});
 }}
@@ -299,6 +399,16 @@ function iconFor(primary, multi) {{
   if (primary.role === 'subject') {{
     return {{
       path: 'M 0,-14 L 4,-4 14,-4 6,2 9,12 0,6 -9,12 -6,2 -14,-4 -4,-4 Z',
+      fillColor: primary.color,
+      fillOpacity: 1.0,
+      strokeColor: '#ffffff',
+      strokeWeight: 2,
+      scale: 1.0,
+    }};
+  }}
+  if (primary.role === 'brand') {{
+    return {{
+      path: 'M 0,-11 L 11,0 0,11 -11,0 Z',
       fillColor: primary.color,
       fillOpacity: 1.0,
       strokeColor: '#ffffff',
@@ -327,13 +437,16 @@ function initMap() {{
   infoWindow = new google.maps.InfoWindow();
 
   HOTELS.forEach(h => {{
-    const primary = h.memberships[0];
+    const primary =
+      h.memberships.find(m => m.role === 'subject') ||
+      h.memberships.find(m => m.role === 'brand') ||
+      h.memberships[0];
     const marker = new google.maps.Marker({{
       position: {{ lat: h.lat, lng: h.lng }},
       map,
       title: h.name,
       icon: iconFor(primary, h.memberships.length > 1),
-      zIndex: primary.role === 'subject' ? 1000 : 100,
+      zIndex: primary.role === 'subject' ? 1000 : (primary.role === 'brand' ? 500 : 100),
     }});
     marker.addListener('click', () => {{
       const memsHtml = h.memberships

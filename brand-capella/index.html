@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Capella &mdash; Brand Portfolio Map</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f5f5f5;
+    }
+    .header {
+      background: #1a2744;
+      border-bottom: 3px solid #7c2d12;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .header-left h1 { font-size: 18px; font-weight: 700; color: #fff; }
+    .header-left p { font-size: 11px; color: #8fa8d8; margin-top: 3px; }
+    .header-right { font-size: 11px; color: #8fa8d8; }
+    .header-right a { color: #8fa8d8; text-decoration: none; }
+    .header-right a:hover { color: #fff; }
+    .main { display: flex; flex: 1; overflow: hidden; }
+    .sidebar {
+      width: 290px;
+      background: #fff;
+      border-right: 1px solid #dde3ed;
+      overflow-y: auto;
+      flex-shrink: 0;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+    }
+    .sb-section { padding: 14px; border-bottom: 1px solid #eaecf0; }
+    .sb-section h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: #8090b0;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .legend-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 6px; font-size: 12px; color: #334;
+    }
+    .leg-dot {
+      width: 14px; height: 14px;
+      transform: rotate(45deg);
+      border: 2px solid rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .hotel-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 9px 6px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .hotel-item:hover { background: #f0f5ff; }
+    .h-pin {
+      width: 22px; height: 22px;
+      transform: rotate(45deg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .h-pin-num {
+      transform: rotate(-45deg);
+      color: #fff;
+      font-weight: 700;
+      font-size: 10px;
+    }
+    .h-info h4 { font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3; }
+    .h-info .h-meta { font-size: 10px; color: #7080a0; margin-top: 2px; }
+    .sidebar-footer {
+      padding: 10px 14px;
+      font-size: 10px;
+      color: #aabbd0;
+      border-top: 1px solid #eaecf0;
+    }
+    #map { flex: 1; }
+    .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }
+    .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
+    .gm-iw-brand { font-size: 10px; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
+    .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Capella &mdash; Brand Portfolio</h1>
+    <p>Capella Hotels & Resorts — ultra-luxury portfolio &nbsp;&middot;&nbsp; 10 properties mapped</p>
+  </div>
+  <div class="header-right">
+    <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sb-section">
+      <h3>Legend</h3>
+      <div class="legend-row"><div class="leg-dot" style="background:#7c2d12;"></div> Capella Property</div>
+    </div>
+    <div class="sb-section" style="border-bottom:none;">
+      <h3>Properties &mdash; Click to Navigate</h3>
+      <div id="hotel-list"></div>
+    </div>
+    <div class="sidebar-footer">
+      Reference map &middot; Brand portfolio only &middot; No STR performance data
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script>
+  const HOTELS = [
+  {
+    "name": "Capella Singapore",
+    "address": "1 The Knolls, Sentosa Island",
+    "city": "Singapore",
+    "country": "Singapore",
+    "lat": 1.2497222,
+    "lng": 103.8241667
+  },
+  {
+    "name": "Capella Sydney",
+    "address": "1 Bridge Street",
+    "city": "Sydney NSW 2000",
+    "country": "Australia",
+    "lat": -33.8638571,
+    "lng": 151.2104059
+  },
+  {
+    "name": "Capella Bangkok",
+    "address": "300/2 Charoenkrung Road",
+    "city": "Bangkok 10500",
+    "country": "Thailand",
+    "lat": 13.7131047,
+    "lng": 100.5110225
+  },
+  {
+    "name": "Capella Ubud",
+    "address": "Jalan Raya Sanggingan",
+    "city": "Ubud, Bali",
+    "country": "Indonesia",
+    "lat": -8.4840173,
+    "lng": 115.2538549
+  },
+  {
+    "name": "Capella Hanoi",
+    "address": "11 L\u00ea Ph\u1ee5ng Hi\u1ec3u, Ho\u00e0n Ki\u1ebfm",
+    "city": "Hanoi",
+    "country": "Vietnam",
+    "lat": 21.0257164,
+    "lng": 105.8566886
+  },
+  {
+    "name": "Capella Sanya",
+    "address": "Haitang Bay",
+    "city": "Sanya, Hainan",
+    "country": "China",
+    "lat": 18.308759,
+    "lng": 109.742103
+  },
+  {
+    "name": "Capella Kuala Lumpur",
+    "address": "",
+    "city": "Kuala Lumpur",
+    "country": "Malaysia",
+    "lat": 3.1256755,
+    "lng": 101.7358515
+  },
+  {
+    "name": "Capella Washington, D.C., Georgetown",
+    "address": "1050 31st Street NW",
+    "city": "Washington, DC 20007",
+    "country": "United States",
+    "lat": 38.9039687,
+    "lng": -77.0615036
+  },
+  {
+    "name": "Capella Tokyo",
+    "address": "",
+    "city": "Tokyo",
+    "country": "Japan",
+    "lat": 35.6861357,
+    "lng": 139.7215502
+  },
+  {
+    "name": "Capella Maldives",
+    "address": "Laamu Atoll",
+    "city": "",
+    "country": "Maldives",
+    "lat": 1.9430737,
+    "lng": 73.4180211
+  }
+];
+  const COLOR = "#7c2d12";
+  let map, infoWindow;
+  const markers = [];
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 9.16082815, lng: 92.42121608 },
+      zoom: 3,
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: true,
+    });
+    infoWindow = new google.maps.InfoWindow({ maxWidth: 290 });
+
+    const listEl = document.getElementById('hotel-list');
+    const bounds = new google.maps.LatLngBounds();
+
+    HOTELS.forEach((h, i) => {
+      const label = String(i + 1);
+      const svgIcon = {
+        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+            <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.35"/></filter>
+            <rect x="6" y="6" width="22" height="22" transform="rotate(45 17 17)"
+                  fill="${COLOR}" stroke="white" stroke-width="2" filter="url(#s)"/>
+            <text x="17" y="20" text-anchor="middle" font-family="Arial,sans-serif"
+                  font-size="11" font-weight="bold" fill="white">${label}</text>
+          </svg>`),
+        scaledSize: new google.maps.Size(34, 34),
+        anchor: new google.maps.Point(17, 17),
+      };
+
+      const marker = new google.maps.Marker({
+        position: { lat: h.lat, lng: h.lng },
+        map,
+        icon: svgIcon,
+        title: h.name,
+      });
+      markers.push(marker);
+      bounds.extend({ lat: h.lat, lng: h.lng });
+
+      const fullAddr = [h.address, h.city, h.country].filter(Boolean).join(', ');
+      const iwContent = `
+        <div class="gm-iw">
+          <div class="gm-iw-title">${h.name}</div>
+          <div class="gm-iw-brand">Capella</div>
+          <div class="gm-iw-meta">${fullAddr}</div>
+        </div>`;
+      marker.addListener('click', () => {
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+
+      const item = document.createElement('div');
+      item.className = 'hotel-item';
+      item.innerHTML = `
+        <div class="h-pin" style="background:${COLOR}"><span class="h-pin-num">${label}</span></div>
+        <div class="h-info">
+          <h4>${h.name}</h4>
+          <div class="h-meta">${[h.city, h.country].filter(Boolean).join(', ')}</div>
+        </div>`;
+      item.addEventListener('click', () => {
+        map.panTo({ lat: h.lat, lng: h.lng });
+        map.setZoom(14);
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+      listEl.appendChild(item);
+    });
+
+    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap" async defer></script>
+
+</body>
+</html>

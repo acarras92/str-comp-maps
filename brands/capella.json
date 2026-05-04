@@ -1,0 +1,68 @@
+{
+  "brand": "Capella",
+  "slug": "brand-capella",
+  "color": "#7c2d12",
+  "tagline": "Capella Hotels & Resorts — ultra-luxury portfolio",
+  "hotels": [
+    {
+      "name": "Capella Singapore",
+      "address": "1 The Knolls, Sentosa Island",
+      "city": "Singapore",
+      "country": "Singapore"
+    },
+    {
+      "name": "Capella Sydney",
+      "address": "1 Bridge Street",
+      "city": "Sydney NSW 2000",
+      "country": "Australia"
+    },
+    {
+      "name": "Capella Bangkok",
+      "address": "300/2 Charoenkrung Road",
+      "city": "Bangkok 10500",
+      "country": "Thailand"
+    },
+    {
+      "name": "Capella Ubud",
+      "address": "Jalan Raya Sanggingan",
+      "city": "Ubud, Bali",
+      "country": "Indonesia"
+    },
+    {
+      "name": "Capella Hanoi",
+      "address": "11 Lê Phụng Hiểu, Hoàn Kiếm",
+      "city": "Hanoi",
+      "country": "Vietnam"
+    },
+    {
+      "name": "Capella Sanya",
+      "address": "Haitang Bay",
+      "city": "Sanya, Hainan",
+      "country": "China"
+    },
+    {
+      "name": "Capella Kuala Lumpur",
+      "address": "",
+      "city": "Kuala Lumpur",
+      "country": "Malaysia"
+    },
+    {
+      "name": "Capella Washington, D.C., Georgetown",
+      "address": "1050 31st Street NW",
+      "city": "Washington, DC 20007",
+      "country": "United States"
+    },
+    {
+      "name": "Capella Tokyo",
+      "address": "",
+      "city": "Tokyo",
+      "country": "Japan"
+    },
+    {
+      "name": "Capella Maldives",
+      "address": "Laamu Atoll",
+      "city": "",
+      "country": "Maldives"
+    }
+  ]
+}
