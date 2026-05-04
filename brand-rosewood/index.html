@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rosewood &mdash; Brand Portfolio Map</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f5f5f5;
+    }
+    .header {
+      background: #1a2744;
+      border-bottom: 3px solid #1f2937;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .header-left h1 { font-size: 18px; font-weight: 700; color: #fff; }
+    .header-left p { font-size: 11px; color: #8fa8d8; margin-top: 3px; }
+    .header-right { font-size: 11px; color: #8fa8d8; }
+    .header-right a { color: #8fa8d8; text-decoration: none; }
+    .header-right a:hover { color: #fff; }
+    .main { display: flex; flex: 1; overflow: hidden; }
+    .sidebar {
+      width: 290px;
+      background: #fff;
+      border-right: 1px solid #dde3ed;
+      overflow-y: auto;
+      flex-shrink: 0;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+    }
+    .sb-section { padding: 14px; border-bottom: 1px solid #eaecf0; }
+    .sb-section h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: #8090b0;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .legend-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 6px; font-size: 12px; color: #334;
+    }
+    .leg-dot {
+      width: 14px; height: 14px;
+      transform: rotate(45deg);
+      border: 2px solid rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .hotel-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 9px 6px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .hotel-item:hover { background: #f0f5ff; }
+    .h-pin {
+      width: 22px; height: 22px;
+      transform: rotate(45deg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .h-pin-num {
+      transform: rotate(-45deg);
+      color: #fff;
+      font-weight: 700;
+      font-size: 10px;
+    }
+    .h-info h4 { font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3; }
+    .h-info .h-meta { font-size: 10px; color: #7080a0; margin-top: 2px; }
+    .sidebar-footer {
+      padding: 10px 14px;
+      font-size: 10px;
+      color: #aabbd0;
+      border-top: 1px solid #eaecf0;
+    }
+    #map { flex: 1; }
+    .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }
+    .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
+    .gm-iw-brand { font-size: 10px; color: #1f2937; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
+    .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Rosewood &mdash; Brand Portfolio</h1>
+    <p>Rosewood Hotels & Resorts — 38 properties in 23 countries &nbsp;&middot;&nbsp; 38 properties mapped</p>
+  </div>
+  <div class="header-right">
+    <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sb-section">
+      <h3>Legend</h3>
+      <div class="legend-row"><div class="leg-dot" style="background:#1f2937;"></div> Rosewood Property</div>
+    </div>
+    <div class="sb-section" style="border-bottom:none;">
+      <h3>Properties &mdash; Click to Navigate</h3>
+      <div id="hotel-list"></div>
+    </div>
+    <div class="sidebar-footer">
+      Reference map &middot; Brand portfolio only &middot; No STR performance data
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script>
+  const HOTELS = [
+  {
+    "name": "The Carlyle, A Rosewood Hotel",
+    "address": "35 East 76th Street",
+    "city": "New York, NY 10021",
+    "country": "USA",
+    "lat": 40.774416,
+    "lng": -73.96315589999999
+  },
+  {
+    "name": "Rosewood Mansion on Turtle Creek",
+    "address": "2821 Turtle Creek Boulevard",
+    "city": "Dallas, TX 75219",
+    "country": "USA",
+    "lat": 32.8042036,
+    "lng": -96.80744759999999
+  },
+  {
+    "name": "Rosewood Miramar Beach",
+    "address": "1759 S Jameson Lane",
+    "city": "Montecito, CA 93108",
+    "country": "USA",
+    "lat": 34.4206362,
+    "lng": -119.6285829
+  },
+  {
+    "name": "Rosewood Sand Hill",
+    "address": "2825 Sand Hill Road",
+    "city": "Menlo Park, CA 94025",
+    "country": "USA",
+    "lat": 37.4195178,
+    "lng": -122.2122862
+  },
+  {
+    "name": "Rosewood Washington, D.C.",
+    "address": "1050 31st Street NW, Georgetown",
+    "city": "Washington, DC 20007",
+    "country": "USA",
+    "lat": 38.9039939,
+    "lng": -77.06145599999999
+  },
+  {
+    "name": "Rosewood Inn of the Anasazi",
+    "address": "113 Washington Avenue",
+    "city": "Santa Fe, NM 87501",
+    "country": "USA",
+    "lat": 35.6879734,
+    "lng": -105.9368954
+  },
+  {
+    "name": "Rosewood CordeValle",
+    "address": "One CordeValle Club Drive",
+    "city": "San Martin, CA 95046",
+    "country": "USA",
+    "lat": 37.067571,
+    "lng": -121.6328912
+  },
+  {
+    "name": "Kona Village, A Rosewood Resort",
+    "address": "72-300 Maheawalu Drive",
+    "city": "Kailua-Kona, HI 96740",
+    "country": "USA",
+    "lat": 19.6527691,
+    "lng": -156.0045319
+  },
+  {
+    "name": "Rosewood Hotel Georgia",
+    "address": "801 West Georgia Street",
+    "city": "Vancouver, BC V6C 1P7",
+    "country": "Canada",
+    "lat": 49.283465,
+    "lng": -123.119031
+  },
+  {
+    "name": "Rosewood Bermuda",
+    "address": "Tucker's Town",
+    "city": "Smith's Parish HS02",
+    "country": "Bermuda",
+    "lat": 32.3398902,
+    "lng": -64.7008124
+  },
+  {
+    "name": "Rosewood Le Guanahani St. Barth",
+    "address": "Grand Cul de Sac",
+    "city": "97133 Saint Barth\u00e9lemy",
+    "country": "French West Indies",
+    "lat": 17.9123155,
+    "lng": -62.8037432
+  },
+  {
+    "name": "Rosewood Baha Mar",
+    "address": "One Baha Mar Boulevard",
+    "city": "Nassau",
+    "country": "Bahamas",
+    "lat": 25.0701864,
+    "lng": -77.39558319999999
+  },
+  {
+    "name": "Rosewood Little Dix Bay",
+    "address": "Spring Bay Road",
+    "city": "Virgin Gorda",
+    "country": "British Virgin Islands",
+    "lat": 18.4591854,
+    "lng": -64.4338764
+  },
+  {
+    "name": "Rosewood Mayakoba",
+    "address": "Carretera Federal Canc\u00fan\u2013Playa del Carmen KM 298",
+    "city": "Q. Roo 77710",
+    "country": "Mexico",
+    "lat": 20.6879277,
+    "lng": -87.0201301
+  },
+  {
+    "name": "Rosewood Mandarina",
+    "address": "Riviera Nayarit",
+    "city": "Municipio de Bah\u00eda de Banderas, Nayarit",
+    "country": "Mexico",
+    "lat": 20.9038717,
+    "lng": -105.4149479
+  },
+  {
+    "name": "Rosewood San Miguel de Allende",
+    "address": "Nemesio Diez 11, Centro",
+    "city": "San Miguel de Allende, GTO 37700",
+    "country": "Mexico",
+    "lat": 20.9090291,
+    "lng": -100.7451501
+  },
+  {
+    "name": "Las Ventanas al Para\u00edso, A Rosewood Resort",
+    "address": "Carretera Transpeninsular KM 19.5",
+    "city": "San Jos\u00e9 del Cabo, BCS",
+    "country": "Mexico",
+    "lat": 22.9788095,
+    "lng": -109.7698828
+  },
+  {
+    "name": "H\u00f4tel de Crillon, A Rosewood Hotel",
+    "address": "10 Place de la Concorde",
+    "city": "75008 Paris",
+    "country": "France",
+    "lat": 48.8672703,
+    "lng": 2.3210916
+  },
+  {
+    "name": "Rosewood London",
+    "address": "252 High Holborn",
+    "city": "London WC1V 7EN",
+    "country": "UK",
+    "lat": 51.5175719,
+    "lng": -0.1178382
+  },
+  {
+    "name": "Rosewood Munich",
+    "address": "Maximilianstrasse 2",
+    "city": "80539 Munich",
+    "country": "Germany",
+    "lat": 48.1392529,
+    "lng": 11.5782406
+  },
+  {
+    "name": "Rosewood Vienna",
+    "address": "Petersplatz 7",
+    "city": "1010 Vienna",
+    "country": "Austria",
+    "lat": 48.2096733,
+    "lng": 16.3696017
+  },
+  {
+    "name": "Rosewood Villa Magna",
+    "address": "Paseo de la Castellana 22",
+    "city": "28046 Madrid",
+    "country": "Spain",
+    "lat": 40.4299515,
+    "lng": -3.688152499999999
+  },
+  {
+    "name": "Rosewood Castiglion del Bosco",
+    "address": "Loc. Castiglion del Bosco",
+    "city": "53024 Montalcino (SI)",
+    "country": "Italy",
+    "lat": 43.0839873,
+    "lng": 11.4222631
+  },
+  {
+    "name": "Rosewood Schloss Fuschl",
+    "address": "Schloss Fuschl 1",
+    "city": "5322 Hof bei Salzburg",
+    "country": "Austria",
+    "lat": 47.808966,
+    "lng": 13.2557388
+  },
+  {
+    "name": "Rosewood Hong Kong",
+    "address": "18 Salisbury Road, Tsim Sha Tsui",
+    "city": "Kowloon",
+    "country": "Hong Kong",
+    "lat": 22.2949764,
+    "lng": 114.175832
+  },
+  {
+    "name": "Rosewood Beijing",
+    "address": "Jiangtai Road, Chaoyang District",
+    "city": "Beijing 100015",
+    "country": "China",
+    "lat": 39.9719,
+    "lng": 116.49489
+  },
+  {
+    "name": "Rosewood Guangzhou",
+    "address": "111 Lihua Street, Tianhe District",
+    "city": "Guangzhou 510623",
+    "country": "China",
+    "lat": 23.1173761,
+    "lng": 113.3260492
+  },
+  {
+    "name": "Rosewood Bangkok",
+    "address": "1041/38 Ploenchit Road, Lumpini, Pathumwan",
+    "city": "Bangkok 10330",
+    "country": "Thailand",
+    "lat": 13.7433455,
+    "lng": 100.5489627
+  },
+  {
+    "name": "Rosewood Phuket",
+    "address": "88/28 Muen-Ngoen Road, Patong",
+    "city": "Phuket 83150",
+    "country": "Thailand",
+    "lat": 7.884639,
+    "lng": 98.275194
+  },
+  {
+    "name": "Rosewood Phnom Penh",
+    "address": "Vattanac Capital Tower, 66 Monivong Boulevard",
+    "city": "Phnom Penh",
+    "country": "Cambodia",
+    "lat": 11.5735257,
+    "lng": 104.9185708
+  },
+  {
+    "name": "Rosewood Luang Prabang",
+    "address": "Ban Xieng Mouane",
+    "city": "Luang Prabang 0600",
+    "country": "Lao PDR",
+    "lat": 19.8936171,
+    "lng": 102.1377242
+  },
+  {
+    "name": "Rosewood Miyakojima",
+    "address": "1190-1 Shimozato",
+    "city": "Miyakojima City, Okinawa 906-0000",
+    "country": "Japan",
+    "lat": 24.7887279,
+    "lng": 125.2919294
+  },
+  {
+    "name": "Rosewood S\u00e3o Paulo",
+    "address": "Alameda Santos 2233, Cerqueira C\u00e9sar",
+    "city": "S\u00e3o Paulo 01419-100",
+    "country": "Brazil",
+    "lat": -23.5601711,
+    "lng": -46.65270169999999
+  },
+  {
+    "name": "Rosewood Abu Dhabi",
+    "address": "Al Maryah Island",
+    "city": "Abu Dhabi",
+    "country": "UAE",
+    "lat": 24.4997739,
+    "lng": 54.3878651
+  },
+  {
+    "name": "Rosewood Doha",
+    "address": "Musheirib",
+    "city": "Doha",
+    "country": "Qatar",
+    "lat": 25.2857001,
+    "lng": 51.52332
+  },
+  {
+    "name": "Rosewood Riyadh",
+    "address": "Olaya Street, Al Olaya District",
+    "city": "Riyadh 12214",
+    "country": "Saudi Arabia",
+    "lat": 24.7086459,
+    "lng": 46.6775629
+  },
+  {
+    "name": "Rosewood Cape Kidnappers",
+    "address": "448 Te Awanga Road",
+    "city": "Hawke's Bay 4171",
+    "country": "New Zealand",
+    "lat": -39.667504,
+    "lng": 177.0326385
+  },
+  {
+    "name": "Rosewood Matakauri",
+    "address": "Glenorchy Road",
+    "city": "Queenstown 9371",
+    "country": "New Zealand",
+    "lat": -45.059389,
+    "lng": 168.5873144
+  }
+];
+  const COLOR = "#1f2937";
+  let map, infoWindow;
+  const markers = [];
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 25.337042057894738, lng: -7.652218621052631 },
+      zoom: 3,
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: true,
+    });
+    infoWindow = new google.maps.InfoWindow({ maxWidth: 290 });
+
+    const listEl = document.getElementById('hotel-list');
+    const bounds = new google.maps.LatLngBounds();
+
+    HOTELS.forEach((h, i) => {
+      const label = String(i + 1);
+      const svgIcon = {
+        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+            <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.35"/></filter>
+            <rect x="6" y="6" width="22" height="22" transform="rotate(45 17 17)"
+                  fill="${COLOR}" stroke="white" stroke-width="2" filter="url(#s)"/>
+            <text x="17" y="20" text-anchor="middle" font-family="Arial,sans-serif"
+                  font-size="11" font-weight="bold" fill="white">${label}</text>
+          </svg>`),
+        scaledSize: new google.maps.Size(34, 34),
+        anchor: new google.maps.Point(17, 17),
+      };
+
+      const marker = new google.maps.Marker({
+        position: { lat: h.lat, lng: h.lng },
+        map,
+        icon: svgIcon,
+        title: h.name,
+      });
+      markers.push(marker);
+      bounds.extend({ lat: h.lat, lng: h.lng });
+
+      const fullAddr = [h.address, h.city, h.country].filter(Boolean).join(', ');
+      const iwContent = `
+        <div class="gm-iw">
+          <div class="gm-iw-title">${h.name}</div>
+          <div class="gm-iw-brand">Rosewood</div>
+          <div class="gm-iw-meta">${fullAddr}</div>
+        </div>`;
+      marker.addListener('click', () => {
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+
+      const item = document.createElement('div');
+      item.className = 'hotel-item';
+      item.innerHTML = `
+        <div class="h-pin" style="background:${COLOR}"><span class="h-pin-num">${label}</span></div>
+        <div class="h-info">
+          <h4>${h.name}</h4>
+          <div class="h-meta">${[h.city, h.country].filter(Boolean).join(', ')}</div>
+        </div>`;
+      item.addEventListener('click', () => {
+        map.panTo({ lat: h.lat, lng: h.lng });
+        map.setZoom(14);
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+      listEl.appendChild(item);
+    });
+
+    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap" async defer></script>
+
+</body>
+</html>

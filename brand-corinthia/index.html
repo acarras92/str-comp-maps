@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Capella &mdash; Brand Portfolio Map</title>
+  <title>Corinthia &mdash; Brand Portfolio Map</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -15,7 +15,7 @@
     }
     .header {
       background: #1a2744;
-      border-bottom: 3px solid #7c2d12;
+      border-bottom: 3px solid #92400e;
       padding: 14px 22px;
       display: flex;
       align-items: center;
@@ -88,7 +88,7 @@
     #map { flex: 1; }
     .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }
     .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
-    .gm-iw-brand { font-size: 10px; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
+    .gm-iw-brand { font-size: 10px; color: #92400e; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
     .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
   </style>
 </head>
@@ -96,8 +96,8 @@
 
 <div class="header">
   <div class="header-left">
-    <h1>Capella &mdash; Brand Portfolio</h1>
-    <p>Capella Hotels & Resorts — ultra-luxury portfolio (11 properties) &nbsp;&middot;&nbsp; 11 properties mapped</p>
+    <h1>Corinthia &mdash; Brand Portfolio</h1>
+    <p>Corinthia Hotels — European capital-city luxury &nbsp;&middot;&nbsp; 10 properties mapped</p>
   </div>
   <div class="header-right">
     <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
@@ -108,7 +108,7 @@
   <div class="sidebar">
     <div class="sb-section">
       <h3>Legend</h3>
-      <div class="legend-row"><div class="leg-dot" style="background:#7c2d12;"></div> Capella Property</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#92400e;"></div> Corinthia Property</div>
     </div>
     <div class="sb-section" style="border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
@@ -124,101 +124,93 @@
 <script>
   const HOTELS = [
   {
-    "name": "Capella Singapore",
-    "address": "1 The Knolls, Sentosa Island",
-    "city": "Singapore 098297",
-    "country": "Singapore",
-    "lat": 1.2497222,
-    "lng": 103.8241667
+    "name": "Corinthia London",
+    "address": "Whitehall Place",
+    "city": "London SW1A 2BD",
+    "country": "UK",
+    "lat": 51.5064603,
+    "lng": -0.1243126
   },
   {
-    "name": "Capella Bangkok",
-    "address": "300/2 Charoenkrung Road, Yannawa, Sathorn",
-    "city": "Bangkok 10120",
-    "country": "Thailand",
-    "lat": 13.7131047,
-    "lng": 100.5110225
+    "name": "Corinthia Brussels (Grand Hotel Astoria)",
+    "address": "101\u2013103 Rue Royale",
+    "city": "1000 Brussels",
+    "country": "Belgium",
+    "lat": 50.8511628,
+    "lng": 4.3650924
   },
   {
-    "name": "Capella Hanoi",
-    "address": "11 P. L\u00ea Ph\u1ee5ng Hi\u1ec3u, Hoan Kiem District",
-    "city": "Hanoi 100000",
-    "country": "Vietnam",
-    "lat": 21.0257164,
-    "lng": 105.8566886
+    "name": "Corinthia Rome",
+    "address": "Piazza del Parlamento 18",
+    "city": "00186 Rome",
+    "country": "Italy",
+    "lat": 41.9024745,
+    "lng": 12.4789168
   },
   {
-    "name": "Capella Sydney",
-    "address": "1 Bridge Street",
-    "city": "Sydney NSW 2000",
-    "country": "Australia",
-    "lat": -33.8638571,
-    "lng": 151.2104059
+    "name": "Corinthia Budapest",
+    "address": "Erzs\u00e9bet k\u00f6r\u00fat 43\u201349",
+    "city": "Budapest H-1073",
+    "country": "Hungary",
+    "lat": 47.502665,
+    "lng": 19.066766
   },
   {
-    "name": "Capella Ubud, Bali",
-    "address": "Jalan Raya Keliki, Tegallalang",
-    "city": "Ubud, Gianyar, Bali",
-    "country": "Indonesia",
-    "lat": -8.4482091,
-    "lng": 115.2681117
+    "name": "Corinthia Prague",
+    "address": "Kongresov\u00e1 1",
+    "city": "140 00 Praha 4",
+    "country": "Czech Republic",
+    "lat": 50.0627877,
+    "lng": 14.432054
   },
   {
-    "name": "Capella Shanghai",
-    "address": "480 Fenyang Road, Xuhui District",
-    "city": "Shanghai 200031",
-    "country": "China",
-    "lat": 31.21184,
-    "lng": 121.45449
+    "name": "Corinthia Lisbon",
+    "address": "Av. Columbano Bordalo Pinheiro 105",
+    "city": "1099-031 Lisbon",
+    "country": "Portugal",
+    "lat": 38.7388319,
+    "lng": -9.1664022
   },
   {
-    "name": "Capella Tufu Bay, Hainan",
-    "address": "Tufu Bay",
-    "city": "Wanning City, Hainan Province",
-    "country": "China",
-    "lat": 18.393608,
-    "lng": 109.798234
+    "name": "Corinthia St. Petersburg",
+    "address": "Nevsky Prospect 57",
+    "city": "St. Petersburg 191025",
+    "country": "Russia",
+    "lat": 59.93200659999999,
+    "lng": 30.3508545
   },
   {
-    "name": "Capella Taipei",
-    "address": "No. 88 Songgao Road, Xinyi District",
-    "city": "Taipei 110",
-    "country": "Taiwan",
-    "lat": 25.038887,
-    "lng": 121.571638
+    "name": "Corinthia St George's Bay, Malta",
+    "address": "St George's Bay",
+    "city": "St Julian's STJ 3301",
+    "country": "Malta",
+    "lat": 35.9282582,
+    "lng": 14.4901151
   },
   {
-    "name": "Capella Tokyo",
-    "address": "Tokyo Midtown Hibiya, 1-1-2 Yurakucho, Chiyoda-ku",
-    "city": "Tokyo 100-0006",
-    "country": "Japan",
-    "lat": 35.6737436,
-    "lng": 139.7591762
+    "name": "Corinthia Palace, Malta",
+    "address": "De Paule Avenue",
+    "city": "Balzan BZN 9022",
+    "country": "Malta",
+    "lat": 35.89420399999999,
+    "lng": 14.449199
   },
   {
-    "name": "Capella at Galaxy Macau",
-    "address": "Galaxy Macau, Estrada da Ba\u00eda de Nossa Senhora da Esperan\u00e7a",
-    "city": "Cotai",
-    "country": "Macao",
-    "lat": 22.1478499,
-    "lng": 113.5535633
-  },
-  {
-    "name": "Capella Kyoto",
-    "address": "Miyagawa-cho District",
-    "city": "Higashiyama, Kyoto",
-    "country": "Japan",
-    "lat": 34.9993497,
-    "lng": 135.7720604
+    "name": "Corinthia Tripoli",
+    "address": "Dat Al-Imad Complex, Tower 4",
+    "city": "Tripoli",
+    "country": "Libya",
+    "lat": 32.896939,
+    "lng": 13.1708564
   }
 ];
-  const COLOR = "#7c2d12";
+  const COLOR = "#92400e";
   let map, infoWindow;
   const markers = [];
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 14.649250481818182, lng: 119.87086884545455 },
+      center: { lat: 44.521578999999996, lng: 11.35131394 },
       zoom: 3,
       mapTypeControl: true,
       streetViewControl: false,
@@ -257,7 +249,7 @@
       const iwContent = `
         <div class="gm-iw">
           <div class="gm-iw-title">${h.name}</div>
-          <div class="gm-iw-brand">Capella</div>
+          <div class="gm-iw-brand">Corinthia</div>
           <div class="gm-iw-meta">${fullAddr}</div>
         </div>`;
       marker.addListener('click', () => {

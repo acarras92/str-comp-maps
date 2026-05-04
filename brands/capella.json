@@ -2,13 +2,25 @@
   "brand": "Capella",
   "slug": "brand-capella",
   "color": "#7c2d12",
-  "tagline": "Capella Hotels & Resorts — ultra-luxury portfolio",
+  "tagline": "Capella Hotels & Resorts — ultra-luxury portfolio (11 properties)",
   "hotels": [
     {
       "name": "Capella Singapore",
       "address": "1 The Knolls, Sentosa Island",
-      "city": "Singapore",
+      "city": "Singapore 098297",
       "country": "Singapore"
+    },
+    {
+      "name": "Capella Bangkok",
+      "address": "300/2 Charoenkrung Road, Yannawa, Sathorn",
+      "city": "Bangkok 10120",
+      "country": "Thailand"
+    },
+    {
+      "name": "Capella Hanoi",
+      "address": "11 P. Lê Phụng Hiểu, Hoan Kiem District",
+      "city": "Hanoi 100000",
+      "country": "Vietnam"
     },
     {
       "name": "Capella Sydney",
@@ -17,52 +29,46 @@
       "country": "Australia"
     },
     {
-      "name": "Capella Bangkok",
-      "address": "300/2 Charoenkrung Road",
-      "city": "Bangkok 10500",
-      "country": "Thailand"
-    },
-    {
-      "name": "Capella Ubud",
-      "address": "Jalan Raya Sanggingan",
-      "city": "Ubud, Bali",
+      "name": "Capella Ubud, Bali",
+      "address": "Jalan Raya Keliki, Tegallalang",
+      "city": "Ubud, Gianyar, Bali",
       "country": "Indonesia"
     },
     {
-      "name": "Capella Hanoi",
-      "address": "11 Lê Phụng Hiểu, Hoàn Kiếm",
-      "city": "Hanoi",
-      "country": "Vietnam"
-    },
-    {
-      "name": "Capella Sanya",
-      "address": "Haitang Bay",
-      "city": "Sanya, Hainan",
+      "name": "Capella Shanghai",
+      "address": "480 Fenyang Road, Xuhui District",
+      "city": "Shanghai 200031",
       "country": "China"
     },
     {
-      "name": "Capella Kuala Lumpur",
-      "address": "",
-      "city": "Kuala Lumpur",
-      "country": "Malaysia"
+      "name": "Capella Tufu Bay, Hainan",
+      "address": "Tufu Bay",
+      "city": "Wanning City, Hainan Province",
+      "country": "China"
     },
     {
-      "name": "Capella Washington, D.C., Georgetown",
-      "address": "1050 31st Street NW",
-      "city": "Washington, DC 20007",
-      "country": "United States"
+      "name": "Capella Taipei",
+      "address": "No. 88 Songgao Road, Xinyi District",
+      "city": "Taipei 110",
+      "country": "Taiwan"
     },
     {
       "name": "Capella Tokyo",
-      "address": "",
-      "city": "Tokyo",
+      "address": "Tokyo Midtown Hibiya, 1-1-2 Yurakucho, Chiyoda-ku",
+      "city": "Tokyo 100-0006",
       "country": "Japan"
     },
     {
-      "name": "Capella Maldives",
-      "address": "Laamu Atoll",
-      "city": "",
-      "country": "Maldives"
+      "name": "Capella at Galaxy Macau",
+      "address": "Galaxy Macau, Estrada da Baía de Nossa Senhora da Esperança",
+      "city": "Cotai",
+      "country": "Macao"
+    },
+    {
+      "name": "Capella Kyoto",
+      "address": "Miyagawa-cho District",
+      "city": "Higashiyama, Kyoto",
+      "country": "Japan"
     }
   ]
 }

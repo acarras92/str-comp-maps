@@ -1,0 +1,62 @@
+{
+  "brand": "Bvlgari",
+  "slug": "brand-bvlgari",
+  "color": "#a16207",
+  "tagline": "Bvlgari Hotels & Resorts — ultra-exclusive, sub-100 keys",
+  "hotels": [
+    {
+      "name": "Bvlgari Hotel Milano",
+      "address": "Via Privata Fratelli Gabba 7b",
+      "city": "20121 Milan",
+      "country": "Italy"
+    },
+    {
+      "name": "Bvlgari Hotel London",
+      "address": "171 Knightsbridge",
+      "city": "London SW7 1DW",
+      "country": "UK"
+    },
+    {
+      "name": "Bvlgari Hotel Paris",
+      "address": "30 Avenue George V",
+      "city": "75008 Paris",
+      "country": "France"
+    },
+    {
+      "name": "Bvlgari Hotel Roma",
+      "address": "Piazza Augusto Imperatore 10",
+      "city": "00186 Rome",
+      "country": "Italy"
+    },
+    {
+      "name": "Bvlgari Resort Bali",
+      "address": "Jalan Goa Lempeh, Uluwatu",
+      "city": "Kuta Selatan, Bali 80364",
+      "country": "Indonesia"
+    },
+    {
+      "name": "Bvlgari Resort Dubai",
+      "address": "Jumeira Bay Island, Jumeirah 2",
+      "city": "Dubai",
+      "country": "UAE"
+    },
+    {
+      "name": "Bvlgari Hotel Beijing",
+      "address": "6 East Chang'an Avenue, Dongcheng District",
+      "city": "Beijing 100006",
+      "country": "China"
+    },
+    {
+      "name": "Bvlgari Hotel Shanghai",
+      "address": "33 The Bund, Zhongshan East No. 1 Road, Huangpu District",
+      "city": "Shanghai 200002",
+      "country": "China"
+    },
+    {
+      "name": "Bvlgari Hotel Tokyo",
+      "address": "Tokyo Midtown Yaesu, 2-2-1 Yaesu, Chuo-ku",
+      "city": "Tokyo 104-0028",
+      "country": "Japan"
+    }
+  ]
+}

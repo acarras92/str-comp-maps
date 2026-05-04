@@ -42,7 +42,7 @@
   <aside id="sidebar">
     <header>
       <h1>STR Comp Sets — Global View</h1>
-      <div class="sub">28 comp sets · 1 brand portfolios · 189 unique hotels</div>
+      <div class="sub">28 comp sets · 10 brand portfolios · 395 unique hotels</div>
     </header>
     <div id="controls">
       <button onclick="toggleAll(true)">Show all</button>
@@ -476,6 +476,36 @@ const COMP_SETS = [
     "is_brand": false
   },
   {
+    "slug": "brand-auberge",
+    "name": "Auberge Resorts (Brand)",
+    "color": "#065f46",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 28,
+    "is_brand": true
+  },
+  {
+    "slug": "brand-bvlgari",
+    "name": "Bvlgari (Brand)",
+    "color": "#a16207",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 9,
+    "is_brand": true
+  },
+  {
     "slug": "brand-capella",
     "name": "Capella (Brand)",
     "color": "#7c2d12",
@@ -487,7 +517,112 @@ const COMP_SETS = [
     "mpi": "",
     "ari": "",
     "rgi": "",
+    "hotel_count": 11,
+    "is_brand": true
+  },
+  {
+    "slug": "brand-corinthia",
+    "name": "Corinthia (Brand)",
+    "color": "#92400e",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
     "hotel_count": 10,
+    "is_brand": true
+  },
+  {
+    "slug": "brand-oneandonly",
+    "name": "One&Only (Brand)",
+    "color": "#0c4a6e",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 14,
+    "is_brand": true
+  },
+  {
+    "slug": "brand-raffles",
+    "name": "Raffles (Brand)",
+    "color": "#991b1b",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 16,
+    "is_brand": true
+  },
+  {
+    "slug": "brand-roccoforte",
+    "name": "Rocco Forte (Brand)",
+    "color": "#365314",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 14,
+    "is_brand": true
+  },
+  {
+    "slug": "brand-rosewood",
+    "name": "Rosewood (Brand)",
+    "color": "#1f2937",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 38,
+    "is_brand": true
+  },
+  {
+    "slug": "brand-stregis",
+    "name": "St. Regis (Brand)",
+    "color": "#1e3a8a",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 65,
+    "is_brand": true
+  },
+  {
+    "slug": "brand-viceroy",
+    "name": "Viceroy (Brand)",
+    "color": "#7c3aed",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 12,
     "is_brand": true
   }
 ];
@@ -3371,6 +3506,12 @@ const HOTELS = [
         "subject_name": "Viceroy Santa Monica",
         "color": "#f58231",
         "role": "subject"
+      },
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
       }
     ]
   },
@@ -3423,12 +3564,636 @@ const HOTELS = [
     ]
   },
   {
+    "name": "Auberge du Soleil",
+    "city_state": "Rutherford, CA 94573, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.4934426,
+    "lng": -122.4060174,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Solage Calistoga",
+    "city_state": "Calistoga, CA 94515, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.5843693,
+    "lng": -122.5708567,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Stanly Ranch",
+    "city_state": "Napa, CA 94559, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.2441342,
+    "lng": -122.2988801,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Inn at Mattei's Tavern",
+    "city_state": "Los Olivos, CA 93441, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 34.6673323,
+    "lng": -120.1172471,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Jerome",
+    "city_state": "Aspen, CO 81611, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 39.1910339,
+    "lng": -106.8194459,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Madeline Hotel & Residences",
+    "city_state": "Telluride, CO 81435, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.9369073,
+    "lng": -107.8478015,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Element 52",
+    "city_state": "Telluride, CO 81435, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.9354016,
+    "lng": -107.8473048,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The Lodge at Blue Sky",
+    "city_state": "Park City, UT 84098, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.81292670000001,
+    "lng": -111.4457693,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Goldener Hirsch",
+    "city_state": "Park City, UT 84060, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.6225733,
+    "lng": -111.4894904,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Sleeping Indian Lodge",
+    "city_state": "Ridgway, CO 81432, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.1607151,
+    "lng": -107.829004,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bishop's Lodge",
+    "city_state": "Santa Fe, NM 87506, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.7321402,
+    "lng": -105.9106428,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Commodore Perry Estate",
+    "city_state": "Austin, TX 78751, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 30.3008673,
+    "lng": -97.7221474,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bowie House",
+    "city_state": "Fort Worth, TX 76104, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 32.7304678,
+    "lng": -97.3292962,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Primland Resort",
+    "city_state": "Meadows of Dan, VA 24120, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 36.68532,
+    "lng": -80.36085,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The Dunlin",
+    "city_state": "Johns Island, SC 29455, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 32.7773166,
+    "lng": -80.1088019,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The Vanderbilt",
+    "city_state": "Newport, RI 02840, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.4882281,
+    "lng": -71.31344709999999,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "White Barn Inn",
+    "city_state": "Kennebunk, ME 04043, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 43.3553211,
+    "lng": -70.4795534,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Mayflower Inn & Spa",
+    "city_state": "Washington, CT 06793, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.63084629999999,
+    "lng": -73.30638820000001,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Mauna Lani",
+    "city_state": "Kohala Coast, HI 96743, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 19.9403303,
+    "lng": -155.8649082,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Esperanza",
+    "city_state": "Los Cabos, BCS, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 22.9016699,
+    "lng": -109.8526851,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Chileno Bay",
+    "city_state": "Los Cabos, BCS, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 22.9529786,
+    "lng": -109.8036425,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Susurros del Coraz\u00f3n",
+    "city_state": "Punta de Mita, Nayarit, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.757124,
+    "lng": -105.4802786,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Et\u00e9reo",
+    "city_state": "Riviera Maya, Quintana Roo, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.7206431,
+    "lng": -86.9839046,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Hacienda AltaGracia",
+    "city_state": "P\u00e9rez Zeled\u00f3n, San Jos\u00e9, Costa Rica",
+    "zip": "",
+    "rooms": 0,
+    "lat": 9.354888899999999,
+    "lng": -83.6353683,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Collegio alla Querce",
+    "city_state": "50139 Florence, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 43.7876593,
+    "lng": 11.2780823,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Domaine des Etangs",
+    "city_state": "16310 Charente, France",
+    "zip": "",
+    "rooms": 0,
+    "lat": 45.7756621,
+    "lng": 0.6434264,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Grace Santorini",
+    "city_state": "847 00 Santorini, Greece",
+    "zip": "",
+    "rooms": 0,
+    "lat": 36.43295579999999,
+    "lng": 25.4209615,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The Woodward",
+    "city_state": "1201 Geneva, Switzerland",
+    "zip": "",
+    "rooms": 0,
+    "lat": 46.2111217,
+    "lng": 6.1520076,
+    "memberships": [
+      {
+        "slug": "brand-auberge",
+        "subject_name": "Auberge Resorts (Brand)",
+        "color": "#065f46",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bvlgari Hotel Milano",
+    "city_state": "20121 Milan, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 45.4698487,
+    "lng": 9.1895359,
+    "memberships": [
+      {
+        "slug": "brand-bvlgari",
+        "subject_name": "Bvlgari (Brand)",
+        "color": "#a16207",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bvlgari Hotel London",
+    "city_state": "London SW7 1DW, UK",
+    "zip": "",
+    "rooms": 0,
+    "lat": 51.5014669,
+    "lng": -0.1635477,
+    "memberships": [
+      {
+        "slug": "brand-bvlgari",
+        "subject_name": "Bvlgari (Brand)",
+        "color": "#a16207",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bvlgari Hotel Paris",
+    "city_state": "75008 Paris, France",
+    "zip": "",
+    "rooms": 0,
+    "lat": 48.8683674,
+    "lng": 2.3014592,
+    "memberships": [
+      {
+        "slug": "brand-bvlgari",
+        "subject_name": "Bvlgari (Brand)",
+        "color": "#a16207",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bvlgari Hotel Roma",
+    "city_state": "00186 Rome, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.9067821,
+    "lng": 12.4762188,
+    "memberships": [
+      {
+        "slug": "brand-bvlgari",
+        "subject_name": "Bvlgari (Brand)",
+        "color": "#a16207",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bvlgari Resort Bali",
+    "city_state": "Kuta Selatan, Bali 80364, Indonesia",
+    "zip": "",
+    "rooms": 0,
+    "lat": -8.8429187,
+    "lng": 115.1216909,
+    "memberships": [
+      {
+        "slug": "brand-bvlgari",
+        "subject_name": "Bvlgari (Brand)",
+        "color": "#a16207",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bvlgari Resort Dubai",
+    "city_state": "Dubai, UAE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.210697,
+    "lng": 55.236428,
+    "memberships": [
+      {
+        "slug": "brand-bvlgari",
+        "subject_name": "Bvlgari (Brand)",
+        "color": "#a16207",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bvlgari Hotel Beijing",
+    "city_state": "Beijing 100006, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 39.90768,
+    "lng": 116.41045,
+    "memberships": [
+      {
+        "slug": "brand-bvlgari",
+        "subject_name": "Bvlgari (Brand)",
+        "color": "#a16207",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bvlgari Hotel Shanghai",
+    "city_state": "Shanghai 200002, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 31.2402611,
+    "lng": 121.490577,
+    "memberships": [
+      {
+        "slug": "brand-bvlgari",
+        "subject_name": "Bvlgari (Brand)",
+        "color": "#a16207",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Bvlgari Hotel Tokyo",
+    "city_state": "Tokyo 104-0028, Japan",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.6788388,
+    "lng": 139.7683266,
+    "memberships": [
+      {
+        "slug": "brand-bvlgari",
+        "subject_name": "Bvlgari (Brand)",
+        "color": "#a16207",
+        "role": "brand"
+      }
+    ]
+  },
+  {
     "name": "Capella Singapore",
-    "city_state": "Singapore, Singapore",
+    "city_state": "Singapore 098297, Singapore",
     "zip": "",
     "rooms": 0,
     "lat": 1.2497222,
     "lng": 103.8241667,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Bangkok",
+    "city_state": "Bangkok 10120, Thailand",
+    "zip": "",
+    "rooms": 0,
+    "lat": 13.7131047,
+    "lng": 100.5110225,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Capella Hanoi",
+    "city_state": "Hanoi 100000, Vietnam",
+    "zip": "",
+    "rooms": 0,
+    "lat": 21.0257164,
+    "lng": 105.8566886,
     "memberships": [
       {
         "slug": "brand-capella",
@@ -3455,12 +4220,12 @@ const HOTELS = [
     ]
   },
   {
-    "name": "Capella Bangkok",
-    "city_state": "Bangkok 10500, Thailand",
+    "name": "Capella Ubud, Bali",
+    "city_state": "Ubud, Gianyar, Bali, Indonesia",
     "zip": "",
     "rooms": 0,
-    "lat": 13.7131047,
-    "lng": 100.5110225,
+    "lat": -8.4482091,
+    "lng": 115.2681117,
     "memberships": [
       {
         "slug": "brand-capella",
@@ -3471,12 +4236,12 @@ const HOTELS = [
     ]
   },
   {
-    "name": "Capella Ubud",
-    "city_state": "Ubud, Bali, Indonesia",
+    "name": "Capella Shanghai",
+    "city_state": "Shanghai 200031, China",
     "zip": "",
     "rooms": 0,
-    "lat": -8.4840173,
-    "lng": 115.2538549,
+    "lat": 31.21184,
+    "lng": 121.45449,
     "memberships": [
       {
         "slug": "brand-capella",
@@ -3487,12 +4252,12 @@ const HOTELS = [
     ]
   },
   {
-    "name": "Capella Hanoi",
-    "city_state": "Hanoi, Vietnam",
+    "name": "Capella Tufu Bay, Hainan",
+    "city_state": "Wanning City, Hainan Province, China",
     "zip": "",
     "rooms": 0,
-    "lat": 21.0257164,
-    "lng": 105.8566886,
+    "lat": 18.393608,
+    "lng": 109.798234,
     "memberships": [
       {
         "slug": "brand-capella",
@@ -3503,44 +4268,12 @@ const HOTELS = [
     ]
   },
   {
-    "name": "Capella Sanya",
-    "city_state": "Sanya, Hainan, China",
+    "name": "Capella Taipei",
+    "city_state": "Taipei 110, Taiwan",
     "zip": "",
     "rooms": 0,
-    "lat": 18.308759,
-    "lng": 109.742103,
-    "memberships": [
-      {
-        "slug": "brand-capella",
-        "subject_name": "Capella (Brand)",
-        "color": "#7c2d12",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "Capella Kuala Lumpur",
-    "city_state": "Kuala Lumpur, Malaysia",
-    "zip": "",
-    "rooms": 0,
-    "lat": 3.1256755,
-    "lng": 101.7358515,
-    "memberships": [
-      {
-        "slug": "brand-capella",
-        "subject_name": "Capella (Brand)",
-        "color": "#7c2d12",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "Capella Washington, D.C., Georgetown",
-    "city_state": "Washington, DC 20007, United States",
-    "zip": "",
-    "rooms": 0,
-    "lat": 38.9039687,
-    "lng": -77.0615036,
+    "lat": 25.038887,
+    "lng": 121.571638,
     "memberships": [
       {
         "slug": "brand-capella",
@@ -3552,11 +4285,11 @@ const HOTELS = [
   },
   {
     "name": "Capella Tokyo",
-    "city_state": "Tokyo, Japan",
+    "city_state": "Tokyo 100-0006, Japan",
     "zip": "",
     "rooms": 0,
-    "lat": 35.6861357,
-    "lng": 139.7215502,
+    "lat": 35.6737436,
+    "lng": 139.7591762,
     "memberships": [
       {
         "slug": "brand-capella",
@@ -3567,12 +4300,12 @@ const HOTELS = [
     ]
   },
   {
-    "name": "Capella Maldives",
-    "city_state": "Maldives",
+    "name": "Capella at Galaxy Macau",
+    "city_state": "Cotai, Macao",
     "zip": "",
     "rooms": 0,
-    "lat": 1.9430737,
-    "lng": 73.4180211,
+    "lat": 22.1478499,
+    "lng": 113.5535633,
     "memberships": [
       {
         "slug": "brand-capella",
@@ -3581,9 +4314,2713 @@ const HOTELS = [
         "role": "brand"
       }
     ]
+  },
+  {
+    "name": "Capella Kyoto",
+    "city_state": "Higashiyama, Kyoto, Japan",
+    "zip": "",
+    "rooms": 0,
+    "lat": 34.9993497,
+    "lng": 135.7720604,
+    "memberships": [
+      {
+        "slug": "brand-capella",
+        "subject_name": "Capella (Brand)",
+        "color": "#7c2d12",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Corinthia London",
+    "city_state": "London SW1A 2BD, UK",
+    "zip": "",
+    "rooms": 0,
+    "lat": 51.5064603,
+    "lng": -0.1243126,
+    "memberships": [
+      {
+        "slug": "brand-corinthia",
+        "subject_name": "Corinthia (Brand)",
+        "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Corinthia Brussels (Grand Hotel Astoria)",
+    "city_state": "1000 Brussels, Belgium",
+    "zip": "",
+    "rooms": 0,
+    "lat": 50.8511628,
+    "lng": 4.3650924,
+    "memberships": [
+      {
+        "slug": "brand-corinthia",
+        "subject_name": "Corinthia (Brand)",
+        "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Corinthia Rome",
+    "city_state": "00186 Rome, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.9024745,
+    "lng": 12.4789168,
+    "memberships": [
+      {
+        "slug": "brand-corinthia",
+        "subject_name": "Corinthia (Brand)",
+        "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Corinthia Budapest",
+    "city_state": "Budapest H-1073, Hungary",
+    "zip": "",
+    "rooms": 0,
+    "lat": 47.502665,
+    "lng": 19.066766,
+    "memberships": [
+      {
+        "slug": "brand-corinthia",
+        "subject_name": "Corinthia (Brand)",
+        "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Corinthia Prague",
+    "city_state": "140 00 Praha 4, Czech Republic",
+    "zip": "",
+    "rooms": 0,
+    "lat": 50.0627877,
+    "lng": 14.432054,
+    "memberships": [
+      {
+        "slug": "brand-corinthia",
+        "subject_name": "Corinthia (Brand)",
+        "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Corinthia Lisbon",
+    "city_state": "1099-031 Lisbon, Portugal",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.7388319,
+    "lng": -9.1664022,
+    "memberships": [
+      {
+        "slug": "brand-corinthia",
+        "subject_name": "Corinthia (Brand)",
+        "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Corinthia St. Petersburg",
+    "city_state": "St. Petersburg 191025, Russia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 59.93200659999999,
+    "lng": 30.3508545,
+    "memberships": [
+      {
+        "slug": "brand-corinthia",
+        "subject_name": "Corinthia (Brand)",
+        "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Corinthia St George's Bay, Malta",
+    "city_state": "St Julian's STJ 3301, Malta",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.9282582,
+    "lng": 14.4901151,
+    "memberships": [
+      {
+        "slug": "brand-corinthia",
+        "subject_name": "Corinthia (Brand)",
+        "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Corinthia Palace, Malta",
+    "city_state": "Balzan BZN 9022, Malta",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.89420399999999,
+    "lng": 14.449199,
+    "memberships": [
+      {
+        "slug": "brand-corinthia",
+        "subject_name": "Corinthia (Brand)",
+        "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Corinthia Tripoli",
+    "city_state": "Tripoli, Libya",
+    "zip": "",
+    "rooms": 0,
+    "lat": 32.896939,
+    "lng": 13.1708564,
+    "memberships": [
+      {
+        "slug": "brand-corinthia",
+        "subject_name": "Corinthia (Brand)",
+        "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Palmilla",
+    "city_state": "San Jos\u00e9 del Cabo, BCS, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 23.0105838,
+    "lng": -109.7167683,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Mandarina",
+    "city_state": "Municipio de Bah\u00eda de Banderas, Nayarit, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.9778543,
+    "lng": -105.3309758,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Moonlight Basin",
+    "city_state": "Big Sky, MT 59716, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 45.3228732,
+    "lng": -111.4285455,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Royal Mirage",
+    "city_state": "Dubai 37252, UAE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.1003586,
+    "lng": 55.1571736,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only The Palm",
+    "city_state": "Dubai, UAE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.0994852,
+    "lng": 55.1334634,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Za'abeel",
+    "city_state": "Dubai, UAE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.2282224,
+    "lng": 55.2906545,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Portonovi",
+    "city_state": "Herceg Novi, Montenegro",
+    "zip": "",
+    "rooms": 0,
+    "lat": 42.4353789,
+    "lng": 18.5968481,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only K\u00e9a Island",
+    "city_state": "K\u00e9a Island, Cyclades, Greece",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.6128665,
+    "lng": 24.273674,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Aesthesis",
+    "city_state": "Vouliagmeni, Athens 16671, Greece",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.8554478,
+    "lng": 23.7512181,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Cape Town",
+    "city_state": "Cape Town 8001, South Africa",
+    "zip": "",
+    "rooms": 0,
+    "lat": -33.9086313,
+    "lng": 18.4162905,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Reethi Rah",
+    "city_state": "North Mal\u00e9 Atoll, Maldives",
+    "zip": "",
+    "rooms": 0,
+    "lat": 4.520509,
+    "lng": 73.366933,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Le Saint G\u00e9ran",
+    "city_state": "Mauritius",
+    "zip": "",
+    "rooms": 0,
+    "lat": -20.1605098,
+    "lng": 57.7562809,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Nyungwe House",
+    "city_state": "Nyungwe National Park, Southern Rwanda, Rwanda",
+    "zip": "",
+    "rooms": 0,
+    "lat": -2.5282211,
+    "lng": 29.2784212,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "One&Only Gorilla's Nest",
+    "city_state": "Volcanoes National Park, Northern Rwanda, Rwanda",
+    "zip": "",
+    "rooms": 0,
+    "lat": -1.4415199,
+    "lng": 29.5791051,
+    "memberships": [
+      {
+        "slug": "brand-oneandonly",
+        "subject_name": "One&Only (Brand)",
+        "color": "#0c4a6e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Singapore",
+    "city_state": "Singapore 189673, Singapore",
+    "zip": "",
+    "rooms": 0,
+    "lat": 1.294889,
+    "lng": 103.854483,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Sentosa Resort & Spa",
+    "city_state": "Singapore 098970, Singapore",
+    "zip": "",
+    "rooms": 0,
+    "lat": 1.2576829,
+    "lng": 103.8097837,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Boston",
+    "city_state": "Boston, MA 02116, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 42.3485405,
+    "lng": -71.07487110000001,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Le Royal Monceau \u2013 Raffles Paris",
+    "city_state": "75008 Paris, France",
+    "zip": "",
+    "rooms": 0,
+    "lat": 48.8757605,
+    "lng": 2.300295,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles London at The OWO",
+    "city_state": "London SW1A 2BX, UK",
+    "zip": "",
+    "rooms": 0,
+    "lat": 51.5051366,
+    "lng": -0.1256685,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Warsaw",
+    "city_state": "00-844 Warsaw, Poland",
+    "zip": "",
+    "rooms": 0,
+    "lat": 52.2342203,
+    "lng": 20.9905224,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Istanbul",
+    "city_state": "34340 Istanbul, Turkey",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.066551,
+    "lng": 29.018055,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Doha",
+    "city_state": "Lusail City, Doha, Qatar",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.3899207,
+    "lng": 51.5314542,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Al Areen Palace Bahrain",
+    "city_state": "Sakhir, Bahrain",
+    "zip": "",
+    "rooms": 0,
+    "lat": 26.0022717,
+    "lng": 50.5188013,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles The Palm Dubai",
+    "city_state": "Dubai, UAE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.1103869,
+    "lng": 55.1098091,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Udaipur",
+    "city_state": "Udaipur, Rajasthan 313001, India",
+    "zip": "",
+    "rooms": 0,
+    "lat": 24.581621,
+    "lng": 73.8193223,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Jaipur",
+    "city_state": "Jaipur, Rajasthan 302001, India",
+    "zip": "",
+    "rooms": 0,
+    "lat": 26.9169655,
+    "lng": 75.8047136,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Shenzhen",
+    "city_state": "Shenzhen 518054, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 22.505953,
+    "lng": 113.94243,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Hainan",
+    "city_state": "Qionghai City, Hainan Province, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 19.159714,
+    "lng": 110.586606,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Bali",
+    "city_state": "Jimbaran, Bali 80361, Indonesia",
+    "zip": "",
+    "rooms": 0,
+    "lat": -8.7864398,
+    "lng": 115.1581541,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Raffles Maldives Meradhoo Resort",
+    "city_state": "Meradhoo Island, Gaafu Alifu Atoll, Maldives",
+    "zip": "",
+    "rooms": 0,
+    "lat": 0.5783250999999999,
+    "lng": 73.0946629,
+    "memberships": [
+      {
+        "slug": "brand-raffles",
+        "subject_name": "Raffles (Brand)",
+        "color": "#991b1b",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Brown's Hotel",
+    "city_state": "London W1S 4BP, UK",
+    "zip": "",
+    "rooms": 0,
+    "lat": 51.509131,
+    "lng": -0.1421129,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The Balmoral",
+    "city_state": "Edinburgh EH2 2EQ, UK",
+    "zip": "",
+    "rooms": 0,
+    "lat": 55.9530355,
+    "lng": -3.1895371,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rocco Forte House",
+    "city_state": "London SW1A 1LE, UK",
+    "zip": "",
+    "rooms": 0,
+    "lat": 51.5059176,
+    "lng": -0.139061,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Hotel de Russie",
+    "city_state": "00187 Rome, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.9099435,
+    "lng": 12.4774581,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Hotel de La Ville",
+    "city_state": "00187 Rome, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.9057524,
+    "lng": 12.484302,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Savoy",
+    "city_state": "50123 Florence, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 43.7718785,
+    "lng": 11.2545574,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Verdura Resort",
+    "city_state": "92100 Sciacca, Sicily, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.4706699,
+    "lng": 13.1931074,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Masseria Torre Maizza",
+    "city_state": "72010 Brindisi, Puglia, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.8589668,
+    "lng": 17.3872604,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Amigo",
+    "city_state": "1000 Brussels, Belgium",
+    "zip": "",
+    "rooms": 0,
+    "lat": 50.84614140000001,
+    "lng": 4.351395399999999,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Hotel de Rome",
+    "city_state": "10117 Berlin, Germany",
+    "zip": "",
+    "rooms": 0,
+    "lat": 52.5157859,
+    "lng": 13.3940599,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The Charles Hotel",
+    "city_state": "80333 Munich, Germany",
+    "zip": "",
+    "rooms": 0,
+    "lat": 48.1427505,
+    "lng": 11.5624963,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Villa Kennedy",
+    "city_state": "60596 Frankfurt am Main, Germany",
+    "zip": "",
+    "rooms": 0,
+    "lat": 50.09724749999999,
+    "lng": 8.6695244,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Astoria",
+    "city_state": "St. Petersburg 190000, Russia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 59.93282900000001,
+    "lng": 30.308868,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Palazzo Sirignano",
+    "city_state": "80121 Naples, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.8338996,
+    "lng": 14.232748,
+    "memberships": [
+      {
+        "slug": "brand-roccoforte",
+        "subject_name": "Rocco Forte (Brand)",
+        "color": "#365314",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The Carlyle, A Rosewood Hotel",
+    "city_state": "New York, NY 10021, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.774416,
+    "lng": -73.96315589999999,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Mansion on Turtle Creek",
+    "city_state": "Dallas, TX 75219, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 32.8042036,
+    "lng": -96.80744759999999,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Miramar Beach",
+    "city_state": "Montecito, CA 93108, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 34.4206362,
+    "lng": -119.6285829,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Sand Hill",
+    "city_state": "Menlo Park, CA 94025, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.4195178,
+    "lng": -122.2122862,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Washington, D.C.",
+    "city_state": "Washington, DC 20007, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.9039939,
+    "lng": -77.06145599999999,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Inn of the Anasazi",
+    "city_state": "Santa Fe, NM 87501, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.6879734,
+    "lng": -105.9368954,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood CordeValle",
+    "city_state": "San Martin, CA 95046, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.067571,
+    "lng": -121.6328912,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Kona Village, A Rosewood Resort",
+    "city_state": "Kailua-Kona, HI 96740, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 19.6527691,
+    "lng": -156.0045319,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Hotel Georgia",
+    "city_state": "Vancouver, BC V6C 1P7, Canada",
+    "zip": "",
+    "rooms": 0,
+    "lat": 49.283465,
+    "lng": -123.119031,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Bermuda",
+    "city_state": "Smith's Parish HS02, Bermuda",
+    "zip": "",
+    "rooms": 0,
+    "lat": 32.3398902,
+    "lng": -64.7008124,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Le Guanahani St. Barth",
+    "city_state": "97133 Saint Barth\u00e9lemy, French West Indies",
+    "zip": "",
+    "rooms": 0,
+    "lat": 17.9123155,
+    "lng": -62.8037432,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Baha Mar",
+    "city_state": "Nassau, Bahamas",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.0701864,
+    "lng": -77.39558319999999,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Little Dix Bay",
+    "city_state": "Virgin Gorda, British Virgin Islands",
+    "zip": "",
+    "rooms": 0,
+    "lat": 18.4591854,
+    "lng": -64.4338764,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Mayakoba",
+    "city_state": "Q. Roo 77710, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.6879277,
+    "lng": -87.0201301,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Mandarina",
+    "city_state": "Municipio de Bah\u00eda de Banderas, Nayarit, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.9038717,
+    "lng": -105.4149479,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood San Miguel de Allende",
+    "city_state": "San Miguel de Allende, GTO 37700, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.9090291,
+    "lng": -100.7451501,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Las Ventanas al Para\u00edso, A Rosewood Resort",
+    "city_state": "San Jos\u00e9 del Cabo, BCS, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 22.9788095,
+    "lng": -109.7698828,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "H\u00f4tel de Crillon, A Rosewood Hotel",
+    "city_state": "75008 Paris, France",
+    "zip": "",
+    "rooms": 0,
+    "lat": 48.8672703,
+    "lng": 2.3210916,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood London",
+    "city_state": "London WC1V 7EN, UK",
+    "zip": "",
+    "rooms": 0,
+    "lat": 51.5175719,
+    "lng": -0.1178382,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Munich",
+    "city_state": "80539 Munich, Germany",
+    "zip": "",
+    "rooms": 0,
+    "lat": 48.1392529,
+    "lng": 11.5782406,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Vienna",
+    "city_state": "1010 Vienna, Austria",
+    "zip": "",
+    "rooms": 0,
+    "lat": 48.2096733,
+    "lng": 16.3696017,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Villa Magna",
+    "city_state": "28046 Madrid, Spain",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.4299515,
+    "lng": -3.688152499999999,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Castiglion del Bosco",
+    "city_state": "53024 Montalcino (SI), Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 43.0839873,
+    "lng": 11.4222631,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Schloss Fuschl",
+    "city_state": "5322 Hof bei Salzburg, Austria",
+    "zip": "",
+    "rooms": 0,
+    "lat": 47.808966,
+    "lng": 13.2557388,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Hong Kong",
+    "city_state": "Kowloon, Hong Kong",
+    "zip": "",
+    "rooms": 0,
+    "lat": 22.2949764,
+    "lng": 114.175832,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Beijing",
+    "city_state": "Beijing 100015, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 39.9719,
+    "lng": 116.49489,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Guangzhou",
+    "city_state": "Guangzhou 510623, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 23.1173761,
+    "lng": 113.3260492,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Bangkok",
+    "city_state": "Bangkok 10330, Thailand",
+    "zip": "",
+    "rooms": 0,
+    "lat": 13.7433455,
+    "lng": 100.5489627,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Phuket",
+    "city_state": "Phuket 83150, Thailand",
+    "zip": "",
+    "rooms": 0,
+    "lat": 7.884639,
+    "lng": 98.275194,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Phnom Penh",
+    "city_state": "Phnom Penh, Cambodia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 11.5735257,
+    "lng": 104.9185708,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Luang Prabang",
+    "city_state": "Luang Prabang 0600, Lao PDR",
+    "zip": "",
+    "rooms": 0,
+    "lat": 19.8936171,
+    "lng": 102.1377242,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Miyakojima",
+    "city_state": "Miyakojima City, Okinawa 906-0000, Japan",
+    "zip": "",
+    "rooms": 0,
+    "lat": 24.7887279,
+    "lng": 125.2919294,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood S\u00e3o Paulo",
+    "city_state": "S\u00e3o Paulo 01419-100, Brazil",
+    "zip": "",
+    "rooms": 0,
+    "lat": -23.5601711,
+    "lng": -46.65270169999999,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Abu Dhabi",
+    "city_state": "Abu Dhabi, UAE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 24.4997739,
+    "lng": 54.3878651,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Doha",
+    "city_state": "Doha, Qatar",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.2857001,
+    "lng": 51.52332,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Riyadh",
+    "city_state": "Riyadh 12214, Saudi Arabia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 24.7086459,
+    "lng": 46.6775629,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Cape Kidnappers",
+    "city_state": "Hawke's Bay 4171, New Zealand",
+    "zip": "",
+    "rooms": 0,
+    "lat": -39.667504,
+    "lng": 177.0326385,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Rosewood Matakauri",
+    "city_state": "Queenstown 9371, New Zealand",
+    "zip": "",
+    "rooms": 0,
+    "lat": -45.059389,
+    "lng": 168.5873144,
+    "memberships": [
+      {
+        "slug": "brand-rosewood",
+        "subject_name": "Rosewood (Brand)",
+        "color": "#1f2937",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis New York",
+    "city_state": "New York, NY 10022, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.7613979,
+    "lng": -73.9746128,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Chicago",
+    "city_state": "Chicago, IL 60601, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.8875572,
+    "lng": -87.61764029999999,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Atlanta",
+    "city_state": "Atlanta, GA 30305, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 33.839996,
+    "lng": -84.38250599999999,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Washington, D.C.",
+    "city_state": "Washington, DC 20006, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.9021897,
+    "lng": -77.036168,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis San Francisco",
+    "city_state": "San Francisco, CA 94103, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.7861299,
+    "lng": -122.4014681,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Aspen Resort",
+    "city_state": "Aspen, CO 81611, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 39.1869176,
+    "lng": -106.8211131,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Bal Harbour Resort",
+    "city_state": "Bal Harbour, FL 33154, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.8890934,
+    "lng": -80.1224107,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Longboat Key Resort",
+    "city_state": "Longboat Key, FL 34228, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 27.3527036,
+    "lng": -82.6105377,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Houston",
+    "city_state": "Houston, TX 77027, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 29.74746709999999,
+    "lng": -95.45038799999999,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Toronto",
+    "city_state": "Toronto, ON M5H 4G3, Canada",
+    "zip": "",
+    "rooms": 0,
+    "lat": 43.649722,
+    "lng": -79.38027799999999,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Bermuda Resort",
+    "city_state": "St. George's Parish, Bermuda",
+    "zip": "",
+    "rooms": 0,
+    "lat": 32.388967,
+    "lng": -64.6748867,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Cap Cana Resort",
+    "city_state": "La Altagracia, Dominican Republic",
+    "zip": "",
+    "rooms": 0,
+    "lat": 18.4560625,
+    "lng": -68.4153125,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Aruba Resort",
+    "city_state": "Noord, Aruba",
+    "zip": "",
+    "rooms": 0,
+    "lat": 12.5650511,
+    "lng": -70.04941889999999,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Costa Mujeres Resort",
+    "city_state": "Canc\u00fan, Q. Roo, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 21.2131005,
+    "lng": -86.8024063,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Kanai Resort, Riviera Maya",
+    "city_state": "Riviera Maya, Quintana Roo, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.7188711,
+    "lng": -86.98872949999999,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Mexico City",
+    "city_state": "CDMX 06600, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 19.4256338,
+    "lng": -99.1720892,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Punta Mita Resort",
+    "city_state": "Bah\u00eda de Banderas, Nayarit 63734, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.7679501,
+    "lng": -105.5378292,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Florence",
+    "city_state": "50123 Florence, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 43.7721584,
+    "lng": 11.2450378,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Rome",
+    "city_state": "00185 Rome, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.9040717,
+    "lng": 12.4948729,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Venice",
+    "city_state": "30124 Venice, Italy",
+    "zip": "",
+    "rooms": 0,
+    "lat": 45.431933,
+    "lng": 12.33549,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Budapest",
+    "city_state": "Budapest 1061, Hungary",
+    "zip": "",
+    "rooms": 0,
+    "lat": 47.4999791,
+    "lng": 19.0559904,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Belgrade",
+    "city_state": "Belgrade 11070, Serbia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 44.8093402,
+    "lng": 20.4341769,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Mardavall Mallorca Resort",
+    "city_state": "07181 Es Capdell\u00e0, Mallorca, Spain",
+    "zip": "",
+    "rooms": 0,
+    "lat": 39.528159,
+    "lng": 2.550929,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Istanbul",
+    "city_state": "Istanbul 34367, Turkey",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.04783,
+    "lng": 28.9927952,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Abu Dhabi",
+    "city_state": "Abu Dhabi, UAE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 24.4635871,
+    "lng": 54.3275927,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Saadiyat Island Resort",
+    "city_state": "Abu Dhabi, UAE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 24.5391681,
+    "lng": 54.4241865,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Dubai, The Palm",
+    "city_state": "Dubai, UAE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.1142536,
+    "lng": 55.1397759,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Downtown Dubai",
+    "city_state": "Dubai, UAE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.185895,
+    "lng": 55.2735593,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Doha",
+    "city_state": "Doha, Qatar",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.3504375,
+    "lng": 51.53003630000001,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Marsa Arabia Island",
+    "city_state": "Doha, Qatar",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.3693803,
+    "lng": 51.5436201,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Riyadh",
+    "city_state": "Riyadh 12241, Saudi Arabia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 24.522054,
+    "lng": 46.3734827,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Red Sea Resort",
+    "city_state": "Tabuk Province, Saudi Arabia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 28.1204188,
+    "lng": 35.3216238,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Kuwait",
+    "city_state": "Kuwait City, Kuwait",
+    "zip": "",
+    "rooms": 0,
+    "lat": 29.3615906,
+    "lng": 47.9621709,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Al Mouj Muscat Resort",
+    "city_state": "Muscat, Oman",
+    "zip": "",
+    "rooms": 0,
+    "lat": 23.6185805,
+    "lng": 58.2851871,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Amman",
+    "city_state": "Amman 11190, Jordan",
+    "zip": "",
+    "rooms": 0,
+    "lat": 31.9772088,
+    "lng": 35.8373789,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Cairo",
+    "city_state": "Cairo 11431, Egypt",
+    "zip": "",
+    "rooms": 0,
+    "lat": 30.0085578,
+    "lng": 31.2271516,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis New Capital, Cairo",
+    "city_state": "Cairo Governorate, Egypt",
+    "zip": "",
+    "rooms": 0,
+    "lat": 30.003328,
+    "lng": 31.7269467,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Le Morne Resort",
+    "city_state": "District de la Rivi\u00e8re Noire, Mauritius",
+    "zip": "",
+    "rooms": 0,
+    "lat": -20.461172,
+    "lng": 57.3102305,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis La Bahia Blanca Resort",
+    "city_state": "Tetouan Province, Morocco",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.7745902,
+    "lng": -5.3466242,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Beijing",
+    "city_state": "Beijing 100020, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 39.910847,
+    "lng": 116.440155,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Shanghai Jingan",
+    "city_state": "Shanghai 200040, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 31.232645,
+    "lng": 121.45198,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis on the Bund, Shanghai",
+    "city_state": "Shanghai 200021, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 31.22708,
+    "lng": 121.49606,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Shenzhen",
+    "city_state": "Shenzhen 518001, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 22.5430759,
+    "lng": 114.1066643,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Shenzhen Bao'an",
+    "city_state": "Shenzhen, Guangdong, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 22.5514302,
+    "lng": 113.8810781,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Zhuhai",
+    "city_state": "Zhuhai 519000, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 22.171623,
+    "lng": 113.526596,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Tianjin",
+    "city_state": "Tianjin 300222, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 39.1095399,
+    "lng": 117.2233599,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Chengdu",
+    "city_state": "Chengdu 610041, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 30.5970699,
+    "lng": 104.05106,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Changsha",
+    "city_state": "Changsha, Hunan 410008, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 28.169504,
+    "lng": 113.044266,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Qingdao",
+    "city_state": "Qingdao 266071, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 36.056576,
+    "lng": 120.369406,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Sanya Yalong Bay Resort",
+    "city_state": "Sanya, Hainan 572000, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 18.223104,
+    "lng": 109.61242,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Macao",
+    "city_state": "Macao, Macao",
+    "zip": "",
+    "rooms": 0,
+    "lat": 22.146745,
+    "lng": 113.5658947,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Hong Kong",
+    "city_state": "Hong Kong, Hong Kong",
+    "zip": "",
+    "rooms": 0,
+    "lat": 22.2801126,
+    "lng": 114.174828,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Lhasa Resort",
+    "city_state": "Lhasa, Tibet 850000, China",
+    "zip": "",
+    "rooms": 0,
+    "lat": 29.645713,
+    "lng": 91.140737,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Singapore",
+    "city_state": "Singapore 247911, Singapore",
+    "zip": "",
+    "rooms": 0,
+    "lat": 1.306006,
+    "lng": 103.8260475,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Bangkok",
+    "city_state": "Bangkok 10330, Thailand",
+    "zip": "",
+    "rooms": 0,
+    "lat": 13.7399855,
+    "lng": 100.5398763,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Kuala Lumpur",
+    "city_state": "50470 Kuala Lumpur, Malaysia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 3.1369937,
+    "lng": 101.6891578,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Langkawi",
+    "city_state": "07000 Langkawi, Kedah, Malaysia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 6.2977669,
+    "lng": 99.86124319999999,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Jakarta",
+    "city_state": "South Jakarta 12710, Indonesia",
+    "zip": "",
+    "rooms": 0,
+    "lat": -6.2063292,
+    "lng": 106.8275025,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Bali Resort",
+    "city_state": "80363 Nusa Dua, Bali, Indonesia",
+    "zip": "",
+    "rooms": 0,
+    "lat": -8.8128275,
+    "lng": 115.2264772,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Goa Resort",
+    "city_state": "South Goa 403712, India",
+    "zip": "",
+    "rooms": 0,
+    "lat": 15.1570331,
+    "lng": 73.950941,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Mumbai",
+    "city_state": "Mumbai 400013, India",
+    "zip": "",
+    "rooms": 0,
+    "lat": 18.994269,
+    "lng": 72.8238429,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Osaka",
+    "city_state": "Osaka 541-0053, Japan",
+    "zip": "",
+    "rooms": 0,
+    "lat": 34.683343,
+    "lng": 135.5013987,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Astana",
+    "city_state": "Astana 010000, Kazakhstan",
+    "zip": "",
+    "rooms": 0,
+    "lat": 51.1522239,
+    "lng": 71.4253915,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Bora Bora Resort",
+    "city_state": "Bora Bora 98730, French Polynesia",
+    "zip": "",
+    "rooms": 0,
+    "lat": -16.4858526,
+    "lng": -151.6943083,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "The St. Regis Maldives Vommuli Resort",
+    "city_state": "Vommuli Island, Dhaalu Atoll 13080, Maldives",
+    "zip": "",
+    "rooms": 0,
+    "lat": 2.9113467,
+    "lng": 72.8660704,
+    "memberships": [
+      {
+        "slug": "brand-stregis",
+        "subject_name": "St. Regis (Brand)",
+        "color": "#1e3a8a",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy L'Ermitage Beverly Hills",
+    "city_state": "Beverly Hills, CA 90210, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 34.0726057,
+    "lng": -118.3953843,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy Chicago",
+    "city_state": "Chicago, IL 60610, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.9024809,
+    "lng": -87.62870550000001,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy Washington DC",
+    "city_state": "Washington, DC 20005, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.9081555,
+    "lng": -77.03292239999999,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy Snowmass",
+    "city_state": "Snowmass Village, CO 81615, USA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 39.2096046,
+    "lng": -106.9446729,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy Dorado Beach",
+    "city_state": "Dorado 00646, Puerto Rico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 18.4753725,
+    "lng": -66.3004613,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy Los Cabos",
+    "city_state": "San Jos\u00e9 del Cabo, BCS 23405, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 23.0447849,
+    "lng": -109.6984333,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy Riviera Maya",
+    "city_state": "Playa del Carmen, Q. Roo 77710, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.6651478,
+    "lng": -87.0334235,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy at Ombria Algarve",
+    "city_state": "8100-396 T\u00f4r, Loul\u00e9, Algarve, Portugal",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.1910484,
+    "lng": -8.0127516,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy St. Lucia",
+    "city_state": "Soufri\u00e8re, Saint Lucia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 13.8278433,
+    "lng": -61.0612116,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy Kopaonik",
+    "city_state": "Kopaonik, Serbia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 43.2848069,
+    "lng": 20.8104521,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Viceroy Alula",
+    "city_state": "AlUla, Medina Province, Saudi Arabia",
+    "zip": "",
+    "rooms": 0,
+    "lat": 26.6250159,
+    "lng": 37.9153868,
+    "memberships": [
+      {
+        "slug": "brand-viceroy",
+        "subject_name": "Viceroy (Brand)",
+        "color": "#7c3aed",
+        "role": "brand"
+      }
+    ]
   }
 ];
-const CENTER = { lat: 6.881796750000003, lng: 14.363755900000008 };
+const CENTER = { lat: 7.436720000000005, lng: 10.5140533 };
 let map;
 let markers = [];            // { marker, memberships }
 let bySet = {};            // slug → [markerRecord]

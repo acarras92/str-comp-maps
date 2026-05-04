@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Capella &mdash; Brand Portfolio Map</title>
+  <title>Viceroy &mdash; Brand Portfolio Map</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -15,7 +15,7 @@
     }
     .header {
       background: #1a2744;
-      border-bottom: 3px solid #7c2d12;
+      border-bottom: 3px solid #7c3aed;
       padding: 14px 22px;
       display: flex;
       align-items: center;
@@ -88,7 +88,7 @@
     #map { flex: 1; }
     .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }
     .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
-    .gm-iw-brand { font-size: 10px; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
+    .gm-iw-brand { font-size: 10px; color: #7c3aed; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
     .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
   </style>
 </head>
@@ -96,8 +96,8 @@
 
 <div class="header">
   <div class="header-left">
-    <h1>Capella &mdash; Brand Portfolio</h1>
-    <p>Capella Hotels & Resorts — ultra-luxury portfolio (11 properties) &nbsp;&middot;&nbsp; 11 properties mapped</p>
+    <h1>Viceroy &mdash; Brand Portfolio</h1>
+    <p>Viceroy Hotels & Resorts — design-forward modern luxury &nbsp;&middot;&nbsp; 12 properties mapped</p>
   </div>
   <div class="header-right">
     <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
@@ -108,7 +108,7 @@
   <div class="sidebar">
     <div class="sb-section">
       <h3>Legend</h3>
-      <div class="legend-row"><div class="leg-dot" style="background:#7c2d12;"></div> Capella Property</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#7c3aed;"></div> Viceroy Property</div>
     </div>
     <div class="sb-section" style="border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
@@ -124,101 +124,109 @@
 <script>
   const HOTELS = [
   {
-    "name": "Capella Singapore",
-    "address": "1 The Knolls, Sentosa Island",
-    "city": "Singapore 098297",
-    "country": "Singapore",
-    "lat": 1.2497222,
-    "lng": 103.8241667
+    "name": "Viceroy Santa Monica",
+    "address": "1819 Ocean Avenue",
+    "city": "Santa Monica, CA 90401",
+    "country": "USA",
+    "lat": 34.0080531,
+    "lng": -118.4903365
   },
   {
-    "name": "Capella Bangkok",
-    "address": "300/2 Charoenkrung Road, Yannawa, Sathorn",
-    "city": "Bangkok 10120",
-    "country": "Thailand",
-    "lat": 13.7131047,
-    "lng": 100.5110225
+    "name": "Viceroy L'Ermitage Beverly Hills",
+    "address": "9291 Burton Way",
+    "city": "Beverly Hills, CA 90210",
+    "country": "USA",
+    "lat": 34.0726057,
+    "lng": -118.3953843
   },
   {
-    "name": "Capella Hanoi",
-    "address": "11 P. L\u00ea Ph\u1ee5ng Hi\u1ec3u, Hoan Kiem District",
-    "city": "Hanoi 100000",
-    "country": "Vietnam",
-    "lat": 21.0257164,
-    "lng": 105.8566886
+    "name": "Viceroy Chicago",
+    "address": "1118 North State Street",
+    "city": "Chicago, IL 60610",
+    "country": "USA",
+    "lat": 41.9024809,
+    "lng": -87.62870550000001
   },
   {
-    "name": "Capella Sydney",
-    "address": "1 Bridge Street",
-    "city": "Sydney NSW 2000",
-    "country": "Australia",
-    "lat": -33.8638571,
-    "lng": 151.2104059
+    "name": "Viceroy Washington DC",
+    "address": "1430 Rhode Island Avenue NW",
+    "city": "Washington, DC 20005",
+    "country": "USA",
+    "lat": 38.9081555,
+    "lng": -77.03292239999999
   },
   {
-    "name": "Capella Ubud, Bali",
-    "address": "Jalan Raya Keliki, Tegallalang",
-    "city": "Ubud, Gianyar, Bali",
-    "country": "Indonesia",
-    "lat": -8.4482091,
-    "lng": 115.2681117
+    "name": "Viceroy Snowmass",
+    "address": "130 Wood Road",
+    "city": "Snowmass Village, CO 81615",
+    "country": "USA",
+    "lat": 39.2096046,
+    "lng": -106.9446729
   },
   {
-    "name": "Capella Shanghai",
-    "address": "480 Fenyang Road, Xuhui District",
-    "city": "Shanghai 200031",
-    "country": "China",
-    "lat": 31.21184,
-    "lng": 121.45449
+    "name": "Viceroy Dorado Beach",
+    "address": "100 Dorado Beach Drive",
+    "city": "Dorado 00646",
+    "country": "Puerto Rico",
+    "lat": 18.4753725,
+    "lng": -66.3004613
   },
   {
-    "name": "Capella Tufu Bay, Hainan",
-    "address": "Tufu Bay",
-    "city": "Wanning City, Hainan Province",
-    "country": "China",
-    "lat": 18.393608,
-    "lng": 109.798234
+    "name": "Viceroy Los Cabos",
+    "address": "Paseo Malecon San Jose Lote 8",
+    "city": "San Jos\u00e9 del Cabo, BCS 23405",
+    "country": "Mexico",
+    "lat": 23.0447849,
+    "lng": -109.6984333
   },
   {
-    "name": "Capella Taipei",
-    "address": "No. 88 Songgao Road, Xinyi District",
-    "city": "Taipei 110",
-    "country": "Taiwan",
-    "lat": 25.038887,
-    "lng": 121.571638
+    "name": "Viceroy Riviera Maya",
+    "address": "Playa Xcalacoco Frac 7",
+    "city": "Playa del Carmen, Q. Roo 77710",
+    "country": "Mexico",
+    "lat": 20.6651478,
+    "lng": -87.0334235
   },
   {
-    "name": "Capella Tokyo",
-    "address": "Tokyo Midtown Hibiya, 1-1-2 Yurakucho, Chiyoda-ku",
-    "city": "Tokyo 100-0006",
-    "country": "Japan",
-    "lat": 35.6737436,
-    "lng": 139.7591762
+    "name": "Viceroy at Ombria Algarve",
+    "address": "Rua da Ombria Nr 9",
+    "city": "8100-396 T\u00f4r, Loul\u00e9, Algarve",
+    "country": "Portugal",
+    "lat": 37.1910484,
+    "lng": -8.0127516
   },
   {
-    "name": "Capella at Galaxy Macau",
-    "address": "Galaxy Macau, Estrada da Ba\u00eda de Nossa Senhora da Esperan\u00e7a",
-    "city": "Cotai",
-    "country": "Macao",
-    "lat": 22.1478499,
-    "lng": 113.5535633
+    "name": "Viceroy St. Lucia",
+    "address": "Val des Pitons, La Baie de Silence",
+    "city": "Soufri\u00e8re",
+    "country": "Saint Lucia",
+    "lat": 13.8278433,
+    "lng": -61.0612116
   },
   {
-    "name": "Capella Kyoto",
-    "address": "Miyagawa-cho District",
-    "city": "Higashiyama, Kyoto",
-    "country": "Japan",
-    "lat": 34.9993497,
-    "lng": 135.7720604
+    "name": "Viceroy Kopaonik",
+    "address": "Brze\u0107e 36354",
+    "city": "Kopaonik",
+    "country": "Serbia",
+    "lat": 43.2848069,
+    "lng": 20.8104521
+  },
+  {
+    "name": "Viceroy Alula",
+    "address": "AlUla Old Town",
+    "city": "AlUla, Medina Province",
+    "country": "Saudi Arabia",
+    "lat": 26.6250159,
+    "lng": 37.9153868
   }
 ];
-  const COLOR = "#7c2d12";
+  const COLOR = "#7c3aed";
   let map, infoWindow;
   const markers = [];
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 14.649250481818182, lng: 119.87086884545455 },
+      center: { lat: 30.934576625000002, lng: -65.15603866666667 },
       zoom: 3,
       mapTypeControl: true,
       streetViewControl: false,
@@ -257,7 +265,7 @@
       const iwContent = `
         <div class="gm-iw">
           <div class="gm-iw-title">${h.name}</div>
-          <div class="gm-iw-brand">Capella</div>
+          <div class="gm-iw-brand">Viceroy</div>
           <div class="gm-iw-meta">${fullAddr}</div>
         </div>`;
       marker.addListener('click', () => {

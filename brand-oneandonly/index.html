@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Capella &mdash; Brand Portfolio Map</title>
+  <title>One&Only &mdash; Brand Portfolio Map</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -15,7 +15,7 @@
     }
     .header {
       background: #1a2744;
-      border-bottom: 3px solid #7c2d12;
+      border-bottom: 3px solid #0c4a6e;
       padding: 14px 22px;
       display: flex;
       align-items: center;
@@ -88,7 +88,7 @@
     #map { flex: 1; }
     .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }
     .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
-    .gm-iw-brand { font-size: 10px; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
+    .gm-iw-brand { font-size: 10px; color: #0c4a6e; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
     .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
   </style>
 </head>
@@ -96,8 +96,8 @@
 
 <div class="header">
   <div class="header-left">
-    <h1>Capella &mdash; Brand Portfolio</h1>
-    <p>Capella Hotels & Resorts — ultra-luxury portfolio (11 properties) &nbsp;&middot;&nbsp; 11 properties mapped</p>
+    <h1>One&Only &mdash; Brand Portfolio</h1>
+    <p>One&Only Resorts — ultra-private destination luxury &nbsp;&middot;&nbsp; 14 properties mapped</p>
   </div>
   <div class="header-right">
     <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
@@ -108,7 +108,7 @@
   <div class="sidebar">
     <div class="sb-section">
       <h3>Legend</h3>
-      <div class="legend-row"><div class="leg-dot" style="background:#7c2d12;"></div> Capella Property</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#0c4a6e;"></div> One&Only Property</div>
     </div>
     <div class="sb-section" style="border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
@@ -124,101 +124,125 @@
 <script>
   const HOTELS = [
   {
-    "name": "Capella Singapore",
-    "address": "1 The Knolls, Sentosa Island",
-    "city": "Singapore 098297",
-    "country": "Singapore",
-    "lat": 1.2497222,
-    "lng": 103.8241667
+    "name": "One&Only Palmilla",
+    "address": "Carretera Transpeninsular KM 7.5 Punta Palmilla",
+    "city": "San Jos\u00e9 del Cabo, BCS",
+    "country": "Mexico",
+    "lat": 23.0105838,
+    "lng": -109.7167683
   },
   {
-    "name": "Capella Bangkok",
-    "address": "300/2 Charoenkrung Road, Yannawa, Sathorn",
-    "city": "Bangkok 10120",
-    "country": "Thailand",
-    "lat": 13.7131047,
-    "lng": 100.5110225
+    "name": "One&Only Mandarina",
+    "address": "Riviera Nayarit",
+    "city": "Municipio de Bah\u00eda de Banderas, Nayarit",
+    "country": "Mexico",
+    "lat": 20.9778543,
+    "lng": -105.3309758
   },
   {
-    "name": "Capella Hanoi",
-    "address": "11 P. L\u00ea Ph\u1ee5ng Hi\u1ec3u, Hoan Kiem District",
-    "city": "Hanoi 100000",
-    "country": "Vietnam",
-    "lat": 21.0257164,
-    "lng": 105.8566886
+    "name": "One&Only Moonlight Basin",
+    "address": "50 Moonlight Basin Road",
+    "city": "Big Sky, MT 59716",
+    "country": "USA",
+    "lat": 45.3228732,
+    "lng": -111.4285455
   },
   {
-    "name": "Capella Sydney",
-    "address": "1 Bridge Street",
-    "city": "Sydney NSW 2000",
-    "country": "Australia",
-    "lat": -33.8638571,
-    "lng": 151.2104059
+    "name": "One&Only Royal Mirage",
+    "address": "Al Sufouh Road",
+    "city": "Dubai 37252",
+    "country": "UAE",
+    "lat": 25.1003586,
+    "lng": 55.1571736
   },
   {
-    "name": "Capella Ubud, Bali",
-    "address": "Jalan Raya Keliki, Tegallalang",
-    "city": "Ubud, Gianyar, Bali",
-    "country": "Indonesia",
-    "lat": -8.4482091,
-    "lng": 115.2681117
+    "name": "One&Only The Palm",
+    "address": "East Crescent Road, Palm Jumeirah",
+    "city": "Dubai",
+    "country": "UAE",
+    "lat": 25.0994852,
+    "lng": 55.1334634
   },
   {
-    "name": "Capella Shanghai",
-    "address": "480 Fenyang Road, Xuhui District",
-    "city": "Shanghai 200031",
-    "country": "China",
-    "lat": 31.21184,
-    "lng": 121.45449
+    "name": "One&Only Za'abeel",
+    "address": "Sheikh Zayed Road, Za'abeel",
+    "city": "Dubai",
+    "country": "UAE",
+    "lat": 25.2282224,
+    "lng": 55.2906545
   },
   {
-    "name": "Capella Tufu Bay, Hainan",
-    "address": "Tufu Bay",
-    "city": "Wanning City, Hainan Province",
-    "country": "China",
-    "lat": 18.393608,
-    "lng": 109.798234
+    "name": "One&Only Portonovi",
+    "address": "Valdanos Bay, Boka Bay",
+    "city": "Herceg Novi",
+    "country": "Montenegro",
+    "lat": 42.4353789,
+    "lng": 18.5968481
   },
   {
-    "name": "Capella Taipei",
-    "address": "No. 88 Songgao Road, Xinyi District",
-    "city": "Taipei 110",
-    "country": "Taiwan",
-    "lat": 25.038887,
-    "lng": 121.571638
+    "name": "One&Only K\u00e9a Island",
+    "address": "Vourkari",
+    "city": "K\u00e9a Island, Cyclades",
+    "country": "Greece",
+    "lat": 37.6128665,
+    "lng": 24.273674
   },
   {
-    "name": "Capella Tokyo",
-    "address": "Tokyo Midtown Hibiya, 1-1-2 Yurakucho, Chiyoda-ku",
-    "city": "Tokyo 100-0006",
-    "country": "Japan",
-    "lat": 35.6737436,
-    "lng": 139.7591762
+    "name": "One&Only Aesthesis",
+    "address": "Kavouri",
+    "city": "Vouliagmeni, Athens 16671",
+    "country": "Greece",
+    "lat": 37.8554478,
+    "lng": 23.7512181
   },
   {
-    "name": "Capella at Galaxy Macau",
-    "address": "Galaxy Macau, Estrada da Ba\u00eda de Nossa Senhora da Esperan\u00e7a",
-    "city": "Cotai",
-    "country": "Macao",
-    "lat": 22.1478499,
-    "lng": 113.5535633
+    "name": "One&Only Cape Town",
+    "address": "Dock Road, V&A Waterfront",
+    "city": "Cape Town 8001",
+    "country": "South Africa",
+    "lat": -33.9086313,
+    "lng": 18.4162905
   },
   {
-    "name": "Capella Kyoto",
-    "address": "Miyagawa-cho District",
-    "city": "Higashiyama, Kyoto",
-    "country": "Japan",
-    "lat": 34.9993497,
-    "lng": 135.7720604
+    "name": "One&Only Reethi Rah",
+    "address": "",
+    "city": "North Mal\u00e9 Atoll",
+    "country": "Maldives",
+    "lat": 4.520509,
+    "lng": 73.366933
+  },
+  {
+    "name": "One&Only Le Saint G\u00e9ran",
+    "address": "Pointe de Flacq",
+    "city": "",
+    "country": "Mauritius",
+    "lat": -20.1605098,
+    "lng": 57.7562809
+  },
+  {
+    "name": "One&Only Nyungwe House",
+    "address": "",
+    "city": "Nyungwe National Park, Southern Rwanda",
+    "country": "Rwanda",
+    "lat": -2.5282211,
+    "lng": 29.2784212
+  },
+  {
+    "name": "One&Only Gorilla's Nest",
+    "address": "Kinigi",
+    "city": "Volcanoes National Park, Northern Rwanda",
+    "country": "Rwanda",
+    "lat": -1.4415199,
+    "lng": 29.5791051
   }
 ];
-  const COLOR = "#7c2d12";
+  const COLOR = "#0c4a6e";
   let map, infoWindow;
   const markers = [];
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 14.649250481818182, lng: 119.87086884545455 },
+      center: { lat: 16.366049828571427, lng: 8.151698057142857 },
       zoom: 3,
       mapTypeControl: true,
       streetViewControl: false,
@@ -257,7 +281,7 @@
       const iwContent = `
         <div class="gm-iw">
           <div class="gm-iw-title">${h.name}</div>
-          <div class="gm-iw-brand">Capella</div>
+          <div class="gm-iw-brand">One&Only</div>
           <div class="gm-iw-meta">${fullAddr}</div>
         </div>`;
       marker.addListener('click', () => {

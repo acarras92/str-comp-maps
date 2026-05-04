@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>St. Regis &mdash; Brand Portfolio Map</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f5f5f5;
+    }
+    .header {
+      background: #1a2744;
+      border-bottom: 3px solid #1e3a8a;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .header-left h1 { font-size: 18px; font-weight: 700; color: #fff; }
+    .header-left p { font-size: 11px; color: #8fa8d8; margin-top: 3px; }
+    .header-right { font-size: 11px; color: #8fa8d8; }
+    .header-right a { color: #8fa8d8; text-decoration: none; }
+    .header-right a:hover { color: #fff; }
+    .main { display: flex; flex: 1; overflow: hidden; }
+    .sidebar {
+      width: 290px;
+      background: #fff;
+      border-right: 1px solid #dde3ed;
+      overflow-y: auto;
+      flex-shrink: 0;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+    }
+    .sb-section { padding: 14px; border-bottom: 1px solid #eaecf0; }
+    .sb-section h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: #8090b0;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .legend-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 6px; font-size: 12px; color: #334;
+    }
+    .leg-dot {
+      width: 14px; height: 14px;
+      transform: rotate(45deg);
+      border: 2px solid rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .hotel-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 9px 6px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .hotel-item:hover { background: #f0f5ff; }
+    .h-pin {
+      width: 22px; height: 22px;
+      transform: rotate(45deg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .h-pin-num {
+      transform: rotate(-45deg);
+      color: #fff;
+      font-weight: 700;
+      font-size: 10px;
+    }
+    .h-info h4 { font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3; }
+    .h-info .h-meta { font-size: 10px; color: #7080a0; margin-top: 2px; }
+    .sidebar-footer {
+      padding: 10px 14px;
+      font-size: 10px;
+      color: #aabbd0;
+      border-top: 1px solid #eaecf0;
+    }
+    #map { flex: 1; }
+    .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }
+    .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
+    .gm-iw-brand { font-size: 10px; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
+    .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>St. Regis &mdash; Brand Portfolio</h1>
+    <p>The St. Regis — Marriott's flagship luxury brand, 61 properties (WGT comp) &nbsp;&middot;&nbsp; 65 properties mapped</p>
+  </div>
+  <div class="header-right">
+    <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sb-section">
+      <h3>Legend</h3>
+      <div class="legend-row"><div class="leg-dot" style="background:#1e3a8a;"></div> St. Regis Property</div>
+    </div>
+    <div class="sb-section" style="border-bottom:none;">
+      <h3>Properties &mdash; Click to Navigate</h3>
+      <div id="hotel-list"></div>
+    </div>
+    <div class="sidebar-footer">
+      Reference map &middot; Brand portfolio only &middot; No STR performance data
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script>
+  const HOTELS = [
+  {
+    "name": "The St. Regis New York",
+    "address": "2 East 55th Street at Fifth Avenue",
+    "city": "New York, NY 10022",
+    "country": "USA",
+    "lat": 40.7613979,
+    "lng": -73.9746128
+  },
+  {
+    "name": "The St. Regis Chicago",
+    "address": "401 East Upper Wacker Drive",
+    "city": "Chicago, IL 60601",
+    "country": "USA",
+    "lat": 41.8875572,
+    "lng": -87.61764029999999
+  },
+  {
+    "name": "The St. Regis Atlanta",
+    "address": "88 West Paces Ferry Road NW",
+    "city": "Atlanta, GA 30305",
+    "country": "USA",
+    "lat": 33.839996,
+    "lng": -84.38250599999999
+  },
+  {
+    "name": "The St. Regis Washington, D.C.",
+    "address": "923 16th & K Street NW",
+    "city": "Washington, DC 20006",
+    "country": "USA",
+    "lat": 38.9021897,
+    "lng": -77.036168
+  },
+  {
+    "name": "The St. Regis San Francisco",
+    "address": "125 Third Street",
+    "city": "San Francisco, CA 94103",
+    "country": "USA",
+    "lat": 37.7861299,
+    "lng": -122.4014681
+  },
+  {
+    "name": "The St. Regis Aspen Resort",
+    "address": "315 Dean Street",
+    "city": "Aspen, CO 81611",
+    "country": "USA",
+    "lat": 39.1869176,
+    "lng": -106.8211131
+  },
+  {
+    "name": "The St. Regis Bal Harbour Resort",
+    "address": "9703 Collins Avenue",
+    "city": "Bal Harbour, FL 33154",
+    "country": "USA",
+    "lat": 25.8890934,
+    "lng": -80.1224107
+  },
+  {
+    "name": "The St. Regis Longboat Key Resort",
+    "address": "1620 Gulf of Mexico Drive",
+    "city": "Longboat Key, FL 34228",
+    "country": "USA",
+    "lat": 27.3527036,
+    "lng": -82.6105377
+  },
+  {
+    "name": "The St. Regis Houston",
+    "address": "1919 Briar Oaks Lane",
+    "city": "Houston, TX 77027",
+    "country": "USA",
+    "lat": 29.74746709999999,
+    "lng": -95.45038799999999
+  },
+  {
+    "name": "The St. Regis Toronto",
+    "address": "325 Bay Street",
+    "city": "Toronto, ON M5H 4G3",
+    "country": "Canada",
+    "lat": 43.649722,
+    "lng": -79.38027799999999
+  },
+  {
+    "name": "The St. Regis Bermuda Resort",
+    "address": "6100 Cooper's Island Road",
+    "city": "St. George's Parish",
+    "country": "Bermuda",
+    "lat": 32.388967,
+    "lng": -64.6748867
+  },
+  {
+    "name": "The St. Regis Cap Cana Resort",
+    "address": "Cap Cana, Punta Cana",
+    "city": "La Altagracia",
+    "country": "Dominican Republic",
+    "lat": 18.4560625,
+    "lng": -68.4153125
+  },
+  {
+    "name": "The St. Regis Aruba Resort",
+    "address": "L.G. Smith Boulevard 82",
+    "city": "Noord",
+    "country": "Aruba",
+    "lat": 12.5650511,
+    "lng": -70.04941889999999
+  },
+  {
+    "name": "The St. Regis Costa Mujeres Resort",
+    "address": "Carretera Canc\u00fan\u2013Punta Sam KM 19.8",
+    "city": "Canc\u00fan, Q. Roo",
+    "country": "Mexico",
+    "lat": 21.2131005,
+    "lng": -86.8024063
+  },
+  {
+    "name": "The St. Regis Kanai Resort, Riviera Maya",
+    "address": "Playa del Carmen",
+    "city": "Riviera Maya, Quintana Roo",
+    "country": "Mexico",
+    "lat": 20.7188711,
+    "lng": -86.98872949999999
+  },
+  {
+    "name": "The St. Regis Mexico City",
+    "address": "Paseo de la Reforma 439, Cuauht\u00e9moc",
+    "city": "CDMX 06600",
+    "country": "Mexico",
+    "lat": 19.4256338,
+    "lng": -99.1720892
+  },
+  {
+    "name": "The St. Regis Punta Mita Resort",
+    "address": "Carretera a Punta de Mita KM 9",
+    "city": "Bah\u00eda de Banderas, Nayarit 63734",
+    "country": "Mexico",
+    "lat": 20.7679501,
+    "lng": -105.5378292
+  },
+  {
+    "name": "The St. Regis Florence",
+    "address": "Piazza Ognissanti 1",
+    "city": "50123 Florence",
+    "country": "Italy",
+    "lat": 43.7721584,
+    "lng": 11.2450378
+  },
+  {
+    "name": "The St. Regis Rome",
+    "address": "Via Vittorio Emanuele Orlando 3",
+    "city": "00185 Rome",
+    "country": "Italy",
+    "lat": 41.9040717,
+    "lng": 12.4948729
+  },
+  {
+    "name": "The St. Regis Venice",
+    "address": "San Marco 2159",
+    "city": "30124 Venice",
+    "country": "Italy",
+    "lat": 45.431933,
+    "lng": 12.33549
+  },
+  {
+    "name": "The St. Regis Budapest",
+    "address": "Andr\u00e1ssy Avenue 5-7",
+    "city": "Budapest 1061",
+    "country": "Hungary",
+    "lat": 47.4999791,
+    "lng": 19.0559904
+  },
+  {
+    "name": "The St. Regis Belgrade",
+    "address": "Vladimira Popovi\u0107a 10, Novi Beograd",
+    "city": "Belgrade 11070",
+    "country": "Serbia",
+    "lat": 44.8093402,
+    "lng": 20.4341769
+  },
+  {
+    "name": "The St. Regis Mardavall Mallorca Resort",
+    "address": "Carretera d'Andratx 19",
+    "city": "07181 Es Capdell\u00e0, Mallorca",
+    "country": "Spain",
+    "lat": 39.528159,
+    "lng": 2.550929
+  },
+  {
+    "name": "The St. Regis Istanbul",
+    "address": "Suzer Plaza, Askeroca\u011f\u0131 Caddesi 15, \u015ei\u015fli",
+    "city": "Istanbul 34367",
+    "country": "Turkey",
+    "lat": 41.04783,
+    "lng": 28.9927952
+  },
+  {
+    "name": "The St. Regis Abu Dhabi",
+    "address": "Nation Towers, Corniche Road",
+    "city": "Abu Dhabi",
+    "country": "UAE",
+    "lat": 24.4635871,
+    "lng": 54.3275927
+  },
+  {
+    "name": "The St. Regis Saadiyat Island Resort",
+    "address": "Saadiyat Island",
+    "city": "Abu Dhabi",
+    "country": "UAE",
+    "lat": 24.5391681,
+    "lng": 54.4241865
+  },
+  {
+    "name": "The St. Regis Dubai, The Palm",
+    "address": "East Crescent Road, Palm Jumeirah",
+    "city": "Dubai",
+    "country": "UAE",
+    "lat": 25.1142536,
+    "lng": 55.1397759
+  },
+  {
+    "name": "The St. Regis Downtown Dubai",
+    "address": "The Burj Vista, Downtown Dubai",
+    "city": "Dubai",
+    "country": "UAE",
+    "lat": 25.185895,
+    "lng": 55.2735593
+  },
+  {
+    "name": "The St. Regis Doha",
+    "address": "Doha West Bay, Diplomatic Area",
+    "city": "Doha",
+    "country": "Qatar",
+    "lat": 25.3504375,
+    "lng": 51.53003630000001
+  },
+  {
+    "name": "The St. Regis Marsa Arabia Island",
+    "address": "The Pearl-Qatar",
+    "city": "Doha",
+    "country": "Qatar",
+    "lat": 25.3693803,
+    "lng": 51.5436201
+  },
+  {
+    "name": "The St. Regis Riyadh",
+    "address": "2941 Makkah Al Mukarramah Road",
+    "city": "Riyadh 12241",
+    "country": "Saudi Arabia",
+    "lat": 24.522054,
+    "lng": 46.3734827
+  },
+  {
+    "name": "The St. Regis Red Sea Resort",
+    "address": "NEOM / Red Sea Project",
+    "city": "Tabuk Province",
+    "country": "Saudi Arabia",
+    "lat": 28.1204188,
+    "lng": 35.3216238
+  },
+  {
+    "name": "The St. Regis Kuwait",
+    "address": "Arabian Gulf Street, Salmiya",
+    "city": "Kuwait City",
+    "country": "Kuwait",
+    "lat": 29.3615906,
+    "lng": 47.9621709
+  },
+  {
+    "name": "The St. Regis Al Mouj Muscat Resort",
+    "address": "Al Mouj Marina",
+    "city": "Muscat",
+    "country": "Oman",
+    "lat": 23.6185805,
+    "lng": 58.2851871
+  },
+  {
+    "name": "The St. Regis Amman",
+    "address": "King Abdullah II Street, Shmeisani",
+    "city": "Amman 11190",
+    "country": "Jordan",
+    "lat": 31.9772088,
+    "lng": 35.8373789
+  },
+  {
+    "name": "The St. Regis Cairo",
+    "address": "1113 Corniche El Nil, Maadi",
+    "city": "Cairo 11431",
+    "country": "Egypt",
+    "lat": 30.0085578,
+    "lng": 31.2271516
+  },
+  {
+    "name": "The St. Regis New Capital, Cairo",
+    "address": "New Administrative Capital",
+    "city": "Cairo Governorate",
+    "country": "Egypt",
+    "lat": 30.003328,
+    "lng": 31.7269467
+  },
+  {
+    "name": "The St. Regis Le Morne Resort",
+    "address": "Le Morne Peninsula",
+    "city": "District de la Rivi\u00e8re Noire",
+    "country": "Mauritius",
+    "lat": -20.461172,
+    "lng": 57.3102305
+  },
+  {
+    "name": "The St. Regis La Bahia Blanca Resort",
+    "address": "Tamuda Bay, Fnideq",
+    "city": "Tetouan Province",
+    "country": "Morocco",
+    "lat": 35.7745902,
+    "lng": -5.3466242
+  },
+  {
+    "name": "The St. Regis Beijing",
+    "address": "21 Jianguomenwai Avenue, Chaoyang District",
+    "city": "Beijing 100020",
+    "country": "China",
+    "lat": 39.910847,
+    "lng": 116.440155
+  },
+  {
+    "name": "The St. Regis Shanghai Jingan",
+    "address": "1008 Beijing West Road, Jing'an District",
+    "city": "Shanghai 200040",
+    "country": "China",
+    "lat": 31.232645,
+    "lng": 121.45198
+  },
+  {
+    "name": "The St. Regis on the Bund, Shanghai",
+    "address": "123 Xingye Road, Huangpu District",
+    "city": "Shanghai 200021",
+    "country": "China",
+    "lat": 31.22708,
+    "lng": 121.49606
+  },
+  {
+    "name": "The St. Regis Shenzhen",
+    "address": "5016 Shennan East Road, Luohu District",
+    "city": "Shenzhen 518001",
+    "country": "China",
+    "lat": 22.5430759,
+    "lng": 114.1066643
+  },
+  {
+    "name": "The St. Regis Shenzhen Bao'an",
+    "address": "Bao'an District",
+    "city": "Shenzhen, Guangdong",
+    "country": "China",
+    "lat": 22.5514302,
+    "lng": 113.8810781
+  },
+  {
+    "name": "The St. Regis Zhuhai",
+    "address": "Jingshan Road, Xiangzhou District",
+    "city": "Zhuhai 519000",
+    "country": "China",
+    "lat": 22.171623,
+    "lng": 113.526596
+  },
+  {
+    "name": "The St. Regis Tianjin",
+    "address": "188 Zijin Mountain Road, Hexi District",
+    "city": "Tianjin 300222",
+    "country": "China",
+    "lat": 39.1095399,
+    "lng": 117.2233599
+  },
+  {
+    "name": "The St. Regis Chengdu",
+    "address": "88 Renmin South Road, Wuhou District",
+    "city": "Chengdu 610041",
+    "country": "China",
+    "lat": 30.5970699,
+    "lng": 104.05106
+  },
+  {
+    "name": "The St. Regis Changsha",
+    "address": "Wujialing Area, Kaifu District",
+    "city": "Changsha, Hunan 410008",
+    "country": "China",
+    "lat": 28.169504,
+    "lng": 113.044266
+  },
+  {
+    "name": "The St. Regis Qingdao",
+    "address": "9 Donghai West Road, Shinan District",
+    "city": "Qingdao 266071",
+    "country": "China",
+    "lat": 36.056576,
+    "lng": 120.369406
+  },
+  {
+    "name": "The St. Regis Sanya Yalong Bay Resort",
+    "address": "Yalong Bay National Resort District",
+    "city": "Sanya, Hainan 572000",
+    "country": "China",
+    "lat": 18.223104,
+    "lng": 109.61242
+  },
+  {
+    "name": "The St. Regis Macao",
+    "address": "The Parisian Macao, Estrada do Istmo, Cotai Strip",
+    "city": "Macao",
+    "country": "Macao",
+    "lat": 22.146745,
+    "lng": 113.5658947
+  },
+  {
+    "name": "The St. Regis Hong Kong",
+    "address": "19 Harbour Road, Wan Chai",
+    "city": "Hong Kong",
+    "country": "Hong Kong",
+    "lat": 22.2801126,
+    "lng": 114.174828
+  },
+  {
+    "name": "The St. Regis Lhasa Resort",
+    "address": "Lhasa Lu, Chengguan District",
+    "city": "Lhasa, Tibet 850000",
+    "country": "China",
+    "lat": 29.645713,
+    "lng": 91.140737
+  },
+  {
+    "name": "The St. Regis Singapore",
+    "address": "29 Tanglin Road",
+    "city": "Singapore 247911",
+    "country": "Singapore",
+    "lat": 1.306006,
+    "lng": 103.8260475
+  },
+  {
+    "name": "The St. Regis Bangkok",
+    "address": "159 Rajadamri Road, Pathumwan",
+    "city": "Bangkok 10330",
+    "country": "Thailand",
+    "lat": 13.7399855,
+    "lng": 100.5398763
+  },
+  {
+    "name": "The St. Regis Kuala Lumpur",
+    "address": "Jalan Stesen Sentral 2, KL Sentral",
+    "city": "50470 Kuala Lumpur",
+    "country": "Malaysia",
+    "lat": 3.1369937,
+    "lng": 101.6891578
+  },
+  {
+    "name": "The St. Regis Langkawi",
+    "address": "Jalan Pantai Beringin",
+    "city": "07000 Langkawi, Kedah",
+    "country": "Malaysia",
+    "lat": 6.2977669,
+    "lng": 99.86124319999999
+  },
+  {
+    "name": "The St. Regis Jakarta",
+    "address": "Jl. Gatot Subroto Kav. 18, SCBD",
+    "city": "South Jakarta 12710",
+    "country": "Indonesia",
+    "lat": -6.2063292,
+    "lng": 106.8275025
+  },
+  {
+    "name": "The St. Regis Bali Resort",
+    "address": "Kawasan Pariwisata Nusa Dua Lot S6",
+    "city": "80363 Nusa Dua, Bali",
+    "country": "Indonesia",
+    "lat": -8.8128275,
+    "lng": 115.2264772
+  },
+  {
+    "name": "The St. Regis Goa Resort",
+    "address": "Arossim Beach, Cansaulim",
+    "city": "South Goa 403712",
+    "country": "India",
+    "lat": 15.1570331,
+    "lng": 73.950941
+  },
+  {
+    "name": "The St. Regis Mumbai",
+    "address": "462 Senapati Bapat Marg, Lower Parel",
+    "city": "Mumbai 400013",
+    "country": "India",
+    "lat": 18.994269,
+    "lng": 72.8238429
+  },
+  {
+    "name": "The St. Regis Osaka",
+    "address": "3-6-12 Honmachi, Chuo-ku",
+    "city": "Osaka 541-0053",
+    "country": "Japan",
+    "lat": 34.683343,
+    "lng": 135.5013987
+  },
+  {
+    "name": "The St. Regis Astana",
+    "address": "Khan Shatyr",
+    "city": "Astana 010000",
+    "country": "Kazakhstan",
+    "lat": 51.1522239,
+    "lng": 71.4253915
+  },
+  {
+    "name": "The St. Regis Bora Bora Resort",
+    "address": "Motu Ome'e",
+    "city": "Bora Bora 98730",
+    "country": "French Polynesia",
+    "lat": -16.4858526,
+    "lng": -151.6943083
+  },
+  {
+    "name": "The St. Regis Maldives Vommuli Resort",
+    "address": "",
+    "city": "Vommuli Island, Dhaalu Atoll 13080",
+    "country": "Maldives",
+    "lat": 2.9113467,
+    "lng": 72.8660704
+  }
+];
+  const COLOR = "#1e3a8a";
+  let map, infoWindow;
+  const markers = [];
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 25.895679756923077, lng: 27.43901479538462 },
+      zoom: 3,
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: true,
+    });
+    infoWindow = new google.maps.InfoWindow({ maxWidth: 290 });
+
+    const listEl = document.getElementById('hotel-list');
+    const bounds = new google.maps.LatLngBounds();
+
+    HOTELS.forEach((h, i) => {
+      const label = String(i + 1);
+      const svgIcon = {
+        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+            <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.35"/></filter>
+            <rect x="6" y="6" width="22" height="22" transform="rotate(45 17 17)"
+                  fill="${COLOR}" stroke="white" stroke-width="2" filter="url(#s)"/>
+            <text x="17" y="20" text-anchor="middle" font-family="Arial,sans-serif"
+                  font-size="11" font-weight="bold" fill="white">${label}</text>
+          </svg>`),
+        scaledSize: new google.maps.Size(34, 34),
+        anchor: new google.maps.Point(17, 17),
+      };
+
+      const marker = new google.maps.Marker({
+        position: { lat: h.lat, lng: h.lng },
+        map,
+        icon: svgIcon,
+        title: h.name,
+      });
+      markers.push(marker);
+      bounds.extend({ lat: h.lat, lng: h.lng });
+
+      const fullAddr = [h.address, h.city, h.country].filter(Boolean).join(', ');
+      const iwContent = `
+        <div class="gm-iw">
+          <div class="gm-iw-title">${h.name}</div>
+          <div class="gm-iw-brand">St. Regis</div>
+          <div class="gm-iw-meta">${fullAddr}</div>
+        </div>`;
+      marker.addListener('click', () => {
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+
+      const item = document.createElement('div');
+      item.className = 'hotel-item';
+      item.innerHTML = `
+        <div class="h-pin" style="background:${COLOR}"><span class="h-pin-num">${label}</span></div>
+        <div class="h-info">
+          <h4>${h.name}</h4>
+          <div class="h-meta">${[h.city, h.country].filter(Boolean).join(', ')}</div>
+        </div>`;
+      item.addEventListener('click', () => {
+        map.panTo({ lat: h.lat, lng: h.lng });
+        map.setZoom(14);
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+      listEl.appendChild(item);
+    });
+
+    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap" async defer></script>
+
+</body>
+</html>

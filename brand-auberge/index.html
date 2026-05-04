@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Capella &mdash; Brand Portfolio Map</title>
+  <title>Auberge Resorts &mdash; Brand Portfolio Map</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -15,7 +15,7 @@
     }
     .header {
       background: #1a2744;
-      border-bottom: 3px solid #7c2d12;
+      border-bottom: 3px solid #065f46;
       padding: 14px 22px;
       display: flex;
       align-items: center;
@@ -88,7 +88,7 @@
     #map { flex: 1; }
     .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }
     .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
-    .gm-iw-brand { font-size: 10px; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
+    .gm-iw-brand { font-size: 10px; color: #065f46; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
     .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
   </style>
 </head>
@@ -96,8 +96,8 @@
 
 <div class="header">
   <div class="header-left">
-    <h1>Capella &mdash; Brand Portfolio</h1>
-    <p>Capella Hotels & Resorts — ultra-luxury portfolio (11 properties) &nbsp;&middot;&nbsp; 11 properties mapped</p>
+    <h1>Auberge Resorts &mdash; Brand Portfolio</h1>
+    <p>Auberge Resorts Collection — independent luxury, US-led with international expansion &nbsp;&middot;&nbsp; 28 properties mapped</p>
   </div>
   <div class="header-right">
     <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
@@ -108,7 +108,7 @@
   <div class="sidebar">
     <div class="sb-section">
       <h3>Legend</h3>
-      <div class="legend-row"><div class="leg-dot" style="background:#7c2d12;"></div> Capella Property</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#065f46;"></div> Auberge Resorts Property</div>
     </div>
     <div class="sb-section" style="border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
@@ -124,101 +124,237 @@
 <script>
   const HOTELS = [
   {
-    "name": "Capella Singapore",
-    "address": "1 The Knolls, Sentosa Island",
-    "city": "Singapore 098297",
-    "country": "Singapore",
-    "lat": 1.2497222,
-    "lng": 103.8241667
+    "name": "Auberge du Soleil",
+    "address": "180 Rutherford Hill Road",
+    "city": "Rutherford, CA 94573",
+    "country": "USA",
+    "lat": 38.4934426,
+    "lng": -122.4060174
   },
   {
-    "name": "Capella Bangkok",
-    "address": "300/2 Charoenkrung Road, Yannawa, Sathorn",
-    "city": "Bangkok 10120",
-    "country": "Thailand",
-    "lat": 13.7131047,
-    "lng": 100.5110225
+    "name": "Solage Calistoga",
+    "address": "755 Silverado Trail North",
+    "city": "Calistoga, CA 94515",
+    "country": "USA",
+    "lat": 38.5843693,
+    "lng": -122.5708567
   },
   {
-    "name": "Capella Hanoi",
-    "address": "11 P. L\u00ea Ph\u1ee5ng Hi\u1ec3u, Hoan Kiem District",
-    "city": "Hanoi 100000",
-    "country": "Vietnam",
-    "lat": 21.0257164,
-    "lng": 105.8566886
+    "name": "Stanly Ranch",
+    "address": "2671 Stanly Crossroad",
+    "city": "Napa, CA 94559",
+    "country": "USA",
+    "lat": 38.2441342,
+    "lng": -122.2988801
   },
   {
-    "name": "Capella Sydney",
-    "address": "1 Bridge Street",
-    "city": "Sydney NSW 2000",
-    "country": "Australia",
-    "lat": -33.8638571,
-    "lng": 151.2104059
+    "name": "Inn at Mattei's Tavern",
+    "address": "2350 Railway Avenue",
+    "city": "Los Olivos, CA 93441",
+    "country": "USA",
+    "lat": 34.6673323,
+    "lng": -120.1172471
   },
   {
-    "name": "Capella Ubud, Bali",
-    "address": "Jalan Raya Keliki, Tegallalang",
-    "city": "Ubud, Gianyar, Bali",
-    "country": "Indonesia",
-    "lat": -8.4482091,
-    "lng": 115.2681117
+    "name": "Hotel Jerome",
+    "address": "330 East Main Street",
+    "city": "Aspen, CO 81611",
+    "country": "USA",
+    "lat": 39.1910339,
+    "lng": -106.8194459
   },
   {
-    "name": "Capella Shanghai",
-    "address": "480 Fenyang Road, Xuhui District",
-    "city": "Shanghai 200031",
-    "country": "China",
-    "lat": 31.21184,
-    "lng": 121.45449
+    "name": "Madeline Hotel & Residences",
+    "address": "568 Mountain Village Boulevard",
+    "city": "Telluride, CO 81435",
+    "country": "USA",
+    "lat": 37.9369073,
+    "lng": -107.8478015
   },
   {
-    "name": "Capella Tufu Bay, Hainan",
-    "address": "Tufu Bay",
-    "city": "Wanning City, Hainan Province",
-    "country": "China",
-    "lat": 18.393608,
-    "lng": 109.798234
+    "name": "Element 52",
+    "address": "117 Lost Creek Lane",
+    "city": "Telluride, CO 81435",
+    "country": "USA",
+    "lat": 37.9354016,
+    "lng": -107.8473048
   },
   {
-    "name": "Capella Taipei",
-    "address": "No. 88 Songgao Road, Xinyi District",
-    "city": "Taipei 110",
-    "country": "Taiwan",
-    "lat": 25.038887,
-    "lng": 121.571638
+    "name": "The Lodge at Blue Sky",
+    "address": "4200 Old Ranch Road",
+    "city": "Park City, UT 84098",
+    "country": "USA",
+    "lat": 40.81292670000001,
+    "lng": -111.4457693
   },
   {
-    "name": "Capella Tokyo",
-    "address": "Tokyo Midtown Hibiya, 1-1-2 Yurakucho, Chiyoda-ku",
-    "city": "Tokyo 100-0006",
-    "country": "Japan",
-    "lat": 35.6737436,
-    "lng": 139.7591762
+    "name": "Goldener Hirsch",
+    "address": "7570 Royal Street East",
+    "city": "Park City, UT 84060",
+    "country": "USA",
+    "lat": 40.6225733,
+    "lng": -111.4894904
   },
   {
-    "name": "Capella at Galaxy Macau",
-    "address": "Galaxy Macau, Estrada da Ba\u00eda de Nossa Senhora da Esperan\u00e7a",
-    "city": "Cotai",
-    "country": "Macao",
-    "lat": 22.1478499,
-    "lng": 113.5535633
+    "name": "Sleeping Indian Lodge",
+    "address": "5765 County Road 24",
+    "city": "Ridgway, CO 81432",
+    "country": "USA",
+    "lat": 38.1607151,
+    "lng": -107.829004
   },
   {
-    "name": "Capella Kyoto",
-    "address": "Miyagawa-cho District",
-    "city": "Higashiyama, Kyoto",
-    "country": "Japan",
-    "lat": 34.9993497,
-    "lng": 135.7720604
+    "name": "Bishop's Lodge",
+    "address": "1297 Bishop's Lodge Road",
+    "city": "Santa Fe, NM 87506",
+    "country": "USA",
+    "lat": 35.7321402,
+    "lng": -105.9106428
+  },
+  {
+    "name": "Commodore Perry Estate",
+    "address": "4100 Red River Street",
+    "city": "Austin, TX 78751",
+    "country": "USA",
+    "lat": 30.3008673,
+    "lng": -97.7221474
+  },
+  {
+    "name": "Bowie House",
+    "address": "401 West Magnolia Avenue",
+    "city": "Fort Worth, TX 76104",
+    "country": "USA",
+    "lat": 32.7304678,
+    "lng": -97.3292962
+  },
+  {
+    "name": "Primland Resort",
+    "address": "2000 Primland Drive",
+    "city": "Meadows of Dan, VA 24120",
+    "country": "USA",
+    "lat": 36.68532,
+    "lng": -80.36085
+  },
+  {
+    "name": "The Dunlin",
+    "address": "2650 Chisolm Road",
+    "city": "Johns Island, SC 29455",
+    "country": "USA",
+    "lat": 32.7773166,
+    "lng": -80.1088019
+  },
+  {
+    "name": "The Vanderbilt",
+    "address": "41 Mary Street",
+    "city": "Newport, RI 02840",
+    "country": "USA",
+    "lat": 41.4882281,
+    "lng": -71.31344709999999
+  },
+  {
+    "name": "White Barn Inn",
+    "address": "37 Beach Avenue",
+    "city": "Kennebunk, ME 04043",
+    "country": "USA",
+    "lat": 43.3553211,
+    "lng": -70.4795534
+  },
+  {
+    "name": "Mayflower Inn & Spa",
+    "address": "118 Woodbury Road",
+    "city": "Washington, CT 06793",
+    "country": "USA",
+    "lat": 41.63084629999999,
+    "lng": -73.30638820000001
+  },
+  {
+    "name": "Mauna Lani",
+    "address": "68-1400 Mauna Lani Drive",
+    "city": "Kohala Coast, HI 96743",
+    "country": "USA",
+    "lat": 19.9403303,
+    "lng": -155.8649082
+  },
+  {
+    "name": "Esperanza",
+    "address": "Carretera Transpeninsular KM 7",
+    "city": "Los Cabos, BCS",
+    "country": "Mexico",
+    "lat": 22.9016699,
+    "lng": -109.8526851
+  },
+  {
+    "name": "Chileno Bay",
+    "address": "Carretera Transpeninsular KM 15",
+    "city": "Los Cabos, BCS",
+    "country": "Mexico",
+    "lat": 22.9529786,
+    "lng": -109.8036425
+  },
+  {
+    "name": "Susurros del Coraz\u00f3n",
+    "address": "Carretera Federal 200 KM 2.5",
+    "city": "Punta de Mita, Nayarit",
+    "country": "Mexico",
+    "lat": 20.757124,
+    "lng": -105.4802786
+  },
+  {
+    "name": "Et\u00e9reo",
+    "address": "Carretera Federal 307 KM 47",
+    "city": "Riviera Maya, Quintana Roo",
+    "country": "Mexico",
+    "lat": 20.7206431,
+    "lng": -86.9839046
+  },
+  {
+    "name": "Hacienda AltaGracia",
+    "address": "La Cangreja",
+    "city": "P\u00e9rez Zeled\u00f3n, San Jos\u00e9",
+    "country": "Costa Rica",
+    "lat": 9.354888899999999,
+    "lng": -83.6353683
+  },
+  {
+    "name": "Collegio alla Querce",
+    "address": "Via Bolognese 52",
+    "city": "50139 Florence",
+    "country": "Italy",
+    "lat": 43.7876593,
+    "lng": 11.2780823
+  },
+  {
+    "name": "Domaine des Etangs",
+    "address": "Massignac",
+    "city": "16310 Charente",
+    "country": "France",
+    "lat": 45.7756621,
+    "lng": 0.6434264
+  },
+  {
+    "name": "Grace Santorini",
+    "address": "Imerovigli",
+    "city": "847 00 Santorini",
+    "country": "Greece",
+    "lat": 36.43295579999999,
+    "lng": 25.4209615
+  },
+  {
+    "name": "The Woodward",
+    "address": "Quai Wilson 1",
+    "city": "1201 Geneva",
+    "country": "Switzerland",
+    "lat": 46.2111217,
+    "lng": 6.1520076
   }
 ];
-  const COLOR = "#7c2d12";
+  const COLOR = "#065f46";
   let map, infoWindow;
   const markers = [];
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 14.649250481818182, lng: 119.87086884545455 },
+      center: { lat: 34.57801347857143, lng: -86.61890191785714 },
       zoom: 3,
       mapTypeControl: true,
       streetViewControl: false,
@@ -257,7 +393,7 @@
       const iwContent = `
         <div class="gm-iw">
           <div class="gm-iw-title">${h.name}</div>
-          <div class="gm-iw-brand">Capella</div>
+          <div class="gm-iw-brand">Auberge Resorts</div>
           <div class="gm-iw-meta">${fullAddr}</div>
         </div>`;
       marker.addListener('click', () => {

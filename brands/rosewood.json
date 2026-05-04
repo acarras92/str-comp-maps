@@ -1,0 +1,236 @@
+{
+  "brand": "Rosewood",
+  "slug": "brand-rosewood",
+  "color": "#1f2937",
+  "tagline": "Rosewood Hotels & Resorts — 38 properties in 23 countries",
+  "hotels": [
+    {
+      "name": "The Carlyle, A Rosewood Hotel",
+      "address": "35 East 76th Street",
+      "city": "New York, NY 10021",
+      "country": "USA"
+    },
+    {
+      "name": "Rosewood Mansion on Turtle Creek",
+      "address": "2821 Turtle Creek Boulevard",
+      "city": "Dallas, TX 75219",
+      "country": "USA"
+    },
+    {
+      "name": "Rosewood Miramar Beach",
+      "address": "1759 S Jameson Lane",
+      "city": "Montecito, CA 93108",
+      "country": "USA"
+    },
+    {
+      "name": "Rosewood Sand Hill",
+      "address": "2825 Sand Hill Road",
+      "city": "Menlo Park, CA 94025",
+      "country": "USA"
+    },
+    {
+      "name": "Rosewood Washington, D.C.",
+      "address": "1050 31st Street NW, Georgetown",
+      "city": "Washington, DC 20007",
+      "country": "USA"
+    },
+    {
+      "name": "Rosewood Inn of the Anasazi",
+      "address": "113 Washington Avenue",
+      "city": "Santa Fe, NM 87501",
+      "country": "USA"
+    },
+    {
+      "name": "Rosewood CordeValle",
+      "address": "One CordeValle Club Drive",
+      "city": "San Martin, CA 95046",
+      "country": "USA"
+    },
+    {
+      "name": "Kona Village, A Rosewood Resort",
+      "address": "72-300 Maheawalu Drive",
+      "city": "Kailua-Kona, HI 96740",
+      "country": "USA"
+    },
+    {
+      "name": "Rosewood Hotel Georgia",
+      "address": "801 West Georgia Street",
+      "city": "Vancouver, BC V6C 1P7",
+      "country": "Canada"
+    },
+    {
+      "name": "Rosewood Bermuda",
+      "address": "Tucker's Town",
+      "city": "Smith's Parish HS02",
+      "country": "Bermuda"
+    },
+    {
+      "name": "Rosewood Le Guanahani St. Barth",
+      "address": "Grand Cul de Sac",
+      "city": "97133 Saint Barthélemy",
+      "country": "French West Indies"
+    },
+    {
+      "name": "Rosewood Baha Mar",
+      "address": "One Baha Mar Boulevard",
+      "city": "Nassau",
+      "country": "Bahamas"
+    },
+    {
+      "name": "Rosewood Little Dix Bay",
+      "address": "Spring Bay Road",
+      "city": "Virgin Gorda",
+      "country": "British Virgin Islands"
+    },
+    {
+      "name": "Rosewood Mayakoba",
+      "address": "Carretera Federal Cancún–Playa del Carmen KM 298",
+      "city": "Q. Roo 77710",
+      "country": "Mexico"
+    },
+    {
+      "name": "Rosewood Mandarina",
+      "address": "Riviera Nayarit",
+      "city": "Municipio de Bahía de Banderas, Nayarit",
+      "country": "Mexico"
+    },
+    {
+      "name": "Rosewood San Miguel de Allende",
+      "address": "Nemesio Diez 11, Centro",
+      "city": "San Miguel de Allende, GTO 37700",
+      "country": "Mexico"
+    },
+    {
+      "name": "Las Ventanas al Paraíso, A Rosewood Resort",
+      "address": "Carretera Transpeninsular KM 19.5",
+      "city": "San José del Cabo, BCS",
+      "country": "Mexico"
+    },
+    {
+      "name": "Hôtel de Crillon, A Rosewood Hotel",
+      "address": "10 Place de la Concorde",
+      "city": "75008 Paris",
+      "country": "France"
+    },
+    {
+      "name": "Rosewood London",
+      "address": "252 High Holborn",
+      "city": "London WC1V 7EN",
+      "country": "UK"
+    },
+    {
+      "name": "Rosewood Munich",
+      "address": "Maximilianstrasse 2",
+      "city": "80539 Munich",
+      "country": "Germany"
+    },
+    {
+      "name": "Rosewood Vienna",
+      "address": "Petersplatz 7",
+      "city": "1010 Vienna",
+      "country": "Austria"
+    },
+    {
+      "name": "Rosewood Villa Magna",
+      "address": "Paseo de la Castellana 22",
+      "city": "28046 Madrid",
+      "country": "Spain"
+    },
+    {
+      "name": "Rosewood Castiglion del Bosco",
+      "address": "Loc. Castiglion del Bosco",
+      "city": "53024 Montalcino (SI)",
+      "country": "Italy"
+    },
+    {
+      "name": "Rosewood Schloss Fuschl",
+      "address": "Schloss Fuschl 1",
+      "city": "5322 Hof bei Salzburg",
+      "country": "Austria"
+    },
+    {
+      "name": "Rosewood Hong Kong",
+      "address": "18 Salisbury Road, Tsim Sha Tsui",
+      "city": "Kowloon",
+      "country": "Hong Kong"
+    },
+    {
+      "name": "Rosewood Beijing",
+      "address": "Jiangtai Road, Chaoyang District",
+      "city": "Beijing 100015",
+      "country": "China"
+    },
+    {
+      "name": "Rosewood Guangzhou",
+      "address": "111 Lihua Street, Tianhe District",
+      "city": "Guangzhou 510623",
+      "country": "China"
+    },
+    {
+      "name": "Rosewood Bangkok",
+      "address": "1041/38 Ploenchit Road, Lumpini, Pathumwan",
+      "city": "Bangkok 10330",
+      "country": "Thailand"
+    },
+    {
+      "name": "Rosewood Phuket",
+      "address": "88/28 Muen-Ngoen Road, Patong",
+      "city": "Phuket 83150",
+      "country": "Thailand"
+    },
+    {
+      "name": "Rosewood Phnom Penh",
+      "address": "Vattanac Capital Tower, 66 Monivong Boulevard",
+      "city": "Phnom Penh",
+      "country": "Cambodia"
+    },
+    {
+      "name": "Rosewood Luang Prabang",
+      "address": "Ban Xieng Mouane",
+      "city": "Luang Prabang 0600",
+      "country": "Lao PDR"
+    },
+    {
+      "name": "Rosewood Miyakojima",
+      "address": "1190-1 Shimozato",
+      "city": "Miyakojima City, Okinawa 906-0000",
+      "country": "Japan"
+    },
+    {
+      "name": "Rosewood São Paulo",
+      "address": "Alameda Santos 2233, Cerqueira César",
+      "city": "São Paulo 01419-100",
+      "country": "Brazil"
+    },
+    {
+      "name": "Rosewood Abu Dhabi",
+      "address": "Al Maryah Island",
+      "city": "Abu Dhabi",
+      "country": "UAE"
+    },
+    {
+      "name": "Rosewood Doha",
+      "address": "Musheirib",
+      "city": "Doha",
+      "country": "Qatar"
+    },
+    {
+      "name": "Rosewood Riyadh",
+      "address": "Olaya Street, Al Olaya District",
+      "city": "Riyadh 12214",
+      "country": "Saudi Arabia"
+    },
+    {
+      "name": "Rosewood Cape Kidnappers",
+      "address": "448 Te Awanga Road",
+      "city": "Hawke's Bay 4171",
+      "country": "New Zealand"
+    },
+    {
+      "name": "Rosewood Matakauri",
+      "address": "Glenorchy Road",
+      "city": "Queenstown 9371",
+      "country": "New Zealand"
+    }
+  ]
+}

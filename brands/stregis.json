@@ -1,0 +1,398 @@
+{
+  "brand": "St. Regis",
+  "slug": "brand-stregis",
+  "color": "#1e3a8a",
+  "tagline": "The St. Regis — Marriott's flagship luxury brand, 61 properties (WGT comp)",
+  "hotels": [
+    {
+      "name": "The St. Regis New York",
+      "address": "2 East 55th Street at Fifth Avenue",
+      "city": "New York, NY 10022",
+      "country": "USA"
+    },
+    {
+      "name": "The St. Regis Chicago",
+      "address": "401 East Upper Wacker Drive",
+      "city": "Chicago, IL 60601",
+      "country": "USA"
+    },
+    {
+      "name": "The St. Regis Atlanta",
+      "address": "88 West Paces Ferry Road NW",
+      "city": "Atlanta, GA 30305",
+      "country": "USA"
+    },
+    {
+      "name": "The St. Regis Washington, D.C.",
+      "address": "923 16th & K Street NW",
+      "city": "Washington, DC 20006",
+      "country": "USA"
+    },
+    {
+      "name": "The St. Regis San Francisco",
+      "address": "125 Third Street",
+      "city": "San Francisco, CA 94103",
+      "country": "USA"
+    },
+    {
+      "name": "The St. Regis Aspen Resort",
+      "address": "315 Dean Street",
+      "city": "Aspen, CO 81611",
+      "country": "USA"
+    },
+    {
+      "name": "The St. Regis Bal Harbour Resort",
+      "address": "9703 Collins Avenue",
+      "city": "Bal Harbour, FL 33154",
+      "country": "USA"
+    },
+    {
+      "name": "The St. Regis Longboat Key Resort",
+      "address": "1620 Gulf of Mexico Drive",
+      "city": "Longboat Key, FL 34228",
+      "country": "USA"
+    },
+    {
+      "name": "The St. Regis Houston",
+      "address": "1919 Briar Oaks Lane",
+      "city": "Houston, TX 77027",
+      "country": "USA"
+    },
+    {
+      "name": "The St. Regis Toronto",
+      "address": "325 Bay Street",
+      "city": "Toronto, ON M5H 4G3",
+      "country": "Canada"
+    },
+    {
+      "name": "The St. Regis Bermuda Resort",
+      "address": "6100 Cooper's Island Road",
+      "city": "St. George's Parish",
+      "country": "Bermuda"
+    },
+    {
+      "name": "The St. Regis Cap Cana Resort",
+      "address": "Cap Cana, Punta Cana",
+      "city": "La Altagracia",
+      "country": "Dominican Republic"
+    },
+    {
+      "name": "The St. Regis Aruba Resort",
+      "address": "L.G. Smith Boulevard 82",
+      "city": "Noord",
+      "country": "Aruba"
+    },
+    {
+      "name": "The St. Regis Costa Mujeres Resort",
+      "address": "Carretera Cancún–Punta Sam KM 19.8",
+      "city": "Cancún, Q. Roo",
+      "country": "Mexico"
+    },
+    {
+      "name": "The St. Regis Kanai Resort, Riviera Maya",
+      "address": "Playa del Carmen",
+      "city": "Riviera Maya, Quintana Roo",
+      "country": "Mexico"
+    },
+    {
+      "name": "The St. Regis Mexico City",
+      "address": "Paseo de la Reforma 439, Cuauhtémoc",
+      "city": "CDMX 06600",
+      "country": "Mexico"
+    },
+    {
+      "name": "The St. Regis Punta Mita Resort",
+      "address": "Carretera a Punta de Mita KM 9",
+      "city": "Bahía de Banderas, Nayarit 63734",
+      "country": "Mexico"
+    },
+    {
+      "name": "The St. Regis Florence",
+      "address": "Piazza Ognissanti 1",
+      "city": "50123 Florence",
+      "country": "Italy"
+    },
+    {
+      "name": "The St. Regis Rome",
+      "address": "Via Vittorio Emanuele Orlando 3",
+      "city": "00185 Rome",
+      "country": "Italy"
+    },
+    {
+      "name": "The St. Regis Venice",
+      "address": "San Marco 2159",
+      "city": "30124 Venice",
+      "country": "Italy"
+    },
+    {
+      "name": "The St. Regis Budapest",
+      "address": "Andrássy Avenue 5-7",
+      "city": "Budapest 1061",
+      "country": "Hungary"
+    },
+    {
+      "name": "The St. Regis Belgrade",
+      "address": "Vladimira Popovića 10, Novi Beograd",
+      "city": "Belgrade 11070",
+      "country": "Serbia"
+    },
+    {
+      "name": "The St. Regis Mardavall Mallorca Resort",
+      "address": "Carretera d'Andratx 19",
+      "city": "07181 Es Capdellà, Mallorca",
+      "country": "Spain"
+    },
+    {
+      "name": "The St. Regis Istanbul",
+      "address": "Suzer Plaza, Askerocağı Caddesi 15, Şişli",
+      "city": "Istanbul 34367",
+      "country": "Turkey"
+    },
+    {
+      "name": "The St. Regis Abu Dhabi",
+      "address": "Nation Towers, Corniche Road",
+      "city": "Abu Dhabi",
+      "country": "UAE"
+    },
+    {
+      "name": "The St. Regis Saadiyat Island Resort",
+      "address": "Saadiyat Island",
+      "city": "Abu Dhabi",
+      "country": "UAE"
+    },
+    {
+      "name": "The St. Regis Dubai, The Palm",
+      "address": "East Crescent Road, Palm Jumeirah",
+      "city": "Dubai",
+      "country": "UAE"
+    },
+    {
+      "name": "The St. Regis Downtown Dubai",
+      "address": "The Burj Vista, Downtown Dubai",
+      "city": "Dubai",
+      "country": "UAE"
+    },
+    {
+      "name": "The St. Regis Doha",
+      "address": "Doha West Bay, Diplomatic Area",
+      "city": "Doha",
+      "country": "Qatar"
+    },
+    {
+      "name": "The St. Regis Marsa Arabia Island",
+      "address": "The Pearl-Qatar",
+      "city": "Doha",
+      "country": "Qatar"
+    },
+    {
+      "name": "The St. Regis Riyadh",
+      "address": "2941 Makkah Al Mukarramah Road",
+      "city": "Riyadh 12241",
+      "country": "Saudi Arabia"
+    },
+    {
+      "name": "The St. Regis Red Sea Resort",
+      "address": "NEOM / Red Sea Project",
+      "city": "Tabuk Province",
+      "country": "Saudi Arabia"
+    },
+    {
+      "name": "The St. Regis Kuwait",
+      "address": "Arabian Gulf Street, Salmiya",
+      "city": "Kuwait City",
+      "country": "Kuwait"
+    },
+    {
+      "name": "The St. Regis Al Mouj Muscat Resort",
+      "address": "Al Mouj Marina",
+      "city": "Muscat",
+      "country": "Oman"
+    },
+    {
+      "name": "The St. Regis Amman",
+      "address": "King Abdullah II Street, Shmeisani",
+      "city": "Amman 11190",
+      "country": "Jordan"
+    },
+    {
+      "name": "The St. Regis Cairo",
+      "address": "1113 Corniche El Nil, Maadi",
+      "city": "Cairo 11431",
+      "country": "Egypt"
+    },
+    {
+      "name": "The St. Regis New Capital, Cairo",
+      "address": "New Administrative Capital",
+      "city": "Cairo Governorate",
+      "country": "Egypt"
+    },
+    {
+      "name": "The St. Regis Le Morne Resort",
+      "address": "Le Morne Peninsula",
+      "city": "District de la Rivière Noire",
+      "country": "Mauritius"
+    },
+    {
+      "name": "The St. Regis La Bahia Blanca Resort",
+      "address": "Tamuda Bay, Fnideq",
+      "city": "Tetouan Province",
+      "country": "Morocco"
+    },
+    {
+      "name": "The St. Regis Beijing",
+      "address": "21 Jianguomenwai Avenue, Chaoyang District",
+      "city": "Beijing 100020",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Shanghai Jingan",
+      "address": "1008 Beijing West Road, Jing'an District",
+      "city": "Shanghai 200040",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis on the Bund, Shanghai",
+      "address": "123 Xingye Road, Huangpu District",
+      "city": "Shanghai 200021",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Shenzhen",
+      "address": "5016 Shennan East Road, Luohu District",
+      "city": "Shenzhen 518001",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Shenzhen Bao'an",
+      "address": "Bao'an District",
+      "city": "Shenzhen, Guangdong",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Zhuhai",
+      "address": "Jingshan Road, Xiangzhou District",
+      "city": "Zhuhai 519000",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Tianjin",
+      "address": "188 Zijin Mountain Road, Hexi District",
+      "city": "Tianjin 300222",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Chengdu",
+      "address": "88 Renmin South Road, Wuhou District",
+      "city": "Chengdu 610041",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Changsha",
+      "address": "Wujialing Area, Kaifu District",
+      "city": "Changsha, Hunan 410008",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Qingdao",
+      "address": "9 Donghai West Road, Shinan District",
+      "city": "Qingdao 266071",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Sanya Yalong Bay Resort",
+      "address": "Yalong Bay National Resort District",
+      "city": "Sanya, Hainan 572000",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Macao",
+      "address": "The Parisian Macao, Estrada do Istmo, Cotai Strip",
+      "city": "Macao",
+      "country": "Macao"
+    },
+    {
+      "name": "The St. Regis Hong Kong",
+      "address": "19 Harbour Road, Wan Chai",
+      "city": "Hong Kong",
+      "country": "Hong Kong"
+    },
+    {
+      "name": "The St. Regis Lhasa Resort",
+      "address": "Lhasa Lu, Chengguan District",
+      "city": "Lhasa, Tibet 850000",
+      "country": "China"
+    },
+    {
+      "name": "The St. Regis Singapore",
+      "address": "29 Tanglin Road",
+      "city": "Singapore 247911",
+      "country": "Singapore"
+    },
+    {
+      "name": "The St. Regis Bangkok",
+      "address": "159 Rajadamri Road, Pathumwan",
+      "city": "Bangkok 10330",
+      "country": "Thailand"
+    },
+    {
+      "name": "The St. Regis Kuala Lumpur",
+      "address": "Jalan Stesen Sentral 2, KL Sentral",
+      "city": "50470 Kuala Lumpur",
+      "country": "Malaysia"
+    },
+    {
+      "name": "The St. Regis Langkawi",
+      "address": "Jalan Pantai Beringin",
+      "city": "07000 Langkawi, Kedah",
+      "country": "Malaysia"
+    },
+    {
+      "name": "The St. Regis Jakarta",
+      "address": "Jl. Gatot Subroto Kav. 18, SCBD",
+      "city": "South Jakarta 12710",
+      "country": "Indonesia"
+    },
+    {
+      "name": "The St. Regis Bali Resort",
+      "address": "Kawasan Pariwisata Nusa Dua Lot S6",
+      "city": "80363 Nusa Dua, Bali",
+      "country": "Indonesia"
+    },
+    {
+      "name": "The St. Regis Goa Resort",
+      "address": "Arossim Beach, Cansaulim",
+      "city": "South Goa 403712",
+      "country": "India"
+    },
+    {
+      "name": "The St. Regis Mumbai",
+      "address": "462 Senapati Bapat Marg, Lower Parel",
+      "city": "Mumbai 400013",
+      "country": "India"
+    },
+    {
+      "name": "The St. Regis Osaka",
+      "address": "3-6-12 Honmachi, Chuo-ku",
+      "city": "Osaka 541-0053",
+      "country": "Japan"
+    },
+    {
+      "name": "The St. Regis Astana",
+      "address": "Khan Shatyr",
+      "city": "Astana 010000",
+      "country": "Kazakhstan"
+    },
+    {
+      "name": "The St. Regis Bora Bora Resort",
+      "address": "Motu Ome'e",
+      "city": "Bora Bora 98730",
+      "country": "French Polynesia"
+    },
+    {
+      "name": "The St. Regis Maldives Vommuli Resort",
+      "address": "",
+      "city": "Vommuli Island, Dhaalu Atoll 13080",
+      "country": "Maldives"
+    }
+  ]
+}

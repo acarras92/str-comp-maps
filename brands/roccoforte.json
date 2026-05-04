@@ -1,0 +1,92 @@
+{
+  "brand": "Rocco Forte",
+  "slug": "brand-roccoforte",
+  "color": "#365314",
+  "tagline": "Rocco Forte Hotels — family-run UK/Italian luxury",
+  "hotels": [
+    {
+      "name": "Brown's Hotel",
+      "address": "33 Albemarle Street, Mayfair",
+      "city": "London W1S 4BP",
+      "country": "UK"
+    },
+    {
+      "name": "The Balmoral",
+      "address": "1 Princes Street",
+      "city": "Edinburgh EH2 2EQ",
+      "country": "UK"
+    },
+    {
+      "name": "Rocco Forte House",
+      "address": "70 St James's Street",
+      "city": "London SW1A 1LE",
+      "country": "UK"
+    },
+    {
+      "name": "Hotel de Russie",
+      "address": "Via del Babuino 9",
+      "city": "00187 Rome",
+      "country": "Italy"
+    },
+    {
+      "name": "Hotel de La Ville",
+      "address": "Via Sistina 69",
+      "city": "00187 Rome",
+      "country": "Italy"
+    },
+    {
+      "name": "Hotel Savoy",
+      "address": "Piazza della Repubblica 7",
+      "city": "50123 Florence",
+      "country": "Italy"
+    },
+    {
+      "name": "Verdura Resort",
+      "address": "SS 115 KM 131",
+      "city": "92100 Sciacca, Sicily",
+      "country": "Italy"
+    },
+    {
+      "name": "Masseria Torre Maizza",
+      "address": "Savelletri di Fasano",
+      "city": "72010 Brindisi, Puglia",
+      "country": "Italy"
+    },
+    {
+      "name": "Hotel Amigo",
+      "address": "Rue de l'Amigo 1–3",
+      "city": "1000 Brussels",
+      "country": "Belgium"
+    },
+    {
+      "name": "Hotel de Rome",
+      "address": "Behrenstrasse 37",
+      "city": "10117 Berlin",
+      "country": "Germany"
+    },
+    {
+      "name": "The Charles Hotel",
+      "address": "Sophienstrasse 28",
+      "city": "80333 Munich",
+      "country": "Germany"
+    },
+    {
+      "name": "Villa Kennedy",
+      "address": "Kennedyallee 70",
+      "city": "60596 Frankfurt am Main",
+      "country": "Germany"
+    },
+    {
+      "name": "Hotel Astoria",
+      "address": "Bolshaya Morskaya Street 39",
+      "city": "St. Petersburg 190000",
+      "country": "Russia"
+    },
+    {
+      "name": "Palazzo Sirignano",
+      "address": "Via Sirignano 11",
+      "city": "80121 Naples",
+      "country": "Italy"
+    }
+  ]
+}

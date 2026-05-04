@@ -1,0 +1,80 @@
+{
+  "brand": "Viceroy",
+  "slug": "brand-viceroy",
+  "color": "#7c3aed",
+  "tagline": "Viceroy Hotels & Resorts — design-forward modern luxury",
+  "hotels": [
+    {
+      "name": "Viceroy Santa Monica",
+      "address": "1819 Ocean Avenue",
+      "city": "Santa Monica, CA 90401",
+      "country": "USA"
+    },
+    {
+      "name": "Viceroy L'Ermitage Beverly Hills",
+      "address": "9291 Burton Way",
+      "city": "Beverly Hills, CA 90210",
+      "country": "USA"
+    },
+    {
+      "name": "Viceroy Chicago",
+      "address": "1118 North State Street",
+      "city": "Chicago, IL 60610",
+      "country": "USA"
+    },
+    {
+      "name": "Viceroy Washington DC",
+      "address": "1430 Rhode Island Avenue NW",
+      "city": "Washington, DC 20005",
+      "country": "USA"
+    },
+    {
+      "name": "Viceroy Snowmass",
+      "address": "130 Wood Road",
+      "city": "Snowmass Village, CO 81615",
+      "country": "USA"
+    },
+    {
+      "name": "Viceroy Dorado Beach",
+      "address": "100 Dorado Beach Drive",
+      "city": "Dorado 00646",
+      "country": "Puerto Rico"
+    },
+    {
+      "name": "Viceroy Los Cabos",
+      "address": "Paseo Malecon San Jose Lote 8",
+      "city": "San José del Cabo, BCS 23405",
+      "country": "Mexico"
+    },
+    {
+      "name": "Viceroy Riviera Maya",
+      "address": "Playa Xcalacoco Frac 7",
+      "city": "Playa del Carmen, Q. Roo 77710",
+      "country": "Mexico"
+    },
+    {
+      "name": "Viceroy at Ombria Algarve",
+      "address": "Rua da Ombria Nr 9",
+      "city": "8100-396 Tôr, Loulé, Algarve",
+      "country": "Portugal"
+    },
+    {
+      "name": "Viceroy St. Lucia",
+      "address": "Val des Pitons, La Baie de Silence",
+      "city": "Soufrière",
+      "country": "Saint Lucia"
+    },
+    {
+      "name": "Viceroy Kopaonik",
+      "address": "Brzeće 36354",
+      "city": "Kopaonik",
+      "country": "Serbia"
+    },
+    {
+      "name": "Viceroy Alula",
+      "address": "AlUla Old Town",
+      "city": "AlUla, Medina Province",
+      "country": "Saudi Arabia"
+    }
+  ]
+}

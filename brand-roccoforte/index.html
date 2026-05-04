@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Capella &mdash; Brand Portfolio Map</title>
+  <title>Rocco Forte &mdash; Brand Portfolio Map</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -15,7 +15,7 @@
     }
     .header {
       background: #1a2744;
-      border-bottom: 3px solid #7c2d12;
+      border-bottom: 3px solid #365314;
       padding: 14px 22px;
       display: flex;
       align-items: center;
@@ -88,7 +88,7 @@
     #map { flex: 1; }
     .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }
     .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
-    .gm-iw-brand { font-size: 10px; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
+    .gm-iw-brand { font-size: 10px; color: #365314; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
     .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
   </style>
 </head>
@@ -96,8 +96,8 @@
 
 <div class="header">
   <div class="header-left">
-    <h1>Capella &mdash; Brand Portfolio</h1>
-    <p>Capella Hotels & Resorts — ultra-luxury portfolio (11 properties) &nbsp;&middot;&nbsp; 11 properties mapped</p>
+    <h1>Rocco Forte &mdash; Brand Portfolio</h1>
+    <p>Rocco Forte Hotels — family-run UK/Italian luxury &nbsp;&middot;&nbsp; 14 properties mapped</p>
   </div>
   <div class="header-right">
     <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
@@ -108,7 +108,7 @@
   <div class="sidebar">
     <div class="sb-section">
       <h3>Legend</h3>
-      <div class="legend-row"><div class="leg-dot" style="background:#7c2d12;"></div> Capella Property</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#365314;"></div> Rocco Forte Property</div>
     </div>
     <div class="sb-section" style="border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
@@ -124,101 +124,125 @@
 <script>
   const HOTELS = [
   {
-    "name": "Capella Singapore",
-    "address": "1 The Knolls, Sentosa Island",
-    "city": "Singapore 098297",
-    "country": "Singapore",
-    "lat": 1.2497222,
-    "lng": 103.8241667
+    "name": "Brown's Hotel",
+    "address": "33 Albemarle Street, Mayfair",
+    "city": "London W1S 4BP",
+    "country": "UK",
+    "lat": 51.509131,
+    "lng": -0.1421129
   },
   {
-    "name": "Capella Bangkok",
-    "address": "300/2 Charoenkrung Road, Yannawa, Sathorn",
-    "city": "Bangkok 10120",
-    "country": "Thailand",
-    "lat": 13.7131047,
-    "lng": 100.5110225
+    "name": "The Balmoral",
+    "address": "1 Princes Street",
+    "city": "Edinburgh EH2 2EQ",
+    "country": "UK",
+    "lat": 55.9530355,
+    "lng": -3.1895371
   },
   {
-    "name": "Capella Hanoi",
-    "address": "11 P. L\u00ea Ph\u1ee5ng Hi\u1ec3u, Hoan Kiem District",
-    "city": "Hanoi 100000",
-    "country": "Vietnam",
-    "lat": 21.0257164,
-    "lng": 105.8566886
+    "name": "Rocco Forte House",
+    "address": "70 St James's Street",
+    "city": "London SW1A 1LE",
+    "country": "UK",
+    "lat": 51.5059176,
+    "lng": -0.139061
   },
   {
-    "name": "Capella Sydney",
-    "address": "1 Bridge Street",
-    "city": "Sydney NSW 2000",
-    "country": "Australia",
-    "lat": -33.8638571,
-    "lng": 151.2104059
+    "name": "Hotel de Russie",
+    "address": "Via del Babuino 9",
+    "city": "00187 Rome",
+    "country": "Italy",
+    "lat": 41.9099435,
+    "lng": 12.4774581
   },
   {
-    "name": "Capella Ubud, Bali",
-    "address": "Jalan Raya Keliki, Tegallalang",
-    "city": "Ubud, Gianyar, Bali",
-    "country": "Indonesia",
-    "lat": -8.4482091,
-    "lng": 115.2681117
+    "name": "Hotel de La Ville",
+    "address": "Via Sistina 69",
+    "city": "00187 Rome",
+    "country": "Italy",
+    "lat": 41.9057524,
+    "lng": 12.484302
   },
   {
-    "name": "Capella Shanghai",
-    "address": "480 Fenyang Road, Xuhui District",
-    "city": "Shanghai 200031",
-    "country": "China",
-    "lat": 31.21184,
-    "lng": 121.45449
+    "name": "Hotel Savoy",
+    "address": "Piazza della Repubblica 7",
+    "city": "50123 Florence",
+    "country": "Italy",
+    "lat": 43.7718785,
+    "lng": 11.2545574
   },
   {
-    "name": "Capella Tufu Bay, Hainan",
-    "address": "Tufu Bay",
-    "city": "Wanning City, Hainan Province",
-    "country": "China",
-    "lat": 18.393608,
-    "lng": 109.798234
+    "name": "Verdura Resort",
+    "address": "SS 115 KM 131",
+    "city": "92100 Sciacca, Sicily",
+    "country": "Italy",
+    "lat": 37.4706699,
+    "lng": 13.1931074
   },
   {
-    "name": "Capella Taipei",
-    "address": "No. 88 Songgao Road, Xinyi District",
-    "city": "Taipei 110",
-    "country": "Taiwan",
-    "lat": 25.038887,
-    "lng": 121.571638
+    "name": "Masseria Torre Maizza",
+    "address": "Savelletri di Fasano",
+    "city": "72010 Brindisi, Puglia",
+    "country": "Italy",
+    "lat": 40.8589668,
+    "lng": 17.3872604
   },
   {
-    "name": "Capella Tokyo",
-    "address": "Tokyo Midtown Hibiya, 1-1-2 Yurakucho, Chiyoda-ku",
-    "city": "Tokyo 100-0006",
-    "country": "Japan",
-    "lat": 35.6737436,
-    "lng": 139.7591762
+    "name": "Hotel Amigo",
+    "address": "Rue de l'Amigo 1\u20133",
+    "city": "1000 Brussels",
+    "country": "Belgium",
+    "lat": 50.84614140000001,
+    "lng": 4.351395399999999
   },
   {
-    "name": "Capella at Galaxy Macau",
-    "address": "Galaxy Macau, Estrada da Ba\u00eda de Nossa Senhora da Esperan\u00e7a",
-    "city": "Cotai",
-    "country": "Macao",
-    "lat": 22.1478499,
-    "lng": 113.5535633
+    "name": "Hotel de Rome",
+    "address": "Behrenstrasse 37",
+    "city": "10117 Berlin",
+    "country": "Germany",
+    "lat": 52.5157859,
+    "lng": 13.3940599
   },
   {
-    "name": "Capella Kyoto",
-    "address": "Miyagawa-cho District",
-    "city": "Higashiyama, Kyoto",
-    "country": "Japan",
-    "lat": 34.9993497,
-    "lng": 135.7720604
+    "name": "The Charles Hotel",
+    "address": "Sophienstrasse 28",
+    "city": "80333 Munich",
+    "country": "Germany",
+    "lat": 48.1427505,
+    "lng": 11.5624963
+  },
+  {
+    "name": "Villa Kennedy",
+    "address": "Kennedyallee 70",
+    "city": "60596 Frankfurt am Main",
+    "country": "Germany",
+    "lat": 50.09724749999999,
+    "lng": 8.6695244
+  },
+  {
+    "name": "Hotel Astoria",
+    "address": "Bolshaya Morskaya Street 39",
+    "city": "St. Petersburg 190000",
+    "country": "Russia",
+    "lat": 59.93282900000001,
+    "lng": 30.308868
+  },
+  {
+    "name": "Palazzo Sirignano",
+    "address": "Via Sirignano 11",
+    "city": "80121 Naples",
+    "country": "Italy",
+    "lat": 40.8338996,
+    "lng": 14.232748
   }
 ];
-  const COLOR = "#7c2d12";
+  const COLOR = "#365314";
   let map, infoWindow;
   const markers = [];
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 14.649250481818182, lng: 119.87086884545455 },
+      center: { lat: 47.660996364285715, lng: 10.417504735714285 },
       zoom: 3,
       mapTypeControl: true,
       streetViewControl: false,
@@ -257,7 +281,7 @@
       const iwContent = `
         <div class="gm-iw">
           <div class="gm-iw-title">${h.name}</div>
-          <div class="gm-iw-brand">Capella</div>
+          <div class="gm-iw-brand">Rocco Forte</div>
           <div class="gm-iw-meta">${fullAddr}</div>
         </div>`;
       marker.addListener('click', () => {

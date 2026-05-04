@@ -1,0 +1,92 @@
+{
+  "brand": "One&Only",
+  "slug": "brand-oneandonly",
+  "color": "#0c4a6e",
+  "tagline": "One&Only Resorts — ultra-private destination luxury",
+  "hotels": [
+    {
+      "name": "One&Only Palmilla",
+      "address": "Carretera Transpeninsular KM 7.5 Punta Palmilla",
+      "city": "San José del Cabo, BCS",
+      "country": "Mexico"
+    },
+    {
+      "name": "One&Only Mandarina",
+      "address": "Riviera Nayarit",
+      "city": "Municipio de Bahía de Banderas, Nayarit",
+      "country": "Mexico"
+    },
+    {
+      "name": "One&Only Moonlight Basin",
+      "address": "50 Moonlight Basin Road",
+      "city": "Big Sky, MT 59716",
+      "country": "USA"
+    },
+    {
+      "name": "One&Only Royal Mirage",
+      "address": "Al Sufouh Road",
+      "city": "Dubai 37252",
+      "country": "UAE"
+    },
+    {
+      "name": "One&Only The Palm",
+      "address": "East Crescent Road, Palm Jumeirah",
+      "city": "Dubai",
+      "country": "UAE"
+    },
+    {
+      "name": "One&Only Za'abeel",
+      "address": "Sheikh Zayed Road, Za'abeel",
+      "city": "Dubai",
+      "country": "UAE"
+    },
+    {
+      "name": "One&Only Portonovi",
+      "address": "Valdanos Bay, Boka Bay",
+      "city": "Herceg Novi",
+      "country": "Montenegro"
+    },
+    {
+      "name": "One&Only Kéa Island",
+      "address": "Vourkari",
+      "city": "Kéa Island, Cyclades",
+      "country": "Greece"
+    },
+    {
+      "name": "One&Only Aesthesis",
+      "address": "Kavouri",
+      "city": "Vouliagmeni, Athens 16671",
+      "country": "Greece"
+    },
+    {
+      "name": "One&Only Cape Town",
+      "address": "Dock Road, V&A Waterfront",
+      "city": "Cape Town 8001",
+      "country": "South Africa"
+    },
+    {
+      "name": "One&Only Reethi Rah",
+      "address": "",
+      "city": "North Malé Atoll",
+      "country": "Maldives"
+    },
+    {
+      "name": "One&Only Le Saint Géran",
+      "address": "Pointe de Flacq",
+      "city": "",
+      "country": "Mauritius"
+    },
+    {
+      "name": "One&Only Nyungwe House",
+      "address": "",
+      "city": "Nyungwe National Park, Southern Rwanda",
+      "country": "Rwanda"
+    },
+    {
+      "name": "One&Only Gorilla's Nest",
+      "address": "Kinigi",
+      "city": "Volcanoes National Park, Northern Rwanda",
+      "country": "Rwanda"
+    }
+  ]
+}

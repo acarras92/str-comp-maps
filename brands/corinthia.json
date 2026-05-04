@@ -1,0 +1,68 @@
+{
+  "brand": "Corinthia",
+  "slug": "brand-corinthia",
+  "color": "#92400e",
+  "tagline": "Corinthia Hotels — European capital-city luxury",
+  "hotels": [
+    {
+      "name": "Corinthia London",
+      "address": "Whitehall Place",
+      "city": "London SW1A 2BD",
+      "country": "UK"
+    },
+    {
+      "name": "Corinthia Brussels (Grand Hotel Astoria)",
+      "address": "101–103 Rue Royale",
+      "city": "1000 Brussels",
+      "country": "Belgium"
+    },
+    {
+      "name": "Corinthia Rome",
+      "address": "Piazza del Parlamento 18",
+      "city": "00186 Rome",
+      "country": "Italy"
+    },
+    {
+      "name": "Corinthia Budapest",
+      "address": "Erzsébet körút 43–49",
+      "city": "Budapest H-1073",
+      "country": "Hungary"
+    },
+    {
+      "name": "Corinthia Prague",
+      "address": "Kongresová 1",
+      "city": "140 00 Praha 4",
+      "country": "Czech Republic"
+    },
+    {
+      "name": "Corinthia Lisbon",
+      "address": "Av. Columbano Bordalo Pinheiro 105",
+      "city": "1099-031 Lisbon",
+      "country": "Portugal"
+    },
+    {
+      "name": "Corinthia St. Petersburg",
+      "address": "Nevsky Prospect 57",
+      "city": "St. Petersburg 191025",
+      "country": "Russia"
+    },
+    {
+      "name": "Corinthia St George's Bay, Malta",
+      "address": "St George's Bay",
+      "city": "St Julian's STJ 3301",
+      "country": "Malta"
+    },
+    {
+      "name": "Corinthia Palace, Malta",
+      "address": "De Paule Avenue",
+      "city": "Balzan BZN 9022",
+      "country": "Malta"
+    },
+    {
+      "name": "Corinthia Tripoli",
+      "address": "Dat Al-Imad Complex, Tower 4",
+      "city": "Tripoli",
+      "country": "Libya"
+    }
+  ]
+}

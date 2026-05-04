@@ -1,0 +1,176 @@
+{
+  "brand": "Auberge Resorts",
+  "slug": "brand-auberge",
+  "color": "#065f46",
+  "tagline": "Auberge Resorts Collection — independent luxury, US-led with international expansion",
+  "hotels": [
+    {
+      "name": "Auberge du Soleil",
+      "address": "180 Rutherford Hill Road",
+      "city": "Rutherford, CA 94573",
+      "country": "USA"
+    },
+    {
+      "name": "Solage Calistoga",
+      "address": "755 Silverado Trail North",
+      "city": "Calistoga, CA 94515",
+      "country": "USA"
+    },
+    {
+      "name": "Stanly Ranch",
+      "address": "2671 Stanly Crossroad",
+      "city": "Napa, CA 94559",
+      "country": "USA"
+    },
+    {
+      "name": "Inn at Mattei's Tavern",
+      "address": "2350 Railway Avenue",
+      "city": "Los Olivos, CA 93441",
+      "country": "USA"
+    },
+    {
+      "name": "Hotel Jerome",
+      "address": "330 East Main Street",
+      "city": "Aspen, CO 81611",
+      "country": "USA"
+    },
+    {
+      "name": "Madeline Hotel & Residences",
+      "address": "568 Mountain Village Boulevard",
+      "city": "Telluride, CO 81435",
+      "country": "USA"
+    },
+    {
+      "name": "Element 52",
+      "address": "117 Lost Creek Lane",
+      "city": "Telluride, CO 81435",
+      "country": "USA"
+    },
+    {
+      "name": "The Lodge at Blue Sky",
+      "address": "4200 Old Ranch Road",
+      "city": "Park City, UT 84098",
+      "country": "USA"
+    },
+    {
+      "name": "Goldener Hirsch",
+      "address": "7570 Royal Street East",
+      "city": "Park City, UT 84060",
+      "country": "USA"
+    },
+    {
+      "name": "Sleeping Indian Lodge",
+      "address": "5765 County Road 24",
+      "city": "Ridgway, CO 81432",
+      "country": "USA"
+    },
+    {
+      "name": "Bishop's Lodge",
+      "address": "1297 Bishop's Lodge Road",
+      "city": "Santa Fe, NM 87506",
+      "country": "USA"
+    },
+    {
+      "name": "Commodore Perry Estate",
+      "address": "4100 Red River Street",
+      "city": "Austin, TX 78751",
+      "country": "USA"
+    },
+    {
+      "name": "Bowie House",
+      "address": "401 West Magnolia Avenue",
+      "city": "Fort Worth, TX 76104",
+      "country": "USA"
+    },
+    {
+      "name": "Primland Resort",
+      "address": "2000 Primland Drive",
+      "city": "Meadows of Dan, VA 24120",
+      "country": "USA"
+    },
+    {
+      "name": "The Dunlin",
+      "address": "2650 Chisolm Road",
+      "city": "Johns Island, SC 29455",
+      "country": "USA"
+    },
+    {
+      "name": "The Vanderbilt",
+      "address": "41 Mary Street",
+      "city": "Newport, RI 02840",
+      "country": "USA"
+    },
+    {
+      "name": "White Barn Inn",
+      "address": "37 Beach Avenue",
+      "city": "Kennebunk, ME 04043",
+      "country": "USA"
+    },
+    {
+      "name": "Mayflower Inn & Spa",
+      "address": "118 Woodbury Road",
+      "city": "Washington, CT 06793",
+      "country": "USA"
+    },
+    {
+      "name": "Mauna Lani",
+      "address": "68-1400 Mauna Lani Drive",
+      "city": "Kohala Coast, HI 96743",
+      "country": "USA"
+    },
+    {
+      "name": "Esperanza",
+      "address": "Carretera Transpeninsular KM 7",
+      "city": "Los Cabos, BCS",
+      "country": "Mexico"
+    },
+    {
+      "name": "Chileno Bay",
+      "address": "Carretera Transpeninsular KM 15",
+      "city": "Los Cabos, BCS",
+      "country": "Mexico"
+    },
+    {
+      "name": "Susurros del Corazón",
+      "address": "Carretera Federal 200 KM 2.5",
+      "city": "Punta de Mita, Nayarit",
+      "country": "Mexico"
+    },
+    {
+      "name": "Etéreo",
+      "address": "Carretera Federal 307 KM 47",
+      "city": "Riviera Maya, Quintana Roo",
+      "country": "Mexico"
+    },
+    {
+      "name": "Hacienda AltaGracia",
+      "address": "La Cangreja",
+      "city": "Pérez Zeledón, San José",
+      "country": "Costa Rica"
+    },
+    {
+      "name": "Collegio alla Querce",
+      "address": "Via Bolognese 52",
+      "city": "50139 Florence",
+      "country": "Italy"
+    },
+    {
+      "name": "Domaine des Etangs",
+      "address": "Massignac",
+      "city": "16310 Charente",
+      "country": "France"
+    },
+    {
+      "name": "Grace Santorini",
+      "address": "Imerovigli",
+      "city": "847 00 Santorini",
+      "country": "Greece"
+    },
+    {
+      "name": "The Woodward",
+      "address": "Quai Wilson 1",
+      "city": "1201 Geneva",
+      "country": "Switzerland"
+    }
+  ]
+}

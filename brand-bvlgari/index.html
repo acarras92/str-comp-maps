@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Capella &mdash; Brand Portfolio Map</title>
+  <title>Bvlgari &mdash; Brand Portfolio Map</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -15,7 +15,7 @@
     }
     .header {
       background: #1a2744;
-      border-bottom: 3px solid #7c2d12;
+      border-bottom: 3px solid #a16207;
       padding: 14px 22px;
       display: flex;
       align-items: center;
@@ -88,7 +88,7 @@
     #map { flex: 1; }
     .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }
     .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
-    .gm-iw-brand { font-size: 10px; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
+    .gm-iw-brand { font-size: 10px; color: #a16207; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
     .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
   </style>
 </head>
@@ -96,8 +96,8 @@
 
 <div class="header">
   <div class="header-left">
-    <h1>Capella &mdash; Brand Portfolio</h1>
-    <p>Capella Hotels & Resorts — ultra-luxury portfolio (11 properties) &nbsp;&middot;&nbsp; 11 properties mapped</p>
+    <h1>Bvlgari &mdash; Brand Portfolio</h1>
+    <p>Bvlgari Hotels & Resorts — ultra-exclusive, sub-100 keys &nbsp;&middot;&nbsp; 9 properties mapped</p>
   </div>
   <div class="header-right">
     <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
@@ -108,7 +108,7 @@
   <div class="sidebar">
     <div class="sb-section">
       <h3>Legend</h3>
-      <div class="legend-row"><div class="leg-dot" style="background:#7c2d12;"></div> Capella Property</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#a16207;"></div> Bvlgari Property</div>
     </div>
     <div class="sb-section" style="border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
@@ -124,101 +124,85 @@
 <script>
   const HOTELS = [
   {
-    "name": "Capella Singapore",
-    "address": "1 The Knolls, Sentosa Island",
-    "city": "Singapore 098297",
-    "country": "Singapore",
-    "lat": 1.2497222,
-    "lng": 103.8241667
+    "name": "Bvlgari Hotel Milano",
+    "address": "Via Privata Fratelli Gabba 7b",
+    "city": "20121 Milan",
+    "country": "Italy",
+    "lat": 45.4698487,
+    "lng": 9.1895359
   },
   {
-    "name": "Capella Bangkok",
-    "address": "300/2 Charoenkrung Road, Yannawa, Sathorn",
-    "city": "Bangkok 10120",
-    "country": "Thailand",
-    "lat": 13.7131047,
-    "lng": 100.5110225
+    "name": "Bvlgari Hotel London",
+    "address": "171 Knightsbridge",
+    "city": "London SW7 1DW",
+    "country": "UK",
+    "lat": 51.5014669,
+    "lng": -0.1635477
   },
   {
-    "name": "Capella Hanoi",
-    "address": "11 P. L\u00ea Ph\u1ee5ng Hi\u1ec3u, Hoan Kiem District",
-    "city": "Hanoi 100000",
-    "country": "Vietnam",
-    "lat": 21.0257164,
-    "lng": 105.8566886
+    "name": "Bvlgari Hotel Paris",
+    "address": "30 Avenue George V",
+    "city": "75008 Paris",
+    "country": "France",
+    "lat": 48.8683674,
+    "lng": 2.3014592
   },
   {
-    "name": "Capella Sydney",
-    "address": "1 Bridge Street",
-    "city": "Sydney NSW 2000",
-    "country": "Australia",
-    "lat": -33.8638571,
-    "lng": 151.2104059
+    "name": "Bvlgari Hotel Roma",
+    "address": "Piazza Augusto Imperatore 10",
+    "city": "00186 Rome",
+    "country": "Italy",
+    "lat": 41.9067821,
+    "lng": 12.4762188
   },
   {
-    "name": "Capella Ubud, Bali",
-    "address": "Jalan Raya Keliki, Tegallalang",
-    "city": "Ubud, Gianyar, Bali",
+    "name": "Bvlgari Resort Bali",
+    "address": "Jalan Goa Lempeh, Uluwatu",
+    "city": "Kuta Selatan, Bali 80364",
     "country": "Indonesia",
-    "lat": -8.4482091,
-    "lng": 115.2681117
+    "lat": -8.8429187,
+    "lng": 115.1216909
   },
   {
-    "name": "Capella Shanghai",
-    "address": "480 Fenyang Road, Xuhui District",
-    "city": "Shanghai 200031",
+    "name": "Bvlgari Resort Dubai",
+    "address": "Jumeira Bay Island, Jumeirah 2",
+    "city": "Dubai",
+    "country": "UAE",
+    "lat": 25.210697,
+    "lng": 55.236428
+  },
+  {
+    "name": "Bvlgari Hotel Beijing",
+    "address": "6 East Chang'an Avenue, Dongcheng District",
+    "city": "Beijing 100006",
     "country": "China",
-    "lat": 31.21184,
-    "lng": 121.45449
+    "lat": 39.90768,
+    "lng": 116.41045
   },
   {
-    "name": "Capella Tufu Bay, Hainan",
-    "address": "Tufu Bay",
-    "city": "Wanning City, Hainan Province",
+    "name": "Bvlgari Hotel Shanghai",
+    "address": "33 The Bund, Zhongshan East No. 1 Road, Huangpu District",
+    "city": "Shanghai 200002",
     "country": "China",
-    "lat": 18.393608,
-    "lng": 109.798234
+    "lat": 31.2402611,
+    "lng": 121.490577
   },
   {
-    "name": "Capella Taipei",
-    "address": "No. 88 Songgao Road, Xinyi District",
-    "city": "Taipei 110",
-    "country": "Taiwan",
-    "lat": 25.038887,
-    "lng": 121.571638
-  },
-  {
-    "name": "Capella Tokyo",
-    "address": "Tokyo Midtown Hibiya, 1-1-2 Yurakucho, Chiyoda-ku",
-    "city": "Tokyo 100-0006",
+    "name": "Bvlgari Hotel Tokyo",
+    "address": "Tokyo Midtown Yaesu, 2-2-1 Yaesu, Chuo-ku",
+    "city": "Tokyo 104-0028",
     "country": "Japan",
-    "lat": 35.6737436,
-    "lng": 139.7591762
-  },
-  {
-    "name": "Capella at Galaxy Macau",
-    "address": "Galaxy Macau, Estrada da Ba\u00eda de Nossa Senhora da Esperan\u00e7a",
-    "city": "Cotai",
-    "country": "Macao",
-    "lat": 22.1478499,
-    "lng": 113.5535633
-  },
-  {
-    "name": "Capella Kyoto",
-    "address": "Miyagawa-cho District",
-    "city": "Higashiyama, Kyoto",
-    "country": "Japan",
-    "lat": 34.9993497,
-    "lng": 135.7720604
+    "lat": 35.6788388,
+    "lng": 139.7683266
   }
 ];
-  const COLOR = "#7c2d12";
+  const COLOR = "#a16207";
   let map, infoWindow;
   const markers = [];
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 14.649250481818182, lng: 119.87086884545455 },
+      center: { lat: 34.54900258888889, lng: 63.536793188888886 },
       zoom: 3,
       mapTypeControl: true,
       streetViewControl: false,
@@ -257,7 +241,7 @@
       const iwContent = `
         <div class="gm-iw">
           <div class="gm-iw-title">${h.name}</div>
-          <div class="gm-iw-brand">Capella</div>
+          <div class="gm-iw-brand">Bvlgari</div>
           <div class="gm-iw-meta">${fullAddr}</div>
         </div>`;
       marker.addListener('click', () => {

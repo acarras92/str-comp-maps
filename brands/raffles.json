@@ -1,0 +1,104 @@
+{
+  "brand": "Raffles",
+  "slug": "brand-raffles",
+  "color": "#991b1b",
+  "tagline": "Raffles Hotels & Resorts — colonial-heritage luxury (Accor)",
+  "hotels": [
+    {
+      "name": "Raffles Singapore",
+      "address": "1 Beach Road",
+      "city": "Singapore 189673",
+      "country": "Singapore"
+    },
+    {
+      "name": "Raffles Sentosa Resort & Spa",
+      "address": "101 Siloso Road, Sentosa",
+      "city": "Singapore 098970",
+      "country": "Singapore"
+    },
+    {
+      "name": "Raffles Boston",
+      "address": "40 Trinity Place, Back Bay",
+      "city": "Boston, MA 02116",
+      "country": "USA"
+    },
+    {
+      "name": "Le Royal Monceau – Raffles Paris",
+      "address": "37 Avenue Hoche",
+      "city": "75008 Paris",
+      "country": "France"
+    },
+    {
+      "name": "Raffles London at The OWO",
+      "address": "57 Whitehall",
+      "city": "London SW1A 2BX",
+      "country": "UK"
+    },
+    {
+      "name": "Raffles Warsaw",
+      "address": "Grzybowska 45",
+      "city": "00-844 Warsaw",
+      "country": "Poland"
+    },
+    {
+      "name": "Raffles Istanbul",
+      "address": "Zorlu Center, Levazım Mah. Vadi Caddesi, Beşiktaş",
+      "city": "34340 Istanbul",
+      "country": "Turkey"
+    },
+    {
+      "name": "Raffles Doha",
+      "address": "Marina East Street, Lusail Marina District",
+      "city": "Lusail City, Doha",
+      "country": "Qatar"
+    },
+    {
+      "name": "Raffles Al Areen Palace Bahrain",
+      "address": "Zallaq Highway",
+      "city": "Sakhir",
+      "country": "Bahrain"
+    },
+    {
+      "name": "Raffles The Palm Dubai",
+      "address": "East Crescent Road, Palm Jumeirah",
+      "city": "Dubai",
+      "country": "UAE"
+    },
+    {
+      "name": "Raffles Udaipur",
+      "address": "Shiv Sagar Island",
+      "city": "Udaipur, Rajasthan 313001",
+      "country": "India"
+    },
+    {
+      "name": "Raffles Jaipur",
+      "address": "Khasa Kothi Circle, MI Road",
+      "city": "Jaipur, Rajasthan 302001",
+      "country": "India"
+    },
+    {
+      "name": "Raffles Shenzhen",
+      "address": "One Shenzhen Bay, Nanshan District",
+      "city": "Shenzhen 518054",
+      "country": "China"
+    },
+    {
+      "name": "Raffles Hainan",
+      "address": "Boao",
+      "city": "Qionghai City, Hainan Province",
+      "country": "China"
+    },
+    {
+      "name": "Raffles Bali",
+      "address": "Jalan Karang Mas Sejahtera",
+      "city": "Jimbaran, Bali 80361",
+      "country": "Indonesia"
+    },
+    {
+      "name": "Raffles Maldives Meradhoo Resort",
+      "address": "",
+      "city": "Meradhoo Island, Gaafu Alifu Atoll",
+      "country": "Maldives"
+    }
+  ]
+}

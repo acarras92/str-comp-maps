@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Capella &mdash; Brand Portfolio Map</title>
+  <title>Raffles &mdash; Brand Portfolio Map</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -15,7 +15,7 @@
     }
     .header {
       background: #1a2744;
-      border-bottom: 3px solid #7c2d12;
+      border-bottom: 3px solid #991b1b;
       padding: 14px 22px;
       display: flex;
       align-items: center;
@@ -88,7 +88,7 @@
     #map { flex: 1; }
     .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }
     .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
-    .gm-iw-brand { font-size: 10px; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
+    .gm-iw-brand { font-size: 10px; color: #991b1b; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }
     .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
   </style>
 </head>
@@ -96,8 +96,8 @@
 
 <div class="header">
   <div class="header-left">
-    <h1>Capella &mdash; Brand Portfolio</h1>
-    <p>Capella Hotels & Resorts — ultra-luxury portfolio (11 properties) &nbsp;&middot;&nbsp; 11 properties mapped</p>
+    <h1>Raffles &mdash; Brand Portfolio</h1>
+    <p>Raffles Hotels & Resorts — colonial-heritage luxury (Accor) &nbsp;&middot;&nbsp; 16 properties mapped</p>
   </div>
   <div class="header-right">
     <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
@@ -108,7 +108,7 @@
   <div class="sidebar">
     <div class="sb-section">
       <h3>Legend</h3>
-      <div class="legend-row"><div class="leg-dot" style="background:#7c2d12;"></div> Capella Property</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#991b1b;"></div> Raffles Property</div>
     </div>
     <div class="sb-section" style="border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
@@ -124,101 +124,141 @@
 <script>
   const HOTELS = [
   {
-    "name": "Capella Singapore",
-    "address": "1 The Knolls, Sentosa Island",
-    "city": "Singapore 098297",
+    "name": "Raffles Singapore",
+    "address": "1 Beach Road",
+    "city": "Singapore 189673",
     "country": "Singapore",
-    "lat": 1.2497222,
-    "lng": 103.8241667
+    "lat": 1.294889,
+    "lng": 103.854483
   },
   {
-    "name": "Capella Bangkok",
-    "address": "300/2 Charoenkrung Road, Yannawa, Sathorn",
-    "city": "Bangkok 10120",
-    "country": "Thailand",
-    "lat": 13.7131047,
-    "lng": 100.5110225
+    "name": "Raffles Sentosa Resort & Spa",
+    "address": "101 Siloso Road, Sentosa",
+    "city": "Singapore 098970",
+    "country": "Singapore",
+    "lat": 1.2576829,
+    "lng": 103.8097837
   },
   {
-    "name": "Capella Hanoi",
-    "address": "11 P. L\u00ea Ph\u1ee5ng Hi\u1ec3u, Hoan Kiem District",
-    "city": "Hanoi 100000",
-    "country": "Vietnam",
-    "lat": 21.0257164,
-    "lng": 105.8566886
+    "name": "Raffles Boston",
+    "address": "40 Trinity Place, Back Bay",
+    "city": "Boston, MA 02116",
+    "country": "USA",
+    "lat": 42.3485405,
+    "lng": -71.07487110000001
   },
   {
-    "name": "Capella Sydney",
-    "address": "1 Bridge Street",
-    "city": "Sydney NSW 2000",
-    "country": "Australia",
-    "lat": -33.8638571,
-    "lng": 151.2104059
+    "name": "Le Royal Monceau \u2013 Raffles Paris",
+    "address": "37 Avenue Hoche",
+    "city": "75008 Paris",
+    "country": "France",
+    "lat": 48.8757605,
+    "lng": 2.300295
   },
   {
-    "name": "Capella Ubud, Bali",
-    "address": "Jalan Raya Keliki, Tegallalang",
-    "city": "Ubud, Gianyar, Bali",
+    "name": "Raffles London at The OWO",
+    "address": "57 Whitehall",
+    "city": "London SW1A 2BX",
+    "country": "UK",
+    "lat": 51.5051366,
+    "lng": -0.1256685
+  },
+  {
+    "name": "Raffles Warsaw",
+    "address": "Grzybowska 45",
+    "city": "00-844 Warsaw",
+    "country": "Poland",
+    "lat": 52.2342203,
+    "lng": 20.9905224
+  },
+  {
+    "name": "Raffles Istanbul",
+    "address": "Zorlu Center, Levaz\u0131m Mah. Vadi Caddesi, Be\u015fikta\u015f",
+    "city": "34340 Istanbul",
+    "country": "Turkey",
+    "lat": 41.066551,
+    "lng": 29.018055
+  },
+  {
+    "name": "Raffles Doha",
+    "address": "Marina East Street, Lusail Marina District",
+    "city": "Lusail City, Doha",
+    "country": "Qatar",
+    "lat": 25.3899207,
+    "lng": 51.5314542
+  },
+  {
+    "name": "Raffles Al Areen Palace Bahrain",
+    "address": "Zallaq Highway",
+    "city": "Sakhir",
+    "country": "Bahrain",
+    "lat": 26.0022717,
+    "lng": 50.5188013
+  },
+  {
+    "name": "Raffles The Palm Dubai",
+    "address": "East Crescent Road, Palm Jumeirah",
+    "city": "Dubai",
+    "country": "UAE",
+    "lat": 25.1103869,
+    "lng": 55.1098091
+  },
+  {
+    "name": "Raffles Udaipur",
+    "address": "Shiv Sagar Island",
+    "city": "Udaipur, Rajasthan 313001",
+    "country": "India",
+    "lat": 24.581621,
+    "lng": 73.8193223
+  },
+  {
+    "name": "Raffles Jaipur",
+    "address": "Khasa Kothi Circle, MI Road",
+    "city": "Jaipur, Rajasthan 302001",
+    "country": "India",
+    "lat": 26.9169655,
+    "lng": 75.8047136
+  },
+  {
+    "name": "Raffles Shenzhen",
+    "address": "One Shenzhen Bay, Nanshan District",
+    "city": "Shenzhen 518054",
+    "country": "China",
+    "lat": 22.505953,
+    "lng": 113.94243
+  },
+  {
+    "name": "Raffles Hainan",
+    "address": "Boao",
+    "city": "Qionghai City, Hainan Province",
+    "country": "China",
+    "lat": 19.159714,
+    "lng": 110.586606
+  },
+  {
+    "name": "Raffles Bali",
+    "address": "Jalan Karang Mas Sejahtera",
+    "city": "Jimbaran, Bali 80361",
     "country": "Indonesia",
-    "lat": -8.4482091,
-    "lng": 115.2681117
+    "lat": -8.7864398,
+    "lng": 115.1581541
   },
   {
-    "name": "Capella Shanghai",
-    "address": "480 Fenyang Road, Xuhui District",
-    "city": "Shanghai 200031",
-    "country": "China",
-    "lat": 31.21184,
-    "lng": 121.45449
-  },
-  {
-    "name": "Capella Tufu Bay, Hainan",
-    "address": "Tufu Bay",
-    "city": "Wanning City, Hainan Province",
-    "country": "China",
-    "lat": 18.393608,
-    "lng": 109.798234
-  },
-  {
-    "name": "Capella Taipei",
-    "address": "No. 88 Songgao Road, Xinyi District",
-    "city": "Taipei 110",
-    "country": "Taiwan",
-    "lat": 25.038887,
-    "lng": 121.571638
-  },
-  {
-    "name": "Capella Tokyo",
-    "address": "Tokyo Midtown Hibiya, 1-1-2 Yurakucho, Chiyoda-ku",
-    "city": "Tokyo 100-0006",
-    "country": "Japan",
-    "lat": 35.6737436,
-    "lng": 139.7591762
-  },
-  {
-    "name": "Capella at Galaxy Macau",
-    "address": "Galaxy Macau, Estrada da Ba\u00eda de Nossa Senhora da Esperan\u00e7a",
-    "city": "Cotai",
-    "country": "Macao",
-    "lat": 22.1478499,
-    "lng": 113.5535633
-  },
-  {
-    "name": "Capella Kyoto",
-    "address": "Miyagawa-cho District",
-    "city": "Higashiyama, Kyoto",
-    "country": "Japan",
-    "lat": 34.9993497,
-    "lng": 135.7720604
+    "name": "Raffles Maldives Meradhoo Resort",
+    "address": "",
+    "city": "Meradhoo Island, Gaafu Alifu Atoll",
+    "country": "Maldives",
+    "lat": 0.5783250999999999,
+    "lng": 73.0946629
   }
 ];
-  const COLOR = "#7c2d12";
+  const COLOR = "#991b1b";
   let map, infoWindow;
   const markers = [];
 
   function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 14.649250481818182, lng: 119.87086884545455 },
+      center: { lat: 25.00259368125, lng: 56.7711595625 },
       zoom: 3,
       mapTypeControl: true,
       streetViewControl: false,
@@ -257,7 +297,7 @@
       const iwContent = `
         <div class="gm-iw">
           <div class="gm-iw-title">${h.name}</div>
-          <div class="gm-iw-brand">Capella</div>
+          <div class="gm-iw-brand">Raffles</div>
           <div class="gm-iw-meta">${fullAddr}</div>
         </div>`;
       marker.addListener('click', () => {
