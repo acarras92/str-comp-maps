@@ -171,9 +171,10 @@
       flex-shrink: 0;
       margin-top: 1px;
     }
-    .pin-subject { background: #c62828; color: #fff; }
-    .pin-comp    { background: #1565c0; color: #fff; }
-    .pin-shadow  { background: #f57c00; color: #fff; }
+    .pin-subject  { background: #c62828; color: #fff; }
+    .pin-comp     { background: #1565c0; color: #fff; }
+    .pin-shadow   { background: #f57c00; color: #fff; }
+    .pin-landmark { background: #6d4c41; color: #fff; border-radius: 4px; }
     .h-info h4 {
       font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3;
     }
@@ -205,28 +206,73 @@
     .hotel-item.is-shadow { background: #fffaf2; }
     .hotel-item.is-shadow:hover { background: #ffefdc; }
     .hotel-item.is-hidden { opacity: 0.4; }
-    .toggle-btn {
-      width: 100%;
-      padding: 8px 10px;
-      margin-top: 8px;
+    .extras-actions {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    .extras-actions button {
+      flex: 1;
+      padding: 5px 6px;
       background: #fff3e0;
       border: 1px solid #ffcc80;
-      border-radius: 5px;
+      border-radius: 4px;
       color: #e65100;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
       letter-spacing: 0.3px;
       cursor: pointer;
-      transition: background 0.15s;
       font-family: inherit;
     }
-    .toggle-btn:hover { background: #ffe0b2; }
-    .toggle-btn.is-off {
-      background: #f5f5f5;
-      border-color: #ddd;
-      color: #888;
+    .extras-actions button:hover { background: #ffe0b2; }
+    .extra-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 4px;
+      border-radius: 4px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f2f5;
+      transition: background 0.15s;
     }
-    .toggle-btn.is-off:hover { background: #ececec; }
+    .extra-toggle:last-child { border-bottom: none; }
+    .extra-toggle:hover { background: #fff7eb; }
+    .extra-toggle .check {
+      width: 14px; height: 14px;
+      border: 1.5px solid #f57c00;
+      border-radius: 3px;
+      background: #f57c00;
+      color: #fff;
+      font-size: 10px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-weight: bold;
+    }
+    .extra-toggle.is-off .check { background: #fff; color: transparent; }
+    .extra-toggle.is-off { opacity: 0.55; }
+    .extra-toggle .ext-pin {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: #f57c00; color: #fff;
+      font-size: 9px; font-weight: bold;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .extra-toggle.is-landmark .ext-pin {
+      border-radius: 4px;
+      background: #6d4c41;
+    }
+    .extra-toggle .ext-name {
+      font-size: 11px;
+      color: #1a2744;
+      font-weight: 500;
+      flex: 1;
+      line-height: 1.25;
+    }
+    .extra-toggle .ext-meta {
+      font-size: 10px;
+      color: #8090b0;
+    }
     .sidebar-footer {
       padding: 8px 14px;
       font-size: 10px;
@@ -313,8 +359,17 @@
       <h3>Legend</h3>
       <div class="legend-row"><div class="leg-dot" style="background:#c62828;"></div> Subject Property</div>
       <div class="legend-row"><div class="leg-dot" style="background:#1565c0;"></div> Competitive Set (7 Hotels)</div>
-      <div class="legend-row"><div class="leg-dot" style="background:#f57c00;"></div> Reference (Not in Comp Set)</div>
-      <button id="toggle-shadow" class="toggle-btn">Hide Hyatt Regency Embarcadero</button>
+      <div class="legend-row"><div class="leg-dot" style="background:#f57c00;"></div> Reference Hotel (Not in Set)</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#6d4c41; border-radius:3px;"></div> Reference Landmark</div>
+    </div>
+
+    <div class="sb-section">
+      <h3>Reference Points &mdash; Click to Toggle</h3>
+      <div class="extras-actions">
+        <button id="extras-all-on" type="button">Show All</button>
+        <button id="extras-all-off" type="button">Hide All</button>
+      </div>
+      <div id="extras-list"></div>
     </div>
 
     <div class="sb-section">
@@ -459,6 +514,44 @@
       rooms: 821, strId: "",
       lat: 37.7942169, lng: -122.3956663,
     },
+    {
+      id: 9, subject: false, shadow: true,
+      name: "Parc 55 San Francisco - a Hilton Hotel", brand: "",
+      operator: "",
+      address: "55 Cyril Magnin St, San Francisco, CA 94102".trim(),
+      city: "San Francisco, CA",
+      rooms: 1024, strId: "",
+      lat: 37.7843, lng: -122.4093,
+    },
+    {
+      id: 10, subject: false, shadow: true,
+      name: "The Huntington Hotel", brand: "",
+      operator: "",
+      address: "1075 California St, San Francisco, CA 94108".trim(),
+      city: "San Francisco, CA",
+      rooms: 134, strId: "",
+      lat: 37.7915148, lng: -122.4121229,
+    },
+    {
+      id: 11, subject: false, shadow: true, landmark: true,
+      name: "Moscone Convention Center", brand: "",
+      operator: "",
+      address: "747 Howard St, San Francisco, CA 94103".trim(),
+      city: "San Francisco, CA",
+      rooms: 0, strId: "",
+      lat: 37.7843234, lng: -122.40069,
+      pinLabel: "M",
+    },
+    {
+      id: 12, subject: false, shadow: true, landmark: true,
+      name: "Salesforce Tower", brand: "",
+      operator: "",
+      address: "415 Mission St, San Francisco, CA 94105".trim(),
+      city: "San Francisco, CA",
+      rooms: 0, strId: "",
+      lat: 37.7897442, lng: -122.3972337,
+      pinLabel: "S",
+    },
   ];
 
   let map, infoWindow;
@@ -499,8 +592,22 @@
     const listEl = document.getElementById('hotel-list');
 
     HOTELS.forEach((h, i) => {
-      const label = h.subject ? '★' : String(i);
-      const color = h.subject ? '#c62828' : (h.shadow ? '#f57c00' : '#1565c0');
+      const label = h.subject ? '★' : (h.pinLabel || String(i));
+      const color = h.subject ? '#c62828'
+                  : (h.landmark ? '#6d4c41'
+                  : (h.shadow ? '#f57c00' : '#1565c0'));
+
+      const svgShape = h.landmark
+        ? `<rect x="3" y="3" width="32" height="32" rx="5" ry="5"
+                 fill="${color}" stroke="white" stroke-width="1.5" filter="url(#s)"/>
+           <text x="19" y="19" text-anchor="middle" dominant-baseline="central"
+                 font-family="Arial,sans-serif" font-size="13"
+                 font-weight="bold" fill="white">${label}</text>`
+        : `<path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
+                 fill="${color}" stroke="white" stroke-width="1.5" filter="url(#s)"/>
+           <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
+                 font-family="Arial,sans-serif" font-size="${h.subject ? 14 : 13}"
+                 font-weight="bold" fill="white">${label}</text>`;
 
       const svgIcon = {
         url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
@@ -508,14 +615,10 @@
             <filter id="s">
               <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/>
             </filter>
-            <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
-                  fill="${color}" stroke="white" stroke-width="1.5" filter="url(#s)"/>
-            <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
-                  font-family="Arial,sans-serif" font-size="${h.subject ? 14 : 13}"
-                  font-weight="bold" fill="white">${label}</text>
+            ${svgShape}
           </svg>`),
         scaledSize: new google.maps.Size(38, 46),
-        anchor: new google.maps.Point(19, 44)
+        anchor: h.landmark ? new google.maps.Point(19, 19) : new google.maps.Point(19, 44)
       };
 
       const marker = new google.maps.Marker({
@@ -536,20 +639,28 @@
              <div class="gm-stat"><div class="gm-stat-label">RevPAR</div><div class="gm-stat-value">${h.revpar}</div></div>
            </div>
            <div class="gm-iw-note">Running 12-Month &middot; Source: STR</div>`
-        : (h.shadow
-            ? `<div class="gm-iw-masked">Reference property &mdash; not included in STR comp set</div>`
-            : `<div class="gm-iw-masked">Individual comp performance masked per STR policy</div>`);
+        : (h.landmark
+            ? `<div class="gm-iw-masked">Reference landmark &mdash; not a hotel</div>`
+            : (h.shadow
+                ? `<div class="gm-iw-masked">Reference property &mdash; not included in STR comp set</div>`
+                : `<div class="gm-iw-masked">Individual comp performance masked per STR policy</div>`));
 
       const badgeHtml = h.subject
         ? '<span class="gm-iw-subject-badge">Subject Property</span>'
-        : (h.shadow ? '<span class="gm-iw-subject-badge" style="background:#fff3e0;border-color:#ffcc80;color:#e65100;">Not in Comp Set</span>' : '');
+        : (h.landmark
+            ? '<span class="gm-iw-subject-badge" style="background:#efebe9;border-color:#bcaaa4;color:#4e342e;">Landmark</span>'
+            : (h.shadow ? '<span class="gm-iw-subject-badge" style="background:#fff3e0;border-color:#ffcc80;color:#e65100;">Not in Comp Set</span>' : ''));
+
+      const keysBadge = h.landmark
+        ? ''
+        : `<span class="gm-iw-badge">${h.rooms.toLocaleString()} Keys</span>`;
 
       const iwContent = `
         <div class="gm-iw">
           <div class="gm-iw-title">${h.name}</div>
           <div class="gm-iw-brand">${h.brand}</div>
           <div>
-            <span class="gm-iw-badge">${h.rooms.toLocaleString()} Keys</span>
+            ${keysBadge}
             ${badgeHtml}
           </div>
           <div class="gm-iw-meta" style="margin-top:6px;">${h.address}</div>
@@ -563,6 +674,11 @@
         infoWindow.open(map, marker);
       });
 
+      h._iwContent = iwContent;
+      h._marker = marker;
+
+      if (h.landmark) return;
+
       const pinClass = h.subject ? 'pin-subject' : (h.shadow ? 'pin-shadow' : 'pin-comp');
       const itemClass = h.subject ? 'is-subject' : (h.shadow ? 'is-shadow' : '');
       const extraBadge = h.subject
@@ -571,7 +687,10 @@
 
       const item = document.createElement('div');
       item.className = `hotel-item ${itemClass}`.trim();
-      if (h.shadow) item.dataset.shadow = '1';
+      if (h.shadow) {
+        item.dataset.shadow = '1';
+        item.dataset.id = String(h.id);
+      }
       item.innerHTML = `
         <div class="h-pin ${pinClass}">${label}</div>
         <div class="h-info">
@@ -599,21 +718,53 @@
 
     fitForVisible();
 
-    const toggleBtn = document.getElementById('toggle-shadow');
-    let shadowOn = true;
-    toggleBtn.addEventListener('click', () => {
-      shadowOn = !shadowOn;
-      HOTELS.forEach((h, i) => {
-        if (h.shadow) markers[i].setMap(shadowOn ? map : null);
+    // Per-extra toggles ----------------------------------------------------
+    const extrasEl = document.getElementById('extras-list');
+    const shadowState = {};
+
+    function applyState(h, on) {
+      shadowState[h.id] = on;
+      h._marker.setMap(on ? map : null);
+      const row = extrasEl.querySelector(`[data-extra-id="${h.id}"]`);
+      if (row) row.classList.toggle('is-off', !on);
+      if (!h.landmark) {
+        const sideRow = document.querySelector(`.hotel-item[data-id="${h.id}"]`);
+        if (sideRow) sideRow.classList.toggle('is-hidden', !on);
+      }
+    }
+
+    HOTELS.filter(h => h.shadow).forEach(h => {
+      shadowState[h.id] = true;
+      const pinLbl = h.pinLabel || String(h.id);
+      const row = document.createElement('div');
+      row.className = `extra-toggle${h.landmark ? ' is-landmark' : ''}`;
+      row.dataset.extraId = String(h.id);
+      row.innerHTML = `
+        <div class="check">&#10003;</div>
+        <div class="ext-pin">${pinLbl}</div>
+        <div class="ext-name">${h.name}<div class="ext-meta">${h.landmark ? 'Landmark' : (h.rooms.toLocaleString() + ' keys')}</div></div>`;
+      row.addEventListener('click', (e) => {
+        if (e.shiftKey || e.metaKey || e.ctrlKey) {
+          map.panTo({ lat: h.lat, lng: h.lng });
+          map.setZoom(16);
+          infoWindow.setContent(h._iwContent);
+          infoWindow.open(map, h._marker);
+          return;
+        }
+        applyState(h, !shadowState[h.id]);
+        if (!shadowState[h.id]) infoWindow.close();
+        fitForVisible();
       });
-      document.querySelectorAll('.hotel-item[data-shadow="1"]').forEach(el => {
-        el.classList.toggle('is-hidden', !shadowOn);
-      });
-      toggleBtn.classList.toggle('is-off', !shadowOn);
-      toggleBtn.textContent = shadowOn
-        ? 'Hide Hyatt Regency Embarcadero'
-        : 'Show Hyatt Regency Embarcadero';
-      if (!shadowOn) infoWindow.close();
+      extrasEl.appendChild(row);
+    });
+
+    document.getElementById('extras-all-on').addEventListener('click', () => {
+      HOTELS.filter(h => h.shadow).forEach(h => applyState(h, true));
+      fitForVisible();
+    });
+    document.getElementById('extras-all-off').addEventListener('click', () => {
+      HOTELS.filter(h => h.shadow).forEach(h => applyState(h, false));
+      infoWindow.close();
       fitForVisible();
     });
   }
