@@ -109,6 +109,8 @@
     .breakdown-table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
     .breakdown-table th, .breakdown-table td { padding: 0; text-align: right; line-height: 1.2; }
     .breakdown-table th:first-child, .breakdown-table td:first-child { text-align: left; }
+    .breakdown-table tbody td + td, .breakdown-table tfoot td + td { border-left: 1px solid #eef0f3; }
+    .breakdown-table thead th + th { border-left: 1px solid rgba(255,255,255,0.25); }
     .breakdown-table thead th { font-size: 9.5px; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; padding: 5px 6px; }
     .breakdown-table thead th.s-region   { background: #1a2744; border-top-left-radius: 4px; }
     .breakdown-table thead th.s-operating          { background: #047857; }
