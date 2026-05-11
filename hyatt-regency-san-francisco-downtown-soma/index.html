@@ -322,6 +322,166 @@
     .gm-iw-note { font-size: 9px; color: #aabbd0; margin-top: 5px; }
     .gm-iw-masked { font-size: 10px; color: #aabbd0; margin-top: 6px; font-style: italic; }
     .gm-iw-str { font-size: 10px; color: #c0c8da; margin-top: 4px; }
+
+    /* Office overlay controls */
+    .sb-section.office-section { background: #fafcff; }
+    .office-master {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 6px 8px;
+      border-bottom: 1px solid #e3e8f0;
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+    .office-master input { cursor: pointer; }
+    .office-master .om-label {
+      font-size: 11px; font-weight: 700; color: #1a2744;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      flex: 1;
+    }
+    .office-master .om-count {
+      font-size: 10px; color: #6a7a96;
+      background: #eef2f9;
+      border-radius: 8px;
+      padding: 2px 8px;
+    }
+    .office-mini-actions {
+      display: flex; gap: 6px;
+      margin: 4px 0 6px;
+    }
+    .office-mini-actions button {
+      flex: 1;
+      padding: 4px 6px;
+      background: #f0f4fb;
+      border: 1px solid #d6deec;
+      border-radius: 4px;
+      color: #335;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .office-mini-actions button:hover { background: #e2eaf6; }
+    .office-tier-row {
+      display: flex; align-items: center; gap: 7px;
+      padding: 4px 4px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      color: #2a3550;
+      transition: background 0.15s;
+    }
+    .office-tier-row:hover { background: #eef3fb; }
+    .office-tier-row input { cursor: pointer; }
+    .office-tier-swatch {
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .office-tier-name { flex: 1; }
+    .office-tier-count {
+      font-size: 10px;
+      color: #6a7a96;
+      font-variant-numeric: tabular-nums;
+    }
+    .office-tier-row.tier-off { opacity: 0.45; }
+    .office-section.master-off .office-tier-row,
+    .office-section.master-off .office-mini-actions,
+    .office-section.master-off .office-rba-control {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .office-rba-control {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #e3e8f0;
+    }
+    .office-rba-control label {
+      font-size: 10px;
+      color: #6a7a96;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex; justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .office-rba-control .rba-value {
+      color: #1a2744; font-weight: 700; text-transform: none; letter-spacing: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .office-rba-control input[type="range"] {
+      width: 100%;
+      accent-color: #2956b2;
+    }
+    .office-rings-toggle {
+      display: flex; align-items: center; gap: 7px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #e3e8f0;
+      font-size: 11px;
+      color: #2a3550;
+      cursor: pointer;
+    }
+    .office-rings-toggle input { cursor: pointer; }
+    .office-summary {
+      margin-top: 10px;
+      background: linear-gradient(135deg, #1a2744 0%, #2956b2 100%);
+      color: #fff;
+      border-radius: 6px;
+      padding: 10px 11px;
+    }
+    .office-summary .os-label {
+      font-size: 9px;
+      color: #b6c8e8;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 3px;
+    }
+    .office-summary .os-main {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+    .office-summary .os-sub {
+      font-size: 10px;
+      color: #c5d4ec;
+      margin-top: 4px;
+    }
+    .gm-iw-office {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-width: 210px;
+      max-width: 260px;
+    }
+    .gm-iw-office .iw-name {
+      font-size: 13px; font-weight: 700; color: #1a2744;
+      line-height: 1.3; margin-bottom: 2px;
+    }
+    .gm-iw-office .iw-addr {
+      font-size: 10px; color: #8090b0;
+      margin-bottom: 6px;
+    }
+    .gm-iw-office .iw-tier {
+      display: inline-block;
+      font-size: 10px; font-weight: 600;
+      color: #fff; padding: 2px 7px;
+      border-radius: 3px; margin-bottom: 6px;
+    }
+    .gm-iw-office .iw-row {
+      font-size: 11px; color: #334;
+      display: flex; justify-content: space-between;
+      padding: 2px 0;
+    }
+    .gm-iw-office .iw-row .iw-k {
+      color: #8090b0; font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.4px;
+    }
+    .gm-iw-office .iw-row .iw-v {
+      font-weight: 600; font-variant-numeric: tabular-nums;
+    }
+    @media (max-width: 768px) {
+      .sidebar { width: 240px; }
+      .office-summary .os-main { font-size: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -370,6 +530,36 @@
         <button id="extras-all-off" type="button">Hide All</button>
       </div>
       <div id="extras-list"></div>
+    </div>
+
+    <div class="sb-section office-section" id="office-section">
+      <h3>Corporate Office Demand &mdash; CoStar</h3>
+      <label class="office-master" for="office-master-toggle">
+        <input type="checkbox" id="office-master-toggle" checked />
+        <span class="om-label">Office Buildings</span>
+        <span class="om-count" id="office-master-count">0</span>
+      </label>
+      <div class="office-mini-actions">
+        <button id="office-all-on" type="button">Select All</button>
+        <button id="office-all-off" type="button">Clear All</button>
+      </div>
+      <div id="office-tiers"></div>
+      <div class="office-rba-control">
+        <label for="office-rba-slider">
+          <span>Min RBA</span>
+          <span class="rba-value" id="office-rba-value">250K SF</span>
+        </label>
+        <input type="range" id="office-rba-slider" min="0" max="1600000" step="25000" value="250000" />
+      </div>
+      <label class="office-rings-toggle" for="office-rings-toggle">
+        <input type="checkbox" id="office-rings-toggle" checked />
+        <span>5 &amp; 10-min walking rings</span>
+      </label>
+      <div class="office-summary" id="office-summary">
+        <div class="os-label">Within 10-min walk</div>
+        <div class="os-main" id="office-summary-main">&mdash;</div>
+        <div class="os-sub">Class A &amp; Trophy &middot; visible tiers</div>
+      </div>
     </div>
 
     <div class="sb-section">
@@ -554,8 +744,96 @@
     },
   ];
 
+  const OFFICES = [
+    { addr: "One Market Plz", name: "Spear & Steuart Towers", stars: 4, cls: "A", rba: 1602806, rent: "$62-76", sub: "South Financial District", lat: 37.7937, lng: -122.3944 },
+    { addr: "555 California St", name: "Bank of America Tower", stars: 4, cls: "A", rba: 1507000, rent: "$65-80", sub: "Financial District", lat: 37.7929, lng: -122.4041 },
+    { addr: "415 Mission St", name: "Salesforce Tower", stars: 5, cls: "A", rba: 1420682, rent: "$60-73", sub: "South Financial District", lat: 37.7896, lng: -122.3966 },
+    { addr: "101 California St", name: "", stars: 4, cls: "A", rba: 1250000, rent: "$63-77", sub: "Financial District", lat: 37.7928, lng: -122.3981 },
+    { addr: "450 Golden Gate Ave", name: "Phillip Burton Federal Bldg", stars: 3, cls: "C", rba: 1210000, rent: "", sub: "Civic Center", lat: 37.7791, lng: -122.4172 },
+    { addr: "525 Market St", name: "", stars: 4, cls: "A", rba: 1103033, rent: "$34-41", sub: "South Financial District", lat: 37.791, lng: -122.3978 },
+    { addr: "425 Market St", name: "425 Market", stars: 4, cls: "A", rba: 1030018, rent: "$44-53", sub: "South Financial District", lat: 37.7911, lng: -122.3959 },
+    { addr: "1455 Market St", name: "1455 Market", stars: 3, cls: "B", rba: 1026000, rent: "$33-40", sub: "MidMarket", lat: 37.7751, lng: -122.418 },
+    { addr: "4 Embarcadero Ctr", name: "Four Embarcadero Center", stars: 4, cls: "A", rba: 945591, rent: "$56-68", sub: "Financial District", lat: 37.7953, lng: -122.3966 },
+    { addr: "77 Beale St", name: "", stars: 4, cls: "A", rba: 919374, rent: "", sub: "South Financial District", lat: 37.7892, lng: -122.3978 },
+    { addr: "50 Fremont St", name: "", stars: 4, cls: "A", rba: 881253, rent: "$50-61", sub: "South Financial District", lat: 37.7902, lng: -122.3974 },
+    { addr: "One Embarcadero Ctr", name: "One Embarcadero Center", stars: 4, cls: "A", rba: 838050, rent: "$45-256", sub: "Financial District", lat: 37.7952, lng: -122.3955 },
+    { addr: "Two Embarcadero Ctr", name: "Two Embarcadero Center", stars: 4, cls: "A", rba: 804897, rent: "$50-61", sub: "Financial District", lat: 37.7952, lng: -122.396 },
+    { addr: "Three Embarcadero Ctr", name: "Three Embarcadero Center", stars: 4, cls: "A", rba: 786418, rent: "$52-64", sub: "Financial District", lat: 37.7951, lng: -122.3965 },
+    { addr: "303 2nd St", name: "", stars: 3, cls: "A", rba: 784654, rent: "$34-42", sub: "Rincon/South Beach", lat: 37.7851, lng: -122.3935 },
+    { addr: "250 Howard St", name: "Park Tower At Transbay", stars: 5, cls: "A", rba: 764600, rent: "$58-71", sub: "South Financial District", lat: 37.7882, lng: -122.3956 },
+    { addr: "650 Townsend St", name: "650 Townsend", stars: 3, cls: "B", rba: 756778, rent: "$34-42", sub: "Showplace Square", lat: 37.7705, lng: -122.4015 },
+    { addr: "One Montgomery St", name: "One Montgomery Tower", stars: 4, cls: "A", rba: 752946, rent: "$39-45", sub: "Financial District", lat: 37.7899, lng: -122.4012 },
+    { addr: "1800 Owens St", name: "", stars: 4, cls: "A", rba: 752318, rent: "$50-61", sub: "Mission Bay/China Basin", lat: 37.7686, lng: -122.393 },
+    { addr: "Terry Francois Blvd", name: "Mission Rock Office Phase", stars: 5, cls: "A", rba: 750000, rent: "", sub: "Mission Bay/China Basin", lat: 37.778, lng: -122.3878 },
+    { addr: "1355 Market St", name: "The Mart SF", stars: 4, cls: "A", rba: 729275, rent: "$43-53", sub: "MidMarket", lat: 37.7762, lng: -122.4174 },
+    { addr: "50 California St", name: "50 California", stars: 4, cls: "A", rba: 700785, rent: "$41-50", sub: "Financial District", lat: 37.7942, lng: -122.398 },
+    { addr: "44 Montgomery St", name: "44 Montgomery", stars: 4, cls: "A", rba: 692006, rent: "$55", sub: "Financial District", lat: 37.79, lng: -122.4017 },
+    { addr: "181 Fremont St", name: "181 Fremont", stars: 5, cls: "A", rba: 684000, rent: "$60-74", sub: "South Financial District", lat: 37.7887, lng: -122.397 },
+    { addr: "300 Mission St", name: "", stars: 4, cls: "A", rba: 668198, rent: "$44-54", sub: "South Financial District", lat: 37.7893, lng: -122.3958 },
+    { addr: "560 Mission St", name: "JPMorganChase Center", stars: 5, cls: "A", rba: 667780, rent: "$33", sub: "South Financial District", lat: 37.7888, lng: -122.3948 },
+    { addr: "225 Bush St", name: "", stars: 4, cls: "B", rba: 666026, rent: "$41-50", sub: "Financial District", lat: 37.7907, lng: -122.4025 },
+    { addr: "345 Spear St", name: "The Hills Plaza", stars: 4, cls: "A", rba: 658540, rent: "$50-61", sub: "Rincon/South Beach", lat: 37.788, lng: -122.3934 },
+    { addr: "333 Market St", name: "Wells Fargo Building", stars: 4, cls: "A", rba: 656361, rent: "", sub: "South Financial District", lat: 37.7909, lng: -122.3966 },
+    { addr: "123 Market St", name: "Federal Reserve Bank Bldg", stars: 3, cls: "A", rba: 653000, rent: "", sub: "South Financial District", lat: 37.791, lng: -122.3983 },
+    { addr: "90 7th St", name: "San Francisco Federal Bldg", stars: 5, cls: "A", rba: 652432, rent: "", sub: "MidMarket", lat: 37.778, lng: -122.416 },
+    { addr: "415 Natoma St", name: "5M", stars: 5, cls: "A", rba: 649375, rent: "$45-54", sub: "Yerba Buena", lat: 37.7847, lng: -122.4057 },
+    { addr: "One Front St", name: "One Front Street", stars: 4, cls: "A", rba: 645285, rent: "$50-61", sub: "Financial District", lat: 37.7926, lng: -122.3987 },
+    { addr: "1 Maritime Plz", name: "One Maritime Plaza", stars: 4, cls: "A", rba: 615952, rent: "$58-71", sub: "Financial District", lat: 37.7968, lng: -122.4002 },
+    { addr: "345 California St", name: "345 California Center", stars: 4, cls: "A", rba: 610000, rent: "$39-48", sub: "Financial District", lat: 37.7929, lng: -122.4035 },
+    { addr: "45 Fremont St", name: "45 Fremont", stars: 4, cls: "A", rba: 606162, rent: "$38-47", sub: "South Financial District", lat: 37.7905, lng: -122.398 },
+    { addr: "333 Bush St", name: "", stars: 4, cls: "A", rba: 597690, rent: "$49", sub: "Financial District", lat: 37.7909, lng: -122.403 },
+    { addr: "215-245 Market St", name: "PG&E", stars: 3, cls: "B", rba: 577770, rent: "", sub: "South Financial District", lat: 37.7903, lng: -122.3974 },
+    { addr: "650 California St", name: "650 California", stars: 4, cls: "A", rba: 567652, rent: "$45-55", sub: "Financial District", lat: 37.7924, lng: -122.4038 },
+    { addr: "555 Mission St", name: "", stars: 4, cls: "A", rba: 557012, rent: "$53-64", sub: "South Financial District", lat: 37.7887, lng: -122.3951 },
+    { addr: "201 Mission St", name: "", stars: 4, cls: "A", rba: 547967, rent: "$35-43", sub: "South Financial District", lat: 37.7904, lng: -122.3943 },
+    { addr: "2 Folsom St", name: "", stars: 3, cls: "B", rba: 544819, rent: "", sub: "South Financial District", lat: 37.7888, lng: -122.3915 },
+    { addr: "185 Berry St", name: "Wharfside Building", stars: 4, cls: "A", rba: 540000, rent: "$58-71", sub: "Mission Bay/China Basin", lat: 37.7784, lng: -122.3938 },
+    { addr: "235 Montgomery St", name: "The Russ Building", stars: 4, cls: "B", rba: 530000, rent: "$39-48", sub: "Financial District", lat: 37.7904, lng: -122.4022 },
+    { addr: "405 Howard St", name: "Foundry Square II", stars: 5, cls: "A", rba: 520215, rent: "$52-63", sub: "South Financial District", lat: 37.7878, lng: -122.3957 },
+    { addr: "One California St", name: "One California", stars: 4, cls: "A", rba: 512000, rent: "$100", sub: "Financial District", lat: 37.7929, lng: -122.3993 },
+    { addr: "1-11 S Van Ness Ave", name: "One South Van Ness", stars: 4, cls: "A", rba: 508523, rent: "", sub: "MidMarket", lat: 37.7751, lng: -122.4186 },
+    { addr: "350 Mission St", name: "", stars: 5, cls: "A", rba: 492981, rent: "$51-62", sub: "South Financial District", lat: 37.7897, lng: -122.396 },
+    { addr: "220 Montgomery St", name: "The Mills Building", stars: 4, cls: "B", rba: 491624, rent: "$29-68", sub: "Financial District", lat: 37.7904, lng: -122.4017 },
+    { addr: "1 Post St", name: "One Post", stars: 4, cls: "A", rba: 488883, rent: "$49-59", sub: "Financial District", lat: 37.7892, lng: -122.4008 },
+    { addr: "1455-1515 3rd St", name: "", stars: 5, cls: "A", rba: 486600, rent: "$55-68", sub: "Mission Bay/China Basin", lat: 37.7715, lng: -122.3899 },
+    { addr: "275 Battery St", name: "", stars: 4, cls: "A", rba: 485000, rent: "$38-47", sub: "Financial District", lat: 37.7949, lng: -122.4001 },
+    { addr: "475 Sansome St", name: "", stars: 4, cls: "A", rba: 483000, rent: "$40-49", sub: "Financial District", lat: 37.796, lng: -122.4007 },
+    { addr: "375 Beale St", name: "Bay Area Metro Center", stars: 3, cls: "A", rba: 482663, rent: "$30-36", sub: "Rincon/South Beach", lat: 37.7876, lng: -122.3927 },
+    { addr: "575 Market St", name: "", stars: 3, cls: "A", rba: 480756, rent: "$65", sub: "South Financial District", lat: 37.7905, lng: -122.3971 },
+    { addr: "100 First St", name: "100 First", stars: 4, cls: "A", rba: 480454, rent: "$48-59", sub: "South Financial District", lat: 37.7894, lng: -122.3973 },
+    { addr: "1500 Mission St", name: "", stars: 4, cls: "A", rba: 470000, rent: "", sub: "MidMarket", lat: 37.7743, lng: -122.4198 },
+    { addr: "680 Folsom St", name: "", stars: 4, cls: "A", rba: 469829, rent: "$51-62", sub: "South Financial District", lat: 37.7857, lng: -122.3989 },
+    { addr: "222 2nd St", name: "", stars: 5, cls: "A", rba: 453000, rent: "", sub: "South Financial District", lat: 37.7863, lng: -122.394 },
+    { addr: "850-888 Brannan St", name: "", stars: 3, cls: "B", rba: 454863, rent: "$50", sub: "Showplace Square", lat: 37.7699, lng: -122.4021 },
+    { addr: "301-309 Constitution Dr", name: "MPK 22", stars: 5, cls: "A", rba: 449500, rent: "", sub: "Menlo Park", lat: 37.4829, lng: -122.1493 },
+    { addr: "595 Market St", name: "595 Market Street", stars: 4, cls: "A", rba: 446461, rent: "$35-43", sub: "South Financial District", lat: 37.7907, lng: -122.3977 },
+    { addr: "333 Ravenswood Ave", name: "", stars: 3, cls: "C", rba: 442793, rent: "", sub: "Menlo Park", lat: 37.452, lng: -122.14 },
+    { addr: "185 Berry St", name: "Berry Street Building", stars: 4, cls: "A", rba: 437500, rent: "$50-61", sub: "Mission Bay/China Basin", lat: 37.7783, lng: -122.3935 },
+    { addr: "100 Montgomery St", name: "", stars: 4, cls: "A", rba: 436851, rent: "$40", sub: "Financial District", lat: 37.7904, lng: -122.4018 },
+    { addr: "444 Washington St", name: "US Appraisers/Federal Bldg", stars: 3, cls: "C", rba: 434406, rent: "", sub: "Jackson Square", lat: 37.7973, lng: -122.4014 },
+    { addr: "101 Second St", name: "", stars: 4, cls: "A", rba: 432840, rent: "$51-63", sub: "South Financial District", lat: 37.7862, lng: -122.3968 },
+    { addr: "1 Facebook Way", name: "Facebook West Campus", stars: 3, cls: "B", rba: 430000, rent: "", sub: "Menlo Park", lat: 37.4841, lng: -122.1497 },
+    { addr: "360 3rd St", name: "360 Third", stars: 4, cls: "A", rba: 429798, rent: "$28-35", sub: "Yerba Buena", lat: 37.7826, lng: -122.3985 },
+    { addr: "215 Fremont St", name: "", stars: 4, cls: "A", rba: 427393, rent: "$40-49", sub: "South Financial District", lat: 37.7896, lng: -122.3965 },
+    { addr: "One Market St", name: "The Landmark", stars: 4, cls: "A", rba: 422428, rent: "$64-78", sub: "South Financial District", lat: 37.7937, lng: -122.3943 },
+    { addr: "300 Howard St", name: "", stars: 4, cls: "A", rba: 420418, rent: "$38-46", sub: "South Financial District", lat: 37.7876, lng: -122.395 }
+  ];
+
+  const OFFICE_TIERS = [
+    { stars: 5, label: "5★ Trophy",      color: "#1a7c3e", defaultOn: true  },
+    { stars: 4, label: "4★ Class A",     color: "#2196F3", defaultOn: true  },
+    { stars: 3, label: "3★ Class B/A",   color: "#FF9800", defaultOn: false },
+    { stars: 2, label: "2★ Class B/C",   color: "#f44336", defaultOn: false },
+    { stars: 1, label: "1★ / Class C",   color: "#9E9E9E", defaultOn: false },
+  ];
+
   let map, infoWindow;
   const markers = [];
+  const officeMarkers = [];
+  const walkingRings = [];
+  const tierState = {};        // stars -> bool (per-tier on/off, persisted across master toggle)
+  let masterOn = true;
+  let rbaMin = 250000;
 
   function initMap() {
     const subj = HOTELS.find(h => h.subject);
@@ -767,6 +1045,193 @@
       infoWindow.close();
       fitForVisible();
     });
+
+    // ── Office overlay ────────────────────────────────────────────────────
+    OFFICE_TIERS.forEach(t => { tierState[t.stars] = t.defaultOn; });
+    const tierColor = Object.fromEntries(OFFICE_TIERS.map(t => [t.stars, t.color]));
+    const tierLabel = Object.fromEntries(OFFICE_TIERS.map(t => [t.stars, t.label]));
+
+    // Build circle markers for every office (visibility controlled via setMap)
+    OFFICES.forEach((o, idx) => {
+      const color = tierColor[o.stars] || "#9E9E9E";
+      const radius = Math.max(4, Math.min(18, Math.sqrt(o.rba) / 40));
+      const cm = new google.maps.Marker({
+        position: { lat: o.lat, lng: o.lng },
+        map: null,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: radius,
+          fillColor: color,
+          fillOpacity: 0.65,
+          strokeColor: "#ffffff",
+          strokeWeight: 1.2,
+        },
+        title: (o.name || o.addr) + " — " + o.rba.toLocaleString() + " SF",
+        zIndex: 10 + Math.round(o.rba / 10000),
+      });
+      o._marker = cm;
+      o._idx = idx;
+      officeMarkers.push(cm);
+
+      const display = o.name || o.addr;
+      const iw = `
+        <div class="gm-iw-office">
+          <div class="iw-name">${display}</div>
+          <div class="iw-addr">${o.name ? o.addr : ""}</div>
+          <span class="iw-tier" style="background:${color};">${tierLabel[o.stars] || (o.stars + "★")} · Class ${o.cls}</span>
+          <div class="iw-row"><span class="iw-k">RBA</span><span class="iw-v">${o.rba.toLocaleString()} SF</span></div>
+          ${o.rent ? `<div class="iw-row"><span class="iw-k">Asking Rent</span><span class="iw-v">${o.rent}</span></div>` : ""}
+          <div class="iw-row"><span class="iw-k">Submarket</span><span class="iw-v">${o.sub}</span></div>
+        </div>`;
+      cm.addListener('click', () => {
+        infoWindow.setContent(iw);
+        infoWindow.open(map, cm);
+      });
+    });
+
+    // Hotel markers should sit above office circles
+    HOTELS.forEach((h, i) => {
+      if (h._marker) h._marker.setZIndex((h.subject ? 100 : i) + 1000);
+    });
+
+    // Walking-radius rings centered on subject hotel
+    const ring5 = new google.maps.Circle({
+      map, center: { lat: subj.lat, lng: subj.lng }, radius: 400,
+      strokeColor: '#2956b2', strokeOpacity: 0.55, strokeWeight: 1.2,
+      strokePosition: google.maps.StrokePosition ? google.maps.StrokePosition.CENTER : undefined,
+      fillOpacity: 0, clickable: false, zIndex: 1,
+    });
+    const ring10 = new google.maps.Circle({
+      map, center: { lat: subj.lat, lng: subj.lng }, radius: 800,
+      strokeColor: '#2956b2', strokeOpacity: 0.45, strokeWeight: 1,
+      fillOpacity: 0, clickable: false, zIndex: 1,
+    });
+    walkingRings.push(ring5, ring10);
+    // Dashed stroke via Icons on a Polyline isn't simple for Circle; use dashed-looking via low opacity + double ring.
+
+    // Distance helper (haversine, meters)
+    function distMeters(a, b) {
+      const R = 6371000;
+      const toRad = d => d * Math.PI / 180;
+      const dLat = toRad(b.lat - a.lat);
+      const dLng = toRad(b.lng - a.lng);
+      const lat1 = toRad(a.lat), lat2 = toRad(b.lat);
+      const x = Math.sin(dLat/2)**2 + Math.sin(dLng/2)**2 * Math.cos(lat1) * Math.cos(lat2);
+      return 2 * R * Math.asin(Math.sqrt(x));
+    }
+    OFFICES.forEach(o => { o._dist = distMeters(subj, o); });
+
+    // Build tier checkboxes
+    const tiersEl = document.getElementById('office-tiers');
+    OFFICE_TIERS.forEach(t => {
+      const row = document.createElement('label');
+      row.className = 'office-tier-row';
+      row.dataset.stars = String(t.stars);
+      row.innerHTML = `
+        <input type="checkbox" data-stars="${t.stars}" ${t.defaultOn ? 'checked' : ''} />
+        <span class="office-tier-swatch" style="background:${t.color};"></span>
+        <span class="office-tier-name">${t.label}</span>
+        <span class="office-tier-count" data-tier-count="${t.stars}">0</span>`;
+      tiersEl.appendChild(row);
+    });
+
+    // Master / tier / slider wiring
+    const sectionEl  = document.getElementById('office-section');
+    const masterCb   = document.getElementById('office-master-toggle');
+    const masterCnt  = document.getElementById('office-master-count');
+    const rbaSlider  = document.getElementById('office-rba-slider');
+    const rbaValue   = document.getElementById('office-rba-value');
+    const summaryEl  = document.getElementById('office-summary-main');
+    const ringsCb    = document.getElementById('office-rings-toggle');
+
+    function fmtRba(v) {
+      if (v >= 1000000) return (v / 1000000).toFixed(1).replace(/\.0$/, '') + 'M SF';
+      return Math.round(v / 1000) + 'K SF';
+    }
+
+    function refreshOffices() {
+      const tierVisibleCount = {};
+      OFFICE_TIERS.forEach(t => { tierVisibleCount[t.stars] = 0; });
+
+      let walkClassACount = 0, walkClassARba = 0, totalVisible = 0;
+
+      OFFICES.forEach(o => {
+        const tierOn = !!tierState[o.stars];
+        const meetsRba = o.rba >= rbaMin;
+        const visible = masterOn && tierOn && meetsRba;
+        o._marker.setMap(visible ? map : null);
+
+        if (meetsRba && tierVisibleCount[o.stars] !== undefined) tierVisibleCount[o.stars]++;
+        if (visible) {
+          totalVisible++;
+          if ((o.stars >= 4) && o._dist <= 800) {
+            walkClassACount++;
+            walkClassARba += o.rba;
+          }
+        }
+      });
+
+      OFFICE_TIERS.forEach(t => {
+        const cell = tiersEl.querySelector(`[data-tier-count="${t.stars}"]`);
+        if (cell) cell.textContent = '(' + tierVisibleCount[t.stars] + ')';
+        const row = tiersEl.querySelector(`.office-tier-row[data-stars="${t.stars}"]`);
+        if (row) row.classList.toggle('tier-off', !tierState[t.stars]);
+      });
+
+      masterCnt.textContent = masterOn ? totalVisible : 0;
+      sectionEl.classList.toggle('master-off', !masterOn);
+
+      if (walkClassACount > 0) {
+        summaryEl.innerHTML = `${walkClassACount} buildings &middot; ${fmtRba(walkClassARba)}`;
+      } else {
+        summaryEl.textContent = 'No buildings match';
+      }
+    }
+
+    // Tier checkbox handlers
+    tiersEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const s = Number(cb.dataset.stars);
+        tierState[s] = cb.checked;
+        // If master is off but user toggles a tier, turn master on
+        if (!masterOn && cb.checked) { masterOn = true; masterCb.checked = true; }
+        refreshOffices();
+      });
+    });
+
+    // Master toggle (preserves tier state)
+    masterCb.addEventListener('change', () => {
+      masterOn = masterCb.checked;
+      refreshOffices();
+    });
+
+    // Select all / clear all
+    document.getElementById('office-all-on').addEventListener('click', () => {
+      OFFICE_TIERS.forEach(t => { tierState[t.stars] = true; });
+      tiersEl.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = true; });
+      masterOn = true; masterCb.checked = true;
+      refreshOffices();
+    });
+    document.getElementById('office-all-off').addEventListener('click', () => {
+      OFFICE_TIERS.forEach(t => { tierState[t.stars] = false; });
+      tiersEl.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+      refreshOffices();
+    });
+
+    // RBA slider
+    rbaSlider.addEventListener('input', () => {
+      rbaMin = Number(rbaSlider.value);
+      rbaValue.textContent = fmtRba(rbaMin);
+      refreshOffices();
+    });
+
+    // Walking rings toggle
+    ringsCb.addEventListener('change', () => {
+      walkingRings.forEach(c => c.setMap(ringsCb.checked ? map : null));
+    });
+
+    rbaValue.textContent = fmtRba(rbaMin);
+    refreshOffices();
   }
 </script>
 
