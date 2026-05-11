@@ -29,7 +29,7 @@
     .header-right a:hover { color: #fff; }
     .main { display: flex; flex: 1; overflow: hidden; }
     .sidebar {
-      width: 290px;
+      width: 320px;
       background: #fff;
       border-right: 1px solid #dde3ed;
       overflow-y: auto;
@@ -106,17 +106,23 @@
     .h-status-badge.operating { background: #d1fae5; color: #047857; }
     .h-status-badge.under-construction { background: #fef3c7; color: #92400e; }
     .h-status-badge.announced { background: #e0e7ff; color: #3730a3; }
-    .breakdown-table { width: 100%; border-collapse: collapse; font-size: 10.5px; }
-    .breakdown-table th, .breakdown-table td { padding: 4px 3px; text-align: right; line-height: 1.3; }
+    .breakdown-table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+    .breakdown-table th, .breakdown-table td { padding: 0; text-align: right; line-height: 1.2; }
     .breakdown-table th:first-child, .breakdown-table td:first-child { text-align: left; }
-    .breakdown-table thead th { font-size: 9px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; }
-    .breakdown-table tbody td { color: #1a2744; border-bottom: 1px solid #f3f4f6; }
-    .breakdown-table tbody td:first-child { font-weight: 600; }
-    .breakdown-table tbody td .keys { color: #7080a0; font-weight: 400; }
-    .breakdown-table tfoot td { font-weight: 700; border-top: 1px solid #1a2744; border-bottom: none; padding-top: 6px; }
-    .breakdown-table tfoot td .keys { color: #556; font-weight: 600; }
-    .breakdown-table td.dash { color: #c5cad2; }
-    .breakdown-note { font-size: 9.5px; color: #8090b0; margin-top: 8px; line-height: 1.4; font-style: italic; }
+    .breakdown-table thead th { font-size: 9.5px; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; padding: 5px 6px; }
+    .breakdown-table thead th.s-region   { background: #1a2744; border-top-left-radius: 4px; }
+    .breakdown-table thead th.s-operating          { background: #047857; }
+    .breakdown-table thead th.s-under-construction { background: #b45309; }
+    .breakdown-table thead th.s-announced          { background: #3730a3; }
+    .breakdown-table thead th.s-total              { background: #1a2744; border-top-right-radius: 4px; }
+    .breakdown-table tbody tr.r-hotels td { font-size: 13px; font-weight: 600; color: #1a2744; padding: 7px 6px 2px; }
+    .breakdown-table tbody tr.r-keys td { font-size: 10.5px; font-weight: 400; color: #7080a0; padding: 0 6px 7px; border-bottom: 1px solid #eef0f3; }
+    .breakdown-table tbody tr.r-keys td:first-child { font-style: italic; color: #a0aabe; padding-left: 18px; }
+    .breakdown-table tfoot tr.r-hotels td { font-size: 13px; font-weight: 800; color: #1a2744; padding: 9px 6px 2px; border-top: 2px solid #1a2744; }
+    .breakdown-table tfoot tr.r-keys td { font-size: 10.5px; font-weight: 600; color: #1a2744; padding: 0 6px 6px; }
+    .breakdown-table tfoot tr.r-keys td:first-child { font-style: italic; color: #556; font-weight: 500; padding-left: 18px; }
+    .breakdown-table td.dash { color: #d1d5db; font-weight: 400; }
+    .breakdown-note { font-size: 10px; color: #8090b0; margin-top: 10px; line-height: 1.45; font-style: italic; }
   </style>
 </head>
 <body>
@@ -784,16 +790,40 @@
       });
     });
 
-    const cell = c => c
-      ? `${c.hotels}${c.keys ? ` <span class="keys">${fmt(c.keys)}</span>` : ''}`
-      : '<span class="dash">—</span>';
+    const hCell = c => c ? `${c.hotels}` : '<span class="dash">—</span>';
+    const kCell = c => (c && c.keys) ? fmt(c.keys) : '<span class="dash">—</span>';
 
-    const head = `<tr><th>Region</th>${STATUSES.map(s => `<th>${STATUS_LABELS[s]}</th>`).join('')}<th>Total</th></tr>`;
+    const head = `<tr>
+      <th class="s-region">Region</th>
+      ${STATUSES.map(s => `<th class="s-${statusClass(s)}">${STATUS_LABELS[s]}</th>`).join('')}
+      <th class="s-total">Total</th>
+    </tr>`;
+
+    // Two rows per region: hotels (primary) on top, keys (subordinate) below.
     const body = regions.map(r => {
-      const cells = STATUSES.map(s => `<td>${cell(grid[r][s])}</td>`).join('');
-      return `<tr><td>${r}</td>${cells}<td>${cell(rowTotal[r])}</td></tr>`;
+      const hotelsRow = `<tr class="r-hotels">
+        <td>${r}</td>
+        ${STATUSES.map(s => `<td>${hCell(grid[r][s])}</td>`).join('')}
+        <td>${hCell(rowTotal[r])}</td>
+      </tr>`;
+      const keysRow = `<tr class="r-keys">
+        <td>keys</td>
+        ${STATUSES.map(s => `<td>${kCell(grid[r][s])}</td>`).join('')}
+        <td>${kCell(rowTotal[r])}</td>
+      </tr>`;
+      return hotelsRow + keysRow;
     }).join('');
-    const foot = `<tr><td>Total</td>${STATUSES.map(s => `<td>${cell(colTotal[s])}</td>`).join('')}<td>${cell(grand)}</td></tr>`;
+
+    const foot = `<tr class="r-hotels">
+        <td>Total</td>
+        ${STATUSES.map(s => `<td>${hCell(colTotal[s])}</td>`).join('')}
+        <td>${hCell(grand)}</td>
+      </tr>
+      <tr class="r-keys">
+        <td>keys</td>
+        ${STATUSES.map(s => `<td>${kCell(colTotal[s])}</td>`).join('')}
+        <td>${kCell(grand)}</td>
+      </tr>`;
 
     document.getElementById('breakdown').innerHTML = `
       <table class="breakdown-table">
@@ -801,7 +831,7 @@
         <tbody>${body}</tbody>
         <tfoot>${foot}</tfoot>
       </table>
-      <div class="breakdown-note">Each cell shows hotels · keys. Announced/UC properties with unpublished key counts contribute to hotel totals only.</div>`;
+      <div class="breakdown-note">Top row of each region = number of hotels; bottom row = key count. A dash means none in that cell, or the property's key count hasn't been publicly disclosed yet.</div>`;
     document.getElementById('breakdown-section').style.display = '';
   }
 
