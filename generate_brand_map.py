@@ -213,6 +213,17 @@ def render_html(brand):
     .h-status-badge.operating {{ background: #d1fae5; color: #047857; }}
     .h-status-badge.under-construction {{ background: #fef3c7; color: #92400e; }}
     .h-status-badge.announced {{ background: #e0e7ff; color: #3730a3; }}
+    .breakdown-table {{ width: 100%; border-collapse: collapse; font-size: 10.5px; }}
+    .breakdown-table th, .breakdown-table td {{ padding: 4px 3px; text-align: right; line-height: 1.3; }}
+    .breakdown-table th:first-child, .breakdown-table td:first-child {{ text-align: left; }}
+    .breakdown-table thead th {{ font-size: 9px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600; border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; }}
+    .breakdown-table tbody td {{ color: #1a2744; border-bottom: 1px solid #f3f4f6; }}
+    .breakdown-table tbody td:first-child {{ font-weight: 600; }}
+    .breakdown-table tbody td .keys {{ color: #7080a0; font-weight: 400; }}
+    .breakdown-table tfoot td {{ font-weight: 700; border-top: 1px solid #1a2744; border-bottom: none; padding-top: 6px; }}
+    .breakdown-table tfoot td .keys {{ color: #556; font-weight: 600; }}
+    .breakdown-table td.dash {{ color: #c5cad2; }}
+    .breakdown-note {{ font-size: 9.5px; color: #8090b0; margin-top: 8px; line-height: 1.4; font-style: italic; }}
   </style>
 </head>
 <body>
@@ -232,6 +243,10 @@ def render_html(brand):
     <div class="sb-section">
       <h3>Legend</h3>
       <div class="legend-row"><div class="leg-dot" style="background:{color};"></div> {brand['brand']} Property</div>
+    </div>
+    <div class="sb-section" id="breakdown-section" style="display:none;">
+      <h3>Footprint &mdash; Region &times; Status</h3>
+      <div id="breakdown"></div>
     </div>
     <div class="sb-section" style="border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
@@ -284,6 +299,76 @@ def render_html(brand):
         ${{notesBlock}}
         ${{sourceBlock}}
       </div>`;
+  }}
+
+  // Region × Status × (hotels, keys) breakdown — only renders if at least
+  // one hotel has both region and status. Counts are computed from HOTELS
+  // so future brands with the same schema get a table for free.
+  function buildBreakdown() {{
+    const STATUSES = ['operating', 'under construction', 'announced'];
+    const STATUS_LABELS = {{
+      'operating': 'Operating',
+      'under construction': 'UC',
+      'announced': 'Announced',
+    }};
+    const fmt = n => n ? n.toLocaleString() : '';
+
+    const haveData = HOTELS.some(h => h.region && h.status);
+    if (!haveData) return;
+
+    // Preserve insertion order from the source data so brand authors can
+    // sort regions however they want (here: Americas, EMEA, APAC, MEA).
+    const regions = [];
+    const grid = {{}};                 // region → status → {{ hotels, keys }}
+    HOTELS.forEach(h => {{
+      const r = h.region || '—';
+      if (!grid[r]) {{
+        grid[r] = {{}};
+        regions.push(r);
+      }}
+      const s = (h.status || '').toLowerCase();
+      const cell = grid[r][s] = grid[r][s] || {{ hotels: 0, keys: 0 }};
+      cell.hotels += 1;
+      cell.keys += Number(h.keys || 0);
+    }});
+
+    const colTotal = {{}};               // status → {{ hotels, keys }}
+    const rowTotal = {{}};               // region → {{ hotels, keys }}
+    let grand = {{ hotels: 0, keys: 0 }};
+    STATUSES.forEach(s => colTotal[s] = {{ hotels: 0, keys: 0 }});
+    regions.forEach(r => {{
+      rowTotal[r] = {{ hotels: 0, keys: 0 }};
+      STATUSES.forEach(s => {{
+        const c = grid[r][s];
+        if (!c) return;
+        rowTotal[r].hotels += c.hotels;
+        rowTotal[r].keys += c.keys;
+        colTotal[s].hotels += c.hotels;
+        colTotal[s].keys += c.keys;
+        grand.hotels += c.hotels;
+        grand.keys += c.keys;
+      }});
+    }});
+
+    const cell = c => c
+      ? `${{c.hotels}}${{c.keys ? ` <span class="keys">${{fmt(c.keys)}}</span>` : ''}}`
+      : '<span class="dash">—</span>';
+
+    const head = `<tr><th>Region</th>${{STATUSES.map(s => `<th>${{STATUS_LABELS[s]}}</th>`).join('')}}<th>Total</th></tr>`;
+    const body = regions.map(r => {{
+      const cells = STATUSES.map(s => `<td>${{cell(grid[r][s])}}</td>`).join('');
+      return `<tr><td>${{r}}</td>${{cells}}<td>${{cell(rowTotal[r])}}</td></tr>`;
+    }}).join('');
+    const foot = `<tr><td>Total</td>${{STATUSES.map(s => `<td>${{cell(colTotal[s])}}</td>`).join('')}}<td>${{cell(grand)}}</td></tr>`;
+
+    document.getElementById('breakdown').innerHTML = `
+      <table class="breakdown-table">
+        <thead>${{head}}</thead>
+        <tbody>${{body}}</tbody>
+        <tfoot>${{foot}}</tfoot>
+      </table>
+      <div class="breakdown-note">Each cell shows hotels · keys. Announced/UC properties with unpublished key counts contribute to hotel totals only.</div>`;
+    document.getElementById('breakdown-section').style.display = '';
   }}
 
   function initMap() {{
@@ -350,6 +435,8 @@ def render_html(brand):
 
     map.fitBounds(bounds, {{ top: 60, right: 60, bottom: 60, left: 60 }});
   }}
+
+  buildBreakdown();
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key={API_KEY}&callback=initMap" async defer></script>
 
