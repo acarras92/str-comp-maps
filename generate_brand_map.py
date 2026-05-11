@@ -76,9 +76,13 @@ def render_html(brand):
         raise RuntimeError("No hotels could be geocoded for this brand")
 
     color = brand.get("color", "#7c2d12")
+    marker_stroke = brand.get("marker_stroke", "#ffffff")
+    label_color = brand.get("label_color") or ("#000000" if marker_stroke == "#000000" else "#ffffff")
     avg_lat = sum(h["lat"] for h in hotels) / len(hotels)
     avg_lng = sum(h["lng"] for h in hotels) / len(hotels)
 
+    # Optional rich fields (status, keys, opening_year, sub_brand, owner, operator,
+    # notes, source, verified). Brands without these render exactly as before.
     hotels_js = json.dumps([
         {
             "name": h["name"],
@@ -87,6 +91,15 @@ def render_html(brand):
             "country": h.get("country", ""),
             "lat": h["lat"],
             "lng": h["lng"],
+            "sub_brand": h.get("sub_brand", ""),
+            "status": h.get("status", ""),
+            "opening_year": h.get("opening_year"),
+            "keys": h.get("keys"),
+            "owner": h.get("owner", ""),
+            "operator": h.get("operator", ""),
+            "notes": h.get("notes", ""),
+            "source": h.get("source", ""),
+            "verified": h.get("verified", True),
         }
         for h in hotels
     ], indent=2)
@@ -179,10 +192,26 @@ def render_html(brand):
       border-top: 1px solid #eaecf0;
     }}
     #map {{ flex: 1; }}
-    .gm-iw {{ font-family: 'Segoe UI', Arial, sans-serif; min-width: 220px; max-width: 270px; }}
+    .gm-iw {{ font-family: 'Segoe UI', Arial, sans-serif; min-width: 240px; max-width: 290px; }}
     .gm-iw-title {{ font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }}
-    .gm-iw-brand {{ font-size: 10px; color: {color}; text-transform: uppercase; letter-spacing: 0.6px; margin: 2px 0 8px; font-weight: 600; }}
+    .gm-iw-brand {{ font-size: 10px; color: #1a2744; background: {color}; display: inline-block; padding: 2px 6px; border: 1px solid rgba(0,0,0,0.15); border-radius: 3px; text-transform: uppercase; letter-spacing: 0.6px; margin: 4px 0 8px; font-weight: 700; }}
     .gm-iw-meta {{ font-size: 11px; color: #556; margin-bottom: 3px; }}
+    .gm-iw-stats {{ display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 11px; margin: 8px 0 4px; padding-top: 8px; border-top: 1px solid #eee; }}
+    .gm-iw-stats dt {{ color: #7080a0; font-weight: 600; }}
+    .gm-iw-stats dd {{ color: #1a2744; }}
+    .gm-iw-status {{ display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }}
+    .gm-iw-status.operating {{ background: #d1fae5; color: #047857; }}
+    .gm-iw-status.under-construction {{ background: #fef3c7; color: #92400e; }}
+    .gm-iw-status.announced {{ background: #e0e7ff; color: #3730a3; }}
+    .gm-iw-notes {{ font-size: 10px; color: #556; margin-top: 6px; line-height: 1.4; font-style: italic; }}
+    .gm-iw-source {{ font-size: 10px; margin-top: 6px; }}
+    .gm-iw-source a {{ color: #2563eb; text-decoration: none; }}
+    .gm-iw-source a:hover {{ text-decoration: underline; }}
+    .gm-iw-unverified {{ font-size: 9px; color: #92400e; background: #fef3c7; padding: 1px 5px; border-radius: 3px; margin-left: 4px; font-weight: 600; letter-spacing: 0.3px; }}
+    .h-status-badge {{ font-size: 8px; padding: 1px 4px; border-radius: 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin-left: 4px; vertical-align: middle; }}
+    .h-status-badge.operating {{ background: #d1fae5; color: #047857; }}
+    .h-status-badge.under-construction {{ background: #fef3c7; color: #92400e; }}
+    .h-status-badge.announced {{ background: #e0e7ff; color: #3730a3; }}
   </style>
 </head>
 <body>
@@ -217,8 +246,43 @@ def render_html(brand):
 <script>
   const HOTELS = {hotels_js};
   const COLOR = "{color}";
+  const STROKE = "{marker_stroke}";
+  const LABEL_COLOR = "{label_color}";
+  const BRAND = "{brand['brand']}";
   let map, infoWindow;
   const markers = [];
+
+  function statusClass(status) {{
+    return (status || '').toLowerCase().replace(/\\s+/g, '-');
+  }}
+
+  function buildInfoWindow(h) {{
+    const fullAddr = [h.address, h.city, h.country].filter(Boolean).join(', ');
+    const statusBadge = h.status
+      ? `<span class="gm-iw-status ${{statusClass(h.status)}}">${{h.status}}</span>` : '';
+    const unverified = (h.verified === false)
+      ? '<span class="gm-iw-unverified">UNVERIFIED</span>' : '';
+    const rows = [];
+    if (h.sub_brand)    rows.push(`<dt>Sub-brand</dt><dd>${{h.sub_brand}}</dd>`);
+    if (h.keys)         rows.push(`<dt>Keys</dt><dd>${{h.keys}}</dd>`);
+    if (h.opening_year) rows.push(`<dt>Opened</dt><dd>${{h.opening_year}}</dd>`);
+    if (h.owner)        rows.push(`<dt>Owner</dt><dd>${{h.owner}}</dd>`);
+    if (h.operator)     rows.push(`<dt>Operator</dt><dd>${{h.operator}}</dd>`);
+    const statsBlock = rows.length ? `<dl class="gm-iw-stats">${{rows.join('')}}</dl>` : '';
+    const notesBlock = h.notes ? `<div class="gm-iw-notes">${{h.notes}}</div>` : '';
+    const sourceBlock = h.source
+      ? `<div class="gm-iw-source"><a href="${{h.source}}" target="_blank" rel="noopener">Source &rarr;</a></div>` : '';
+    return `
+      <div class="gm-iw">
+        <div class="gm-iw-title">${{h.name}}${{unverified}}</div>
+        <span class="gm-iw-brand">${{BRAND}}</span>
+        ${{statusBadge}}
+        <div class="gm-iw-meta">${{fullAddr}}</div>
+        ${{statsBlock}}
+        ${{notesBlock}}
+        ${{sourceBlock}}
+      </div>`;
+  }}
 
   function initMap() {{
     map = new google.maps.Map(document.getElementById('map'), {{
@@ -228,7 +292,7 @@ def render_html(brand):
       streetViewControl: false,
       fullscreenControl: true,
     }});
-    infoWindow = new google.maps.InfoWindow({{ maxWidth: 290 }});
+    infoWindow = new google.maps.InfoWindow({{ maxWidth: 310 }});
 
     const listEl = document.getElementById('hotel-list');
     const bounds = new google.maps.LatLngBounds();
@@ -240,9 +304,9 @@ def render_html(brand):
           <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
             <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.35"/></filter>
             <rect x="6" y="6" width="22" height="22" transform="rotate(45 17 17)"
-                  fill="${{COLOR}}" stroke="white" stroke-width="2" filter="url(#s)"/>
+                  fill="${{COLOR}}" stroke="${{STROKE}}" stroke-width="2" filter="url(#s)"/>
             <text x="17" y="20" text-anchor="middle" font-family="Arial,sans-serif"
-                  font-size="11" font-weight="bold" fill="white">${{label}}</text>
+                  font-size="11" font-weight="bold" fill="${{LABEL_COLOR}}">${{label}}</text>
           </svg>`),
         scaledSize: new google.maps.Size(34, 34),
         anchor: new google.maps.Point(17, 17),
@@ -257,24 +321,20 @@ def render_html(brand):
       markers.push(marker);
       bounds.extend({{ lat: h.lat, lng: h.lng }});
 
-      const fullAddr = [h.address, h.city, h.country].filter(Boolean).join(', ');
-      const iwContent = `
-        <div class="gm-iw">
-          <div class="gm-iw-title">${{h.name}}</div>
-          <div class="gm-iw-brand">{brand['brand']}</div>
-          <div class="gm-iw-meta">${{fullAddr}}</div>
-        </div>`;
+      const iwContent = buildInfoWindow(h);
       marker.addListener('click', () => {{
         infoWindow.setContent(iwContent);
         infoWindow.open(map, marker);
       }});
 
+      const statusBadge = h.status
+        ? `<span class="h-status-badge ${{statusClass(h.status)}}">${{h.status}}</span>` : '';
       const item = document.createElement('div');
       item.className = 'hotel-item';
       item.innerHTML = `
-        <div class="h-pin" style="background:${{COLOR}}"><span class="h-pin-num">${{label}}</span></div>
+        <div class="h-pin" style="background:${{COLOR}}; border:1.5px solid ${{STROKE}};"><span class="h-pin-num" style="color:${{LABEL_COLOR}}">${{label}}</span></div>
         <div class="h-info">
-          <h4>${{h.name}}</h4>
+          <h4>${{h.name}}${{statusBadge}}</h4>
           <div class="h-meta">${{[h.city, h.country].filter(Boolean).join(', ')}}</div>
         </div>`;
       item.addEventListener('click', () => {{

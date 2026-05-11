@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yotel &mdash; Brand Portfolio Map</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f5f5f5;
+    }
+    .header {
+      background: #1a2744;
+      border-bottom: 3px solid #FFE600;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .header-left h1 { font-size: 18px; font-weight: 700; color: #fff; }
+    .header-left p { font-size: 11px; color: #8fa8d8; margin-top: 3px; }
+    .header-right { font-size: 11px; color: #8fa8d8; }
+    .header-right a { color: #8fa8d8; text-decoration: none; }
+    .header-right a:hover { color: #fff; }
+    .main { display: flex; flex: 1; overflow: hidden; }
+    .sidebar {
+      width: 290px;
+      background: #fff;
+      border-right: 1px solid #dde3ed;
+      overflow-y: auto;
+      flex-shrink: 0;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+    }
+    .sb-section { padding: 14px; border-bottom: 1px solid #eaecf0; }
+    .sb-section h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: #8090b0;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .legend-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 6px; font-size: 12px; color: #334;
+    }
+    .leg-dot {
+      width: 14px; height: 14px;
+      transform: rotate(45deg);
+      border: 2px solid rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .hotel-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 9px 6px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .hotel-item:hover { background: #f0f5ff; }
+    .h-pin {
+      width: 22px; height: 22px;
+      transform: rotate(45deg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .h-pin-num {
+      transform: rotate(-45deg);
+      color: #fff;
+      font-weight: 700;
+      font-size: 10px;
+    }
+    .h-info h4 { font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3; }
+    .h-info .h-meta { font-size: 10px; color: #7080a0; margin-top: 2px; }
+    .sidebar-footer {
+      padding: 10px 14px;
+      font-size: 10px;
+      color: #aabbd0;
+      border-top: 1px solid #eaecf0;
+    }
+    #map { flex: 1; }
+    .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 240px; max-width: 290px; }
+    .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
+    .gm-iw-brand { font-size: 10px; color: #1a2744; background: #FFE600; display: inline-block; padding: 2px 6px; border: 1px solid rgba(0,0,0,0.15); border-radius: 3px; text-transform: uppercase; letter-spacing: 0.6px; margin: 4px 0 8px; font-weight: 700; }
+    .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
+    .gm-iw-stats { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 11px; margin: 8px 0 4px; padding-top: 8px; border-top: 1px solid #eee; }
+    .gm-iw-stats dt { color: #7080a0; font-weight: 600; }
+    .gm-iw-stats dd { color: #1a2744; }
+    .gm-iw-status { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+    .gm-iw-status.operating { background: #d1fae5; color: #047857; }
+    .gm-iw-status.under-construction { background: #fef3c7; color: #92400e; }
+    .gm-iw-status.announced { background: #e0e7ff; color: #3730a3; }
+    .gm-iw-notes { font-size: 10px; color: #556; margin-top: 6px; line-height: 1.4; font-style: italic; }
+    .gm-iw-source { font-size: 10px; margin-top: 6px; }
+    .gm-iw-source a { color: #2563eb; text-decoration: none; }
+    .gm-iw-source a:hover { text-decoration: underline; }
+    .gm-iw-unverified { font-size: 9px; color: #92400e; background: #fef3c7; padding: 1px 5px; border-radius: 3px; margin-left: 4px; font-weight: 600; letter-spacing: 0.3px; }
+    .h-status-badge { font-size: 8px; padding: 1px 4px; border-radius: 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin-left: 4px; vertical-align: middle; }
+    .h-status-badge.operating { background: #d1fae5; color: #047857; }
+    .h-status-badge.under-construction { background: #fef3c7; color: #92400e; }
+    .h-status-badge.announced { background: #e0e7ff; color: #3730a3; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Yotel &mdash; Brand Portfolio</h1>
+    <p>Yotel — tech-forward urban micro-hotels (US footprint) &nbsp;&middot;&nbsp; 7 properties mapped</p>
+  </div>
+  <div class="header-right">
+    <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sb-section">
+      <h3>Legend</h3>
+      <div class="legend-row"><div class="leg-dot" style="background:#FFE600;"></div> Yotel Property</div>
+    </div>
+    <div class="sb-section" style="border-bottom:none;">
+      <h3>Properties &mdash; Click to Navigate</h3>
+      <div id="hotel-list"></div>
+    </div>
+    <div class="sidebar-footer">
+      Reference map &middot; Brand portfolio only &middot; No STR performance data
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script>
+  const HOTELS = [
+  {
+    "name": "YOTEL New York Times Square",
+    "address": "570 10th Avenue",
+    "city": "New York, NY 10036",
+    "country": "USA",
+    "lat": 40.7591608,
+    "lng": -73.9954657,
+    "sub_brand": "Yotel",
+    "status": "operating",
+    "opening_year": 2011,
+    "keys": 669,
+    "owner": null,
+    "operator": "Yotel",
+    "notes": "Brand's first city hotel; opened June 13, 2011 in MiMA tower, Hell's Kitchen / Times Square West. 170 sq ft cabins.",
+    "source": "https://www.yotel.com/en/hotels/yotel-new-york",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Boston Seaport",
+    "address": "65 Seaport Boulevard",
+    "city": "Boston, MA 02210",
+    "country": "USA",
+    "lat": 42.3523364,
+    "lng": -71.047215,
+    "sub_brand": "Yotel",
+    "status": "operating",
+    "opening_year": 2017,
+    "keys": 326,
+    "owner": null,
+    "operator": "Yotel",
+    "notes": "Seaport District; cabins range 152-487 sq ft; rooftop bar.",
+    "source": "https://www.yotel.com/en/hotels/yotel-boston",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Washington DC",
+    "address": "415 New Jersey Avenue NW",
+    "city": "Washington, DC 20001",
+    "country": "USA",
+    "lat": 38.8953091,
+    "lng": -77.01085119999999,
+    "sub_brand": "Yotel",
+    "status": "operating",
+    "opening_year": 2021,
+    "keys": 377,
+    "owner": null,
+    "operator": "Yotel",
+    "notes": "Capitol Hill; conversion of former Liaison Washington Capitol Hill. Opened February 1, 2021.",
+    "source": "https://www.yotel.com/en/hotels/yotel-washington-dc",
+    "verified": true
+  },
+  {
+    "name": "YOTEL San Francisco",
+    "address": "1095 Market Street",
+    "city": "San Francisco, CA 94103",
+    "country": "USA",
+    "lat": 37.7803603,
+    "lng": -122.4120372,
+    "sub_brand": "Yotel",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 203,
+    "owner": null,
+    "operator": "Yotel",
+    "notes": "Mid-Market / SoMa; adaptive reuse of historic Grant Building. ~120 sq ft micro-rooms.",
+    "source": "https://www.yotel.com/en/hotels/yotel-san-francisco",
+    "verified": true
+  },
+  {
+    "name": "YOTEL + YOTELPAD Miami",
+    "address": "227 NE 2nd Street",
+    "city": "Miami, FL 33132",
+    "country": "USA",
+    "lat": 25.7762603,
+    "lng": -80.1896606,
+    "sub_brand": "Yotel + YotelPad",
+    "status": "operating",
+    "opening_year": 2022,
+    "keys": 453,
+    "owner": "Aria Development Group",
+    "operator": "Yotel",
+    "notes": "Downtown Miami; first combined Yotel + YotelPad concept globally. 222 hotel cabins + 231 YotelPad residences. Opened June 1, 2022.",
+    "source": "https://www.yotel.com/en/hotels/yotel-miami",
+    "verified": true
+  },
+  {
+    "name": "YOTELPAD Park City",
+    "address": "2670 W Canyons Resort Drive",
+    "city": "Park City, UT 84098",
+    "country": "USA",
+    "lat": 40.6850651,
+    "lng": -111.5544303,
+    "sub_brand": "YotelPad",
+    "status": "operating",
+    "opening_year": 2020,
+    "keys": 144,
+    "owner": "Replay Destinations",
+    "operator": "Yotel",
+    "notes": "Canyons Village at Park City Mountain Resort; first YotelPad worldwide. Opened December 17, 2020. Studio to 3BR PADs.",
+    "source": "https://www.yotel.com/en/hotels/yotelpad-park-city",
+    "verified": true
+  },
+  {
+    "name": "YOTEL + YOTELPAD Atlanta",
+    "address": "Underground Atlanta, Block One (Pryor St & Upper Alabama St)",
+    "city": "Atlanta, GA 30303",
+    "country": "USA",
+    "lat": 33.7525477,
+    "lng": -84.3901514,
+    "sub_brand": "Yotel + YotelPad",
+    "status": "announced",
+    "opening_year": null,
+    "keys": 351,
+    "owner": "WRS Inc. / Lalani Lodging",
+    "operator": "Yotel",
+    "notes": "Announced 2019 as 234 Yotel + 117 YotelPad combined property at Underground Atlanta redevelopment. Originally slated to open 2022, repeatedly delayed. Address approximated to Block One site at Pryor & Upper Alabama; exact street number unverified. Construction/opening status as of mid-2026 unconfirmed by Yotel or developer.",
+    "source": "https://www.hotelmanagement.net/development/yotel-plans-to-open-351-key-hotel-atlanta-2022",
+    "verified": false
+  }
+];
+  const COLOR = "#FFE600";
+  const STROKE = "#000000";
+  const LABEL_COLOR = "#000000";
+  const BRAND = "Yotel";
+  let map, infoWindow;
+  const markers = [];
+
+  function statusClass(status) {
+    return (status || '').toLowerCase().replace(/\s+/g, '-');
+  }
+
+  function buildInfoWindow(h) {
+    const fullAddr = [h.address, h.city, h.country].filter(Boolean).join(', ');
+    const statusBadge = h.status
+      ? `<span class="gm-iw-status ${statusClass(h.status)}">${h.status}</span>` : '';
+    const unverified = (h.verified === false)
+      ? '<span class="gm-iw-unverified">UNVERIFIED</span>' : '';
+    const rows = [];
+    if (h.sub_brand)    rows.push(`<dt>Sub-brand</dt><dd>${h.sub_brand}</dd>`);
+    if (h.keys)         rows.push(`<dt>Keys</dt><dd>${h.keys}</dd>`);
+    if (h.opening_year) rows.push(`<dt>Opened</dt><dd>${h.opening_year}</dd>`);
+    if (h.owner)        rows.push(`<dt>Owner</dt><dd>${h.owner}</dd>`);
+    if (h.operator)     rows.push(`<dt>Operator</dt><dd>${h.operator}</dd>`);
+    const statsBlock = rows.length ? `<dl class="gm-iw-stats">${rows.join('')}</dl>` : '';
+    const notesBlock = h.notes ? `<div class="gm-iw-notes">${h.notes}</div>` : '';
+    const sourceBlock = h.source
+      ? `<div class="gm-iw-source"><a href="${h.source}" target="_blank" rel="noopener">Source &rarr;</a></div>` : '';
+    return `
+      <div class="gm-iw">
+        <div class="gm-iw-title">${h.name}${unverified}</div>
+        <span class="gm-iw-brand">${BRAND}</span>
+        ${statusBadge}
+        <div class="gm-iw-meta">${fullAddr}</div>
+        ${statsBlock}
+        ${notesBlock}
+        ${sourceBlock}
+      </div>`;
+  }
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 37.14300567142857, lng: -88.65711591428571 },
+      zoom: 3,
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: true,
+    });
+    infoWindow = new google.maps.InfoWindow({ maxWidth: 310 });
+
+    const listEl = document.getElementById('hotel-list');
+    const bounds = new google.maps.LatLngBounds();
+
+    HOTELS.forEach((h, i) => {
+      const label = String(i + 1);
+      const svgIcon = {
+        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+            <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.35"/></filter>
+            <rect x="6" y="6" width="22" height="22" transform="rotate(45 17 17)"
+                  fill="${COLOR}" stroke="${STROKE}" stroke-width="2" filter="url(#s)"/>
+            <text x="17" y="20" text-anchor="middle" font-family="Arial,sans-serif"
+                  font-size="11" font-weight="bold" fill="${LABEL_COLOR}">${label}</text>
+          </svg>`),
+        scaledSize: new google.maps.Size(34, 34),
+        anchor: new google.maps.Point(17, 17),
+      };
+
+      const marker = new google.maps.Marker({
+        position: { lat: h.lat, lng: h.lng },
+        map,
+        icon: svgIcon,
+        title: h.name,
+      });
+      markers.push(marker);
+      bounds.extend({ lat: h.lat, lng: h.lng });
+
+      const iwContent = buildInfoWindow(h);
+      marker.addListener('click', () => {
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+
+      const statusBadge = h.status
+        ? `<span class="h-status-badge ${statusClass(h.status)}">${h.status}</span>` : '';
+      const item = document.createElement('div');
+      item.className = 'hotel-item';
+      item.innerHTML = `
+        <div class="h-pin" style="background:${COLOR}; border:1.5px solid ${STROKE};"><span class="h-pin-num" style="color:${LABEL_COLOR}">${label}</span></div>
+        <div class="h-info">
+          <h4>${h.name}${statusBadge}</h4>
+          <div class="h-meta">${[h.city, h.country].filter(Boolean).join(', ')}</div>
+        </div>`;
+      item.addEventListener('click', () => {
+        map.panTo({ lat: h.lat, lng: h.lng });
+        map.setZoom(14);
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+      listEl.appendChild(item);
+    });
+
+    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap" async defer></script>
+
+</body>
+</html>
