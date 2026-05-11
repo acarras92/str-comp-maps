@@ -82,13 +82,14 @@ def render_html(brand):
     avg_lng = sum(h["lng"] for h in hotels) / len(hotels)
 
     # Optional rich fields (status, keys, opening_year, sub_brand, owner, operator,
-    # notes, source, verified). Brands without these render exactly as before.
+    # notes, source, verified, region). Brands without these render exactly as before.
     hotels_js = json.dumps([
         {
             "name": h["name"],
-            "address": h.get("address", ""),
-            "city": h.get("city", ""),
-            "country": h.get("country", ""),
+            "address": h.get("address") or "",
+            "city": h.get("city") or "",
+            "country": h.get("country") or "",
+            "region": h.get("region") or "",
             "lat": h["lat"],
             "lng": h["lng"],
             "sub_brand": h.get("sub_brand", ""),
@@ -266,6 +267,7 @@ def render_html(brand):
     if (h.sub_brand)    rows.push(`<dt>Sub-brand</dt><dd>${{h.sub_brand}}</dd>`);
     if (h.keys)         rows.push(`<dt>Keys</dt><dd>${{h.keys}}</dd>`);
     if (h.opening_year) rows.push(`<dt>Opened</dt><dd>${{h.opening_year}}</dd>`);
+    if (h.region)       rows.push(`<dt>Region</dt><dd>${{h.region}}${{h.country ? ' · ' + h.country : ''}}</dd>`);
     if (h.owner)        rows.push(`<dt>Owner</dt><dd>${{h.owner}}</dd>`);
     if (h.operator)     rows.push(`<dt>Operator</dt><dd>${{h.operator}}</dd>`);
     const statsBlock = rows.length ? `<dl class="gm-iw-stats">${{rows.join('')}}</dl>` : '';
