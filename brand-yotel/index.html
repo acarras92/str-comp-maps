@@ -97,6 +97,7 @@
     .gm-iw-status.operating { background: #d1fae5; color: #047857; }
     .gm-iw-status.under-construction { background: #fef3c7; color: #92400e; }
     .gm-iw-status.announced { background: #e0e7ff; color: #3730a3; }
+    .gm-iw-status.uncertain { background: #f3f4f6; color: #4b5563; }
     .gm-iw-notes { font-size: 10px; color: #556; margin-top: 6px; line-height: 1.4; font-style: italic; }
     .gm-iw-source { font-size: 10px; margin-top: 6px; }
     .gm-iw-source a { color: #2563eb; text-decoration: none; }
@@ -106,6 +107,7 @@
     .h-status-badge.operating { background: #d1fae5; color: #047857; }
     .h-status-badge.under-construction { background: #fef3c7; color: #92400e; }
     .h-status-badge.announced { background: #e0e7ff; color: #3730a3; }
+    .h-status-badge.uncertain { background: #f3f4f6; color: #4b5563; }
     .breakdown-table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
     .breakdown-table th, .breakdown-table td { padding: 0; text-align: right; line-height: 1.2; }
     .breakdown-table th:first-child, .breakdown-table td:first-child { text-align: left; }
@@ -116,6 +118,7 @@
     .breakdown-table thead th.s-operating          { background: #047857; }
     .breakdown-table thead th.s-under-construction { background: #b45309; }
     .breakdown-table thead th.s-announced          { background: #3730a3; }
+    .breakdown-table thead th.s-uncertain          { background: #6b7280; }
     .breakdown-table thead th.s-total              { background: #1a2744; border-top-right-radius: 4px; }
     .breakdown-table tbody tr.r-hotels td { font-size: 13px; font-weight: 600; color: #1a2744; padding: 7px 6px 2px; }
     .breakdown-table tbody tr.r-keys td { font-size: 10.5px; font-weight: 400; color: #7080a0; padding: 0 6px 7px; border-bottom: 1px solid #eef0f3; }
@@ -577,22 +580,22 @@
     "verified": true
   },
   {
-    "name": "YOTEL Dubai",
-    "address": "Sheikh Zayed Road, Business Bay",
+    "name": "YOTEL Dubai Business Bay",
+    "address": "Sheikh Zayed Road, Business Bay (39-storey tower near Business Bay Metro)",
     "city": "Dubai",
     "country": "AE",
     "region": "MEA",
     "lat": 25.1878195,
     "lng": 55.2581158,
     "sub_brand": "Yotel",
-    "status": "operating",
+    "status": "uncertain",
     "opening_year": 2020,
     "keys": 582,
     "owner": null,
-    "operator": "Yotel",
-    "notes": "Completed September 2020. Brand's first Middle East property. Cabins + serviced apartments. Adjacent to Dubai Water Canal at Business Bay gateway.",
-    "source": "https://www.yotel.com/en/hotels/yotel-dubai-downtown",
-    "verified": true
+    "operator": null,
+    "notes": "Building completed Sep 2020 as YOTEL Dubai Business Bay (438 hotel cabins + 127 YotelPad serviced apartments, ~582 keys design); delisted from yotel.com's locations page; the canonical /hotels/yotel-dubai-downtown URL now redirects to a login wall. Booking.com Business Bay listings (as of 2026-05-12) do not include a Yotel-branded property, while sister Dubai brands (Renaissance, Grand Millennium, DoubleTree, Sonder, Embassy Suites, etc.) are all listed. No trade-press de-flag announcement located. Current brand affiliation unconfirmed as of 2026-05-12 \u2014 kept on the map as a possible quiet de-flag worth tracking.",
+    "source": "https://www.skyscrapercenter.com/building/yotel-dubai/41283",
+    "verified": false
   },
   {
     "name": "YOTEL Belfast",
@@ -747,16 +750,23 @@
   // one hotel has both region and status. Counts are computed from HOTELS
   // so future brands with the same schema get a table for free.
   function buildBreakdown() {
-    const STATUSES = ['operating', 'under construction', 'announced'];
+    const ALL_STATUSES = ['operating', 'under construction', 'announced', 'uncertain'];
     const STATUS_LABELS = {
       'operating': 'Operating',
       'under construction': 'UC',
       'announced': 'Announced',
+      'uncertain': 'Uncertain',
     };
     const fmt = n => n ? n.toLocaleString() : '';
 
     const haveData = HOTELS.some(h => h.region && h.status);
     if (!haveData) return;
+
+    // Only include status columns that actually have hotels in this brand.
+    // Keeps the table compact for brands with no uncertain/UC entries.
+    const STATUSES = ALL_STATUSES.filter(
+      s => HOTELS.some(h => (h.status || '').toLowerCase() === s)
+    );
 
     // Preserve insertion order from the source data so brand authors can
     // sort regions however they want (here: Americas, EMEA, APAC, MEA).

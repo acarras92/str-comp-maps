@@ -375,20 +375,20 @@
       "verified": true
     },
     {
-      "name": "YOTEL Dubai",
-      "address": "Sheikh Zayed Road, Business Bay",
+      "name": "YOTEL Dubai Business Bay",
+      "address": "Sheikh Zayed Road, Business Bay (39-storey tower near Business Bay Metro)",
       "city": "Dubai",
       "country": "AE",
       "region": "MEA",
       "sub_brand": "Yotel",
-      "status": "operating",
+      "status": "uncertain",
       "opening_year": 2020,
       "keys": 582,
       "owner": null,
-      "operator": "Yotel",
-      "notes": "Completed September 2020. Brand's first Middle East property. Cabins + serviced apartments. Adjacent to Dubai Water Canal at Business Bay gateway.",
-      "source": "https://www.yotel.com/en/hotels/yotel-dubai-downtown",
-      "verified": true
+      "operator": null,
+      "notes": "Building completed Sep 2020 as YOTEL Dubai Business Bay (438 hotel cabins + 127 YotelPad serviced apartments, ~582 keys design); delisted from yotel.com's locations page; the canonical /hotels/yotel-dubai-downtown URL now redirects to a login wall. Booking.com Business Bay listings (as of 2026-05-12) do not include a Yotel-branded property, while sister Dubai brands (Renaissance, Grand Millennium, DoubleTree, Sonder, Embassy Suites, etc.) are all listed. No trade-press de-flag announcement located. Current brand affiliation unconfirmed as of 2026-05-12 — kept on the map as a possible quiet de-flag worth tracking.",
+      "source": "https://www.skyscrapercenter.com/building/yotel-dubai/41283",
+      "verified": false
     },
     {
       "name": "YOTEL Belfast",
