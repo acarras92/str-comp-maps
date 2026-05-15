@@ -42,7 +42,7 @@
   <aside id="sidebar">
     <header>
       <h1>STR Comp Sets — Global View</h1>
-      <div class="sub">29 comp sets · 11 brand portfolios · 432 unique hotels</div>
+      <div class="sub">29 comp sets · 12 brand portfolios · 446 unique hotels</div>
     </header>
     <div id="controls">
       <button onclick="toggleAll(true)">Show all</button>
@@ -623,6 +623,21 @@ const COMP_SETS = [
     "ari": "",
     "rgi": "",
     "hotel_count": 65,
+    "is_brand": true
+  },
+  {
+    "slug": "owner-talal-al-bahar",
+    "name": "Talal Al-Bahar (Brand)",
+    "color": "#7f1d1d",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 40,
     "is_brand": true
   },
   {
@@ -1976,6 +1991,12 @@ const HOTELS = [
         "subject_name": "citizenM Miami World Center",
         "color": "#9A6324",
         "role": "comp"
+      },
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
       }
     ]
   },
@@ -2568,6 +2589,12 @@ const HOTELS = [
         "subject_name": "citizenM Washington DC Capitol",
         "color": "#a9a9a9",
         "role": "comp"
+      },
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
       },
       {
         "slug": "brand-yotel",
@@ -7008,6 +7035,758 @@ const HOTELS = [
     ]
   },
   {
+    "name": "YOTEL New York Times Square",
+    "city_state": "New York, NY 10036, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.7591608,
+    "lng": -73.9954657,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Boston Seaport",
+    "city_state": "Boston, MA 02210, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 42.3523364,
+    "lng": -71.047215,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL San Francisco",
+    "city_state": "San Francisco, CA 94103, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.7803603,
+    "lng": -122.4120372,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTELPAD Park City",
+    "city_state": "Park City, UT 84098, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.6850651,
+    "lng": -111.5544303,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL London City",
+    "city_state": "London EC1M 5RJ, GB",
+    "zip": "",
+    "rooms": 0,
+    "lat": 51.5226634,
+    "lng": -0.1045713,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Edinburgh",
+    "city_state": "Edinburgh EH2 4NA, GB",
+    "zip": "",
+    "rooms": 0,
+    "lat": 55.95345469999999,
+    "lng": -3.2059383,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Glasgow",
+    "city_state": "Glasgow G2 8QW, GB",
+    "zip": "",
+    "rooms": 0,
+    "lat": 55.8588587,
+    "lng": -4.2596764,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Manchester Deansgate",
+    "city_state": "Manchester M3, GB",
+    "zip": "",
+    "rooms": 0,
+    "lat": 53.4805178,
+    "lng": -2.2476273,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Amsterdam",
+    "city_state": "Amsterdam 1031 HM, NL",
+    "zip": "",
+    "rooms": 0,
+    "lat": 52.3918387,
+    "lng": 4.902998600000001,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Porto",
+    "city_state": "Porto 4000-265, PT",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.153679,
+    "lng": -8.6087516,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Geneva Lake",
+    "city_state": "Founex 1297, CH",
+    "zip": "",
+    "rooms": 0,
+    "lat": 46.33904769999999,
+    "lng": 6.1667643,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Singapore Orchard Road",
+    "city_state": "Singapore 238904, SG",
+    "zip": "",
+    "rooms": 0,
+    "lat": 1.3062156,
+    "lng": 103.8311493,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Tokyo Ginza",
+    "city_state": "Tokyo 105-0004, JP",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.6668527,
+    "lng": 139.7613669,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Bangkok Sukhumvit",
+    "city_state": "Bangkok, TH",
+    "zip": "",
+    "rooms": 0,
+    "lat": 13.6892509,
+    "lng": 100.6091317,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTELAIR London Gatwick",
+    "city_state": "Horley RH6 0NN, GB",
+    "zip": "",
+    "rooms": 0,
+    "lat": 51.1559597,
+    "lng": -0.1628535,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTELAIR Amsterdam Schiphol",
+    "city_state": "Schiphol 1118 AP, NL",
+    "zip": "",
+    "rooms": 0,
+    "lat": 52.3089386,
+    "lng": 4.7649434,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTELAIR Paris Charles de Gaulle",
+    "city_state": "Roissy-en-France 95700, FR",
+    "zip": "",
+    "rooms": 0,
+    "lat": 49.004582,
+    "lng": 2.5901,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Istanbul Airport (Landside)",
+    "city_state": "Arnavutk\u00f6y 34283, TR",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.2602835,
+    "lng": 28.7404004,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTELAIR Istanbul Airport (Airside)",
+    "city_state": "Arnavutk\u00f6y 34283, TR",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.2608284,
+    "lng": 28.7412994,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTELAIR Singapore Changi Airport",
+    "city_state": "Singapore 819666, SG",
+    "zip": "",
+    "rooms": 0,
+    "lat": 1.3603912,
+    "lng": 103.989642,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Kuala Lumpur",
+    "city_state": "Kuala Lumpur, MY",
+    "zip": "",
+    "rooms": 0,
+    "lat": 3.1506575,
+    "lng": 101.7081286,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Athens",
+    "city_state": "Athens, GR",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.9645915,
+    "lng": 23.7304459,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Belfast",
+    "city_state": "Belfast, GB",
+    "zip": "",
+    "rooms": 0,
+    "lat": 54.5898799,
+    "lng": -5.9341949,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL Lisbon",
+    "city_state": "Lisbon, PT",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.7222524,
+    "lng": -9.1393366,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "YOTEL NEOM Oxagon",
+    "city_state": "Oxagon, SA",
+    "zip": "",
+    "rooms": 0,
+    "lat": 27.9464287,
+    "lng": 35.31350279999999,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-yotel",
+        "subject_name": "Yotel (Brand)",
+        "color": "#FFE600",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "M\u00f6venpick Hotel & Residence Laguna Tower",
+    "city_state": "Dubai, AE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.0658351,
+    "lng": 55.13818699999999,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Fairmont Zanzibar",
+    "city_state": "Zanzibar, TZ",
+    "zip": "",
+    "rooms": 0,
+    "lat": -5.729203999999999,
+    "lng": 39.297962,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Zimbali Lodge",
+    "city_state": "KwaZulu-Natal, ZA",
+    "zip": "",
+    "rooms": 0,
+    "lat": -29.5465196,
+    "lng": 31.1995123,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Legend Golf & Safari Resort",
+    "city_state": "Limpopo, ZA",
+    "zip": "",
+    "rooms": 0,
+    "lat": -24.2124262,
+    "lng": 28.7296819,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Arabella Beach Hotel Kuwait",
+    "city_state": "Kuwait City, KW",
+    "zip": "",
+    "rooms": 0,
+    "lat": 29.3029963,
+    "lng": 48.0870285,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Th8 Palm Dubai Beach Resort",
+    "city_state": "Dubai, AE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.1177725,
+    "lng": 55.1101657,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Al Riggae Hotel",
+    "city_state": "Kuwait City, KW",
+    "zip": "",
+    "rooms": 0,
+    "lat": 29.3061333,
+    "lng": 47.91440069999999,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard by Marriott Hamburg-Airport",
+    "city_state": "Hamburg 22415, DE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 53.6400935,
+    "lng": 10.0120465,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Fairmont The Palm",
+    "city_state": "Dubai, AE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.1100746,
+    "lng": 55.14100269999999,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "voco Bonnington JLT",
+    "city_state": "Dubai, AE",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.0676512,
+    "lng": 55.14160700000001,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Pine Cliffs Resort",
+    "city_state": "Albufeira 8200-912, PT",
+    "zip": "",
+    "rooms": 0,
+    "lat": 37.0900061,
+    "lng": -8.2448748,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Sheraton Cascais Resort",
+    "city_state": "Cascais 2750-005, PT",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.710105,
+    "lng": -9.4608537,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Regency Lisboa",
+    "city_state": "Lisbon 1300-314, PT",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.7040963,
+    "lng": -9.1867903,
+    "memberships": [
+      {
+        "slug": "owner-talal-al-bahar",
+        "subject_name": "Talal Al-Bahar (Brand)",
+        "color": "#7f1d1d",
+        "role": "brand"
+      }
+    ]
+  },
+  {
     "name": "Viceroy L'Ermitage Beverly Hills",
     "city_state": "Beverly Hills, CA 90210, USA",
     "zip": "",
@@ -7184,76 +7963,12 @@ const HOTELS = [
     ]
   },
   {
-    "name": "YOTEL New York Times Square",
-    "city_state": "New York, NY 10036, US",
-    "zip": "",
-    "rooms": 0,
-    "lat": 40.7591608,
-    "lng": -73.9954657,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Boston Seaport",
-    "city_state": "Boston, MA 02210, US",
-    "zip": "",
-    "rooms": 0,
-    "lat": 42.3523364,
-    "lng": -71.047215,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL San Francisco",
-    "city_state": "San Francisco, CA 94103, US",
-    "zip": "",
-    "rooms": 0,
-    "lat": 37.7803603,
-    "lng": -122.4120372,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
     "name": "YOTEL + YOTELPAD Miami",
     "city_state": "Miami, FL 33132, US",
     "zip": "",
     "rooms": 0,
     "lat": 25.7762603,
     "lng": -80.1896606,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTELPAD Park City",
-    "city_state": "Park City, UT 84098, US",
-    "zip": "",
-    "rooms": 0,
-    "lat": 40.6850651,
-    "lng": -111.5544303,
     "memberships": [
       {
         "slug": "brand-yotel",
@@ -7280,252 +7995,12 @@ const HOTELS = [
     ]
   },
   {
-    "name": "YOTEL London City",
-    "city_state": "London EC1M 5RJ, GB",
-    "zip": "",
-    "rooms": 0,
-    "lat": 51.5226634,
-    "lng": -0.1045713,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
     "name": "YOTELPAD London Stratford",
     "city_state": "London E15, GB",
     "zip": "",
     "rooms": 0,
     "lat": 51.5426059,
     "lng": 0.0030038,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Edinburgh",
-    "city_state": "Edinburgh EH2 4NA, GB",
-    "zip": "",
-    "rooms": 0,
-    "lat": 55.95345469999999,
-    "lng": -3.2059383,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Glasgow",
-    "city_state": "Glasgow G2 8QW, GB",
-    "zip": "",
-    "rooms": 0,
-    "lat": 55.8588587,
-    "lng": -4.2596764,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Manchester Deansgate",
-    "city_state": "Manchester M3, GB",
-    "zip": "",
-    "rooms": 0,
-    "lat": 53.4805178,
-    "lng": -2.2476273,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTELAIR London Gatwick",
-    "city_state": "Horley RH6 0NN, GB",
-    "zip": "",
-    "rooms": 0,
-    "lat": 51.1559597,
-    "lng": -0.1628535,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Amsterdam",
-    "city_state": "Amsterdam 1031 HM, NL",
-    "zip": "",
-    "rooms": 0,
-    "lat": 52.3918387,
-    "lng": 4.902998600000001,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTELAIR Amsterdam Schiphol",
-    "city_state": "Schiphol 1118 AP, NL",
-    "zip": "",
-    "rooms": 0,
-    "lat": 52.3089386,
-    "lng": 4.7649434,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Porto",
-    "city_state": "Porto 4000-265, PT",
-    "zip": "",
-    "rooms": 0,
-    "lat": 41.153679,
-    "lng": -8.6087516,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Geneva Lake",
-    "city_state": "Founex 1297, CH",
-    "zip": "",
-    "rooms": 0,
-    "lat": 46.33904769999999,
-    "lng": 6.1667643,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTELAIR Paris Charles de Gaulle",
-    "city_state": "Roissy-en-France 95700, FR",
-    "zip": "",
-    "rooms": 0,
-    "lat": 49.004582,
-    "lng": 2.5901,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Istanbul Airport (Landside)",
-    "city_state": "Arnavutk\u00f6y 34283, TR",
-    "zip": "",
-    "rooms": 0,
-    "lat": 41.2602835,
-    "lng": 28.7404004,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTELAIR Istanbul Airport (Airside)",
-    "city_state": "Arnavutk\u00f6y 34283, TR",
-    "zip": "",
-    "rooms": 0,
-    "lat": 41.2608284,
-    "lng": 28.7412994,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Singapore Orchard Road",
-    "city_state": "Singapore 238904, SG",
-    "zip": "",
-    "rooms": 0,
-    "lat": 1.3062156,
-    "lng": 103.8311493,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTELAIR Singapore Changi Airport",
-    "city_state": "Singapore 819666, SG",
-    "zip": "",
-    "rooms": 0,
-    "lat": 1.3603912,
-    "lng": 103.989642,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Tokyo Ginza",
-    "city_state": "Tokyo 105-0004, JP",
-    "zip": "",
-    "rooms": 0,
-    "lat": 35.6668527,
-    "lng": 139.7613669,
     "memberships": [
       {
         "slug": "brand-yotel",
@@ -7552,92 +8027,12 @@ const HOTELS = [
     ]
   },
   {
-    "name": "YOTEL Belfast",
-    "city_state": "Belfast, GB",
-    "zip": "",
-    "rooms": 0,
-    "lat": 54.5898799,
-    "lng": -5.9341949,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Bangkok Sukhumvit",
-    "city_state": "Bangkok, TH",
-    "zip": "",
-    "rooms": 0,
-    "lat": 13.6842316,
-    "lng": 100.6099509,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Kuala Lumpur",
-    "city_state": "Kuala Lumpur, MY",
-    "zip": "",
-    "rooms": 0,
-    "lat": 3.1510629,
-    "lng": 101.7083055,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
     "name": "YOTELPAD Athens \u2014 Grea Iras Apartments",
     "city_state": "Athens, GR",
     "zip": "",
     "rooms": 0,
     "lat": 37.96497069999999,
     "lng": 23.7303929,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL Lisbon",
-    "city_state": "Lisbon, PT",
-    "zip": "",
-    "rooms": 0,
-    "lat": 38.7222524,
-    "lng": -9.1393366,
-    "memberships": [
-      {
-        "slug": "brand-yotel",
-        "subject_name": "Yotel (Brand)",
-        "color": "#FFE600",
-        "role": "brand"
-      }
-    ]
-  },
-  {
-    "name": "YOTEL NEOM Oxagon",
-    "city_state": "Oxagon, SA",
-    "zip": "",
-    "rooms": 0,
-    "lat": 27.9464287,
-    "lng": 35.31350279999999,
     "memberships": [
       {
         "slug": "brand-yotel",

@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talal Al-Bahar &mdash; Owner Portfolio Map</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f5f5f5;
+    }
+    .header {
+      background: #1a2744;
+      border-bottom: 3px solid #7f1d1d;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .header-left h1 { font-size: 18px; font-weight: 700; color: #fff; }
+    .header-left p { font-size: 11px; color: #8fa8d8; margin-top: 3px; }
+    .header-right { font-size: 11px; color: #8fa8d8; }
+    .header-right a { color: #8fa8d8; text-decoration: none; }
+    .header-right a:hover { color: #fff; }
+    .main { display: flex; flex: 1; overflow: hidden; }
+    .sidebar {
+      width: 320px;
+      background: #fff;
+      border-right: 1px solid #dde3ed;
+      overflow-y: auto;
+      flex-shrink: 0;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+    }
+    .sb-section { padding: 14px; border-bottom: 1px solid #eaecf0; }
+    .sb-section h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: #8090b0;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .legend-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 6px; font-size: 12px; color: #334;
+    }
+    .leg-dot {
+      width: 14px; height: 14px;
+      transform: rotate(45deg);
+      border: 2px solid rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .hotel-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 9px 6px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .hotel-item:hover { background: #f0f5ff; }
+    .h-pin {
+      width: 22px; height: 22px;
+      transform: rotate(45deg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .h-pin-num {
+      transform: rotate(-45deg);
+      color: #fff;
+      font-weight: 700;
+      font-size: 10px;
+    }
+    .h-info h4 { font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3; }
+    .h-info .h-meta { font-size: 10px; color: #7080a0; margin-top: 2px; }
+    .sidebar-footer {
+      padding: 10px 14px;
+      font-size: 10px;
+      color: #aabbd0;
+      border-top: 1px solid #eaecf0;
+    }
+    #map { flex: 1; }
+    .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 240px; max-width: 290px; }
+    .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
+    .gm-iw-brand { font-size: 10px; color: #1a2744; background: #7f1d1d; display: inline-block; padding: 2px 6px; border: 1px solid rgba(0,0,0,0.15); border-radius: 3px; text-transform: uppercase; letter-spacing: 0.6px; margin: 4px 0 8px; font-weight: 700; }
+    .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
+    .gm-iw-stats { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 11px; margin: 8px 0 4px; padding-top: 8px; border-top: 1px solid #eee; }
+    .gm-iw-stats dt { color: #7080a0; font-weight: 600; }
+    .gm-iw-stats dd { color: #1a2744; }
+    .gm-iw-status { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+    .gm-iw-status.operating { background: #d1fae5; color: #047857; }
+    .gm-iw-status.under-construction { background: #fef3c7; color: #92400e; }
+    .gm-iw-status.announced { background: #e0e7ff; color: #3730a3; }
+    .gm-iw-status.uncertain { background: #f3f4f6; color: #4b5563; }
+    .gm-iw-notes { font-size: 10px; color: #556; margin-top: 6px; line-height: 1.4; font-style: italic; }
+    .gm-iw-source { font-size: 10px; margin-top: 6px; }
+    .gm-iw-source a { color: #2563eb; text-decoration: none; }
+    .gm-iw-source a:hover { text-decoration: underline; }
+    .gm-iw-unverified { font-size: 9px; color: #92400e; background: #fef3c7; padding: 1px 5px; border-radius: 3px; margin-left: 4px; font-weight: 600; letter-spacing: 0.3px; }
+    .h-status-badge { font-size: 8px; padding: 1px 4px; border-radius: 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin-left: 4px; vertical-align: middle; }
+    .h-status-badge.operating { background: #d1fae5; color: #047857; }
+    .h-status-badge.under-construction { background: #fef3c7; color: #92400e; }
+    .h-status-badge.announced { background: #e0e7ff; color: #3730a3; }
+    .h-status-badge.uncertain { background: #f3f4f6; color: #4b5563; }
+    .breakdown-table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+    .breakdown-table th, .breakdown-table td { padding: 0; text-align: right; line-height: 1.2; }
+    .breakdown-table th:first-child, .breakdown-table td:first-child { text-align: left; }
+    .breakdown-table tbody td + td, .breakdown-table tfoot td + td { border-left: 1px solid #eef0f3; }
+    .breakdown-table thead th + th { border-left: 1px solid rgba(255,255,255,0.25); }
+    .breakdown-table thead th { font-size: 9.5px; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; padding: 5px 6px; }
+    .breakdown-table thead th.s-region   { background: #1a2744; border-top-left-radius: 4px; }
+    .breakdown-table thead th.s-operating          { background: #047857; }
+    .breakdown-table thead th.s-under-construction { background: #b45309; }
+    .breakdown-table thead th.s-announced          { background: #3730a3; }
+    .breakdown-table thead th.s-uncertain          { background: #6b7280; }
+    .breakdown-table thead th.s-total              { background: #1a2744; border-top-right-radius: 4px; }
+    .breakdown-table tbody tr.r-hotels td { font-size: 13px; font-weight: 600; color: #1a2744; padding: 7px 6px 2px; }
+    .breakdown-table tbody tr.r-keys td { font-size: 10.5px; font-weight: 400; color: #7080a0; padding: 0 6px 7px; border-bottom: 1px solid #eef0f3; }
+    .breakdown-table tbody tr.r-keys td:first-child { font-style: italic; color: #a0aabe; padding-left: 18px; }
+    .breakdown-table tfoot tr.r-hotels td { font-size: 13px; font-weight: 800; color: #1a2744; padding: 9px 6px 2px; border-top: 2px solid #1a2744; }
+    .breakdown-table tfoot tr.r-keys td { font-size: 10.5px; font-weight: 600; color: #1a2744; padding: 0 6px 6px; }
+    .breakdown-table tfoot tr.r-keys td:first-child { font-style: italic; color: #556; font-weight: 500; padding-left: 18px; }
+    .breakdown-table td.dash { color: #d1d5db; font-weight: 400; }
+    .breakdown-note { font-size: 10px; color: #8090b0; margin-top: 10px; line-height: 1.45; font-style: italic; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Talal Al-Bahar &mdash; Owner Portfolio</h1>
+    <p>Hotels owned or co-owned via Al-Bahar Group, IFA HR, AQARAT, AIM, UIP and YOTEL — May 2026 &nbsp;&middot;&nbsp; 40 properties mapped</p>
+  </div>
+  <div class="header-right">
+    <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sb-section">
+      <h3>Legend</h3>
+      <div class="legend-row"><div class="leg-dot" style="background:#7f1d1d;"></div> Talal Al-Bahar-owned property</div>
+    </div>
+    <div class="sb-section" id="breakdown-section" style="display:none;">
+      <h3>Footprint &mdash; Region &times; Status</h3>
+      <div id="breakdown"></div>
+    </div>
+    <div class="sb-section" style="border-bottom:none;">
+      <h3>Properties &mdash; Click to Navigate</h3>
+      <div id="hotel-list"></div>
+    </div>
+    <div class="sidebar-footer">
+      Reference map &middot; Ownership portfolio &middot; brand flag shown per property
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script>
+  const HOTELS = [
+  {
+    "name": "YOTEL New York Times Square",
+    "address": "570 10th Avenue",
+    "city": "New York, NY 10036",
+    "country": "US",
+    "region": "Americas",
+    "lat": 40.7591608,
+    "lng": -73.9954657,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2011,
+    "keys": 669,
+    "owner": "YOTEL portfolio (Al-Bahar Group ~95% via Med Al-Bahar Intl / AQARAT / UIP)",
+    "operator": "Yotel",
+    "notes": "Brand's flagship city hotel, acquired by Al-Bahar Group 2011. MiMA tower, Hell's Kitchen / Times Square West. 170 sq ft cabins.",
+    "source": "https://www.yotel.com/en/hotels/yotel-new-york",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Boston Seaport",
+    "address": "65 Seaport Boulevard",
+    "city": "Boston, MA 02210",
+    "country": "US",
+    "region": "Americas",
+    "lat": 42.3523364,
+    "lng": -71.047215,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2017,
+    "keys": 326,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Seaport District; cabins range 152-487 sq ft; rooftop bar.",
+    "source": "https://www.yotel.com/en/hotels/yotel-boston",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Washington DC",
+    "address": "415 New Jersey Avenue NW",
+    "city": "Washington, DC 20001",
+    "country": "US",
+    "region": "Americas",
+    "lat": 38.8953091,
+    "lng": -77.01085119999999,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2021,
+    "keys": 377,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Capitol Hill; conversion of former Liaison Washington Capitol Hill. Opened February 1, 2021.",
+    "source": "https://www.yotel.com/en/hotels/yotel-washington-dc",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Miami",
+    "address": "227 NE 2nd Street",
+    "city": "Miami, FL 33132",
+    "country": "US",
+    "region": "Americas",
+    "lat": 25.7762606,
+    "lng": -80.1897584,
+    "sub_brand": "YOTEL + YOTELPAD",
+    "status": "operating",
+    "opening_year": 2022,
+    "keys": 453,
+    "owner": "YOTEL portfolio (Al-Bahar Group; asset owned by Aria Development Group, franchised to Yotel)",
+    "operator": "Yotel",
+    "notes": "Downtown Miami; first combined Yotel + YotelPad concept globally. 222 hotel cabins + 231 YotelPad residences. Opened June 1, 2022.",
+    "source": "https://www.yotel.com/en/hotels/yotel-miami",
+    "verified": true
+  },
+  {
+    "name": "YOTEL San Francisco",
+    "address": "1095 Market Street",
+    "city": "San Francisco, CA 94103",
+    "country": "US",
+    "region": "Americas",
+    "lat": 37.7803603,
+    "lng": -122.4120372,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 203,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Mid-Market / SoMa; adaptive reuse of historic Grant Building. ~120 sq ft micro-rooms.",
+    "source": "https://www.yotel.com/en/hotels/yotel-san-francisco",
+    "verified": true
+  },
+  {
+    "name": "YOTELPAD Park City",
+    "address": "2670 W Canyons Resort Drive",
+    "city": "Park City, UT 84098",
+    "country": "US",
+    "region": "Americas",
+    "lat": 40.6850651,
+    "lng": -111.5544303,
+    "sub_brand": "YOTELPAD",
+    "status": "operating",
+    "opening_year": 2020,
+    "keys": 144,
+    "owner": "YOTEL portfolio (Al-Bahar Group; asset owned by Replay Destinations, franchised to Yotel)",
+    "operator": "Yotel",
+    "notes": "Canyons Village at Park City Mountain Resort; first YotelPad worldwide. Opened December 17, 2020. Studio to 3BR PADs.",
+    "source": "https://www.yotel.com/en/hotels/yotelpad-park-city",
+    "verified": true
+  },
+  {
+    "name": "YOTEL London City",
+    "address": "96-100 Clerkenwell Road",
+    "city": "London EC1M 5RJ",
+    "country": "GB",
+    "region": "EMEA",
+    "lat": 51.5226634,
+    "lng": -0.1045713,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 212,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Clerkenwell; brand's first London city hotel. Near Farringdon Station.",
+    "source": "https://www.yotel.com/en/hotels/yotel-london-city",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Edinburgh",
+    "address": "Erskine House, 68-73 Queen Street",
+    "city": "Edinburgh EH2 4NA",
+    "country": "GB",
+    "region": "EMEA",
+    "lat": 55.95345469999999,
+    "lng": -3.2059383,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 280,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "First Yotel in Scotland. 5 min walk to Princes Street. Office building conversion.",
+    "source": "https://www.yotel.com/en/hotels/yotel-edinburgh",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Glasgow",
+    "address": "260 Argyle Street",
+    "city": "Glasgow G2 8QW",
+    "country": "GB",
+    "region": "EMEA",
+    "lat": 55.8588587,
+    "lng": -4.2596764,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2021,
+    "keys": 257,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Opened May 2021. Office-to-hotel conversion opposite Glasgow Central Station.",
+    "source": "https://www.yotel.com/en/hotels/yotel-glasgow",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Manchester Deansgate",
+    "address": "Deansgate at John Dalton Street",
+    "city": "Manchester M3",
+    "country": "GB",
+    "region": "EMEA",
+    "lat": 53.4805178,
+    "lng": -2.2476273,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2022,
+    "keys": 261,
+    "owner": "YOTEL portfolio (Al-Bahar Group; franchise to Qbic-converted property)",
+    "operator": "Yotel (franchise)",
+    "notes": "Rebrand of Qbic Manchester completed Q1 2022; first Yotel UK franchise. Ground-floor MOTLEY restaurant. 15-26 sqm cabins.",
+    "source": "https://www.yotel.com/en/hotels/yotel-manchester",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Amsterdam",
+    "address": "Asterweg 33",
+    "city": "Amsterdam 1031 HM",
+    "country": "NL",
+    "region": "EMEA",
+    "lat": 52.3918387,
+    "lng": 4.902998600000001,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 202,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Amsterdam Noord. First Yotel in the Netherlands. Opened November 2019.",
+    "source": "https://www.yotel.com/en/hotels/yotel-amsterdam",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Porto",
+    "address": "Rua de Gon\u00e7alo Crist\u00f3v\u00e3o 206",
+    "city": "Porto 4000-265",
+    "country": "PT",
+    "region": "EMEA",
+    "lat": 41.153679,
+    "lng": -8.6087516,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2021,
+    "keys": 150,
+    "owner": "United Investments Portugal (UIP)",
+    "operator": "Yotel",
+    "notes": "Opened 28 May 2021. Porto city centre. Held by UIP (Bahar Chairman & co-CEO) \u2014 the only Al-Bahar property that sits in both YOTEL and UIP portfolios.",
+    "source": "https://www.yotel.com/en/hotels/yotel-porto",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Geneva Lake",
+    "address": "Chemin Ballessert 1",
+    "city": "Founex 1297",
+    "country": "CH",
+    "region": "EMEA",
+    "lat": 46.33904769999999,
+    "lng": 6.1667643,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2024,
+    "keys": 237,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Opened April 2024. Located in Founex on Lake Geneva, ~15 km from Geneva city centre, ~15 min drive from Geneva Airport. HVGGE Nordic-inspired restaurant + rooftop bar.",
+    "source": "https://www.yotel.com/en/hotels/yotel-geneva-lake",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Singapore Orchard Road",
+    "address": "366 Orchard Road",
+    "city": "Singapore 238904",
+    "country": "SG",
+    "region": "APAC",
+    "lat": 1.3062156,
+    "lng": 103.8311493,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2017,
+    "keys": 610,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "First Yotel in Asia. 30 floors. Robot delivery droids. Rooftop pool.",
+    "source": "https://www.yotel.com/en/hotels/yotel-singapore",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Tokyo Ginza",
+    "address": "1-7-7 Shimbashi, Minato-ku",
+    "city": "Tokyo 105-0004",
+    "country": "JP",
+    "region": "APAC",
+    "lat": 35.6668527,
+    "lng": 139.7613669,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2025,
+    "keys": 244,
+    "owner": "YOTEL portfolio (Al-Bahar Group; opened with Frasers Hospitality)",
+    "operator": "Yotel",
+    "notes": "Grand opened June 2025. Brand's first hotel in Japan. Ginza / Shimbashi.",
+    "source": "https://www.yotel.com/en/hotels/yotel-tokyo-ginza",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Bangkok Sukhumvit",
+    "address": "Cloud 11, Sukhumvit Road (300m skywalk from BTS Punnawithi)",
+    "city": "Bangkok",
+    "country": "TH",
+    "region": "APAC",
+    "lat": 13.6892509,
+    "lng": 100.6091317,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2026,
+    "keys": 250,
+    "owner": "YOTEL portfolio (Al-Bahar Group; asset MQDC / Cloud 11, franchise to Yotel under Select by Hilton)",
+    "operator": "Yotel (franchise \u2014 Select by Hilton)",
+    "notes": "First Yotel in Thailand. Inside Cloud 11 mixed-use creator-economy hub in South Sukhumvit. 23rd-floor sky bar. Listed under operating hotels on yotel.com; brand's Thailand debut.",
+    "source": "https://www.yotel.com/en/hotels/yotel-bangkok-sukhumvit",
+    "verified": true
+  },
+  {
+    "name": "YOTELAIR London Gatwick",
+    "address": "Arrivals Concourse, South Terminal, London Gatwick Airport",
+    "city": "Horley RH6 0NN",
+    "country": "GB",
+    "region": "EMEA",
+    "lat": 51.1559597,
+    "lng": -0.1628535,
+    "sub_brand": "YOTELAIR",
+    "status": "operating",
+    "opening_year": 2007,
+    "keys": 46,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Brand's first ever property worldwide. Landside, South Terminal. Bookable by the hour.",
+    "source": "https://www.yotel.com/en/hotels/yotelair-london-gatwick",
+    "verified": true
+  },
+  {
+    "name": "YOTELAIR Amsterdam Schiphol",
+    "address": "Vertrekpassage 118, Schiphol Airport (airside, Lounge 2 near Pier D)",
+    "city": "Schiphol 1118 AP",
+    "country": "NL",
+    "region": "EMEA",
+    "lat": 52.3089386,
+    "lng": 4.7649434,
+    "sub_brand": "YOTELAIR",
+    "status": "operating",
+    "opening_year": 2008,
+    "keys": 57,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Airside transit hotel. Requires onward boarding pass. Opening year reported as 2008 or 2009 by different sources.",
+    "source": "https://www.yotel.com/en/hotels/yotelair-amsterdam-schiphol",
+    "verified": true
+  },
+  {
+    "name": "YOTELAIR Paris Charles de Gaulle",
+    "address": "Terminal 2E, Gate L (airside, after security)",
+    "city": "Roissy-en-France 95700",
+    "country": "FR",
+    "region": "EMEA",
+    "lat": 49.004582,
+    "lng": 2.5901,
+    "sub_brand": "YOTELAIR",
+    "status": "operating",
+    "opening_year": 2016,
+    "keys": 80,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Opened November 2016. Airside transit hotel in Terminal 2E satellite L.",
+    "source": "https://www.yotel.com/en/hotels/yotelair-paris-charles-de-gaulle",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Istanbul Airport (Landside)",
+    "address": "Departures floor, near entrance 7, Istanbul Airport (IST)",
+    "city": "Arnavutk\u00f6y 34283",
+    "country": "TR",
+    "region": "EMEA",
+    "lat": 41.2602835,
+    "lng": 28.7404004,
+    "sub_brand": "YOTEL",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 171,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Landside, accessible without boarding pass. Part of Istanbul Airport combined Yotel property (171 landside + 280 airside = 451 cabins total, largest airport hotel in Europe).",
+    "source": "https://www.yotel.com/en/hotels/yotel-istanbul-airport-landside",
+    "verified": true
+  },
+  {
+    "name": "YOTELAIR Istanbul Airport (Airside)",
+    "address": "Duty Free zone, airside, Istanbul Airport (IST), Terminal Caddesi No:1",
+    "city": "Arnavutk\u00f6y 34283",
+    "country": "TR",
+    "region": "EMEA",
+    "lat": 41.2608284,
+    "lng": 28.7412994,
+    "sub_brand": "YOTELAIR",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 280,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Airside transit hotel. Requires international boarding pass. Sister property to Yotel Istanbul Airport Landside.",
+    "source": "https://www.yotel.com/en/hotels/yotelair-istanbul-airport-airside",
+    "verified": true
+  },
+  {
+    "name": "YOTELAIR Singapore Changi Airport",
+    "address": "78 Airport Boulevard, #04-280 Jewel Changi Airport",
+    "city": "Singapore 819666",
+    "country": "SG",
+    "region": "APAC",
+    "lat": 1.3603912,
+    "lng": 103.989642,
+    "sub_brand": "YOTELAIR",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 130,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Opened 12 April 2019. First YotelAir in Asia. Inside Jewel Changi (landside / public, 4th floor).",
+    "source": "https://www.yotel.com/en/hotels/yotelair-singapore-changi-airport",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Kuala Lumpur",
+    "address": "KLCC / Golden Triangle (near Petronas Towers, KL Convention Centre)",
+    "city": "Kuala Lumpur",
+    "country": "MY",
+    "region": "APAC",
+    "lat": 3.1506575,
+    "lng": 101.7081286,
+    "sub_brand": "YOTEL",
+    "status": "announced",
+    "opening_year": 2026,
+    "keys": 290,
+    "owner": "YOTEL portfolio (Al-Bahar Group; asset High Street Holdings, franchise to Yotel)",
+    "operator": "Yotel",
+    "notes": "First Yotel in Malaysia. KLCC district, walking distance to Petronas Towers and KL Convention Centre. Robotic concierge, motorised SmartBeds, rooftop pool and bar. PDF (May 2026) lists as 2026 pipeline; yotel.com lists as operating \u2014 keeping as announced until opening confirmed.",
+    "source": "https://www.yotel.com/en/hotels/yotel-kuala-lumpur",
+    "verified": false
+  },
+  {
+    "name": "YOTEL Athens",
+    "address": "Iras, Neos Kosmos (near Syngrou-Fix metro)",
+    "city": "Athens",
+    "country": "GR",
+    "region": "EMEA",
+    "lat": 37.9645915,
+    "lng": 23.7304459,
+    "sub_brand": "YOTELPAD",
+    "status": "announced",
+    "opening_year": 2027,
+    "keys": 113,
+    "owner": "YOTEL portfolio (Al-Bahar Group; asset Valpre Capital, franchise to Yotel)",
+    "operator": "Yotel",
+    "notes": "First Yotel project in Greece, marketed as YOTELPAD (aparthotel). 113 PADs across three buildings: Iras (Neos Kosmos), Miltiadou (Monastiraki / Syntagma), Peiraios (Omonoia flagship with rooftop). Slated to open 2027 per PDF.",
+    "source": "https://www.yotel.com/en/press/yotel-announces-debut-in-greece-with-yotelpad-athens",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Belfast",
+    "address": "Shaftesbury Square",
+    "city": "Belfast",
+    "country": "GB",
+    "region": "EMEA",
+    "lat": 54.5898799,
+    "lng": -5.9341949,
+    "sub_brand": "YOTEL",
+    "status": "under construction",
+    "opening_year": 2028,
+    "keys": 165,
+    "owner": "YOTEL portfolio (Al-Bahar Group; asset Andras House, franchise to Yotel)",
+    "operator": "Yotel",
+    "notes": "New-build at Shaftesbury Square. First Yotel in Northern Ireland. Operated by Andras House Hotels. PDF (May 2026) lists 2028 expected open.",
+    "source": "https://www.yotel.com/en/press/yotel-to-open-new-hotel-in-belfast-city-centre",
+    "verified": true
+  },
+  {
+    "name": "YOTEL Lisbon",
+    "address": "",
+    "city": "Lisbon",
+    "country": "PT",
+    "region": "EMEA",
+    "lat": 38.7222524,
+    "lng": -9.1393366,
+    "sub_brand": "YOTEL",
+    "status": "announced",
+    "opening_year": 2028,
+    "keys": null,
+    "owner": "YOTEL portfolio (Al-Bahar Group)",
+    "operator": "Yotel",
+    "notes": "Announced as part of Yotel's European pipeline. Exact address, room count, and developer not publicly disclosed at time of writing.",
+    "source": "https://www.travelweekly.com/Travel-News/Hotel-News/Hilton-partnership-sparks-Yotel-expansion-ambitions",
+    "verified": false
+  },
+  {
+    "name": "YOTEL NEOM Oxagon",
+    "address": "Oxagon, NEOM",
+    "city": "Oxagon",
+    "country": "SA",
+    "region": "MEA",
+    "lat": 27.9464287,
+    "lng": 35.31350279999999,
+    "sub_brand": "YOTEL",
+    "status": "announced",
+    "opening_year": 2029,
+    "keys": 300,
+    "owner": "YOTEL portfolio (Al-Bahar Group; asset NEOM, franchise to Yotel)",
+    "operator": "Yotel",
+    "notes": "First Yotel in Saudi Arabia; first hotel announced in Oxagon (floating industrial city within NEOM). Exact street address not yet published.",
+    "source": "https://www.yotel.com/en/press/yotel-announces-first-hotel-in-the-kingdom-of-saudi-arabia-will-be-in-neoms-oxagon",
+    "verified": false
+  },
+  {
+    "name": "M\u00f6venpick Hotel & Residence Laguna Tower",
+    "address": "Cluster A, Jumeirah Lakes Towers",
+    "city": "Dubai",
+    "country": "AE",
+    "region": "MEA",
+    "lat": 25.0658351,
+    "lng": 55.13818699999999,
+    "sub_brand": "M\u00f6venpick (Accor)",
+    "status": "operating",
+    "opening_year": null,
+    "keys": null,
+    "owner": "IFA Hotels & Resorts",
+    "operator": "Accor (M\u00f6venpick)",
+    "notes": "Part of IFA HR's Laguna Tower mixed-use scheme in JLT. IFA HR is ~43% owned by IFA Holding (which is 20.85% Med Al-Bahar Holding); Bahar is Vice Chairman.",
+    "source": "https://movenpick.accor.com/en/middle-east/uae/dubai/hotel-hotel-residence-laguna-tower.html",
+    "verified": true
+  },
+  {
+    "name": "Fairmont Zanzibar",
+    "address": "Zanzibar Beach Hotel, Nungwi",
+    "city": "Zanzibar",
+    "country": "TZ",
+    "region": "Africa",
+    "lat": -5.729203999999999,
+    "lng": 39.297962,
+    "sub_brand": "Fairmont (Marriott)",
+    "status": "operating",
+    "opening_year": null,
+    "keys": null,
+    "owner": "IFA Hotels & Resorts",
+    "operator": "Marriott (Fairmont)",
+    "notes": "IFA HR-owned beach resort, Fairmont-branded. Tagged 'Fairmont Zanzibar / Zanzibar Beach Hotel' in IFA disclosures.",
+    "source": "https://www.fairmont.com/zanzibar/",
+    "verified": false
+  },
+  {
+    "name": "Zimbali Lodge",
+    "address": "Zimbali Coastal Resort, Ballito",
+    "city": "KwaZulu-Natal",
+    "country": "ZA",
+    "region": "Africa",
+    "lat": -29.5465196,
+    "lng": 31.1995123,
+    "sub_brand": "Fairmont-managed boutique",
+    "status": "operating",
+    "opening_year": null,
+    "keys": null,
+    "owner": "IFA Hotels & Resorts",
+    "operator": "Fairmont (managed)",
+    "notes": "Boutique lodge within IFA HR's Zimbali Coastal Resort north of Durban. Anchor of the broader Zimbali Coastal / Zimbali Lakes resort-residence development.",
+    "source": "https://www.fairmont.com/zimbali/",
+    "verified": false
+  },
+  {
+    "name": "Legend Golf & Safari Resort",
+    "address": "Entabeni Safari Conservancy, Mookgophong",
+    "city": "Limpopo",
+    "country": "ZA",
+    "region": "Africa",
+    "lat": -24.2124262,
+    "lng": 28.7296819,
+    "sub_brand": "Independent",
+    "status": "operating",
+    "opening_year": 2007,
+    "keys": null,
+    "owner": "IFA Hotels & Resorts (50% JV with Legend Lodges Hotels & Resorts)",
+    "operator": "Legend Lodges Hotels & Resorts",
+    "notes": "50/50 JV between IFA HR and Legend Lodges since 2007. Signature 18-hole Signature Course (each hole designed by a different pro) plus a par-3 'Extreme 19th' atop Hanglip mountain. Big-five safari operation.",
+    "source": "https://www.legendgolfsafari.com/",
+    "verified": true
+  },
+  {
+    "name": "Arabella Beach Hotel Kuwait",
+    "address": "Al-Bidaa, Salmiya coast",
+    "city": "Kuwait City",
+    "country": "KW",
+    "region": "MEA",
+    "lat": 29.3029963,
+    "lng": 48.0870285,
+    "sub_brand": "Vignette Collection (IHG)",
+    "status": "operating",
+    "opening_year": 2024,
+    "keys": 195,
+    "owner": "AQARAT (Kuwait Real Estate Co.)",
+    "operator": "IHG (Vignette Collection)",
+    "notes": "Opened May 2024 as Kuwait's first Vignette Collection. AQARAT is Boursa Kuwait listed (KRE); Bahar is Vice Chairman & CEO.",
+    "source": "https://www.ihg.com/vignettecollection/hotels/us/en/kuwait-city/kwiar/hoteldetail",
+    "verified": true
+  },
+  {
+    "name": "Th8 Palm Dubai Beach Resort",
+    "address": "West Crescent, Palm Jumeirah",
+    "city": "Dubai",
+    "country": "AE",
+    "region": "MEA",
+    "lat": 25.1177725,
+    "lng": 55.1101657,
+    "sub_brand": "Vignette Collection (IHG)",
+    "status": "operating",
+    "opening_year": null,
+    "keys": 162,
+    "owner": "AQARAT (Kuwait Real Estate Co.)",
+    "operator": "IHG (Vignette Collection)",
+    "notes": "Boutique beachfront resort on the west crescent of Palm Jumeirah. AQARAT-owned, Vignette-flagged.",
+    "source": "https://www.ihg.com/vignettecollection/hotels/us/en/dubai/dxbtp/hoteldetail",
+    "verified": true
+  },
+  {
+    "name": "Al Riggae Hotel",
+    "address": "Al Riggae area",
+    "city": "Kuwait City",
+    "country": "KW",
+    "region": "MEA",
+    "lat": 29.3061333,
+    "lng": 47.91440069999999,
+    "sub_brand": "Independent",
+    "status": "operating",
+    "opening_year": null,
+    "keys": null,
+    "owner": "AQARAT (Kuwait Real Estate Co.)",
+    "operator": "Independent",
+    "notes": "AQARAT-held income-producing hotel asset in Kuwait. Unbranded / independent operation. Exact address and key count not publicly disclosed.",
+    "source": "https://www.aqarat.com.kw/",
+    "verified": false
+  },
+  {
+    "name": "Courtyard by Marriott Hamburg-Airport",
+    "address": "Flughafenstrasse 47",
+    "city": "Hamburg 22415",
+    "country": "DE",
+    "region": "EMEA",
+    "lat": 53.6400935,
+    "lng": 10.0120465,
+    "sub_brand": "Courtyard by Marriott",
+    "status": "operating",
+    "opening_year": null,
+    "keys": null,
+    "owner": "AQARAT (JV asset)",
+    "operator": "Marriott (Courtyard)",
+    "notes": "Hamburg Airport area Courtyard, held by AQARAT as a JV asset. Demonstrates AQARAT's European exposure outside Kuwait/UAE.",
+    "source": "https://www.marriott.com/en-us/hotels/hamcy-courtyard-hamburg-airport/overview/",
+    "verified": false
+  },
+  {
+    "name": "Fairmont The Palm",
+    "address": "West Crescent, Palm Jumeirah",
+    "city": "Dubai",
+    "country": "AE",
+    "region": "MEA",
+    "lat": 25.1100746,
+    "lng": 55.14100269999999,
+    "sub_brand": "Fairmont (Marriott)",
+    "status": "operating",
+    "opening_year": 2013,
+    "keys": 381,
+    "owner": "Arzan Investment Management (AIM) \u2014 anchor of GCC Hospitality Fund",
+    "operator": "Marriott (Fairmont)",
+    "notes": "381-room Fairmont on the west crescent of Palm Jumeirah. Acquired by AIM from IFA HR in January 2025 for US$325m as the anchor asset of AIM's GCC Hospitality Fund; IFA HR retains a minority interest via the AIM Hospitality Fund. Bahar is Chairman of AIM.",
+    "source": "https://www.fairmont.com/palm-dubai/",
+    "verified": true
+  },
+  {
+    "name": "voco Bonnington JLT",
+    "address": "Jumeirah Lakes Towers, Cluster J",
+    "city": "Dubai",
+    "country": "AE",
+    "region": "MEA",
+    "lat": 25.0676512,
+    "lng": 55.14160700000001,
+    "sub_brand": "voco (IHG)",
+    "status": "operating",
+    "opening_year": null,
+    "keys": null,
+    "owner": "Arzan Investment Management (AIM)",
+    "operator": "IHG (voco)",
+    "notes": "Rebrand of the former Bonnington Jumeirah Lakes Towers. Acquired by AIM Q4 2024. JLT cluster J location.",
+    "source": "https://www.ihg.com/voco/hotels/us/en/dubai/dxbbg/hoteldetail",
+    "verified": true
+  },
+  {
+    "name": "Pine Cliffs Resort",
+    "address": "Praia da Fal\u00e9sia, Pinhal do Concelho",
+    "city": "Albufeira 8200-912",
+    "country": "PT",
+    "region": "EMEA",
+    "lat": 37.0900061,
+    "lng": -8.2448748,
+    "sub_brand": "Luxury Collection (Marriott)",
+    "status": "operating",
+    "opening_year": null,
+    "keys": null,
+    "owner": "United Investments Portugal (UIP)",
+    "operator": "Marriott (Luxury Collection)",
+    "notes": "Flagship UIP resort on the Algarve clifftops. Luxury Collection-flagged hotel anchors a broader resort-residence community (Pine Cliffs Residence). Bahar is Chairman & co-CEO of UIP.",
+    "source": "https://www.marriott.com/en-us/hotels/faopc-pine-cliffs-a-luxury-collection-resort-algarve/overview/",
+    "verified": true
+  },
+  {
+    "name": "Sheraton Cascais Resort",
+    "address": "Rua das Palmeiras, Quinta da Marinha",
+    "city": "Cascais 2750-005",
+    "country": "PT",
+    "region": "EMEA",
+    "lat": 38.710105,
+    "lng": -9.4608537,
+    "sub_brand": "Sheraton (Marriott)",
+    "status": "operating",
+    "opening_year": null,
+    "keys": 138,
+    "owner": "United Investments Portugal (UIP)",
+    "operator": "Marriott (Sheraton)",
+    "notes": "138-room Sheraton resort in Cascais, west of Lisbon. UIP-owned.",
+    "source": "https://www.marriott.com/en-us/hotels/lisrc-sheraton-cascais-resort/overview/",
+    "verified": true
+  },
+  {
+    "name": "Hyatt Regency Lisboa",
+    "address": "Rua Jau 54",
+    "city": "Lisbon 1300-314",
+    "country": "PT",
+    "region": "EMEA",
+    "lat": 38.7040963,
+    "lng": -9.1867903,
+    "sub_brand": "Hyatt Regency",
+    "status": "operating",
+    "opening_year": null,
+    "keys": 204,
+    "owner": "United Investments Portugal (UIP)",
+    "operator": "Hyatt",
+    "notes": "204-key Hyatt Regency in Bel\u00e9m district of Lisbon, near Jer\u00f3nimos Monastery. UIP-owned.",
+    "source": "https://www.hyatt.com/en-US/hotel/portugal/hyatt-regency-lisbon/lispr",
+    "verified": true
+  }
+];
+  const COLOR = "#7f1d1d";
+  const STROKE = "#ffffff";
+  const LABEL_COLOR = "#ffffff";
+  const BRAND = "Talal Al-Bahar";
+  const PORTFOLIO_TYPE = "owner";
+  let map, infoWindow;
+  const markers = [];
+
+  function statusClass(status) {
+    return (status || '').toLowerCase().replace(/\s+/g, '-');
+  }
+
+  function buildInfoWindow(h) {
+    const fullAddr = [h.address, h.city, h.country].filter(Boolean).join(', ');
+    const statusBadge = h.status
+      ? `<span class="gm-iw-status ${statusClass(h.status)}">${h.status}</span>` : '';
+    const unverified = (h.verified === false)
+      ? '<span class="gm-iw-unverified">UNVERIFIED</span>' : '';
+    const rows = [];
+    // In owner mode the chip already shows sub_brand (the flag), so skip the row.
+    if (h.sub_brand && PORTFOLIO_TYPE !== "owner")
+      rows.push(`<dt>Sub-brand</dt><dd>${h.sub_brand}</dd>`);
+    if (h.keys)         rows.push(`<dt>Keys</dt><dd>${h.keys}</dd>`);
+    if (h.opening_year) rows.push(`<dt>Opened</dt><dd>${h.opening_year}</dd>`);
+    if (h.region)       rows.push(`<dt>Region</dt><dd>${h.region}${h.country ? ' · ' + h.country : ''}</dd>`);
+    if (h.owner)        rows.push(`<dt>${PORTFOLIO_TYPE === "owner" ? "Vehicle" : "Owner"}</dt><dd>${h.owner}</dd>`);
+    if (h.operator)     rows.push(`<dt>Operator</dt><dd>${h.operator}</dd>`);
+    const statsBlock = rows.length ? `<dl class="gm-iw-stats">${rows.join('')}</dl>` : '';
+    const notesBlock = h.notes ? `<div class="gm-iw-notes">${h.notes}</div>` : '';
+    const sourceBlock = h.source
+      ? `<div class="gm-iw-source"><a href="${h.source}" target="_blank" rel="noopener">Source &rarr;</a></div>` : '';
+    // Owner mode: chip shows each property's brand flag (Fairmont/voco/Yotel/...).
+    // Brand mode: chip shows the portfolio name (e.g. "Capella").
+    const chipLabel = (PORTFOLIO_TYPE === "owner") ? (h.sub_brand || BRAND) : BRAND;
+    return `
+      <div class="gm-iw">
+        <div class="gm-iw-title">${h.name}${unverified}</div>
+        <span class="gm-iw-brand">${chipLabel}</span>
+        ${statusBadge}
+        <div class="gm-iw-meta">${fullAddr}</div>
+        ${statsBlock}
+        ${notesBlock}
+        ${sourceBlock}
+      </div>`;
+  }
+
+  // Region × Status × (hotels, keys) breakdown — only renders if at least
+  // one hotel has both region and status. Counts are computed from HOTELS
+  // so future brands with the same schema get a table for free.
+  function buildBreakdown() {
+    const ALL_STATUSES = ['operating', 'under construction', 'announced', 'uncertain'];
+    const STATUS_LABELS = {
+      'operating': 'Operating',
+      'under construction': 'UC',
+      'announced': 'Announced',
+      'uncertain': 'Uncertain',
+    };
+    const fmt = n => n ? n.toLocaleString() : '';
+
+    const haveData = HOTELS.some(h => h.region && h.status);
+    if (!haveData) return;
+
+    // Only include status columns that actually have hotels in this brand.
+    // Keeps the table compact for brands with no uncertain/UC entries.
+    const STATUSES = ALL_STATUSES.filter(
+      s => HOTELS.some(h => (h.status || '').toLowerCase() === s)
+    );
+
+    // Preserve insertion order from the source data so brand authors can
+    // sort regions however they want (here: Americas, EMEA, APAC, MEA).
+    const regions = [];
+    const grid = {};                 // region → status → { hotels, keys }
+    HOTELS.forEach(h => {
+      const r = h.region || '—';
+      if (!grid[r]) {
+        grid[r] = {};
+        regions.push(r);
+      }
+      const s = (h.status || '').toLowerCase();
+      const cell = grid[r][s] = grid[r][s] || { hotels: 0, keys: 0 };
+      cell.hotels += 1;
+      cell.keys += Number(h.keys || 0);
+    });
+
+    const colTotal = {};               // status → { hotels, keys }
+    const rowTotal = {};               // region → { hotels, keys }
+    let grand = { hotels: 0, keys: 0 };
+    STATUSES.forEach(s => colTotal[s] = { hotels: 0, keys: 0 });
+    regions.forEach(r => {
+      rowTotal[r] = { hotels: 0, keys: 0 };
+      STATUSES.forEach(s => {
+        const c = grid[r][s];
+        if (!c) return;
+        rowTotal[r].hotels += c.hotels;
+        rowTotal[r].keys += c.keys;
+        colTotal[s].hotels += c.hotels;
+        colTotal[s].keys += c.keys;
+        grand.hotels += c.hotels;
+        grand.keys += c.keys;
+      });
+    });
+
+    const hCell = c => c ? `${c.hotels}` : '<span class="dash">—</span>';
+    const kCell = c => (c && c.keys) ? fmt(c.keys) : '<span class="dash">—</span>';
+
+    const head = `<tr>
+      <th class="s-region">Region</th>
+      ${STATUSES.map(s => `<th class="s-${statusClass(s)}">${STATUS_LABELS[s]}</th>`).join('')}
+      <th class="s-total">Total</th>
+    </tr>`;
+
+    // Two rows per region: hotels (primary) on top, keys (subordinate) below.
+    const body = regions.map(r => {
+      const hotelsRow = `<tr class="r-hotels">
+        <td>${r}</td>
+        ${STATUSES.map(s => `<td>${hCell(grid[r][s])}</td>`).join('')}
+        <td>${hCell(rowTotal[r])}</td>
+      </tr>`;
+      const keysRow = `<tr class="r-keys">
+        <td>keys</td>
+        ${STATUSES.map(s => `<td>${kCell(grid[r][s])}</td>`).join('')}
+        <td>${kCell(rowTotal[r])}</td>
+      </tr>`;
+      return hotelsRow + keysRow;
+    }).join('');
+
+    const foot = `<tr class="r-hotels">
+        <td>Total</td>
+        ${STATUSES.map(s => `<td>${hCell(colTotal[s])}</td>`).join('')}
+        <td>${hCell(grand)}</td>
+      </tr>
+      <tr class="r-keys">
+        <td>keys</td>
+        ${STATUSES.map(s => `<td>${kCell(colTotal[s])}</td>`).join('')}
+        <td>${kCell(grand)}</td>
+      </tr>`;
+
+    document.getElementById('breakdown').innerHTML = `
+      <table class="breakdown-table">
+        <thead>${head}</thead>
+        <tbody>${body}</tbody>
+        <tfoot>${foot}</tfoot>
+      </table>
+      <div class="breakdown-note">Top row of each region = number of hotels; bottom row = key count. A dash means none in that cell, or the property's key count hasn't been publicly disclosed yet.</div>`;
+    document.getElementById('breakdown-section').style.display = '';
+  }
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 32.499056974999995, lng: 12.8464060275 },
+      zoom: 3,
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: true,
+    });
+    infoWindow = new google.maps.InfoWindow({ maxWidth: 310 });
+
+    const listEl = document.getElementById('hotel-list');
+    const bounds = new google.maps.LatLngBounds();
+
+    HOTELS.forEach((h, i) => {
+      const label = String(i + 1);
+      const svgIcon = {
+        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+            <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.35"/></filter>
+            <rect x="6" y="6" width="22" height="22" transform="rotate(45 17 17)"
+                  fill="${COLOR}" stroke="${STROKE}" stroke-width="2" filter="url(#s)"/>
+            <text x="17" y="20" text-anchor="middle" font-family="Arial,sans-serif"
+                  font-size="11" font-weight="bold" fill="${LABEL_COLOR}">${label}</text>
+          </svg>`),
+        scaledSize: new google.maps.Size(34, 34),
+        anchor: new google.maps.Point(17, 17),
+      };
+
+      const marker = new google.maps.Marker({
+        position: { lat: h.lat, lng: h.lng },
+        map,
+        icon: svgIcon,
+        title: h.name,
+      });
+      markers.push(marker);
+      bounds.extend({ lat: h.lat, lng: h.lng });
+
+      const iwContent = buildInfoWindow(h);
+      marker.addListener('click', () => {
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+
+      const statusBadge = h.status
+        ? `<span class="h-status-badge ${statusClass(h.status)}">${h.status}</span>` : '';
+      const item = document.createElement('div');
+      item.className = 'hotel-item';
+      item.innerHTML = `
+        <div class="h-pin" style="background:${COLOR}; border:1.5px solid ${STROKE};"><span class="h-pin-num" style="color:${LABEL_COLOR}">${label}</span></div>
+        <div class="h-info">
+          <h4>${h.name}${statusBadge}</h4>
+          <div class="h-meta">${[h.city, h.country].filter(Boolean).join(', ')}</div>
+        </div>`;
+      item.addEventListener('click', () => {
+        map.panTo({ lat: h.lat, lng: h.lng });
+        map.setZoom(14);
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+      listEl.appendChild(item);
+    });
+
+    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+  }
+
+  buildBreakdown();
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap" async defer></script>
+
+</body>
+</html>

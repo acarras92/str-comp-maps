@@ -81,6 +81,19 @@ def render_html(brand):
     avg_lat = sum(h["lat"] for h in hotels) / len(hotels)
     avg_lng = sum(h["lng"] for h in hotels) / len(hotels)
 
+    # Owner-portfolio mode: same renderer, a few label swaps. A single Al-Bahar
+    # owner-page spans Yotel, Fairmont, voco, etc., so the info-window chip
+    # shows each property's own brand flag instead of the portfolio name.
+    ptype = brand.get("portfolio_type", "brand")
+    is_owner = ptype == "owner"
+    header_suffix = "Owner Portfolio" if is_owner else "Brand Portfolio"
+    legend_label = f"{brand['brand']}-owned property" if is_owner else f"{brand['brand']} Property"
+    footer_label = (
+        "Reference map &middot; Ownership portfolio &middot; brand flag shown per property"
+        if is_owner
+        else "Reference map &middot; Brand portfolio only &middot; No STR performance data"
+    )
+
     # Optional rich fields (status, keys, opening_year, sub_brand, owner, operator,
     # notes, source, verified, region). Brands without these render exactly as before.
     hotels_js = json.dumps([
@@ -110,7 +123,7 @@ def render_html(brand):
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{brand['brand']} &mdash; Brand Portfolio Map</title>
+  <title>{brand['brand']} &mdash; {header_suffix} Map</title>
   <style>
     * {{ margin: 0; padding: 0; box-sizing: border-box; }}
     body {{
@@ -241,7 +254,7 @@ def render_html(brand):
 
 <div class="header">
   <div class="header-left">
-    <h1>{brand['brand']} &mdash; Brand Portfolio</h1>
+    <h1>{brand['brand']} &mdash; {header_suffix}</h1>
     <p>{brand.get('tagline', '')} &nbsp;&middot;&nbsp; {len(hotels)} properties mapped</p>
   </div>
   <div class="header-right">
@@ -253,7 +266,7 @@ def render_html(brand):
   <div class="sidebar">
     <div class="sb-section">
       <h3>Legend</h3>
-      <div class="legend-row"><div class="leg-dot" style="background:{color};"></div> {brand['brand']} Property</div>
+      <div class="legend-row"><div class="leg-dot" style="background:{color};"></div> {legend_label}</div>
     </div>
     <div class="sb-section" id="breakdown-section" style="display:none;">
       <h3>Footprint &mdash; Region &times; Status</h3>
@@ -264,7 +277,7 @@ def render_html(brand):
       <div id="hotel-list"></div>
     </div>
     <div class="sidebar-footer">
-      Reference map &middot; Brand portfolio only &middot; No STR performance data
+      {footer_label}
     </div>
   </div>
   <div id="map"></div>
@@ -276,6 +289,7 @@ def render_html(brand):
   const STROKE = "{marker_stroke}";
   const LABEL_COLOR = "{label_color}";
   const BRAND = "{brand['brand']}";
+  const PORTFOLIO_TYPE = "{ptype}";
   let map, infoWindow;
   const markers = [];
 
@@ -290,20 +304,25 @@ def render_html(brand):
     const unverified = (h.verified === false)
       ? '<span class="gm-iw-unverified">UNVERIFIED</span>' : '';
     const rows = [];
-    if (h.sub_brand)    rows.push(`<dt>Sub-brand</dt><dd>${{h.sub_brand}}</dd>`);
+    // In owner mode the chip already shows sub_brand (the flag), so skip the row.
+    if (h.sub_brand && PORTFOLIO_TYPE !== "owner")
+      rows.push(`<dt>Sub-brand</dt><dd>${{h.sub_brand}}</dd>`);
     if (h.keys)         rows.push(`<dt>Keys</dt><dd>${{h.keys}}</dd>`);
     if (h.opening_year) rows.push(`<dt>Opened</dt><dd>${{h.opening_year}}</dd>`);
     if (h.region)       rows.push(`<dt>Region</dt><dd>${{h.region}}${{h.country ? ' · ' + h.country : ''}}</dd>`);
-    if (h.owner)        rows.push(`<dt>Owner</dt><dd>${{h.owner}}</dd>`);
+    if (h.owner)        rows.push(`<dt>${{PORTFOLIO_TYPE === "owner" ? "Vehicle" : "Owner"}}</dt><dd>${{h.owner}}</dd>`);
     if (h.operator)     rows.push(`<dt>Operator</dt><dd>${{h.operator}}</dd>`);
     const statsBlock = rows.length ? `<dl class="gm-iw-stats">${{rows.join('')}}</dl>` : '';
     const notesBlock = h.notes ? `<div class="gm-iw-notes">${{h.notes}}</div>` : '';
     const sourceBlock = h.source
       ? `<div class="gm-iw-source"><a href="${{h.source}}" target="_blank" rel="noopener">Source &rarr;</a></div>` : '';
+    // Owner mode: chip shows each property's brand flag (Fairmont/voco/Yotel/...).
+    // Brand mode: chip shows the portfolio name (e.g. "Capella").
+    const chipLabel = (PORTFOLIO_TYPE === "owner") ? (h.sub_brand || BRAND) : BRAND;
     return `
       <div class="gm-iw">
         <div class="gm-iw-title">${{h.name}}${{unverified}}</div>
-        <span class="gm-iw-brand">${{BRAND}}</span>
+        <span class="gm-iw-brand">${{chipLabel}}</span>
         ${{statusBadge}}
         <div class="gm-iw-meta">${{fullAddr}}</div>
         ${{statsBlock}}
@@ -497,10 +516,17 @@ def update_root_index(brand, hotel_count):
         print(f"  {brand['brand']} already in root index.html")
         return
 
+    is_owner = brand.get("portfolio_type") == "owner"
+    title_suffix = "Owner Portfolio" if is_owner else "Brand Portfolio"
+    meta_text = (
+        f"Reference map &middot; {hotel_count} properties &middot; Ownership footprint (multi-brand)"
+        if is_owner
+        else f"Reference map &middot; {hotel_count} properties &middot; Brand footprint only"
+    )
     new_entry = f"""      <li>
         <a href="{href}">
-          {brand['brand']} &mdash; Brand Portfolio
-          <div class="meta">Reference map &middot; {hotel_count} properties &middot; Brand footprint only</div>
+          {brand['brand']} &mdash; {title_suffix}
+          <div class="meta">{meta_text}</div>
         </a>
       </li>"""
 
