@@ -808,7 +808,7 @@ def render_html(hotels, subject, perf_marg, perf_cy, perf_es, perf_top):
 
     <div class="sb-section">
       <h3>Margaritaville STR &mdash; R12 Performance</h3>
-      <div class="perf-label">{subj_str_name} (Subject)</div>
+      <div class="perf-label">{subj_str_name} (STR Anchor)</div>
       <div class="perf-grid">
         <div class="perf-cell">
           <div class="p-metric">Occ</div>
