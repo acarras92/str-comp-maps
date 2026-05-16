@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marriott Vacation Club, New York City — Multi-Comp-Set Cross-Reference Map</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      height: 100vh;
+      display: flex; flex-direction: column;
+      background: #f5f5f5;
+    }
+    .header {
+      background: #1a2744;
+      border-bottom: 3px solid #f59e0b;
+      padding: 11px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0; z-index: 10;
+    }
+    .header-left h1 { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: 0.3px; }
+    .header-left p { font-size: 11px; color: #8fa8d8; margin-top: 2px; }
+    .header-right { display: flex; align-items: center; gap: 6px; }
+    .kpi-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      padding: 7px 14px; text-align: center; min-width: 100px;
+    }
+    .kpi-card .k-label { font-size: 9px; color: #8fa8d8; text-transform: uppercase; letter-spacing: 0.8px; }
+    .kpi-card .k-value { font-size: 17px; font-weight: 700; color: #fff; line-height: 1.2; margin: 1px 0; }
+    .kpi-card .k-index { font-size: 9px; color: #7ed87e; }
+    .kpi-sep { width: 1px; height: 36px; background: rgba(255,255,255,0.15); }
+    .str-badge {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px; padding: 4px 10px; font-size: 10px; color: #8fa8d8; margin-left: 10px;
+    }
+    .main { display: flex; flex: 1; overflow: hidden; }
+    .sidebar {
+      width: 340px; background: #fff;
+      border-right: 1px solid #dde3ed;
+      display: flex; flex-direction: column; overflow-y: auto;
+      flex-shrink: 0; box-shadow: 2px 0 8px rgba(0,0,0,0.06); z-index: 5;
+    }
+    .sb-section { padding: 14px 14px; border-bottom: 1px solid #eaecf0; }
+    .sb-section h3 {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.9px;
+      color: #8090b0; margin-bottom: 10px; font-weight: 600;
+    }
+    .legend-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 6px; font-size: 12px; color: #334;
+    }
+    .leg-dot {
+      width: 13px; height: 13px; border-radius: 50%;
+      border: 2px solid rgba(0,0,0,0.15); flex-shrink: 0;
+    }
+    .leg-dot.anchor { border: 2px solid #1a2744; box-shadow: 0 0 0 1.5px #fff inset; }
+    .leg-dot.star {
+      width: 16px; height: 16px;
+      border-radius: 50%; border: 2px solid #1a2744;
+      box-shadow: 0 0 0 1px #fff inset;
+    }
+    .leg-count { margin-left: auto; font-size: 11px; color: #8090b0; font-weight: 600; }
+    .perf-label {
+      font-size: 10px; color: #8090b0; text-transform: uppercase;
+      letter-spacing: 0.5px; margin: 10px 0 4px; font-weight: 600;
+    }
+    .perf-label:first-child { margin-top: 0; }
+    .perf-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px;
+    }
+    .perf-cell {
+      background: #f5f8ff; border: 1px solid #dce6f7;
+      border-radius: 5px; padding: 6px 4px; text-align: center;
+    }
+    .perf-cell.comp-cell { background: #f8f8f8; border-color: #e0e0e0; }
+    .p-metric { font-size: 9px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.4px; }
+    .p-value { font-size: 13px; font-weight: 700; color: #1a2744; margin: 1px 0; }
+    .p-index { font-size: 9px; color: #2d8a2d; font-weight: 600; }
+    .perf-cell.comp-cell .p-value { color: #444; }
+    .set-section { margin-bottom: 14px; }
+    .set-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 8px; border-radius: 5px; color: #fff;
+      font-size: 12px; font-weight: 600; margin-bottom: 6px;
+    }
+    .set-header .ct { margin-left: auto; opacity: 0.85; font-weight: 500; }
+    .set-perf-mini {
+      font-size: 11px; color: #556; margin-bottom: 6px;
+      padding: 0 4px; line-height: 1.45;
+    }
+    .set-perf-mini b { color: #1a2744; }
+    .hotel-item {
+      display: flex; align-items: flex-start; gap: 9px;
+      padding: 7px 4px; border-radius: 5px;
+      cursor: pointer; transition: background 0.15s;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .hotel-item:last-child { border-bottom: none; }
+    .hotel-item:hover { background: #f0f5ff; }
+    .h-pin {
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; color: #fff;
+      flex-shrink: 0; margin-top: 1px;
+      border: 2px solid transparent;
+    }
+    .h-pin.anchor-pin { border-color: #1a2744; }
+    .h-info h4 { font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3; }
+    .h-info .h-meta { font-size: 10px; color: #7080a0; margin-top: 1px; }
+    .h-badges { margin-top: 3px; display: flex; flex-wrap: wrap; gap: 3px; }
+    .h-badge {
+      display: inline-block; border-radius: 3px;
+      padding: 1px 5px; font-size: 9px; font-weight: 600;
+      color: #fff;
+    }
+    .h-badge.gray { background: #e8f0fe; color: #1a56c4; border: 1px solid #c5d5f5; }
+    .h-badge.anchor { background: #1a2744; }
+    .sidebar-footer {
+      padding: 8px 14px; font-size: 10px; color: #aabbd0;
+      border-top: 1px solid #eaecf0; margin-top: auto;
+    }
+    #map { flex: 1; }
+    .gm-iw {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-width: 240px; max-width: 290px;
+    }
+    .gm-iw-title {
+      font-size: 14px; font-weight: 700; color: #1a2744;
+      line-height: 1.3; margin-bottom: 4px;
+    }
+    .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
+    .gm-iw-badges { margin: 6px 0; display: flex; flex-wrap: wrap; gap: 4px; }
+    .gm-iw-badge {
+      display: inline-block; border-radius: 3px;
+      padding: 2px 6px; font-size: 10px; font-weight: 600;
+      color: #fff;
+    }
+    .gm-iw-badge.subject { background: #f59e0b; color: #1a2744; }
+    .gm-iw-badge.anchor { background: #1a2744; }
+    .gm-iw-badge.gray { background: #e8f0fe; color: #1a56c4; border: 1px solid #c5d5f5; }
+    .gm-iw-divider { border: none; border-top: 1px solid #eaecf0; margin: 8px 0; }
+    .gm-iw-perf {
+      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 4px; margin-top: 4px;
+    }
+    .gm-iw-perf .cell {
+      background: #f8f9fb; border: 1px solid #eaecf0;
+      border-radius: 3px; padding: 4px 2px; text-align: center;
+    }
+    .gm-iw-perf .lbl { font-size: 8px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.4px; }
+    .gm-iw-perf .val { font-size: 11px; font-weight: 700; color: #1a2744; margin-top: 1px; }
+    .gm-iw-year-label {
+      font-size: 9px; color: #8090b0; text-transform: uppercase;
+      letter-spacing: 0.6px; margin: 5px 0 2px; font-weight: 600;
+    }
+    .gm-iw-masked { font-size: 10px; color: #aabbd0; margin-top: 6px; font-style: italic; }
+    .gm-iw-str { font-size: 10px; color: #c0c8da; margin-top: 4px; }
+    .gm-iw-note { font-size: 9px; color: #aabbd0; margin-top: 5px; }
+
+    /* Filter / visibility controls */
+    .legend-row.filter-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 4px 4px; border-radius: 4px;
+      cursor: pointer; user-select: none;
+      transition: background 0.12s;
+    }
+    .legend-row.filter-row:hover { background: #f0f5ff; }
+    .legend-row.filter-row input[type="checkbox"] {
+      width: 13px; height: 13px;
+      accent-color: #1a2744;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .legend-row.filter-row .label-text { flex: 1; font-size: 12px; }
+    .legend-row.filter-row.disabled .label-text,
+    .legend-row.filter-row.disabled .leg-count {
+      color: #b8bfcc; text-decoration: line-through;
+    }
+    .solo-btn {
+      font-size: 9px; font-weight: 700; color: #fff;
+      background: #1a2744;
+      border: none; border-radius: 3px;
+      padding: 2px 6px; cursor: pointer;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      transition: background 0.12s;
+    }
+    .solo-btn:hover { background: #2956b2; }
+    .reset-link {
+      display: inline-block; margin-left: auto;
+      font-size: 10px; color: #2956b2;
+      cursor: pointer; text-decoration: underline;
+      font-weight: 600;
+    }
+    .reset-link:hover { color: #1a2744; }
+    .legend-actions {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 8px; padding-top: 6px;
+      border-top: 1px solid #eaecf0;
+    }
+    .hotel-item .hide-btn {
+      width: 18px; height: 18px;
+      border-radius: 50%; border: none;
+      background: transparent; color: #b8bfcc;
+      cursor: pointer; font-size: 14px; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.12s;
+      flex-shrink: 0;
+    }
+    .hotel-item:hover .hide-btn { color: #7080a0; }
+    .hotel-item .hide-btn:hover { background: #fde8e8; color: #c62828; }
+    .hotel-item.hidden-asset { opacity: 0.45; }
+    .hotel-item.hidden-asset .h-info h4 { text-decoration: line-through; }
+    .hotel-item.hidden-asset .hide-btn { color: #c62828; }
+    .hotel-item.hidden-asset .hide-btn::before { content: "↻"; }
+    .hotel-item:not(.hidden-asset) .hide-btn::before { content: "×"; }
+    .set-section.set-disabled .hotel-item { opacity: 0.4; }
+    .set-section.set-disabled .set-header { opacity: 0.5; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Marriott Vacation Club, New York City &mdash; Multi-Comp-Set Cross-Reference Map</h1>
+    <p>33 W 37th St, New York, NY 10018
+       &nbsp;&middot;&nbsp; Subject (gold star) plotted across 4 reference comp sets
+       &nbsp;&middot;&nbsp; 36 unique comp hotels</p>
+  </div>
+  <div class="header-right">
+    <div class="kpi-card">
+      <div class="k-label">Margaritaville Res OCC (R12)</div>
+      <div class="k-value">90.5%</div>
+      <div class="k-index">MPI 104.6</div>
+    </div>
+    <div class="kpi-sep"></div>
+    <div class="kpi-card">
+      <div class="k-label">ADR</div>
+      <div class="k-value">$309.09</div>
+      <div class="k-index">ARI 86.9</div>
+    </div>
+    <div class="kpi-sep"></div>
+    <div class="kpi-card">
+      <div class="k-label">RevPAR</div>
+      <div class="k-value">$279.77</div>
+      <div class="k-index">RGI 90.9</div>
+    </div>
+    <div class="str-badge">Margaritaville STR R12 &middot; Dec 2025</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+
+    <div class="sb-section">
+      <h3>Legend &amp; Filters</h3>
+      <div class="legend-row"><div class="leg-dot star" style="background:#f59e0b;"></div> Subject &mdash; Marriott Vacation Club <span class="leg-count">★</span></div>
+      <div class="legend-row filter-row" data-set-toggle="margaritaville">
+        <input type="checkbox" id="cb-margaritaville" data-set-cb="margaritaville" checked />
+        <div class="leg-dot" style="background:#d32f2f;"></div>
+        <span class="label-text">Margaritaville STR Comp Set</span>
+        <span class="leg-count" data-set-count="margaritaville">7</span>
+        <button class="solo-btn" data-set-solo="margaritaville" title="Show only this set">Solo</button>
+      </div>
+      <div class="legend-row filter-row" data-set-toggle="cy_hsq">
+        <input type="checkbox" id="cb-cy_hsq" data-set-cb="cy_hsq" checked />
+        <div class="leg-dot" style="background:#1565c0;"></div>
+        <span class="label-text">Courtyard Herald Square Comp Set</span>
+        <span class="leg-count" data-set-count="cy_hsq">6</span>
+        <button class="solo-btn" data-set-solo="cy_hsq" title="Show only this set">Solo</button>
+      </div>
+      <div class="legend-row filter-row" data-set-toggle="eastdil">
+        <input type="checkbox" id="cb-eastdil" data-set-cb="eastdil" checked />
+        <div class="leg-dot" style="background:#7b1fa2;"></div>
+        <span class="label-text">Eastdil Comp Set</span>
+        <span class="leg-count" data-set-count="eastdil">7</span>
+        <button class="solo-btn" data-set-solo="eastdil" title="Show only this set">Solo</button>
+      </div>
+      <div class="legend-row filter-row" data-set-toggle="topline">
+        <input type="checkbox" id="cb-topline" data-set-cb="topline" checked />
+        <div class="leg-dot" style="background:#00897b;"></div>
+        <span class="label-text">960 Sixth Ave Topline Comps (Numbered)</span>
+        <span class="leg-count" data-set-count="topline">24</span>
+        <button class="solo-btn" data-set-solo="topline" title="Show only this set">Solo</button>
+      </div>
+      <div class="legend-row" style="margin-top:8px;"><div class="leg-dot anchor" style="background:#aaa;"></div> Comp set <i>anchor</i> (subject of that set)</div>
+      <div class="legend-actions">
+        <span style="font-size:10px; color:#8090b0;">Click a row to toggle. Click × on any hotel to hide it.</span>
+        <span class="reset-link" id="reset-all">Show All</span>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <h3>Margaritaville STR &mdash; R12 Performance</h3>
+      <div class="perf-label">Margaritaville Resort Times Square (Subject)</div>
+      <div class="perf-grid">
+        <div class="perf-cell">
+          <div class="p-metric">Occ</div>
+          <div class="p-value">90.5%</div>
+          <div class="p-index">MPI 104.6</div>
+        </div>
+        <div class="perf-cell">
+          <div class="p-metric">ADR</div>
+          <div class="p-value">$309.09</div>
+          <div class="p-index">ARI 86.9</div>
+        </div>
+        <div class="perf-cell">
+          <div class="p-metric">RevPAR</div>
+          <div class="p-value">$279.77</div>
+          <div class="p-index">RGI 90.9</div>
+        </div>
+      </div>
+      <div class="perf-label">Margaritaville Comp Set (Aggregate)</div>
+      <div class="perf-grid">
+        <div class="perf-cell comp-cell">
+          <div class="p-metric">Occ</div>
+          <div class="p-value">86.5%</div>
+        </div>
+        <div class="perf-cell comp-cell">
+          <div class="p-metric">ADR</div>
+          <div class="p-value">$355.65</div>
+        </div>
+        <div class="perf-cell comp-cell">
+          <div class="p-metric">RevPAR</div>
+          <div class="p-value">$307.77</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <h3>Courtyard Herald Square &mdash; Composite R12</h3>
+      <div style="font-size:10px; color:#8090b0; margin-bottom:6px;">R12 ending Mar 2026</div>
+      <div class="perf-grid">
+        <div class="perf-cell comp-cell">
+          <div class="p-metric">Occ</div>
+          <div class="p-value">90.8%</div>
+        </div>
+        <div class="perf-cell comp-cell">
+          <div class="p-metric">ADR</div>
+          <div class="p-value">$290.05</div>
+        </div>
+        <div class="perf-cell comp-cell">
+          <div class="p-metric">RevPAR</div>
+          <div class="p-value">$262.82</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <h3>Eastdil &mdash; Composite R12</h3>
+      <div style="font-size:10px; color:#8090b0; margin-bottom:6px;">R12 ending Mar 2026</div>
+      <div class="perf-grid">
+        <div class="perf-cell comp-cell">
+          <div class="p-metric">Occ</div>
+          <div class="p-value">88.4%</div>
+        </div>
+        <div class="perf-cell comp-cell">
+          <div class="p-metric">ADR</div>
+          <div class="p-value">$311.70</div>
+        </div>
+        <div class="perf-cell comp-cell">
+          <div class="p-metric">RevPAR</div>
+          <div class="p-value">$275.19</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section" style="flex:1; border-bottom:none;">
+      <h3>Properties &mdash; Grouped by Comp Set</h3>
+      <div id="hotel-list"></div>
+    </div>
+
+    <div class="sidebar-footer">
+      Source: STR Monthly STAR, CoStar STR Trend (Part Report / ES Set / CY HSq), and<br/>
+      960 Sixth Ave Topline (2024+2025) &middot; Compiled May 2026
+    </div>
+  </div>
+
+  <div id="map"></div>
+</div>
+
+<script>
+  const HOTELS = [
+    {
+      name: "Margaritaville Resort Times Square",
+      strId: "69701",
+      cityState: "New York, NY",
+      zip: "10018",
+      rooms: 234,
+      lat: 40.7552192, lng: -73.98813369999999,
+      memberships: ["margaritaville"],
+      anchorFor: ["margaritaville"],
+      primarySet: "margaritaville",
+      color: "#d32f2f",
+      isAnchor: true,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "The Muse New York",
+      strId: "40004",
+      cityState: "New York, NY",
+      zip: "100368501",
+      rooms: 201,
+      lat: 40.7577985, lng: -73.9837623,
+      memberships: ["margaritaville"],
+      anchorFor: [],
+      primarySet: "margaritaville",
+      color: "#d32f2f",
+      isAnchor: false,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "Hilton Garden Inn New York Times Square Central",
+      strId: "62699",
+      cityState: "New York, NY",
+      zip: "100367803",
+      rooms: 282,
+      lat: 40.7552207, lng: -73.9857177,
+      memberships: ["margaritaville", "topline"],
+      anchorFor: [],
+      primarySet: "margaritaville",
+      color: "#d32f2f",
+      isAnchor: false,
+      toplineNo: 13,
+      toplinePerf: {"occ_2024": "92.0%", "adr_2024": "$280", "revpar_2024": "$258", "rpi_2024": "1.00", "occ_2025": "90.7%", "adr_2025": "$296", "revpar_2025": "$269", "rpi_2025": "0.99", "notes_2024": "Actual", "notes_2025": "Actual"},
+    },
+    {
+      name: "Archer Hotel New York",
+      strId: "62886",
+      cityState: "New York, NY",
+      zip: "100185501",
+      rooms: 180,
+      lat: 40.752053, lng: -73.9847066,
+      memberships: ["margaritaville", "eastdil"],
+      anchorFor: [],
+      primarySet: "margaritaville",
+      color: "#d32f2f",
+      isAnchor: false,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "Royalton New York",
+      strId: "20239",
+      cityState: "New York, NY",
+      zip: "10036",
+      rooms: 168,
+      lat: 40.7555732, lng: -73.9822616,
+      memberships: ["margaritaville"],
+      anchorFor: [],
+      primarySet: "margaritaville",
+      color: "#d32f2f",
+      isAnchor: false,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "Renaissance New York Midtown Hotel",
+      strId: "63776",
+      cityState: "New York, NY",
+      zip: "10001",
+      rooms: 348,
+      lat: 40.7517558, lng: -73.99108860000001,
+      memberships: ["margaritaville", "topline"],
+      anchorFor: [],
+      primarySet: "margaritaville",
+      color: "#d32f2f",
+      isAnchor: false,
+      toplineNo: 1,
+      toplinePerf: {"occ_2024": "89.0%", "adr_2024": "$399", "revpar_2024": "$355", "rpi_2024": "1.38", "occ_2025": "90.4%", "adr_2025": "$414", "revpar_2025": "$374", "rpi_2025": "1.38", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "LUMA Hotel Times Square",
+      strId: "63469",
+      cityState: "New York, NY",
+      zip: "10036",
+      rooms: 130,
+      lat: 40.7545818, lng: -73.9857708,
+      memberships: ["margaritaville"],
+      anchorFor: [],
+      primarySet: "margaritaville",
+      color: "#d32f2f",
+      isAnchor: false,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "Courtyard New York Manhattan/Herald Square",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "10001",
+      rooms: 0,
+      lat: 40.7504883, lng: -73.98686219999999,
+      memberships: ["cy_hsq"],
+      anchorFor: ["cy_hsq"],
+      primarySet: "cy_hsq",
+      color: "#1565c0",
+      isAnchor: true,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "Courtyard New York Manhattan Times Square South",
+      strId: "5769035",
+      cityState: "New York, NY",
+      zip: "10018",
+      rooms: 244,
+      lat: 40.753502, lng: -73.9862678,
+      memberships: ["cy_hsq", "topline"],
+      anchorFor: [],
+      primarySet: "cy_hsq",
+      color: "#1565c0",
+      isAnchor: false,
+      toplineNo: 12,
+      toplinePerf: {"occ_2024": "89.3%", "adr_2024": "$316", "revpar_2024": "$282", "rpi_2024": "1.09", "occ_2025": "90.7%", "adr_2025": "$327", "revpar_2025": "$297", "rpi_2025": "1.09", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "Hampton Inn Manhattan-35th St/Empire State Bldg",
+      strId: "6790563",
+      cityState: "New York, NY",
+      zip: "10001",
+      rooms: 146,
+      lat: 40.7502968, lng: -73.9864343,
+      memberships: ["cy_hsq", "topline"],
+      anchorFor: [],
+      primarySet: "cy_hsq",
+      color: "#1565c0",
+      isAnchor: false,
+      toplineNo: 11,
+      toplinePerf: {"occ_2024": "96.0%", "adr_2024": "$297", "revpar_2024": "$285", "rpi_2024": "1.11", "occ_2025": "97.6%", "adr_2025": "$308", "revpar_2025": "$300", "rpi_2025": "1.11", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "Hilton Garden Inn New York/West 35th Street",
+      strId: "6970479",
+      cityState: "New York, NY",
+      zip: "10001",
+      rooms: 298,
+      lat: 40.7503679, lng: -73.9865054,
+      memberships: ["cy_hsq", "topline"],
+      anchorFor: [],
+      primarySet: "cy_hsq",
+      color: "#1565c0",
+      isAnchor: false,
+      toplineNo: 17,
+      toplinePerf: {"occ_2024": "86.0%", "adr_2024": "$279", "revpar_2024": "$240", "rpi_2024": "0.93", "occ_2025": "87.4%", "adr_2025": "$289", "revpar_2025": "$253", "rpi_2025": "0.93", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "Hyatt Place New York/Midtown-South",
+      strId: "8318320",
+      cityState: "New York, NY",
+      zip: "10018",
+      rooms: 185,
+      lat: 40.7504303, lng: -73.985832,
+      memberships: ["cy_hsq", "topline"],
+      anchorFor: [],
+      primarySet: "cy_hsq",
+      color: "#1565c0",
+      isAnchor: false,
+      toplineNo: 15,
+      toplinePerf: {"occ_2024": "96.4%", "adr_2024": "$262", "revpar_2024": "$253", "rpi_2024": "0.98", "occ_2025": "98.0%", "adr_2025": "$272", "revpar_2025": "$266", "rpi_2025": "0.98", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "Holiday Inn Express New York City Times Square",
+      strId: "7424066",
+      cityState: "New York, NY",
+      zip: "10018",
+      rooms: 210,
+      lat: 40.7563678, lng: -73.9930835,
+      memberships: ["cy_hsq"],
+      anchorFor: [],
+      primarySet: "cy_hsq",
+      color: "#1565c0",
+      isAnchor: false,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "Arlo NoMad",
+      strId: "8099663",
+      cityState: "New York, NY",
+      zip: "10016",
+      rooms: 248,
+      lat: 40.7462693, lng: -73.9849425,
+      memberships: ["eastdil", "topline"],
+      anchorFor: [],
+      primarySet: "eastdil",
+      color: "#7b1fa2",
+      isAnchor: false,
+      toplineNo: 18,
+      toplinePerf: {"occ_2024": "88.3%", "adr_2024": "$269", "revpar_2024": "$238", "rpi_2024": "0.92", "occ_2025": "87.9%", "adr_2025": "$286", "revpar_2025": "$252", "rpi_2025": "0.93", "notes_2024": "Actual", "notes_2025": "Actual"},
+    },
+    {
+      name: "Executive Hotel le Soleil New York",
+      strId: "9616121",
+      cityState: "New York, NY",
+      zip: "10018",
+      rooms: 161,
+      lat: 40.7502976, lng: -73.9853957,
+      memberships: ["eastdil"],
+      anchorFor: [],
+      primarySet: "eastdil",
+      color: "#7b1fa2",
+      isAnchor: false,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "Hotel Hendricks",
+      strId: "9623305",
+      cityState: "New York, NY",
+      zip: "10018",
+      rooms: 176,
+      lat: 40.7516839, lng: -73.9842081,
+      memberships: ["eastdil"],
+      anchorFor: [],
+      primarySet: "eastdil",
+      color: "#7b1fa2",
+      isAnchor: false,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "Hyatt Centric Midtown 5th Avenue New York",
+      strId: "11435581",
+      cityState: "New York, NY",
+      zip: "10016",
+      rooms: 162,
+      lat: 40.7511068, lng: -73.98141509999999,
+      memberships: ["eastdil"],
+      anchorFor: [],
+      primarySet: "eastdil",
+      color: "#7b1fa2",
+      isAnchor: false,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "MOXY NYC Times Square",
+      strId: "9898061",
+      cityState: "New York, NY",
+      zip: "10018",
+      rooms: 612,
+      lat: 40.7523124, lng: -73.9891195,
+      memberships: ["eastdil"],
+      anchorFor: [],
+      primarySet: "eastdil",
+      color: "#7b1fa2",
+      isAnchor: false,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "Refinery Hotel",
+      strId: "8950030",
+      cityState: "New York, NY",
+      zip: "10018",
+      rooms: 197,
+      lat: 40.7522226, lng: -73.9853755,
+      memberships: ["eastdil"],
+      anchorFor: [],
+      primarySet: "eastdil",
+      color: "#7b1fa2",
+      isAnchor: false,
+      toplineNo: null,
+      toplinePerf: null,
+    },
+    {
+      name: "Renaissance New York Times Square Hotel",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 317,
+      lat: 40.7598399, lng: -73.98438759999999,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 2,
+      toplinePerf: {"occ_2024": "93.0%", "adr_2024": "$379", "revpar_2024": "$352", "rpi_2024": "1.37", "occ_2025": "94.5%", "adr_2025": "$393", "revpar_2025": "$371", "rpi_2025": "1.37", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "Courtyard New York Manhattan/Midtown West",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 399,
+      lat: 40.753502, lng: -73.9862678,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 3,
+      toplinePerf: {"occ_2024": "\u2014", "adr_2024": "\u2014", "revpar_2024": "\u2014", "rpi_2024": "\u2014", "occ_2025": "91.2%", "adr_2025": "$397", "revpar_2025": "$362", "rpi_2025": "1.33", "notes_2024": "-", "notes_2025": "Actual"},
+    },
+    {
+      name: "Residence Inn Manhattan/Midtown East",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 211,
+      lat: 40.7549309, lng: -73.9840195,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 4,
+      toplinePerf: {"occ_2024": "91.2%", "adr_2024": "$372", "revpar_2024": "$339", "rpi_2024": "1.32", "occ_2025": "92.7%", "adr_2025": "$385", "revpar_2025": "$357", "rpi_2025": "1.32", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "Kimpton Hotel Eventi",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 292,
+      lat: 40.7470222, lng: -73.9900333,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 5,
+      toplinePerf: {"occ_2024": "86.2%", "adr_2024": "$380", "revpar_2024": "$328", "rpi_2024": "1.27", "occ_2025": "87.6%", "adr_2025": "$394", "revpar_2025": "$345", "rpi_2025": "1.27", "notes_2024": "Forecast", "notes_2025": "24 AFF Trended"},
+    },
+    {
+      name: "AC Hotel New York Times Square",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 290,
+      lat: 40.7554316, lng: -73.9900633,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 6,
+      toplinePerf: {"occ_2024": "\u2014", "adr_2024": "\u2014", "revpar_2024": "\u2014", "rpi_2024": "\u2014", "occ_2025": "96.0%", "adr_2025": "$341", "revpar_2025": "$328", "rpi_2025": "1.21", "notes_2024": "-", "notes_2025": "Actual"},
+    },
+    {
+      name: "Courtyard Midtown East",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 321,
+      lat: 40.7574548, lng: -73.9699241,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 7,
+      toplinePerf: {"occ_2024": "92.3%", "adr_2024": "$358", "revpar_2024": "$330", "rpi_2024": "1.28", "occ_2025": "90.9%", "adr_2025": "$357", "revpar_2025": "$324", "rpi_2025": "1.19", "notes_2024": "Actual", "notes_2025": "Actual"},
+    },
+    {
+      name: "Courtyard New York Manhattan/Fifth Avenue",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 189,
+      lat: 40.752124, lng: -73.981083,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 8,
+      toplinePerf: {"occ_2024": "91.5%", "adr_2024": "$306", "revpar_2024": "$280", "rpi_2024": "1.09", "occ_2025": "97.7%", "adr_2025": "$326", "revpar_2025": "$319", "rpi_2025": "1.17", "notes_2024": "Actual", "notes_2025": "Actual"},
+    },
+    {
+      name: "AC Hotel New York Herald Square",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 167,
+      lat: 40.7554316, lng: -73.9900633,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 9,
+      toplinePerf: {"occ_2024": "\u2014", "adr_2024": "\u2014", "revpar_2024": "\u2014", "rpi_2024": "\u2014", "occ_2025": "94.0%", "adr_2025": "$339", "revpar_2025": "$319", "rpi_2025": "1.17", "notes_2024": "-", "notes_2025": "HG Run Rate"},
+    },
+    {
+      name: "Courtyard New York Manhattan/Central Park",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 378,
+      lat: 40.764346, lng: -73.9829058,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 10,
+      toplinePerf: {"occ_2024": "\u2014", "adr_2024": "\u2014", "revpar_2024": "\u2014", "rpi_2024": "\u2014", "occ_2025": "93.6%", "adr_2025": "$329", "revpar_2025": "$308", "rpi_2025": "1.13", "notes_2024": "-", "notes_2025": "Actual"},
+    },
+    {
+      name: "Hilton Garden Inn Midtown East",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 206,
+      lat: 40.756653, lng: -73.9694264,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 14,
+      toplinePerf: {"occ_2024": "90.0%", "adr_2024": "$282", "revpar_2024": "$254", "rpi_2024": "0.99", "occ_2025": "91.5%", "adr_2025": "$292", "revpar_2025": "$267", "rpi_2025": "0.99", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "EVEN Hotels Times Square South",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 150,
+      lat: 40.7534672, lng: -73.9938981,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 16,
+      toplinePerf: {"occ_2024": "92.7%", "adr_2024": "$266", "revpar_2024": "$247", "rpi_2024": "0.96", "occ_2025": "94.2%", "adr_2025": "$276", "revpar_2025": "$260", "rpi_2025": "0.96", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "Hilton Fashion District",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 280,
+      lat: 40.7503679, lng: -73.9865054,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 19,
+      toplinePerf: {"occ_2024": "83.3%", "adr_2024": "$280", "revpar_2024": "$233", "rpi_2024": "0.91", "occ_2025": "84.6%", "adr_2025": "$291", "revpar_2025": "$246", "rpi_2025": "0.91", "notes_2024": "Forecast", "notes_2025": "24 AFF Trended"},
+    },
+    {
+      name: "Courtyard Manhattan/Times Square West",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 224,
+      lat: 40.7544472, lng: -73.9926705,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 20,
+      toplinePerf: {"occ_2024": "83.3%", "adr_2024": "$278", "revpar_2024": "$232", "rpi_2024": "0.90", "occ_2025": "84.6%", "adr_2025": "$288", "revpar_2025": "$244", "rpi_2025": "0.90", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "Hampton Inn Grand Central",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 148,
+      lat: 40.7509308, lng: -73.9722361,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 21,
+      toplinePerf: {"occ_2024": "86.0%", "adr_2024": "$269", "revpar_2024": "$231", "rpi_2024": "0.90", "occ_2025": "87.4%", "adr_2025": "$279", "revpar_2025": "$244", "rpi_2025": "0.90", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "Four Points Midtown - Times Square",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 244,
+      lat: 40.7564385, lng: -73.9923365,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 22,
+      toplinePerf: {"occ_2024": "92.4%", "adr_2024": "$241", "revpar_2024": "$222", "rpi_2024": "0.86", "occ_2025": "93.9%", "adr_2025": "$250", "revpar_2025": "$234", "rpi_2025": "0.86", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "voco Times Square South",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 224,
+      lat: 40.7544496, lng: -73.99410309999999,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 23,
+      toplinePerf: {"occ_2024": "84.9%", "adr_2024": "$261", "revpar_2024": "$222", "rpi_2024": "0.86", "occ_2025": "86.3%", "adr_2025": "$271", "revpar_2025": "$234", "rpi_2025": "0.86", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    },
+    {
+      name: "Holiday Inn Express Manhattan Times Square South",
+      strId: "",
+      cityState: "New York, NY",
+      zip: "",
+      rooms: 135,
+      lat: 40.750497, lng: -73.9860343,
+      memberships: ["topline"],
+      anchorFor: [],
+      primarySet: "topline",
+      color: "#00897b",
+      isAnchor: false,
+      toplineNo: 24,
+      toplinePerf: {"occ_2024": "89.7%", "adr_2024": "$245", "revpar_2024": "$220", "rpi_2024": "0.85", "occ_2025": "91.2%", "adr_2025": "$254", "revpar_2025": "$231", "rpi_2025": "0.85", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
+    }
+  ];
+  const COMP_SETS = {
+  "margaritaville": {
+    "label": "Margaritaville STR Comp Set",
+    "short": "Margaritaville",
+    "color": "#d32f2f"
+  },
+  "cy_hsq": {
+    "label": "Courtyard Herald Square Comp Set",
+    "short": "CY Herald Sq",
+    "color": "#1565c0"
+  },
+  "eastdil": {
+    "label": "Eastdil Comp Set",
+    "short": "Eastdil",
+    "color": "#7b1fa2"
+  },
+  "topline": {
+    "label": "960 Sixth Ave Topline Comps (Numbered)",
+    "short": "Topline",
+    "color": "#00897b"
+  }
+};
+  const SUBJECT = {
+    name: "Marriott Vacation Club, New York City",
+    address: "33 W 37th St",
+    cityState: "New York, NY",
+    zip: "10018",
+    lat: 40.7512956, lng: -73.98481869999999,
+    color: "#f59e0b",
+  };
+
+  let map, infoWindow;
+  const markersByName = {};
+  const sidebarItemsByName = {};
+  const sectionsBySetId = {};
+
+  // Visibility state
+  const state = {
+    setVisible: Object.fromEntries(Object.keys(COMP_SETS).map(sid => [sid, true])),
+    hiddenHotels: new Set(),  // by hotel name
+  };
+
+  function visibleMembershipsFor(h) {
+    return h.memberships.filter(sid => state.setVisible[sid]);
+  }
+
+  function effectiveSetFor(h) {
+    // Returns the highest-priority membership (first in h.memberships, already sorted by priority)
+    // that is currently enabled. Returns null if none.
+    const visible = visibleMembershipsFor(h);
+    return visible.length ? visible[0] : null;
+  }
+
+  function isHotelVisible(h) {
+    if (state.hiddenHotels.has(h.name)) return false;
+    return effectiveSetFor(h) !== null;
+  }
+
+  function pinSvg(color, label, isAnchor, isStar) {
+    const stroke = isAnchor ? '#1a2744' : 'white';
+    const sw = isAnchor ? 2.5 : 1.5;
+    const w = isStar ? 44 : 36;
+    const h = isStar ? 54 : 44;
+    const fontSize = isStar ? 18 : (label.length > 1 ? 10 : 13);
+    return {
+      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 38 46">
+          <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.4"/></filter>
+          <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
+                fill="${color}" stroke="${stroke}" stroke-width="${sw}" filter="url(#s)"/>
+          <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
+                font-family="Arial,sans-serif" font-size="${fontSize}"
+                font-weight="bold" fill="white">${label}</text>
+        </svg>`),
+      scaledSize: new google.maps.Size(w, h),
+      anchor: new google.maps.Point(w/2, h - 2)
+    };
+  }
+
+  function badgesHtml(memberships, anchorFor, isSubject) {
+    let parts = [];
+    if (isSubject) parts.push('<span class="gm-iw-badge subject">Subject Property</span>');
+    memberships.forEach(sid => {
+      const s = COMP_SETS[sid];
+      const anchor = anchorFor.includes(sid);
+      parts.push(`<span class="gm-iw-badge" style="background:${s.color}">${s.short}${anchor ? ' ★ anchor' : ''}</span>`);
+    });
+    return `<div class="gm-iw-badges">${parts.join('')}</div>`;
+  }
+
+  function toplinePerfHtml(p) {
+    if (!p) return '';
+    return `
+      <hr class="gm-iw-divider"/>
+      <div class="gm-iw-year-label">2024 (${p.notes_2024 || 'Actual'})</div>
+      <div class="gm-iw-perf">
+        <div class="cell"><div class="lbl">Occ</div><div class="val">${p.occ_2024}</div></div>
+        <div class="cell"><div class="lbl">ADR</div><div class="val">${p.adr_2024}</div></div>
+        <div class="cell"><div class="lbl">RevPAR</div><div class="val">${p.revpar_2024}</div></div>
+        <div class="cell"><div class="lbl">RPI</div><div class="val">${p.rpi_2024}</div></div>
+      </div>
+      <div class="gm-iw-year-label">2025 (${p.notes_2025 || 'Trended'})</div>
+      <div class="gm-iw-perf">
+        <div class="cell"><div class="lbl">Occ</div><div class="val">${p.occ_2025}</div></div>
+        <div class="cell"><div class="lbl">ADR</div><div class="val">${p.adr_2025}</div></div>
+        <div class="cell"><div class="lbl">RevPAR</div><div class="val">${p.revpar_2025}</div></div>
+        <div class="cell"><div class="lbl">RPI</div><div class="val">${p.rpi_2025}</div></div>
+      </div>`;
+  }
+
+  function subjectIwContent() {
+    return `
+      <div class="gm-iw">
+        <div class="gm-iw-title">${SUBJECT.name}</div>
+        ${badgesHtml([], [], true)}
+        <div class="gm-iw-meta">${SUBJECT.address}, ${SUBJECT.cityState} ${SUBJECT.zip}</div>
+        <div class="gm-iw-note">Subject property &mdash; map center / star marker</div>
+      </div>`;
+  }
+
+  function hotelIwContent(h) {
+    const setLabels = h.memberships.map(sid => COMP_SETS[sid].label).join(', ');
+    let perf;
+    if (h.toplinePerf) {
+      perf = toplinePerfHtml(h.toplinePerf);
+    } else if (h.memberships.includes('margaritaville')) {
+      perf = '<div class="gm-iw-masked">Individual perf masked per STR policy &mdash; see Margaritaville aggregate in sidebar</div>';
+    } else if (h.memberships.includes('cy_hsq') || h.memberships.includes('eastdil')) {
+      perf = '<div class="gm-iw-masked">Individual perf masked &mdash; see composite aggregate in sidebar</div>';
+    } else {
+      perf = '';
+    }
+
+    const roomTxt = h.rooms > 0 ? `${h.rooms.toLocaleString()} keys` : '— keys';
+    const toplineNoTxt = h.toplineNo != null ? ` &middot; Topline #${h.toplineNo}` : '';
+
+    return `
+      <div class="gm-iw">
+        <div class="gm-iw-title">${h.name}</div>
+        ${badgesHtml(h.memberships, h.anchorFor, false)}
+        <div class="gm-iw-meta">${h.cityState}${h.zip ? ' ' + h.zip : ''}</div>
+        <div class="gm-iw-meta">${roomTxt}${toplineNoTxt}</div>
+        ${h.strId ? `<div class="gm-iw-str">STR ID: ${h.strId}</div>` : ''}
+        ${perf}
+      </div>`;
+  }
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 40.75341020810811, lng: -73.98561242432432 },
+      zoom: 15,
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.TOP_RIGHT
+      },
+      streetViewControl: true,
+      fullscreenControl: true,
+      styles: [
+        { featureType: "poi.business", stylers: [{ visibility: "off" }] },
+        { featureType: "transit", stylers: [{ visibility: "simplified" }] }
+      ]
+    });
+
+    infoWindow = new google.maps.InfoWindow({ maxWidth: 320 });
+
+    // Subject circle highlight
+    new google.maps.Circle({
+      map,
+      center: { lat: SUBJECT.lat, lng: SUBJECT.lng },
+      radius: 600,
+      strokeColor: SUBJECT.color,
+      strokeOpacity: 0.5,
+      strokeWeight: 1.5,
+      fillColor: SUBJECT.color,
+      fillOpacity: 0.06,
+      clickable: false
+    });
+
+    // Subject star marker
+    const subjMarker = new google.maps.Marker({
+      position: { lat: SUBJECT.lat, lng: SUBJECT.lng },
+      map,
+      icon: pinSvg(SUBJECT.color, '★', true, true),
+      title: SUBJECT.name,
+      zIndex: 1000
+    });
+    subjMarker.addListener('click', () => {
+      infoWindow.setContent(subjectIwContent());
+      infoWindow.open(map, subjMarker);
+    });
+
+    const bounds = new google.maps.LatLngBounds();
+    bounds.extend({ lat: SUBJECT.lat, lng: SUBJECT.lng });
+
+    HOTELS.forEach((h) => {
+      const label = h.toplineNo != null ? String(h.toplineNo) : '';
+      const marker = new google.maps.Marker({
+        position: { lat: h.lat, lng: h.lng },
+        map,
+        icon: pinSvg(h.color, label, h.isAnchor, false),
+        title: h.name,
+        zIndex: h.isAnchor ? 50 : 10
+      });
+      marker.addListener('click', () => {
+        infoWindow.setContent(hotelIwContent(h));
+        infoWindow.open(map, marker);
+      });
+      bounds.extend({ lat: h.lat, lng: h.lng });
+      markersByName[h.name] = marker;
+    });
+
+    // Build sidebar grouped by comp set
+    const listEl = document.getElementById('hotel-list');
+    Object.keys(COMP_SETS).forEach(sid => {
+      const s = COMP_SETS[sid];
+      const members = HOTELS.filter(h => h.memberships.includes(sid));
+      if (members.length === 0) return;
+      members.sort((a, b) => {
+        const aA = a.anchorFor.includes(sid) ? 0 : 1;
+        const bA = b.anchorFor.includes(sid) ? 0 : 1;
+        if (aA !== bA) return aA - bA;
+        if (a.toplineNo != null && b.toplineNo != null) return a.toplineNo - b.toplineNo;
+        return a.name.localeCompare(b.name);
+      });
+
+      const section = document.createElement('div');
+      section.className = 'set-section';
+      section.dataset.setId = sid;
+      section.innerHTML = `
+        <div class="set-header" style="background:${s.color}">
+          ${s.label} <span class="ct">${members.length}</span>
+        </div>`;
+
+      members.forEach(h => {
+        const item = document.createElement('div');
+        item.className = 'hotel-item';
+        const isAnchor = h.anchorFor.includes(sid);
+        const label = h.toplineNo != null ? String(h.toplineNo) : (isAnchor ? '★' : '•');
+        const otherBadges = h.memberships
+          .filter(m => m !== sid)
+          .map(m => `<span class="h-badge" style="background:${COMP_SETS[m].color}">${COMP_SETS[m].short}</span>`)
+          .join('');
+        const anchorBadge = isAnchor ? '<span class="h-badge anchor">★ Anchor</span>' : '';
+        const roomTxt = h.rooms > 0 ? `${h.rooms.toLocaleString()} keys` : '';
+        item.innerHTML = `
+          <div class="h-pin ${isAnchor ? 'anchor-pin' : ''}" style="background:${h.color}">${label}</div>
+          <div class="h-info">
+            <h4>${h.name}</h4>
+            <div class="h-meta">${roomTxt}</div>
+            <div class="h-badges">${anchorBadge}${otherBadges}</div>
+          </div>
+          <button class="hide-btn" title="Hide / show this hotel"></button>`;
+
+        // Main click → pan + open info window
+        item.addEventListener('click', (e) => {
+          if (e.target.classList.contains('hide-btn')) return;
+          if (!isHotelVisible(h)) return;  // ignore if hotel currently hidden
+          map.panTo({ lat: h.lat, lng: h.lng });
+          map.setZoom(17);
+          const marker = markersByName[h.name];
+          infoWindow.setContent(hotelIwContent(h));
+          infoWindow.open(map, marker);
+        });
+
+        // Hide button → toggle individual visibility
+        item.querySelector('.hide-btn').addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (state.hiddenHotels.has(h.name)) {
+            state.hiddenHotels.delete(h.name);
+          } else {
+            state.hiddenHotels.add(h.name);
+          }
+          applyVisibility();
+        });
+
+        // Register this sidebar item — multiple rows per hotel possible (one per set)
+        if (!sidebarItemsByName[h.name]) sidebarItemsByName[h.name] = [];
+        sidebarItemsByName[h.name].push(item);
+
+        section.appendChild(item);
+      });
+
+      sectionsBySetId[sid] = section;
+      listEl.appendChild(section);
+    });
+
+    // Wire up the legend filter controls
+    document.querySelectorAll('[data-set-toggle]').forEach(row => {
+      const sid = row.dataset.setToggle;
+      const cb = row.querySelector('input[type="checkbox"]');
+      const soloBtn = row.querySelector('.solo-btn');
+      // Click anywhere on the row toggles the checkbox (except the solo button)
+      row.addEventListener('click', (e) => {
+        if (e.target === cb || e.target === soloBtn) return;
+        cb.checked = !cb.checked;
+        cb.dispatchEvent(new Event('change'));
+      });
+      cb.addEventListener('change', () => {
+        state.setVisible[sid] = cb.checked;
+        applyVisibility();
+      });
+      soloBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        Object.keys(state.setVisible).forEach(k => state.setVisible[k] = (k === sid));
+        document.querySelectorAll('[data-set-cb]').forEach(c => {
+          c.checked = state.setVisible[c.dataset.setCb];
+        });
+        applyVisibility();
+      });
+    });
+
+    document.getElementById('reset-all').addEventListener('click', () => {
+      Object.keys(state.setVisible).forEach(k => state.setVisible[k] = true);
+      state.hiddenHotels.clear();
+      document.querySelectorAll('[data-set-cb]').forEach(c => c.checked = true);
+      applyVisibility();
+    });
+
+    applyVisibility();
+    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+  }
+
+  function applyVisibility() {
+    // Update markers
+    HOTELS.forEach(h => {
+      const marker = markersByName[h.name];
+      if (!marker) return;
+      if (!isHotelVisible(h)) {
+        marker.setMap(null);
+        return;
+      }
+      const effSid = effectiveSetFor(h);
+      const color = COMP_SETS[effSid].color;
+      const label = h.toplineNo != null ? String(h.toplineNo) : '';
+      marker.setIcon(pinSvg(color, label, h.isAnchor, false));
+      marker.setMap(map);
+    });
+
+    // Update sidebar — dim set sections that are toggled off, hide individually-hidden items
+    Object.keys(sectionsBySetId).forEach(sid => {
+      const section = sectionsBySetId[sid];
+      if (state.setVisible[sid]) {
+        section.classList.remove('set-disabled');
+      } else {
+        section.classList.add('set-disabled');
+      }
+    });
+
+    // Update each hotel item's hidden state + recolor its pin chip to match current effective color
+    Object.keys(sidebarItemsByName).forEach(name => {
+      const h = HOTELS.find(x => x.name === name);
+      if (!h) return;
+      const isHidden = state.hiddenHotels.has(name);
+      const effSid = effectiveSetFor(h);
+      const color = effSid ? COMP_SETS[effSid].color : '#cccccc';
+      sidebarItemsByName[name].forEach(item => {
+        item.classList.toggle('hidden-asset', isHidden);
+        const pinChip = item.querySelector('.h-pin');
+        if (pinChip) pinChip.style.background = color;
+      });
+    });
+
+    // Update the legend row visual state
+    document.querySelectorAll('[data-set-toggle]').forEach(row => {
+      const sid = row.dataset.setToggle;
+      row.classList.toggle('disabled', !state.setVisible[sid]);
+    });
+
+    // Close info window if its hotel is now hidden
+    if (infoWindow && infoWindow.getMap()) {
+      // (Simplest behavior — leave existing IW open; user can re-click to dismiss)
+    }
+  }
+</script>
+
+<script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap"
+  async defer>
+</script>
+
+</body>
+</html>
