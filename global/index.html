@@ -42,7 +42,7 @@
   <aside id="sidebar">
     <header>
       <h1>STR Comp Sets — Global View</h1>
-      <div class="sub">29 comp sets · 12 brand portfolios · 446 unique hotels</div>
+      <div class="sub">29 comp sets · 16 brand portfolios · 498 unique hotels</div>
     </header>
     <div id="controls">
       <button onclick="toggleAll(true)">Show all</button>
@@ -536,6 +536,21 @@ const COMP_SETS = [
     "is_brand": true
   },
   {
+    "slug": "brand-compass",
+    "name": "Compass by Margaritaville (Brand)",
+    "color": "#fbbf24",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 12,
+    "is_brand": true
+  },
+  {
     "slug": "brand-corinthia",
     "name": "Corinthia (Brand)",
     "color": "#92400e",
@@ -548,6 +563,36 @@ const COMP_SETS = [
     "ari": "",
     "rgi": "",
     "hotel_count": 10,
+    "is_brand": true
+  },
+  {
+    "slug": "portfolio-margaritaville-tnl",
+    "name": "Margaritaville Holdings + T+L Co. (Brand)",
+    "color": "#14b8a6",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 52,
+    "is_brand": true
+  },
+  {
+    "slug": "brand-margaritaville",
+    "name": "Margaritaville Hotels & Resorts (Brand)",
+    "color": "#14b8a6",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 29,
     "is_brand": true
   },
   {
@@ -638,6 +683,21 @@ const COMP_SETS = [
     "ari": "",
     "rgi": "",
     "hotel_count": 40,
+    "is_brand": true
+  },
+  {
+    "slug": "portfolio-travel-leisure",
+    "name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+    "color": "#1e40af",
+    "report_period": "Brand portfolio",
+    "comp_rooms": "",
+    "subj_occ": "",
+    "subj_adr": "",
+    "subj_revpar": "",
+    "mpi": "",
+    "ari": "",
+    "rgi": "",
+    "hotel_count": 11,
     "is_brand": true
   },
   {
@@ -4523,6 +4583,270 @@ const HOTELS = [
     ]
   },
   {
+    "name": "Compass Hotel by Margaritaville Anna Maria Sound",
+    "city_state": "Bradenton, FL 34209, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 27.4968345,
+    "lng": -82.68617429999999,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Medford",
+    "city_state": "Medford, OR 97504, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 42.3164358,
+    "lng": -122.8511418,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Naples",
+    "city_state": "Naples, FL 34103, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 26.2051452,
+    "lng": -81.80138389999999,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Pigeon Forge",
+    "city_state": "Pigeon Forge, TN, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.8125248,
+    "lng": -83.57390699999999,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Flagler Beach",
+    "city_state": "Flagler Beach, FL, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 29.4800349,
+    "lng": -81.129091,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Beaufort",
+    "city_state": "Beaufort, NC 28516, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 34.71195727050694,
+    "lng": -76.64343435792553,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass Landing by Margaritaville Melbourne",
+    "city_state": "Melbourne, FL, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 28.0794398,
+    "lng": -80.6078048,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass Hotel by Margaritaville North Myrtle Beach",
+    "city_state": "North Myrtle Beach, SC, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 33.6699586,
+    "lng": -78.905981,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Beachwalk (St. Johns)",
+    "city_state": "St. Johns County, FL, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 30.0990662,
+    "lng": -81.52298979999999,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Nassau Bay",
+    "city_state": "Nassau Bay, TX, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 29.5483443,
+    "lng": -95.0918078,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Cape Canaveral",
+    "city_state": "Cape Canaveral, FL, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 28.3922182,
+    "lng": -80.60771319999999,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Compass by Margaritaville Jacksonville",
+    "city_state": "Jacksonville, FL, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 30.2954894,
+    "lng": -81.3908333,
+    "memberships": [
+      {
+        "slug": "brand-compass",
+        "subject_name": "Compass by Margaritaville (Brand)",
+        "color": "#fbbf24",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
     "name": "Corinthia London",
     "city_state": "London SW1A 2BD, UK",
     "zip": "",
@@ -4678,6 +5002,886 @@ const HOTELS = [
         "slug": "brand-corinthia",
         "subject_name": "Corinthia (Brand)",
         "color": "#92400e",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Resort Biloxi",
+    "city_state": "Biloxi, MS 39530, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 30.3910064,
+    "lng": -88.86202519999999,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Island Hotel Pigeon Forge",
+    "city_state": "Pigeon Forge, TN 37863, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.8027287,
+    "lng": -83.5699942,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Hollywood Beach Resort",
+    "city_state": "Hollywood, FL 33019, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 26.0187769,
+    "lng": -80.1167394,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Beach Resort Grand Cayman",
+    "city_state": "George Town, Cayman Islands",
+    "zip": "",
+    "rooms": 0,
+    "lat": 19.313858,
+    "lng": -81.38417050000001,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Resort Gatlinburg",
+    "city_state": "Gatlinburg, TN 37738, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 35.7147048,
+    "lng": -83.5117915,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Resort Orlando",
+    "city_state": "Kissimmee, FL 34747, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 28.3416629,
+    "lng": -81.60902759999999,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Beach Resort Playa Flamingo",
+    "city_state": "Guanacaste, Costa Rica",
+    "zip": "",
+    "rooms": 0,
+    "lat": 10.4385759,
+    "lng": -85.7923014,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Hotel Nashville",
+    "city_state": "Nashville, TN 37203, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 36.1555699,
+    "lng": -86.77533869999999,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Lake Resort Lake Conroe",
+    "city_state": "Montgomery, TX 77316, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 30.3936295,
+    "lng": -95.6369024,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Resort Times Square",
+    "city_state": "New York, NY 10018, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.7552192,
+    "lng": -73.98813369999999,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Island Reserve Riviera Cancun by Karisma",
+    "city_state": "Quintana Roo, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.898148,
+    "lng": -86.854798,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Beach House Key West",
+    "city_state": "Key West, FL 33040, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 24.5526092,
+    "lng": -81.7724975,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Beach Resort Nassau",
+    "city_state": "Nassau, Bahamas",
+    "zip": "",
+    "rooms": 0,
+    "lat": 25.0788417,
+    "lng": -77.3479861,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Beach Resort Ambergris Caye",
+    "city_state": "San Pedro, Belize",
+    "zip": "",
+    "rooms": 0,
+    "lat": 17.9345383,
+    "lng": -87.9530436,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Beach Resort South Padre Island",
+    "city_state": "South Padre Island, TX 78597, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 26.0831138,
+    "lng": -97.160775,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Hotel San Diego Gaslamp Quarter",
+    "city_state": "San Diego, CA 92101, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 32.7098404,
+    "lng": -117.1588932,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Beach Resort Fort Myers Beach",
+    "city_state": "Fort Myers Beach, FL 33931, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 26.4534177,
+    "lng": -81.9542718,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Island Reserve Riviera Maya (Adults-Only) by Karisma",
+    "city_state": "Quintana Roo, Mexico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 20.898148,
+    "lng": -86.854798,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Resort Cape Cod",
+    "city_state": "Hyannis, MA 02601, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.6741695,
+    "lng": -70.3105795,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Resort Lake of the Ozarks",
+    "city_state": "Osage Beach, MO 65065, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 38.1283917,
+    "lng": -92.7184127,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Resort Village Pocono Mountains",
+    "city_state": "Pocono Manor, PA 18349, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.117962,
+    "lng": -75.354297,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Hotel Kansas City",
+    "city_state": "Kansas City, KS 66111, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 39.1263675,
+    "lng": -94.8260859,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Hotel Newport",
+    "city_state": "Newport, KY 41071, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 39.094741,
+    "lng": -84.49669180000001,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Vacation Residences Myrtle Beach",
+    "city_state": "Myrtle Beach, SC, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 33.7665994,
+    "lng": -78.7904442,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Resort Galveston",
+    "city_state": "Galveston, TX, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 29.312805,
+    "lng": -94.75813,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Island Reserve Resort Roatan",
+    "city_state": "Roatan, Honduras",
+    "zip": "",
+    "rooms": 0,
+    "lat": 16.3601303,
+    "lng": -86.4972872,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Island Resort San Diego (Paradise Point)",
+    "city_state": "San Diego, CA 92109, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 32.775274,
+    "lng": -117.2401229,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Resort Myrtle Beach (downtown)",
+    "city_state": "Myrtle Beach, SC, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 33.698281,
+    "lng": -78.873577,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Resort at Preston Harbor",
+    "city_state": "Denison, TX, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 33.8503048,
+    "lng": -96.6438764,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "brand-margaritaville",
+        "subject_name": "Margaritaville Hotels & Resorts (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 St. Thomas",
+    "city_state": "St. Thomas, US Virgin Islands",
+    "zip": "",
+    "rooms": 0,
+    "lat": 18.3461401,
+    "lng": -64.86793709999999,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 Rio Mar",
+    "city_state": "Rio Grande, Puerto Rico",
+    "zip": "",
+    "rooms": 0,
+    "lat": 18.389079,
+    "lng": -65.756678,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 Nashville",
+    "city_state": "Nashville, TN 37203, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 36.1605526,
+    "lng": -86.77893379999999,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 Atlanta",
+    "city_state": "Atlanta, GA, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 33.7585205,
+    "lng": -84.3923796,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 Desert Blue",
+    "city_state": "Las Vegas, NV, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 36.1222828,
+    "lng": -115.1839169,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 Orlando",
+    "city_state": "Kissimmee, FL 34747, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 28.3416629,
+    "lng": -81.60902759999999,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "SI Resorts Nashville Music Row",
+    "city_state": "Nashville, TN, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 36.1468803,
+    "lng": -86.7938046,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "SI Resorts Chicago",
+    "city_state": "Chicago, IL 60601, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 41.8860005,
+    "lng": -87.6259444,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "SI Resorts Tuscaloosa",
+    "city_state": "Tuscaloosa, AL, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 33.21031,
+    "lng": -87.5658722,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "SI Resorts Baton Rouge",
+    "city_state": "Baton Rouge, LA, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 30.4484394,
+    "lng": -91.1896536,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
+        "role": "brand"
+      }
+    ]
+  },
+  {
+    "name": "Club Wyndham Midtown 45",
+    "city_state": "New York, NY 10017, US",
+    "zip": "",
+    "rooms": 0,
+    "lat": 40.7526556,
+    "lng": -73.9724804,
+    "memberships": [
+      {
+        "slug": "portfolio-margaritaville-tnl",
+        "subject_name": "Margaritaville Holdings + T+L Co. (Brand)",
+        "color": "#14b8a6",
+        "role": "brand"
+      },
+      {
+        "slug": "portfolio-travel-leisure",
+        "subject_name": "Travel + Leisure Co. (Margaritaville-relevant brands) (Brand)",
+        "color": "#1e40af",
         "role": "brand"
       }
     ]

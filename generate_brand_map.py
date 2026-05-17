@@ -84,15 +84,31 @@ def render_html(brand):
     # Owner-portfolio mode: same renderer, a few label swaps. A single Al-Bahar
     # owner-page spans Yotel, Fairmont, voco, etc., so the info-window chip
     # shows each property's own brand flag instead of the portfolio name.
+    # Multi-brand mode: same chip behavior as owner, but the legend is
+    # color-coded per sub_brand (one row per flag) instead of one ownership row.
     ptype = brand.get("portfolio_type", "brand")
     is_owner = ptype == "owner"
-    header_suffix = "Owner Portfolio" if is_owner else "Brand Portfolio"
-    legend_label = f"{brand['brand']}-owned property" if is_owner else f"{brand['brand']} Property"
+    is_multi = ptype == "multi-brand"
+    chip_per_property = is_owner or is_multi
+    header_suffix = (
+        "Multi-Brand Portfolio" if is_multi
+        else "Owner Portfolio" if is_owner
+        else "Brand Portfolio"
+    )
+    legend_label = (
+        f"Property in this portfolio" if is_multi
+        else f"{brand['brand']}-owned property" if is_owner
+        else f"{brand['brand']} Property"
+    )
     footer_label = (
-        "Reference map &middot; Ownership portfolio &middot; brand flag shown per property"
-        if is_owner
+        "Reference map &middot; Multi-brand portfolio &middot; pins color-coded by sub-brand" if is_multi
+        else "Reference map &middot; Ownership portfolio &middot; brand flag shown per property" if is_owner
         else "Reference map &middot; Brand portfolio only &middot; No STR performance data"
     )
+    sub_brand_colors = brand.get("sub_brand_colors") or {}
+    sub_brand_colors_js = json.dumps(sub_brand_colors, indent=2)
+    scope_groups = brand.get("scope_groups") or []
+    scope_groups_js = json.dumps(scope_groups, indent=2)
 
     # Optional rich fields (status, keys, opening_year, sub_brand, owner, operator,
     # notes, source, verified, region). Brands without these render exactly as before.
@@ -167,14 +183,55 @@ def render_html(brand):
     }}
     .legend-row {{
       display: flex; align-items: center; gap: 8px;
-      margin-bottom: 6px; font-size: 12px; color: #334;
+      margin-bottom: 2px; font-size: 12px; color: #334;
+      padding: 4px 6px; margin-left: -6px; margin-right: -6px; border-radius: 4px;
     }}
+    .legend-row.clickable {{ cursor: pointer; user-select: none; }}
+    .legend-row.clickable:hover {{ background: #f0f5ff; }}
+    .legend-row.off {{ opacity: 0.35; }}
+    .legend-row.off .leg-dot {{ background: #cbd5e1 !important; border-color: #cbd5e1 !important; }}
     .leg-dot {{
       width: 14px; height: 14px;
       transform: rotate(45deg);
       border: 2px solid rgba(0,0,0,0.15);
       flex-shrink: 0;
     }}
+    .filter-pills {{ display: flex; flex-wrap: wrap; gap: 6px; }}
+    .filter-pill {{
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 9px; border-radius: 12px;
+      font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px;
+      cursor: pointer; user-select: none;
+      border: 1.5px solid; background: #fff;
+    }}
+    .filter-pill.off {{ opacity: 0.35; background: #f3f4f6; }}
+    .filter-pill .pill-count {{
+      font-weight: 400; opacity: 0.7;
+      font-variant-numeric: tabular-nums; letter-spacing: 0;
+    }}
+    .filter-pill.s-operating          {{ color: #047857; border-color: #047857; }}
+    .filter-pill.s-under-construction {{ color: #92400e; border-color: #92400e; }}
+    .filter-pill.s-announced          {{ color: #3730a3; border-color: #3730a3; }}
+    .filter-pill.s-uncertain          {{ color: #4b5563; border-color: #4b5563; }}
+    .fit-btn {{
+      width: 100%; margin-top: 10px; padding: 6px 10px;
+      font-size: 11px; font-weight: 600; color: #1a2744;
+      background: #f0f5ff; border: 1px solid #c8d4e8; border-radius: 4px;
+      cursor: pointer;
+    }}
+    .fit-btn:hover {{ background: #e0eaff; }}
+    .filter-note {{ font-size: 10px; color: #8090b0; margin-top: 8px; font-style: italic; line-height: 1.4; }}
+    .hotel-item.off {{ display: none; }}
+    .scope-tabs {{ display: flex; gap: 4px; flex-wrap: wrap; }}
+    .scope-tab {{
+      flex: 1 1 auto; min-width: 60px;
+      padding: 7px 8px; text-align: center;
+      font-size: 11px; font-weight: 700; color: #1a2744;
+      background: #f0f5ff; border: 1.5px solid #c8d4e8; border-radius: 4px;
+      cursor: pointer; user-select: none;
+    }}
+    .scope-tab:hover {{ background: #e0eaff; }}
+    .scope-tab.active {{ background: #1a2744; color: #fff; border-color: #1a2744; }}
     .hotel-item {{
       display: flex;
       align-items: flex-start;
@@ -264,9 +321,19 @@ def render_html(brand):
 
 <div class="main">
   <div class="sidebar">
+    <div class="sb-section" id="scope-section" style="display:none;">
+      <h3>Scope</h3>
+      <div class="scope-tabs" id="scope-tabs"></div>
+    </div>
     <div class="sb-section">
-      <h3>Legend</h3>
-      <div class="legend-row"><div class="leg-dot" style="background:{color};"></div> {legend_label}</div>
+      <h3>Legend <span id="legend-hint" style="display:none;font-size:9px;color:#8090b0;text-transform:none;letter-spacing:0;font-style:italic;">&middot; click to toggle</span></h3>
+      <div id="legend"></div>
+    </div>
+    <div class="sb-section" id="filter-section" style="display:none;">
+      <h3>Filter by status</h3>
+      <div class="filter-pills" id="status-filters"></div>
+      <button class="fit-btn" id="fit-btn">Fit map to visible</button>
+      <div class="filter-note" id="filter-note"></div>
     </div>
     <div class="sb-section" id="breakdown-section" style="display:none;">
       <h3>Footprint &mdash; Region &times; Status</h3>
@@ -288,13 +355,53 @@ def render_html(brand):
   const COLOR = "{color}";
   const STROKE = "{marker_stroke}";
   const LABEL_COLOR = "{label_color}";
+  const SUB_BRAND_COLORS = {sub_brand_colors_js};
+  const SCOPE_GROUPS = {scope_groups_js};
   const BRAND = "{brand['brand']}";
   const PORTFOLIO_TYPE = "{ptype}";
   let map, infoWindow;
   const markers = [];
+  const listItems = [];   // hotel-list <div>s, parallel to markers / HOTELS
+  const filterState = {{
+    subBrands: new Set(),  // populated on init from HOTELS — all on
+    statuses:  new Set(),  // populated on init from HOTELS — all on
+  }};
 
   function statusClass(status) {{
     return (status || '').toLowerCase().replace(/\\s+/g, '-');
+  }}
+
+  // Pin color resolver: per-sub_brand override (multi-brand portfolios) →
+  // top-level brand color (single-brand or owner portfolios). A string-typed
+  // sub_brand_colors value is treated as just the fill, with default stroke/label.
+  // SVG marker icon, parameterized by pin colors and label number.
+  // Pulled into a helper so applyFilters() can regenerate icons cheaply when
+  // pins get renumbered to the currently-visible set.
+  function iconFor(pin, label) {{
+    return {{
+      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+          <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.35"/></filter>
+          <rect x="6" y="6" width="22" height="22" transform="rotate(45 17 17)"
+                fill="${{pin.fill}}" stroke="${{pin.stroke}}" stroke-width="2" filter="url(#s)"/>
+          <text x="17" y="20" text-anchor="middle" font-family="Arial,sans-serif"
+                font-size="11" font-weight="bold" fill="${{pin.label}}">${{label}}</text>
+        </svg>`),
+      scaledSize: new google.maps.Size(34, 34),
+      anchor: new google.maps.Point(17, 17),
+    }};
+  }}
+
+  function pinFor(h) {{
+    const entry = SUB_BRAND_COLORS[h.sub_brand];
+    if (!entry) return {{ fill: COLOR, stroke: STROKE, label: LABEL_COLOR }};
+    if (typeof entry === 'string')
+      return {{ fill: entry, stroke: STROKE, label: LABEL_COLOR }};
+    return {{
+      fill: entry.fill || COLOR,
+      stroke: entry.stroke || STROKE,
+      label: entry.label || LABEL_COLOR,
+    }};
   }}
 
   function buildInfoWindow(h) {{
@@ -304,8 +411,8 @@ def render_html(brand):
     const unverified = (h.verified === false)
       ? '<span class="gm-iw-unverified">UNVERIFIED</span>' : '';
     const rows = [];
-    // In owner mode the chip already shows sub_brand (the flag), so skip the row.
-    if (h.sub_brand && PORTFOLIO_TYPE !== "owner")
+    // In owner/multi-brand modes the chip already shows sub_brand (the flag), so skip the row.
+    if (h.sub_brand && PORTFOLIO_TYPE !== "owner" && PORTFOLIO_TYPE !== "multi-brand")
       rows.push(`<dt>Sub-brand</dt><dd>${{h.sub_brand}}</dd>`);
     if (h.keys)         rows.push(`<dt>Keys</dt><dd>${{h.keys}}</dd>`);
     if (h.opening_year) rows.push(`<dt>Opened</dt><dd>${{h.opening_year}}</dd>`);
@@ -316,13 +423,18 @@ def render_html(brand):
     const notesBlock = h.notes ? `<div class="gm-iw-notes">${{h.notes}}</div>` : '';
     const sourceBlock = h.source
       ? `<div class="gm-iw-source"><a href="${{h.source}}" target="_blank" rel="noopener">Source &rarr;</a></div>` : '';
-    // Owner mode: chip shows each property's brand flag (Fairmont/voco/Yotel/...).
+    // Owner / multi-brand modes: chip shows each property's sub-brand flag.
     // Brand mode: chip shows the portfolio name (e.g. "Capella").
-    const chipLabel = (PORTFOLIO_TYPE === "owner") ? (h.sub_brand || BRAND) : BRAND;
+    // In multi-brand mode the chip also gets tinted to match the pin so the
+    // legend/pin/chip color story stays consistent.
+    const chipLabel = (PORTFOLIO_TYPE === "owner" || PORTFOLIO_TYPE === "multi-brand")
+      ? (h.sub_brand || BRAND) : BRAND;
+    const chipStyle = (PORTFOLIO_TYPE === "multi-brand")
+      ? `background:${{pinFor(h).fill}};color:${{pinFor(h).label}};` : '';
     return `
       <div class="gm-iw">
         <div class="gm-iw-title">${{h.name}}${{unverified}}</div>
-        <span class="gm-iw-brand">${{chipLabel}}</span>
+        <span class="gm-iw-brand" style="${{chipStyle}}">${{chipLabel}}</span>
         ${{statusBadge}}
         <div class="gm-iw-meta">${{fullAddr}}</div>
         ${{statsBlock}}
@@ -332,8 +444,9 @@ def render_html(brand):
   }}
 
   // Region × Status × (hotels, keys) breakdown — only renders if at least
-  // one hotel has both region and status. Counts are computed from HOTELS
-  // so future brands with the same schema get a table for free.
+  // one hotel has both region and status. Counts are computed from currently
+  // visible hotels (driven by filterState), so the table re-aggregates whenever
+  // a scope tab, legend row, or status pill is toggled.
   function buildBreakdown() {{
     const ALL_STATUSES = ['operating', 'under construction', 'announced', 'uncertain'];
     const STATUS_LABELS = {{
@@ -347,22 +460,32 @@ def render_html(brand):
     const haveData = HOTELS.some(h => h.region && h.status);
     if (!haveData) return;
 
-    // Only include status columns that actually have hotels in this brand.
-    // Keeps the table compact for brands with no uncertain/UC entries.
+    // Use the same visibility rule the markers use, so the footprint table
+    // always reflects what's currently on the map.
+    const visible = HOTELS.filter(h => {{
+      const sbOn = filterState.subBrands.size === 0 || filterState.subBrands.has(h.sub_brand || '');
+      const stOn = !h.status || filterState.statuses.size === 0 || filterState.statuses.has((h.status || '').toLowerCase());
+      return sbOn && stOn;
+    }});
+
+    // Status columns: keep the set stable across re-renders by anchoring on the
+    // statuses present in the FULL dataset, not just the visible subset (otherwise
+    // toggling everything off would collapse the table to zero columns and
+    // turning things back on would jump column widths around).
     const STATUSES = ALL_STATUSES.filter(
       s => HOTELS.some(h => (h.status || '').toLowerCase() === s)
     );
 
-    // Preserve insertion order from the source data so brand authors can
-    // sort regions however they want (here: Americas, EMEA, APAC, MEA).
+    // Region rows likewise — stable order, hide rows that the filter zeroes out.
     const regions = [];
     const grid = {{}};                 // region → status → {{ hotels, keys }}
     HOTELS.forEach(h => {{
       const r = h.region || '—';
-      if (!grid[r]) {{
-        grid[r] = {{}};
-        regions.push(r);
-      }}
+      if (!regions.includes(r)) regions.push(r);
+    }});
+    visible.forEach(h => {{
+      const r = h.region || '—';
+      if (!grid[r]) grid[r] = {{}};
       const s = (h.status || '').toLowerCase();
       const cell = grid[r][s] = grid[r][s] || {{ hotels: 0, keys: 0 }};
       cell.hotels += 1;
@@ -376,7 +499,7 @@ def render_html(brand):
     regions.forEach(r => {{
       rowTotal[r] = {{ hotels: 0, keys: 0 }};
       STATUSES.forEach(s => {{
-        const c = grid[r][s];
+        const c = grid[r] && grid[r][s];
         if (!c) return;
         rowTotal[r].hotels += c.hotels;
         rowTotal[r].keys += c.keys;
@@ -389,6 +512,7 @@ def render_html(brand):
 
     const hCell = c => c ? `${{c.hotels}}` : '<span class="dash">—</span>';
     const kCell = c => (c && c.keys) ? fmt(c.keys) : '<span class="dash">—</span>';
+    const cellFor = (r, s) => (grid[r] || {{}})[s];
 
     const head = `<tr>
       <th class="s-region">Region</th>
@@ -397,15 +521,17 @@ def render_html(brand):
     </tr>`;
 
     // Two rows per region: hotels (primary) on top, keys (subordinate) below.
+    // Skip regions that filter to zero so the table doesn't show empty rows.
     const body = regions.map(r => {{
+      if (rowTotal[r].hotels === 0) return '';
       const hotelsRow = `<tr class="r-hotels">
         <td>${{r}}</td>
-        ${{STATUSES.map(s => `<td>${{hCell(grid[r][s])}}</td>`).join('')}}
+        ${{STATUSES.map(s => `<td>${{hCell(cellFor(r, s))}}</td>`).join('')}}
         <td>${{hCell(rowTotal[r])}}</td>
       </tr>`;
       const keysRow = `<tr class="r-keys">
         <td>keys</td>
-        ${{STATUSES.map(s => `<td>${{kCell(grid[r][s])}}</td>`).join('')}}
+        ${{STATUSES.map(s => `<td>${{kCell(cellFor(r, s))}}</td>`).join('')}}
         <td>${{kCell(rowTotal[r])}}</td>
       </tr>`;
       return hotelsRow + keysRow;
@@ -432,6 +558,37 @@ def render_html(brand):
     document.getElementById('breakdown-section').style.display = '';
   }}
 
+  // Legend: per-sub_brand swatches in multi-brand mode (only flags actually
+  // present in HOTELS, in the order they appear in SUB_BRAND_COLORS); single
+  // brand swatch otherwise. Counts come from HOTELS so the legend doubles as
+  // a footprint summary.
+  function buildLegend() {{
+    const el = document.getElementById('legend');
+    const fallback = `<div class="legend-row"><div class="leg-dot" style="background:${{COLOR}}; border-color:${{STROKE}};"></div> {legend_label}</div>`;
+    if (PORTFOLIO_TYPE !== "multi-brand" || !Object.keys(SUB_BRAND_COLORS).length) {{
+      el.innerHTML = fallback;
+      return;
+    }}
+    const counts = {{}};
+    HOTELS.forEach(h => {{ counts[h.sub_brand] = (counts[h.sub_brand] || 0) + 1; }});
+    const order = Object.keys(SUB_BRAND_COLORS).filter(sb => counts[sb]);
+    Object.keys(counts).forEach(sb => {{ if (!order.includes(sb)) order.push(sb); }});
+    el.innerHTML = order.map(sb => {{
+      const p = pinFor({{ sub_brand: sb }});
+      return `<div class="legend-row clickable" data-sub-brand="${{sb}}"><div class="leg-dot" style="background:${{p.fill}}; border-color:${{p.stroke}};"></div> ${{sb}} <span style="margin-left:auto;color:#8090b0;font-variant-numeric:tabular-nums;">${{counts[sb]}}</span></div>`;
+    }}).join('');
+    el.querySelectorAll('.legend-row.clickable').forEach(row => {{
+      row.addEventListener('click', () => {{
+        const sb = row.getAttribute('data-sub-brand');
+        if (filterState.subBrands.has(sb)) filterState.subBrands.delete(sb);
+        else filterState.subBrands.add(sb);
+        row.classList.toggle('off', !filterState.subBrands.has(sb));
+        applyFilters();
+      }});
+    }});
+    document.getElementById('legend-hint').style.display = '';
+  }}
+
   function initMap() {{
     map = new google.maps.Map(document.getElementById('map'), {{
       center: {{ lat: {avg_lat}, lng: {avg_lng} }},
@@ -447,18 +604,8 @@ def render_html(brand):
 
     HOTELS.forEach((h, i) => {{
       const label = String(i + 1);
-      const svgIcon = {{
-        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
-            <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.35"/></filter>
-            <rect x="6" y="6" width="22" height="22" transform="rotate(45 17 17)"
-                  fill="${{COLOR}}" stroke="${{STROKE}}" stroke-width="2" filter="url(#s)"/>
-            <text x="17" y="20" text-anchor="middle" font-family="Arial,sans-serif"
-                  font-size="11" font-weight="bold" fill="${{LABEL_COLOR}}">${{label}}</text>
-          </svg>`),
-        scaledSize: new google.maps.Size(34, 34),
-        anchor: new google.maps.Point(17, 17),
-      }};
+      const pin = pinFor(h);
+      const svgIcon = iconFor(pin, label);
 
       const marker = new google.maps.Marker({{
         position: {{ lat: h.lat, lng: h.lng }},
@@ -468,6 +615,8 @@ def render_html(brand):
       }});
       markers.push(marker);
       bounds.extend({{ lat: h.lat, lng: h.lng }});
+      filterState.subBrands.add(h.sub_brand || '');
+      if (h.status) filterState.statuses.add(h.status.toLowerCase());
 
       const iwContent = buildInfoWindow(h);
       marker.addListener('click', () => {{
@@ -480,7 +629,7 @@ def render_html(brand):
       const item = document.createElement('div');
       item.className = 'hotel-item';
       item.innerHTML = `
-        <div class="h-pin" style="background:${{COLOR}}; border:1.5px solid ${{STROKE}};"><span class="h-pin-num" style="color:${{LABEL_COLOR}}">${{label}}</span></div>
+        <div class="h-pin" style="background:${{pin.fill}}; border:1.5px solid ${{pin.stroke}};"><span class="h-pin-num" style="color:${{pin.label}}">${{label}}</span></div>
         <div class="h-info">
           <h4>${{h.name}}${{statusBadge}}</h4>
           <div class="h-meta">${{[h.city, h.country].filter(Boolean).join(', ')}}</div>
@@ -492,12 +641,136 @@ def render_html(brand):
         infoWindow.open(map, marker);
       }});
       listEl.appendChild(item);
+      listItems.push(item);
     }});
 
     map.fitBounds(bounds, {{ top: 60, right: 60, bottom: 60, left: 60 }});
+    buildScopeTabs();
+    buildLegend();
+    buildStatusFilters();
+    applyFilters();
   }}
 
-  buildBreakdown();
+  // Show/hide markers + list items based on filterState. Each hotel is
+  // visible iff its sub_brand is on AND its status is on. Visible hotels are
+  // renumbered 1..N in input order, so the labels always start at 1 regardless
+  // of how many are filtered out. Hidden markers keep their stale numbers —
+  // they're invisible, so it doesn't matter.
+  function applyFilters() {{
+    let visibleCount = 0;
+    HOTELS.forEach((h, i) => {{
+      const sbOn = filterState.subBrands.has(h.sub_brand || '');
+      const stOn = !h.status || filterState.statuses.has((h.status || '').toLowerCase());
+      const on = sbOn && stOn;
+      markers[i].setVisible(on);
+      listItems[i].classList.toggle('off', !on);
+      if (on) {{
+        visibleCount += 1;
+        const label = String(visibleCount);
+        markers[i].setIcon(iconFor(pinFor(h), label));
+        const numEl = listItems[i].querySelector('.h-pin-num');
+        if (numEl) numEl.textContent = label;
+      }}
+    }});
+    const noteEl = document.getElementById('filter-note');
+    if (noteEl) noteEl.textContent = `${{visibleCount}} of ${{HOTELS.length}} properties visible`;
+    buildBreakdown();
+    syncScopeTabs();
+  }}
+
+  // One-click scope tabs: each tab snaps filterState.subBrands to a preset
+  // group (e.g. just Compass), All restores everything, and the active tab
+  // gets highlighted when the current sub-brand filter matches a group exactly.
+  // Status pills are intentionally NOT touched — scope vs. status are
+  // orthogonal axes.
+  function buildScopeTabs() {{
+    if (!SCOPE_GROUPS.length || PORTFOLIO_TYPE !== "multi-brand") return;
+    const allSubs = Object.keys(SUB_BRAND_COLORS).length
+      ? Object.keys(SUB_BRAND_COLORS)
+      : [...new Set(HOTELS.map(h => h.sub_brand || ''))];
+    const tabs = [{{ label: 'All', sub_brands: allSubs }}, ...SCOPE_GROUPS];
+    const wrap = document.getElementById('scope-tabs');
+    wrap.innerHTML = tabs.map((g, i) =>
+      `<span class="scope-tab" data-idx="${{i}}">${{g.label}}</span>`
+    ).join('');
+    wrap.querySelectorAll('.scope-tab').forEach(el => {{
+      el.addEventListener('click', () => {{
+        const g = tabs[Number(el.getAttribute('data-idx'))];
+        filterState.subBrands = new Set(g.sub_brands);
+        document.querySelectorAll('.legend-row.clickable').forEach(row => {{
+          const sb = row.getAttribute('data-sub-brand');
+          row.classList.toggle('off', !filterState.subBrands.has(sb));
+        }});
+        applyFilters();
+        fitVisible();
+      }});
+    }});
+    document.getElementById('scope-section').style.display = '';
+    syncScopeTabs(tabs);
+  }}
+
+  // Highlight whichever tab matches the current sub-brand filter set
+  // (or none, if the user has fine-tuned via individual legend rows).
+  function syncScopeTabs(tabs) {{
+    const wrap = document.getElementById('scope-tabs');
+    if (!wrap || !wrap.children.length) return;
+    const current = new Set(filterState.subBrands);
+    const allSubs = Object.keys(SUB_BRAND_COLORS).length
+      ? Object.keys(SUB_BRAND_COLORS)
+      : [...new Set(HOTELS.map(h => h.sub_brand || ''))];
+    const t = tabs || [{{ label: 'All', sub_brands: allSubs }}, ...SCOPE_GROUPS];
+    [...wrap.children].forEach((el, i) => {{
+      const g = t[i];
+      const match = g.sub_brands.length === current.size
+        && g.sub_brands.every(s => current.has(s));
+      el.classList.toggle('active', match);
+    }});
+  }}
+
+  function fitVisible() {{
+    const b = new google.maps.LatLngBounds();
+    let any = false;
+    HOTELS.forEach((h, i) => {{
+      if (markers[i].getVisible()) {{ b.extend({{ lat: h.lat, lng: h.lng }}); any = true; }}
+    }});
+    if (any) map.fitBounds(b, {{ top: 60, right: 60, bottom: 60, left: 60 }});
+  }}
+
+  // Status pills, one per status actually present in HOTELS. Each pill
+  // toggles its status in filterState and re-applies filters. Order matches
+  // the breakdown table (Operating → UC → Announced → Uncertain).
+  function buildStatusFilters() {{
+    const ALL_STATUSES = ['operating', 'under construction', 'announced', 'uncertain'];
+    const STATUS_LABELS = {{
+      'operating': 'Operating',
+      'under construction': 'UC',
+      'announced': 'Pipeline',
+      'uncertain': 'Uncertain',
+    }};
+    const counts = {{}};
+    HOTELS.forEach(h => {{
+      const s = (h.status || '').toLowerCase();
+      if (!s) return;
+      counts[s] = (counts[s] || 0) + 1;
+    }});
+    const statuses = ALL_STATUSES.filter(s => counts[s]);
+    if (!statuses.length) return;
+    const wrap = document.getElementById('status-filters');
+    wrap.innerHTML = statuses.map(s =>
+      `<span class="filter-pill s-${{statusClass(s)}}" data-status="${{s}}">${{STATUS_LABELS[s]}} <span class="pill-count">${{counts[s]}}</span></span>`
+    ).join('');
+    wrap.querySelectorAll('.filter-pill').forEach(el => {{
+      el.addEventListener('click', () => {{
+        const s = el.getAttribute('data-status');
+        if (filterState.statuses.has(s)) filterState.statuses.delete(s);
+        else filterState.statuses.add(s);
+        el.classList.toggle('off', !filterState.statuses.has(s));
+        applyFilters();
+      }});
+    }});
+    document.getElementById('fit-btn').addEventListener('click', fitVisible);
+    document.getElementById('filter-section').style.display = '';
+  }}
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key={API_KEY}&callback=initMap" async defer></script>
 

@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Margaritaville Holdings + T+L Co. &mdash; Multi-Brand Portfolio Map</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f5f5f5;
+    }
+    .header {
+      background: #1a2744;
+      border-bottom: 3px solid #14b8a6;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .header-left h1 { font-size: 18px; font-weight: 700; color: #fff; }
+    .header-left p { font-size: 11px; color: #8fa8d8; margin-top: 3px; }
+    .header-right { font-size: 11px; color: #8fa8d8; }
+    .header-right a { color: #8fa8d8; text-decoration: none; }
+    .header-right a:hover { color: #fff; }
+    .main { display: flex; flex: 1; overflow: hidden; }
+    .sidebar {
+      width: 320px;
+      background: #fff;
+      border-right: 1px solid #dde3ed;
+      overflow-y: auto;
+      flex-shrink: 0;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.06);
+    }
+    .sb-section { padding: 14px; border-bottom: 1px solid #eaecf0; }
+    .sb-section h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      color: #8090b0;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .legend-row {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 2px; font-size: 12px; color: #334;
+      padding: 4px 6px; margin-left: -6px; margin-right: -6px; border-radius: 4px;
+    }
+    .legend-row.clickable { cursor: pointer; user-select: none; }
+    .legend-row.clickable:hover { background: #f0f5ff; }
+    .legend-row.off { opacity: 0.35; }
+    .legend-row.off .leg-dot { background: #cbd5e1 !important; border-color: #cbd5e1 !important; }
+    .leg-dot {
+      width: 14px; height: 14px;
+      transform: rotate(45deg);
+      border: 2px solid rgba(0,0,0,0.15);
+      flex-shrink: 0;
+    }
+    .filter-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .filter-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 3px 9px; border-radius: 12px;
+      font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px;
+      cursor: pointer; user-select: none;
+      border: 1.5px solid; background: #fff;
+    }
+    .filter-pill.off { opacity: 0.35; background: #f3f4f6; }
+    .filter-pill .pill-count {
+      font-weight: 400; opacity: 0.7;
+      font-variant-numeric: tabular-nums; letter-spacing: 0;
+    }
+    .filter-pill.s-operating          { color: #047857; border-color: #047857; }
+    .filter-pill.s-under-construction { color: #92400e; border-color: #92400e; }
+    .filter-pill.s-announced          { color: #3730a3; border-color: #3730a3; }
+    .filter-pill.s-uncertain          { color: #4b5563; border-color: #4b5563; }
+    .fit-btn {
+      width: 100%; margin-top: 10px; padding: 6px 10px;
+      font-size: 11px; font-weight: 600; color: #1a2744;
+      background: #f0f5ff; border: 1px solid #c8d4e8; border-radius: 4px;
+      cursor: pointer;
+    }
+    .fit-btn:hover { background: #e0eaff; }
+    .filter-note { font-size: 10px; color: #8090b0; margin-top: 8px; font-style: italic; line-height: 1.4; }
+    .hotel-item.off { display: none; }
+    .scope-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+    .scope-tab {
+      flex: 1 1 auto; min-width: 60px;
+      padding: 7px 8px; text-align: center;
+      font-size: 11px; font-weight: 700; color: #1a2744;
+      background: #f0f5ff; border: 1.5px solid #c8d4e8; border-radius: 4px;
+      cursor: pointer; user-select: none;
+    }
+    .scope-tab:hover { background: #e0eaff; }
+    .scope-tab.active { background: #1a2744; color: #fff; border-color: #1a2744; }
+    .hotel-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 9px 6px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .hotel-item:hover { background: #f0f5ff; }
+    .h-pin {
+      width: 22px; height: 22px;
+      transform: rotate(45deg);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .h-pin-num {
+      transform: rotate(-45deg);
+      color: #fff;
+      font-weight: 700;
+      font-size: 10px;
+    }
+    .h-info h4 { font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3; }
+    .h-info .h-meta { font-size: 10px; color: #7080a0; margin-top: 2px; }
+    .sidebar-footer {
+      padding: 10px 14px;
+      font-size: 10px;
+      color: #aabbd0;
+      border-top: 1px solid #eaecf0;
+    }
+    #map { flex: 1; }
+    .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 240px; max-width: 290px; }
+    .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
+    .gm-iw-brand { font-size: 10px; color: #1a2744; background: #14b8a6; display: inline-block; padding: 2px 6px; border: 1px solid rgba(0,0,0,0.15); border-radius: 3px; text-transform: uppercase; letter-spacing: 0.6px; margin: 4px 0 8px; font-weight: 700; }
+    .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
+    .gm-iw-stats { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 11px; margin: 8px 0 4px; padding-top: 8px; border-top: 1px solid #eee; }
+    .gm-iw-stats dt { color: #7080a0; font-weight: 600; }
+    .gm-iw-stats dd { color: #1a2744; }
+    .gm-iw-status { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+    .gm-iw-status.operating { background: #d1fae5; color: #047857; }
+    .gm-iw-status.under-construction { background: #fef3c7; color: #92400e; }
+    .gm-iw-status.announced { background: #e0e7ff; color: #3730a3; }
+    .gm-iw-status.uncertain { background: #f3f4f6; color: #4b5563; }
+    .gm-iw-notes { font-size: 10px; color: #556; margin-top: 6px; line-height: 1.4; font-style: italic; }
+    .gm-iw-source { font-size: 10px; margin-top: 6px; }
+    .gm-iw-source a { color: #2563eb; text-decoration: none; }
+    .gm-iw-source a:hover { text-decoration: underline; }
+    .gm-iw-unverified { font-size: 9px; color: #92400e; background: #fef3c7; padding: 1px 5px; border-radius: 3px; margin-left: 4px; font-weight: 600; letter-spacing: 0.3px; }
+    .h-status-badge { font-size: 8px; padding: 1px 4px; border-radius: 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin-left: 4px; vertical-align: middle; }
+    .h-status-badge.operating { background: #d1fae5; color: #047857; }
+    .h-status-badge.under-construction { background: #fef3c7; color: #92400e; }
+    .h-status-badge.announced { background: #e0e7ff; color: #3730a3; }
+    .h-status-badge.uncertain { background: #f3f4f6; color: #4b5563; }
+    .breakdown-table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+    .breakdown-table th, .breakdown-table td { padding: 0; text-align: right; line-height: 1.2; }
+    .breakdown-table th:first-child, .breakdown-table td:first-child { text-align: left; }
+    .breakdown-table tbody td + td, .breakdown-table tfoot td + td { border-left: 1px solid #eef0f3; }
+    .breakdown-table thead th + th { border-left: 1px solid rgba(255,255,255,0.25); }
+    .breakdown-table thead th { font-size: 9.5px; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; padding: 5px 6px; }
+    .breakdown-table thead th.s-region   { background: #1a2744; border-top-left-radius: 4px; }
+    .breakdown-table thead th.s-operating          { background: #047857; }
+    .breakdown-table thead th.s-under-construction { background: #b45309; }
+    .breakdown-table thead th.s-announced          { background: #3730a3; }
+    .breakdown-table thead th.s-uncertain          { background: #6b7280; }
+    .breakdown-table thead th.s-total              { background: #1a2744; border-top-right-radius: 4px; }
+    .breakdown-table tbody tr.r-hotels td { font-size: 13px; font-weight: 600; color: #1a2744; padding: 7px 6px 2px; }
+    .breakdown-table tbody tr.r-keys td { font-size: 10.5px; font-weight: 400; color: #7080a0; padding: 0 6px 7px; border-bottom: 1px solid #eef0f3; }
+    .breakdown-table tbody tr.r-keys td:first-child { font-style: italic; color: #a0aabe; padding-left: 18px; }
+    .breakdown-table tfoot tr.r-hotels td { font-size: 13px; font-weight: 800; color: #1a2744; padding: 9px 6px 2px; border-top: 2px solid #1a2744; }
+    .breakdown-table tfoot tr.r-keys td { font-size: 10.5px; font-weight: 600; color: #1a2744; padding: 0 6px 6px; }
+    .breakdown-table tfoot tr.r-keys td:first-child { font-style: italic; color: #556; font-weight: 500; padding-left: 18px; }
+    .breakdown-table td.dash { color: #d1d5db; font-weight: 400; }
+    .breakdown-note { font-size: 10px; color: #8090b0; margin-top: 10px; line-height: 1.45; font-style: italic; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Margaritaville Holdings + T+L Co. &mdash; Multi-Brand Portfolio</h1>
+    <p>Margaritaville Hotels & Resorts + Compass by Margaritaville + Travel + Leisure Co. (MVC by Wyndham, SI Resorts, Club Wyndham NYC anchor) — May 17, 2026 &nbsp;&middot;&nbsp; 52 properties mapped</p>
+  </div>
+  <div class="header-right">
+    <a href="../">&larr; All Maps</a> &nbsp;&middot;&nbsp; <a href="../global/">Global Map</a>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sb-section" id="scope-section" style="display:none;">
+      <h3>Scope</h3>
+      <div class="scope-tabs" id="scope-tabs"></div>
+    </div>
+    <div class="sb-section">
+      <h3>Legend <span id="legend-hint" style="display:none;font-size:9px;color:#8090b0;text-transform:none;letter-spacing:0;font-style:italic;">&middot; click to toggle</span></h3>
+      <div id="legend"></div>
+    </div>
+    <div class="sb-section" id="filter-section" style="display:none;">
+      <h3>Filter by status</h3>
+      <div class="filter-pills" id="status-filters"></div>
+      <button class="fit-btn" id="fit-btn">Fit map to visible</button>
+      <div class="filter-note" id="filter-note"></div>
+    </div>
+    <div class="sb-section" id="breakdown-section" style="display:none;">
+      <h3>Footprint &mdash; Region &times; Status</h3>
+      <div id="breakdown"></div>
+    </div>
+    <div class="sb-section" style="border-bottom:none;">
+      <h3>Properties &mdash; Click to Navigate</h3>
+      <div id="hotel-list"></div>
+    </div>
+    <div class="sidebar-footer">
+      Reference map &middot; Multi-brand portfolio &middot; pins color-coded by sub-brand
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script>
+  const HOTELS = [
+  {
+    "name": "Margaritaville Resort Biloxi",
+    "address": "195 Beach Blvd",
+    "city": "Biloxi, MS 39530",
+    "country": "US",
+    "region": "US",
+    "lat": 30.3910064,
+    "lng": -88.86202519999999,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2012,
+    "keys": 373,
+    "owner": "Margaritaville Holdings",
+    "operator": "Margaritaville Holdings",
+    "notes": "Re-flag of former Casino Magic; non-casino family resort; 450-ft lazy river.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-resort-biloxi",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Island Hotel Pigeon Forge",
+    "address": "131 The Island Dr",
+    "city": "Pigeon Forge, TN 37863",
+    "country": "US",
+    "region": "US",
+    "lat": 35.8027287,
+    "lng": -83.5699942,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2014,
+    "keys": 132,
+    "owner": "Safe Harbor Development (Darby Campbell)",
+    "operator": "Margaritaville Holdings",
+    "notes": "At The Island; MVC lease expired Sept 30, 2024 (no longer in MVC network).",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-island-hotel-pigeon-forge",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Hollywood Beach Resort",
+    "address": "1111 N Ocean Dr",
+    "city": "Hollywood, FL 33019",
+    "country": "US",
+    "region": "US",
+    "lat": 26.0187769,
+    "lng": -80.1167394,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2015,
+    "keys": 369,
+    "owner": "Starwood Capital / Lojeta Group",
+    "operator": "Margaritaville Holdings",
+    "notes": "Oceanfront; FlowRider Double; 30K sf convention space; 8 F&B outlets.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-hollywood-beach-resort",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Beach Resort Grand Cayman",
+    "address": "Seven Mile Beach",
+    "city": "George Town",
+    "country": "Cayman Islands",
+    "region": "Caribbean",
+    "lat": 19.313858,
+    "lng": -81.38417050000001,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2018,
+    "keys": 285,
+    "owner": "Howard Hospitality",
+    "operator": "Margaritaville Holdings",
+    "notes": "Re-flag of former Treasure Island; LandShark Bar.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-beach-resort-grand-cayman",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Resort Gatlinburg",
+    "address": "539 Parkway",
+    "city": "Gatlinburg, TN 37738",
+    "country": "US",
+    "region": "US",
+    "lat": 35.7147048,
+    "lng": -83.5117915,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2018,
+    "keys": 163,
+    "owner": "Bob McManus / Safe Harbor partners",
+    "operator": "Margaritaville Holdings",
+    "notes": "Downtown Gatlinburg; near Anakeesta.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-resort-gatlinburg",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Resort Orlando",
+    "address": "8000 Fins Up Cir",
+    "city": "Kissimmee, FL 34747",
+    "country": "US",
+    "region": "US",
+    "lat": 28.3416629,
+    "lng": -81.60902759999999,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 184,
+    "owner": "Encore Capital / Falcone Group",
+    "operator": "Margaritaville Holdings",
+    "notes": "184-key hotel + cottages/villas at 300-acre Sunset Walk; Island H2O water park.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-resort-orlando",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Beach Resort Playa Flamingo",
+    "address": "Playa Flamingo",
+    "city": "Guanacaste",
+    "country": "Costa Rica",
+    "region": "Mexico & Central America",
+    "lat": 10.4385759,
+    "lng": -85.7923014,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 120,
+    "owner": "Enjoy Group",
+    "operator": "Margaritaville Holdings",
+    "notes": "Re-flag; brand's first Central America property.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-beach-resort-playa-flamingo",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Hotel Nashville",
+    "address": "510 Broadway",
+    "city": "Nashville, TN 37203",
+    "country": "US",
+    "region": "US",
+    "lat": 36.1555699,
+    "lng": -86.77533869999999,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 166,
+    "owner": "EPR Properties (acq Mar 2025 $70M / $424K per key)",
+    "operator": "Davidson Hospitality",
+    "notes": "SoBro; MVC sales floors inside; rooftop bar \u2014 the urban inside-the-hotel MVC analog for The Strand.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-hotel-nashville",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Lake Resort Lake Conroe",
+    "address": "600 Margaritaville Pkwy",
+    "city": "Montgomery, TX 77316",
+    "country": "US",
+    "region": "US",
+    "lat": 30.3936295,
+    "lng": -95.6369024,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2020,
+    "keys": 303,
+    "owner": "Songy Highroads + Wampold",
+    "operator": "Benchmark / Stonebridge",
+    "notes": "303 suites + 32 cottages; 20-story tower; brand's first TX property.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-lake-resort-lake-conroe",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Resort Times Square",
+    "address": "560 7th Ave",
+    "city": "New York, NY 10018",
+    "country": "US",
+    "region": "US",
+    "lat": 40.7552192,
+    "lng": -73.98813369999999,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2021,
+    "keys": 234,
+    "owner": "Soho Properties (defaulted 2023, BK); lender Arden Group",
+    "operator": "Highgate",
+    "notes": "32-story new build; 5 o'Clock Somewhere rooftop. One of only 2 urban full-flag Margaritavilles.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-resort-times-square-new-york",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Island Reserve Riviera Cancun by Karisma",
+    "address": "Puerto Morelos",
+    "city": "Quintana Roo",
+    "country": "Mexico",
+    "region": "Mexico & Central America",
+    "lat": 20.898148,
+    "lng": -86.854798,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": 355,
+    "owner": "Karisma Hotels & Resorts (JV)",
+    "operator": "Karisma Hotels & Resorts",
+    "notes": "First all-inclusive Island Reserve; family format.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-island-reserve-riviera-cancun",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Beach House Key West",
+    "address": "1435 Simonton St",
+    "city": "Key West, FL 33040",
+    "country": "US",
+    "region": "US",
+    "lat": 24.5526092,
+    "lng": -81.7724975,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2021,
+    "keys": 186,
+    "owner": "DiamondRock Hospitality (REIT)",
+    "operator": "Ocean Properties",
+    "notes": "Re-flag of former Barbary Beach House; $18M reno; all-suites.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-beach-house-key-west",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Beach Resort Nassau",
+    "address": "2 Bay St",
+    "city": "Nassau",
+    "country": "Bahamas",
+    "region": "Caribbean",
+    "lat": 25.0788417,
+    "lng": -77.3479861,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2022,
+    "keys": 295,
+    "owner": "The Pointe Bahamas",
+    "operator": "Margaritaville Holdings",
+    "notes": "Downtown Nassau; 45-slip marina; water park.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-beach-resort-nassau",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Beach Resort Ambergris Caye",
+    "address": "Tres Cocos",
+    "city": "San Pedro",
+    "country": "Belize",
+    "region": "Mexico & Central America",
+    "lat": 17.9345383,
+    "lng": -87.9530436,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2023,
+    "keys": 55,
+    "owner": "Margaritaville Belize Development",
+    "operator": "Margaritaville Holdings",
+    "notes": "Boutique; first Belize property.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-beach-resort-ambergris-caye",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Beach Resort South Padre Island",
+    "address": "7000 Padre Blvd",
+    "city": "South Padre Island, TX 78597",
+    "country": "US",
+    "region": "US",
+    "lat": 26.0831138,
+    "lng": -97.160775,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2023,
+    "keys": 250,
+    "owner": "Former Pearl Hotel ownership group",
+    "operator": "Margaritaville Holdings",
+    "notes": "200 keys + 50 condos; first TX beachfront; $30M conversion.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-beach-resort-south-padre-island",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Hotel San Diego Gaslamp Quarter",
+    "address": "435 6th Ave",
+    "city": "San Diego, CA 92101",
+    "country": "US",
+    "region": "US",
+    "lat": 32.7098404,
+    "lng": -117.1588932,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2023,
+    "keys": 235,
+    "owner": "Pebblebrook Hotel Trust",
+    "operator": "Margaritaville Holdings",
+    "notes": "Re-flag of former Hotel Solamar; $30M reno; brand's first West Coast city-center.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-hotel-san-diego-gaslamp-quarter",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Beach Resort Fort Myers Beach",
+    "address": "1100 Estero Blvd",
+    "city": "Fort Myers Beach, FL 33931",
+    "country": "US",
+    "region": "US",
+    "lat": 26.4534177,
+    "lng": -81.9542718,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2023,
+    "keys": 254,
+    "owner": "TPI Hospitality",
+    "operator": "TPI Hospitality",
+    "notes": "$200M new build; survived Hurricane Ian during construction.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-beach-resort-fort-myers-beach",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Island Reserve Riviera Maya (Adults-Only) by Karisma",
+    "address": "Puerto Morelos",
+    "city": "Quintana Roo",
+    "country": "Mexico",
+    "region": "Mexico & Central America",
+    "lat": 20.898148,
+    "lng": -86.854798,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2024,
+    "keys": 355,
+    "owner": "Karisma Hotels & Resorts (JV)",
+    "operator": "Karisma Hotels & Resorts",
+    "notes": "First adults-only Island Reserve; LandShark Brewery.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-island-reserve-riviera-maya",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Resort Cape Cod",
+    "address": "1225 Iyannough Rd",
+    "city": "Hyannis, MA 02601",
+    "country": "US",
+    "region": "US",
+    "lat": 41.6741695,
+    "lng": -70.3105795,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2024,
+    "keys": 276,
+    "owner": "Margaritaville Holdings (undisclosed owner)",
+    "operator": "Margaritaville Holdings",
+    "notes": "Re-flag of former Cape Codder; 30K sf Fins Up! indoor water park.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-resort-cape-cod",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Resort Lake of the Ozarks",
+    "address": "494 Tan Tar A Dr",
+    "city": "Osage Beach, MO 65065",
+    "country": "US",
+    "region": "US",
+    "lat": 38.1283917,
+    "lng": -92.7184127,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2021,
+    "keys": 520,
+    "owner": "Driftwood Capital",
+    "operator": "Margaritaville Holdings",
+    "notes": "Re-flag of former Tan-Tar-A; Jolly Mon indoor water park; Oaks golf.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-resort-lake-of-the-ozarks",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Resort Village Pocono Mountains",
+    "address": "Pocono Manor",
+    "city": "Pocono Manor, PA 18349",
+    "country": "US",
+    "region": "US",
+    "lat": 41.117962,
+    "lng": -75.354297,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2025,
+    "keys": null,
+    "owner": "JEMB Realty Corp.",
+    "operator": "Margaritaville Holdings",
+    "notes": "Phased: hotel + tiny homes + Camp RV; partial 2025/26.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-resort-village-pocono-mountains",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Hotel Kansas City",
+    "address": "1841 Village West Pkwy",
+    "city": "Kansas City, KS 66111",
+    "country": "US",
+    "region": "US",
+    "lat": 39.1263675,
+    "lng": -94.8260859,
+    "sub_brand": "Margaritaville",
+    "status": "operating",
+    "opening_year": 2025,
+    "keys": 228,
+    "owner": "Sunflower Development Group + Homefield KC",
+    "operator": "Margaritaville Holdings",
+    "notes": "$150M; Village West / near Kansas Speedway.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-hotel-kansas-city",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Hotel Newport",
+    "address": "Newport on the Levee, 1 Levee Way",
+    "city": "Newport, KY 41071",
+    "country": "US",
+    "region": "US",
+    "lat": 39.094741,
+    "lng": -84.49669180000001,
+    "sub_brand": "Margaritaville",
+    "status": "under construction",
+    "opening_year": 2026,
+    "keys": 264,
+    "owner": "Newport Hotel Associates (NAP + Stormont + High Street RE)",
+    "operator": "Margaritaville Holdings",
+    "notes": "$133.6M; at Newport on the Levee; 12th-floor pool.",
+    "source": "https://www.margaritavilleresorts.com/margaritaville-newport",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Vacation Residences Myrtle Beach",
+    "address": "Arcadian Shores",
+    "city": "Myrtle Beach, SC",
+    "country": "US",
+    "region": "US",
+    "lat": 33.7665994,
+    "lng": -78.7904442,
+    "sub_brand": "Margaritaville",
+    "status": "under construction",
+    "opening_year": 2026,
+    "keys": 271,
+    "owner": "Margaritaville Holdings + local developer",
+    "operator": "Margaritaville Holdings",
+    "notes": "Branded condo product (271 units), not pure hotel; sales gallery open.",
+    "source": "https://margaritavilleholdings.com/margaritaville-vacation-residences-myrtle-beach",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Resort Galveston",
+    "address": "East Beach",
+    "city": "Galveston, TX",
+    "country": "US",
+    "region": "US",
+    "lat": 29.312805,
+    "lng": -94.75813,
+    "sub_brand": "Margaritaville",
+    "status": "under construction",
+    "opening_year": 2028,
+    "keys": 334,
+    "owner": "RREAF Holdings + Innisfree",
+    "operator": "Margaritaville Holdings",
+    "notes": "$700M master plan; 15-story tower + 278 branded cottages.",
+    "source": "https://margaritavilleholdings.com/margaritaville-resort-galveston",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Island Reserve Resort Roatan",
+    "address": "Roatan",
+    "city": "Roatan",
+    "country": "Honduras",
+    "region": "Mexico & Central America",
+    "lat": 16.3601303,
+    "lng": -86.4972872,
+    "sub_brand": "Margaritaville",
+    "status": "under construction",
+    "opening_year": 2027,
+    "keys": 160,
+    "owner": "Karisma Hotels & Resorts",
+    "operator": "Karisma Hotels & Resorts",
+    "notes": "All-inclusive; broke ground Mar 2025; JWB Steakhouse.",
+    "source": "https://margaritavilleholdings.com/margaritaville-island-reserve-roatan",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Island Resort San Diego (Paradise Point)",
+    "address": "1404 Vacation Rd",
+    "city": "San Diego, CA 92109",
+    "country": "US",
+    "region": "US",
+    "lat": 32.775274,
+    "lng": -117.2401229,
+    "sub_brand": "Margaritaville",
+    "status": "announced",
+    "opening_year": null,
+    "keys": 462,
+    "owner": "Pebblebrook Hotel Trust",
+    "operator": "Margaritaville Holdings",
+    "notes": "44-acre Paradise Point conversion; project revived Oct 2024; awaiting CA Coastal Commission.",
+    "source": "https://www.pebblebrookhotels.com/portfolio/paradise-point-resort-spa/",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Resort Myrtle Beach (downtown)",
+    "address": "Downtown Myrtle Beach",
+    "city": "Myrtle Beach, SC",
+    "country": "US",
+    "region": "US",
+    "lat": 33.698281,
+    "lng": -78.873577,
+    "sub_brand": "Margaritaville",
+    "status": "announced",
+    "opening_year": 2027,
+    "keys": null,
+    "owner": "RREAF Holdings + Innisfree",
+    "operator": "Margaritaville Holdings",
+    "notes": "Separate from N. Myrtle Compass; downtown Myrtle.",
+    "source": "https://margaritavilleholdings.com/myrtle-beach",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Resort at Preston Harbor",
+    "address": "Lake Texoma",
+    "city": "Denison, TX",
+    "country": "US",
+    "region": "US",
+    "lat": 33.8503048,
+    "lng": -96.6438764,
+    "sub_brand": "Margaritaville",
+    "status": "announced",
+    "opening_year": 2028,
+    "keys": 250,
+    "owner": "Craig International / Waterfall Development",
+    "operator": "Margaritaville Holdings",
+    "notes": "$100M resort within $6-7B master-planned community; 900-slip marina.",
+    "source": "https://margaritavilleholdings.com/preston-harbor",
+    "verified": true
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Anna Maria Sound",
+    "address": "12340 Manatee Ave W",
+    "city": "Bradenton, FL 34209",
+    "country": "US",
+    "region": "US",
+    "lat": 27.4968345,
+    "lng": -82.68617429999999,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "operating",
+    "opening_year": 2020,
+    "keys": 123,
+    "owner": "Floridays Development",
+    "operator": "Concord Hospitality",
+    "notes": "FIRST-EVER Compass; 6-story; all water-view; ~$28M.",
+    "source": "https://www.compasshotelbymargaritaville.com/anna-maria-sound",
+    "verified": true
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Medford",
+    "address": "1175 E Barnett Rd",
+    "city": "Medford, OR 97504",
+    "country": "US",
+    "region": "US",
+    "lat": 42.3164358,
+    "lng": -122.8511418,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "operating",
+    "opening_year": 2022,
+    "keys": 111,
+    "owner": "Coquille Indian Tribe",
+    "operator": "Margaritaville Holdings",
+    "notes": "Only West Coast Compass; outside FL-NC-TN cluster.",
+    "source": "https://www.compasshotelbymargaritaville.com/medford",
+    "verified": true
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Naples",
+    "address": "4805 N Tamiami Trl",
+    "city": "Naples, FL 34103",
+    "country": "US",
+    "region": "US",
+    "lat": 26.2051452,
+    "lng": -81.80138389999999,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "operating",
+    "opening_year": 2024,
+    "keys": 119,
+    "owner": "TPI Hospitality",
+    "operator": "TPI Hospitality",
+    "notes": "BRAND'S FIRST CONVERSION \u2014 former Staybridge Suites; all-suite; precedent for The Strand.",
+    "source": "https://www.compasshotelbymargaritaville.com/naples",
+    "verified": true
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Pigeon Forge",
+    "address": "Pigeon Forge",
+    "city": "Pigeon Forge, TN",
+    "country": "US",
+    "region": "US",
+    "lat": 35.8125248,
+    "lng": -83.57390699999999,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "operating",
+    "opening_year": 2024,
+    "keys": 162,
+    "owner": "Not publicly disclosed",
+    "operator": "Margaritaville Holdings",
+    "notes": "USA Today 10Best 'Best New Hotel in US' 2026; outperforming the full Margaritaville Pigeon Forge.",
+    "source": "https://www.compasshotelbymargaritaville.com/pigeon-forge",
+    "verified": true
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Flagler Beach",
+    "address": "Flagler Beach",
+    "city": "Flagler Beach, FL",
+    "country": "US",
+    "region": "US",
+    "lat": 29.4800349,
+    "lng": -81.129091,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "operating",
+    "opening_year": 2025,
+    "keys": 100,
+    "owner": "Local FL developer (not named)",
+    "operator": "Margaritaville Holdings",
+    "notes": "$27M, 84K sf; between Daytona & St. Augustine.",
+    "source": "https://www.compasshotelbymargaritaville.com/flagler-beach",
+    "verified": true
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Beaufort",
+    "address": "Taylor Creek",
+    "city": "Beaufort, NC 28516",
+    "country": "US",
+    "region": "US",
+    "lat": 34.71195727050694,
+    "lng": -76.64343435792553,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "operating",
+    "opening_year": 2026,
+    "keys": 105,
+    "owner": "Not publicly disclosed",
+    "operator": "Margaritaville Holdings",
+    "notes": "Marina-front on Taylor Creek; historic downtown waterfront.",
+    "source": "https://www.compasshotelbymargaritaville.com/beaufort",
+    "verified": true
+  },
+  {
+    "name": "Compass Landing by Margaritaville Melbourne",
+    "address": "Melbourne",
+    "city": "Melbourne, FL",
+    "country": "US",
+    "region": "US",
+    "lat": 28.0794398,
+    "lng": -80.6078048,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "under construction",
+    "opening_year": 2025,
+    "keys": 146,
+    "owner": "Local Melbourne ownership group",
+    "operator": "Margaritaville Holdings",
+    "notes": "~$100M; 7-story hotel + 400-seat restaurant + 221-slip marina; resort-format Compass.",
+    "source": "https://margaritavilleholdings.com/compass-landing-melbourne",
+    "verified": true
+  },
+  {
+    "name": "Compass Hotel by Margaritaville North Myrtle Beach",
+    "address": "Ocean Boulevard",
+    "city": "North Myrtle Beach, SC",
+    "country": "US",
+    "region": "US",
+    "lat": 33.6699586,
+    "lng": -78.905981,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "under construction",
+    "opening_year": 2027,
+    "keys": 150,
+    "owner": "McGonigal Family & Partners",
+    "operator": "Margaritaville Holdings",
+    "notes": "14-story oceanfront; $68.5M HALL Structured Finance loan; former Castaway Beach Inn site; broke ground Sep 2025; TALLEST Compass to date.",
+    "source": "https://margaritavilleholdings.com/compass-north-myrtle-beach",
+    "verified": true
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Beachwalk (St. Johns)",
+    "address": "Beachwalk Crystal Lagoon",
+    "city": "St. Johns County, FL",
+    "country": "US",
+    "region": "US",
+    "lat": 30.0990662,
+    "lng": -81.52298979999999,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "under construction",
+    "opening_year": null,
+    "keys": 200,
+    "owner": "PEBB Enterprises + Falcone Group JV",
+    "operator": "Margaritaville Holdings",
+    "notes": "Fronts 14-acre Crystal Lagoon; 111-200 keys + 68 short-term cottages; JEA service letter Mar 2026.",
+    "source": "https://margaritavilleholdings.com/compass-beachwalk",
+    "verified": true
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Nassau Bay",
+    "address": "Nassau Bay (Houston/NASA Johnson area)",
+    "city": "Nassau Bay, TX",
+    "country": "US",
+    "region": "US",
+    "lat": 29.5483443,
+    "lng": -95.0918078,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "announced",
+    "opening_year": null,
+    "keys": 170,
+    "owner": "Local Seabrook/Nassau Bay developer",
+    "operator": "Margaritaville Holdings",
+    "notes": "Near NASA Johnson; Seabrook Event Center; lazy river, swim-up bar.",
+    "source": "https://margaritavilleholdings.com/compass-nassau-bay",
+    "verified": true
+  },
+  {
+    "name": "Compass Hotel by Margaritaville Cape Canaveral",
+    "address": "Cape Canaveral",
+    "city": "Cape Canaveral, FL",
+    "country": "US",
+    "region": "US",
+    "lat": 28.3922182,
+    "lng": -80.60771319999999,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "announced",
+    "opening_year": null,
+    "keys": 150,
+    "owner": "Not publicly disclosed",
+    "operator": "Margaritaville Holdings",
+    "notes": "Rooftop observation deck for rocket launches; cruise-port adjacent.",
+    "source": "https://margaritavilleholdings.com/compass-cape-canaveral",
+    "verified": true
+  },
+  {
+    "name": "Compass by Margaritaville Jacksonville",
+    "address": "Jacksonville",
+    "city": "Jacksonville, FL",
+    "country": "US",
+    "region": "US",
+    "lat": 30.2954894,
+    "lng": -81.3908333,
+    "sub_brand": "Compass by Margaritaville",
+    "status": "announced",
+    "opening_year": null,
+    "keys": null,
+    "owner": "Not publicly disclosed",
+    "operator": "Margaritaville Holdings",
+    "notes": "Per Travel Weekly coverage; no further detail public.",
+    "source": "https://www.travelweekly.com/Hotel-News/Margaritaville-Compass-pipeline",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 St. Thomas",
+    "address": "Smith Bay",
+    "city": "St. Thomas",
+    "country": "US Virgin Islands",
+    "region": "Caribbean",
+    "lat": 18.3461401,
+    "lng": -64.86793709999999,
+    "sub_brand": "MVC by Wyndham",
+    "status": "operating",
+    "opening_year": 2015,
+    "keys": null,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "Original MVC flagship; beach resort.",
+    "source": "https://www.travelandleisureco.com/our-brands/margaritaville-vacation-club",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 Rio Mar",
+    "address": "Wyndham Grand Rio Mar",
+    "city": "Rio Grande",
+    "country": "Puerto Rico",
+    "region": "Caribbean",
+    "lat": 18.389079,
+    "lng": -65.756678,
+    "sub_brand": "MVC by Wyndham",
+    "status": "operating",
+    "opening_year": 2019,
+    "keys": null,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "Block inside Wyndham Grand Rio Mar; golf/casino/beach.",
+    "source": "https://www.travelandleisureco.com/our-brands/margaritaville-vacation-club",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 Nashville",
+    "address": "510 Broadway",
+    "city": "Nashville, TN 37203",
+    "country": "US",
+    "region": "US",
+    "lat": 36.1605526,
+    "lng": -86.77893379999999,
+    "sub_brand": "MVC by Wyndham",
+    "status": "operating",
+    "opening_year": 2021,
+    "keys": null,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "Floors inside Margaritaville Hotel Nashville (Music Row). URBAN \u2014 only urban full-MVC open today; direct precedent for The Strand's sales-gallery model.",
+    "source": "https://www.travelandleisureco.com/our-brands/margaritaville-vacation-club",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 Atlanta",
+    "address": "Centennial Park",
+    "city": "Atlanta, GA",
+    "country": "US",
+    "region": "US",
+    "lat": 33.7585205,
+    "lng": -84.3923796,
+    "sub_brand": "MVC by Wyndham",
+    "status": "operating",
+    "opening_year": 2018,
+    "keys": null,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "Floors / co-located with Club Wyndham Atlanta over Centennial Park. URBAN.",
+    "source": "https://www.travelandleisureco.com/our-brands/margaritaville-vacation-club",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 Desert Blue",
+    "address": "Club Wyndham Desert Blue",
+    "city": "Las Vegas, NV",
+    "country": "US",
+    "region": "US",
+    "lat": 36.1222828,
+    "lng": -115.1839169,
+    "sub_brand": "MVC by Wyndham",
+    "status": "operating",
+    "opening_year": 2018,
+    "keys": 6,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "~6 units (5 studios + 1 1BR) sliver inside Club Wyndham Desert Blue; Strip-adjacent.",
+    "source": "https://www.travelandleisureco.com/our-brands/margaritaville-vacation-club",
+    "verified": true
+  },
+  {
+    "name": "Margaritaville Vacation Club \u2014 Orlando",
+    "address": "Sunset Walk",
+    "city": "Kissimmee, FL 34747",
+    "country": "US",
+    "region": "US",
+    "lat": 28.3416629,
+    "lng": -81.60902759999999,
+    "sub_brand": "MVC by Wyndham",
+    "status": "announced",
+    "opening_year": 2027,
+    "keys": 151,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "Next deeded MVC property: 151 condo units, 1BR\u20134BR Presidential Reserve; adjacent to Margaritaville Resort Orlando at Sunset Walk.",
+    "source": "https://www.travelandleisureco.com/news/mvc-orlando",
+    "verified": true
+  },
+  {
+    "name": "SI Resorts Nashville Music Row",
+    "address": "Music Row",
+    "city": "Nashville, TN",
+    "country": "US",
+    "region": "US",
+    "lat": 36.1468803,
+    "lng": -86.7938046,
+    "sub_brand": "SI Resorts",
+    "status": "under construction",
+    "opening_year": 2026,
+    "keys": 190,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "FIRST SI Resort to open \u2014 Spring 2026; conversion of Cadence Nashville/WhyHotel; mix of VOI + hotel.",
+    "source": "https://www.travelandleisureco.com/our-brands/sports-illustrated-resorts",
+    "verified": true
+  },
+  {
+    "name": "SI Resorts Chicago",
+    "address": "203 N Wabash Ave",
+    "city": "Chicago, IL 60601",
+    "country": "US",
+    "region": "US",
+    "lat": 41.8860005,
+    "lng": -87.6259444,
+    "sub_brand": "SI Resorts",
+    "status": "under construction",
+    "opening_year": 2026,
+    "keys": 250,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "30-story Loop tower; conversion of Virgin Hotel Chicago; late 2026. URBAN \u2014 closest structural analog to The Strand.",
+    "source": "https://www.travelandleisureco.com/our-brands/sports-illustrated-resorts",
+    "verified": true
+  },
+  {
+    "name": "SI Resorts Tuscaloosa",
+    "address": "Black Warrior River",
+    "city": "Tuscaloosa, AL",
+    "country": "US",
+    "region": "US",
+    "lat": 33.21031,
+    "lng": -87.5658722,
+    "sub_brand": "SI Resorts",
+    "status": "announced",
+    "opening_year": 2027,
+    "keys": 151,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "Ground-up; 76 timeshare + 75 hotel-managed condo (pared down from original plan); U of Alabama-adjacent; groundbreak Summer 2026.",
+    "source": "https://www.travelandleisureco.com/our-brands/sports-illustrated-resorts",
+    "verified": true
+  },
+  {
+    "name": "SI Resorts Baton Rouge",
+    "address": "Hilton Capitol Center",
+    "city": "Baton Rouge, LA",
+    "country": "US",
+    "region": "US",
+    "lat": 30.4484394,
+    "lng": -91.1896536,
+    "sub_brand": "SI Resorts",
+    "status": "announced",
+    "opening_year": 2027,
+    "keys": 179,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "Conversion of 291-room Hilton Capitol Center; $40M reno; 137 rooms + 42 condos; Shaq co-investor; LSU-adjacent; reno starts early 2027.",
+    "source": "https://www.travelandleisureco.com/our-brands/sports-illustrated-resorts",
+    "verified": true
+  },
+  {
+    "name": "Club Wyndham Midtown 45",
+    "address": "205 E 45th St",
+    "city": "New York, NY 10017",
+    "country": "US",
+    "region": "US",
+    "lat": 40.7526556,
+    "lng": -73.9724804,
+    "sub_brand": "Club Wyndham",
+    "status": "operating",
+    "opening_year": null,
+    "keys": null,
+    "owner": "Travel + Leisure Co.",
+    "operator": "Travel + Leisure Co.",
+    "notes": "T+L Co.'s ONLY NYC asset across all brands. David Rockwell-designed; floors 3\u201310 of a Midtown East tower; full-kitchen suites. Signal that T+L already has owners visiting NYC and needs upsell-tour infrastructure here.",
+    "source": "https://www.clubwyndham.com/resorts/club-wyndham-midtown-45",
+    "verified": true
+  }
+];
+  const COLOR = "#14b8a6";
+  const STROKE = "#ffffff";
+  const LABEL_COLOR = "#ffffff";
+  const SUB_BRAND_COLORS = {
+  "Margaritaville": {
+    "fill": "#14b8a6",
+    "stroke": "#ffffff",
+    "label": "#ffffff"
+  },
+  "Compass by Margaritaville": {
+    "fill": "#fbbf24",
+    "stroke": "#1a2744",
+    "label": "#1a2744"
+  },
+  "MVC by Wyndham": {
+    "fill": "#1e40af",
+    "stroke": "#ffffff",
+    "label": "#ffffff"
+  },
+  "SI Resorts": {
+    "fill": "#dc2626",
+    "stroke": "#ffffff",
+    "label": "#ffffff"
+  },
+  "Club Wyndham": {
+    "fill": "#312e81",
+    "stroke": "#ffffff",
+    "label": "#ffffff"
+  }
+};
+  const SCOPE_GROUPS = [
+  {
+    "label": "Margaritaville",
+    "sub_brands": [
+      "Margaritaville"
+    ]
+  },
+  {
+    "label": "Compass",
+    "sub_brands": [
+      "Compass by Margaritaville"
+    ]
+  },
+  {
+    "label": "T+L Co.",
+    "sub_brands": [
+      "MVC by Wyndham",
+      "SI Resorts",
+      "Club Wyndham"
+    ]
+  }
+];
+  const BRAND = "Margaritaville Holdings + T+L Co.";
+  const PORTFOLIO_TYPE = "multi-brand";
+  let map, infoWindow;
+  const markers = [];
+  const listItems = [];   // hotel-list <div>s, parallel to markers / HOTELS
+  const filterState = {
+    subBrands: new Set(),  // populated on init from HOTELS — all on
+    statuses:  new Set(),  // populated on init from HOTELS — all on
+  };
+
+  function statusClass(status) {
+    return (status || '').toLowerCase().replace(/\s+/g, '-');
+  }
+
+  // Pin color resolver: per-sub_brand override (multi-brand portfolios) →
+  // top-level brand color (single-brand or owner portfolios). A string-typed
+  // sub_brand_colors value is treated as just the fill, with default stroke/label.
+  // SVG marker icon, parameterized by pin colors and label number.
+  // Pulled into a helper so applyFilters() can regenerate icons cheaply when
+  // pins get renumbered to the currently-visible set.
+  function iconFor(pin, label) {
+    return {
+      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+          <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.35"/></filter>
+          <rect x="6" y="6" width="22" height="22" transform="rotate(45 17 17)"
+                fill="${pin.fill}" stroke="${pin.stroke}" stroke-width="2" filter="url(#s)"/>
+          <text x="17" y="20" text-anchor="middle" font-family="Arial,sans-serif"
+                font-size="11" font-weight="bold" fill="${pin.label}">${label}</text>
+        </svg>`),
+      scaledSize: new google.maps.Size(34, 34),
+      anchor: new google.maps.Point(17, 17),
+    };
+  }
+
+  function pinFor(h) {
+    const entry = SUB_BRAND_COLORS[h.sub_brand];
+    if (!entry) return { fill: COLOR, stroke: STROKE, label: LABEL_COLOR };
+    if (typeof entry === 'string')
+      return { fill: entry, stroke: STROKE, label: LABEL_COLOR };
+    return {
+      fill: entry.fill || COLOR,
+      stroke: entry.stroke || STROKE,
+      label: entry.label || LABEL_COLOR,
+    };
+  }
+
+  function buildInfoWindow(h) {
+    const fullAddr = [h.address, h.city, h.country].filter(Boolean).join(', ');
+    const statusBadge = h.status
+      ? `<span class="gm-iw-status ${statusClass(h.status)}">${h.status}</span>` : '';
+    const unverified = (h.verified === false)
+      ? '<span class="gm-iw-unverified">UNVERIFIED</span>' : '';
+    const rows = [];
+    // In owner/multi-brand modes the chip already shows sub_brand (the flag), so skip the row.
+    if (h.sub_brand && PORTFOLIO_TYPE !== "owner" && PORTFOLIO_TYPE !== "multi-brand")
+      rows.push(`<dt>Sub-brand</dt><dd>${h.sub_brand}</dd>`);
+    if (h.keys)         rows.push(`<dt>Keys</dt><dd>${h.keys}</dd>`);
+    if (h.opening_year) rows.push(`<dt>Opened</dt><dd>${h.opening_year}</dd>`);
+    if (h.region)       rows.push(`<dt>Region</dt><dd>${h.region}${h.country ? ' · ' + h.country : ''}</dd>`);
+    if (h.owner)        rows.push(`<dt>${PORTFOLIO_TYPE === "owner" ? "Vehicle" : "Owner"}</dt><dd>${h.owner}</dd>`);
+    if (h.operator)     rows.push(`<dt>Operator</dt><dd>${h.operator}</dd>`);
+    const statsBlock = rows.length ? `<dl class="gm-iw-stats">${rows.join('')}</dl>` : '';
+    const notesBlock = h.notes ? `<div class="gm-iw-notes">${h.notes}</div>` : '';
+    const sourceBlock = h.source
+      ? `<div class="gm-iw-source"><a href="${h.source}" target="_blank" rel="noopener">Source &rarr;</a></div>` : '';
+    // Owner / multi-brand modes: chip shows each property's sub-brand flag.
+    // Brand mode: chip shows the portfolio name (e.g. "Capella").
+    // In multi-brand mode the chip also gets tinted to match the pin so the
+    // legend/pin/chip color story stays consistent.
+    const chipLabel = (PORTFOLIO_TYPE === "owner" || PORTFOLIO_TYPE === "multi-brand")
+      ? (h.sub_brand || BRAND) : BRAND;
+    const chipStyle = (PORTFOLIO_TYPE === "multi-brand")
+      ? `background:${pinFor(h).fill};color:${pinFor(h).label};` : '';
+    return `
+      <div class="gm-iw">
+        <div class="gm-iw-title">${h.name}${unverified}</div>
+        <span class="gm-iw-brand" style="${chipStyle}">${chipLabel}</span>
+        ${statusBadge}
+        <div class="gm-iw-meta">${fullAddr}</div>
+        ${statsBlock}
+        ${notesBlock}
+        ${sourceBlock}
+      </div>`;
+  }
+
+  // Region × Status × (hotels, keys) breakdown — only renders if at least
+  // one hotel has both region and status. Counts are computed from currently
+  // visible hotels (driven by filterState), so the table re-aggregates whenever
+  // a scope tab, legend row, or status pill is toggled.
+  function buildBreakdown() {
+    const ALL_STATUSES = ['operating', 'under construction', 'announced', 'uncertain'];
+    const STATUS_LABELS = {
+      'operating': 'Operating',
+      'under construction': 'UC',
+      'announced': 'Announced',
+      'uncertain': 'Uncertain',
+    };
+    const fmt = n => n ? n.toLocaleString() : '';
+
+    const haveData = HOTELS.some(h => h.region && h.status);
+    if (!haveData) return;
+
+    // Use the same visibility rule the markers use, so the footprint table
+    // always reflects what's currently on the map.
+    const visible = HOTELS.filter(h => {
+      const sbOn = filterState.subBrands.size === 0 || filterState.subBrands.has(h.sub_brand || '');
+      const stOn = !h.status || filterState.statuses.size === 0 || filterState.statuses.has((h.status || '').toLowerCase());
+      return sbOn && stOn;
+    });
+
+    // Status columns: keep the set stable across re-renders by anchoring on the
+    // statuses present in the FULL dataset, not just the visible subset (otherwise
+    // toggling everything off would collapse the table to zero columns and
+    // turning things back on would jump column widths around).
+    const STATUSES = ALL_STATUSES.filter(
+      s => HOTELS.some(h => (h.status || '').toLowerCase() === s)
+    );
+
+    // Region rows likewise — stable order, hide rows that the filter zeroes out.
+    const regions = [];
+    const grid = {};                 // region → status → { hotels, keys }
+    HOTELS.forEach(h => {
+      const r = h.region || '—';
+      if (!regions.includes(r)) regions.push(r);
+    });
+    visible.forEach(h => {
+      const r = h.region || '—';
+      if (!grid[r]) grid[r] = {};
+      const s = (h.status || '').toLowerCase();
+      const cell = grid[r][s] = grid[r][s] || { hotels: 0, keys: 0 };
+      cell.hotels += 1;
+      cell.keys += Number(h.keys || 0);
+    });
+
+    const colTotal = {};               // status → { hotels, keys }
+    const rowTotal = {};               // region → { hotels, keys }
+    let grand = { hotels: 0, keys: 0 };
+    STATUSES.forEach(s => colTotal[s] = { hotels: 0, keys: 0 });
+    regions.forEach(r => {
+      rowTotal[r] = { hotels: 0, keys: 0 };
+      STATUSES.forEach(s => {
+        const c = grid[r] && grid[r][s];
+        if (!c) return;
+        rowTotal[r].hotels += c.hotels;
+        rowTotal[r].keys += c.keys;
+        colTotal[s].hotels += c.hotels;
+        colTotal[s].keys += c.keys;
+        grand.hotels += c.hotels;
+        grand.keys += c.keys;
+      });
+    });
+
+    const hCell = c => c ? `${c.hotels}` : '<span class="dash">—</span>';
+    const kCell = c => (c && c.keys) ? fmt(c.keys) : '<span class="dash">—</span>';
+    const cellFor = (r, s) => (grid[r] || {})[s];
+
+    const head = `<tr>
+      <th class="s-region">Region</th>
+      ${STATUSES.map(s => `<th class="s-${statusClass(s)}">${STATUS_LABELS[s]}</th>`).join('')}
+      <th class="s-total">Total</th>
+    </tr>`;
+
+    // Two rows per region: hotels (primary) on top, keys (subordinate) below.
+    // Skip regions that filter to zero so the table doesn't show empty rows.
+    const body = regions.map(r => {
+      if (rowTotal[r].hotels === 0) return '';
+      const hotelsRow = `<tr class="r-hotels">
+        <td>${r}</td>
+        ${STATUSES.map(s => `<td>${hCell(cellFor(r, s))}</td>`).join('')}
+        <td>${hCell(rowTotal[r])}</td>
+      </tr>`;
+      const keysRow = `<tr class="r-keys">
+        <td>keys</td>
+        ${STATUSES.map(s => `<td>${kCell(cellFor(r, s))}</td>`).join('')}
+        <td>${kCell(rowTotal[r])}</td>
+      </tr>`;
+      return hotelsRow + keysRow;
+    }).join('');
+
+    const foot = `<tr class="r-hotels">
+        <td>Total</td>
+        ${STATUSES.map(s => `<td>${hCell(colTotal[s])}</td>`).join('')}
+        <td>${hCell(grand)}</td>
+      </tr>
+      <tr class="r-keys">
+        <td>keys</td>
+        ${STATUSES.map(s => `<td>${kCell(colTotal[s])}</td>`).join('')}
+        <td>${kCell(grand)}</td>
+      </tr>`;
+
+    document.getElementById('breakdown').innerHTML = `
+      <table class="breakdown-table">
+        <thead>${head}</thead>
+        <tbody>${body}</tbody>
+        <tfoot>${foot}</tfoot>
+      </table>
+      <div class="breakdown-note">Top row of each region = number of hotels; bottom row = key count. A dash means none in that cell, or the property's key count hasn't been publicly disclosed yet.</div>`;
+    document.getElementById('breakdown-section').style.display = '';
+  }
+
+  // Legend: per-sub_brand swatches in multi-brand mode (only flags actually
+  // present in HOTELS, in the order they appear in SUB_BRAND_COLORS); single
+  // brand swatch otherwise. Counts come from HOTELS so the legend doubles as
+  // a footprint summary.
+  function buildLegend() {
+    const el = document.getElementById('legend');
+    const fallback = `<div class="legend-row"><div class="leg-dot" style="background:${COLOR}; border-color:${STROKE};"></div> Property in this portfolio</div>`;
+    if (PORTFOLIO_TYPE !== "multi-brand" || !Object.keys(SUB_BRAND_COLORS).length) {
+      el.innerHTML = fallback;
+      return;
+    }
+    const counts = {};
+    HOTELS.forEach(h => { counts[h.sub_brand] = (counts[h.sub_brand] || 0) + 1; });
+    const order = Object.keys(SUB_BRAND_COLORS).filter(sb => counts[sb]);
+    Object.keys(counts).forEach(sb => { if (!order.includes(sb)) order.push(sb); });
+    el.innerHTML = order.map(sb => {
+      const p = pinFor({ sub_brand: sb });
+      return `<div class="legend-row clickable" data-sub-brand="${sb}"><div class="leg-dot" style="background:${p.fill}; border-color:${p.stroke};"></div> ${sb} <span style="margin-left:auto;color:#8090b0;font-variant-numeric:tabular-nums;">${counts[sb]}</span></div>`;
+    }).join('');
+    el.querySelectorAll('.legend-row.clickable').forEach(row => {
+      row.addEventListener('click', () => {
+        const sb = row.getAttribute('data-sub-brand');
+        if (filterState.subBrands.has(sb)) filterState.subBrands.delete(sb);
+        else filterState.subBrands.add(sb);
+        row.classList.toggle('off', !filterState.subBrands.has(sb));
+        applyFilters();
+      });
+    });
+    document.getElementById('legend-hint').style.display = '';
+  }
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: 30.702103618663596, lng: -86.18003620880626 },
+      zoom: 3,
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: true,
+    });
+    infoWindow = new google.maps.InfoWindow({ maxWidth: 310 });
+
+    const listEl = document.getElementById('hotel-list');
+    const bounds = new google.maps.LatLngBounds();
+
+    HOTELS.forEach((h, i) => {
+      const label = String(i + 1);
+      const pin = pinFor(h);
+      const svgIcon = iconFor(pin, label);
+
+      const marker = new google.maps.Marker({
+        position: { lat: h.lat, lng: h.lng },
+        map,
+        icon: svgIcon,
+        title: h.name,
+      });
+      markers.push(marker);
+      bounds.extend({ lat: h.lat, lng: h.lng });
+      filterState.subBrands.add(h.sub_brand || '');
+      if (h.status) filterState.statuses.add(h.status.toLowerCase());
+
+      const iwContent = buildInfoWindow(h);
+      marker.addListener('click', () => {
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+
+      const statusBadge = h.status
+        ? `<span class="h-status-badge ${statusClass(h.status)}">${h.status}</span>` : '';
+      const item = document.createElement('div');
+      item.className = 'hotel-item';
+      item.innerHTML = `
+        <div class="h-pin" style="background:${pin.fill}; border:1.5px solid ${pin.stroke};"><span class="h-pin-num" style="color:${pin.label}">${label}</span></div>
+        <div class="h-info">
+          <h4>${h.name}${statusBadge}</h4>
+          <div class="h-meta">${[h.city, h.country].filter(Boolean).join(', ')}</div>
+        </div>`;
+      item.addEventListener('click', () => {
+        map.panTo({ lat: h.lat, lng: h.lng });
+        map.setZoom(14);
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      });
+      listEl.appendChild(item);
+      listItems.push(item);
+    });
+
+    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+    buildScopeTabs();
+    buildLegend();
+    buildStatusFilters();
+    applyFilters();
+  }
+
+  // Show/hide markers + list items based on filterState. Each hotel is
+  // visible iff its sub_brand is on AND its status is on. Visible hotels are
+  // renumbered 1..N in input order, so the labels always start at 1 regardless
+  // of how many are filtered out. Hidden markers keep their stale numbers —
+  // they're invisible, so it doesn't matter.
+  function applyFilters() {
+    let visibleCount = 0;
+    HOTELS.forEach((h, i) => {
+      const sbOn = filterState.subBrands.has(h.sub_brand || '');
+      const stOn = !h.status || filterState.statuses.has((h.status || '').toLowerCase());
+      const on = sbOn && stOn;
+      markers[i].setVisible(on);
+      listItems[i].classList.toggle('off', !on);
+      if (on) {
+        visibleCount += 1;
+        const label = String(visibleCount);
+        markers[i].setIcon(iconFor(pinFor(h), label));
+        const numEl = listItems[i].querySelector('.h-pin-num');
+        if (numEl) numEl.textContent = label;
+      }
+    });
+    const noteEl = document.getElementById('filter-note');
+    if (noteEl) noteEl.textContent = `${visibleCount} of ${HOTELS.length} properties visible`;
+    buildBreakdown();
+    syncScopeTabs();
+  }
+
+  // One-click scope tabs: each tab snaps filterState.subBrands to a preset
+  // group (e.g. just Compass), All restores everything, and the active tab
+  // gets highlighted when the current sub-brand filter matches a group exactly.
+  // Status pills are intentionally NOT touched — scope vs. status are
+  // orthogonal axes.
+  function buildScopeTabs() {
+    if (!SCOPE_GROUPS.length || PORTFOLIO_TYPE !== "multi-brand") return;
+    const allSubs = Object.keys(SUB_BRAND_COLORS).length
+      ? Object.keys(SUB_BRAND_COLORS)
+      : [...new Set(HOTELS.map(h => h.sub_brand || ''))];
+    const tabs = [{ label: 'All', sub_brands: allSubs }, ...SCOPE_GROUPS];
+    const wrap = document.getElementById('scope-tabs');
+    wrap.innerHTML = tabs.map((g, i) =>
+      `<span class="scope-tab" data-idx="${i}">${g.label}</span>`
+    ).join('');
+    wrap.querySelectorAll('.scope-tab').forEach(el => {
+      el.addEventListener('click', () => {
+        const g = tabs[Number(el.getAttribute('data-idx'))];
+        filterState.subBrands = new Set(g.sub_brands);
+        document.querySelectorAll('.legend-row.clickable').forEach(row => {
+          const sb = row.getAttribute('data-sub-brand');
+          row.classList.toggle('off', !filterState.subBrands.has(sb));
+        });
+        applyFilters();
+        fitVisible();
+      });
+    });
+    document.getElementById('scope-section').style.display = '';
+    syncScopeTabs(tabs);
+  }
+
+  // Highlight whichever tab matches the current sub-brand filter set
+  // (or none, if the user has fine-tuned via individual legend rows).
+  function syncScopeTabs(tabs) {
+    const wrap = document.getElementById('scope-tabs');
+    if (!wrap || !wrap.children.length) return;
+    const current = new Set(filterState.subBrands);
+    const allSubs = Object.keys(SUB_BRAND_COLORS).length
+      ? Object.keys(SUB_BRAND_COLORS)
+      : [...new Set(HOTELS.map(h => h.sub_brand || ''))];
+    const t = tabs || [{ label: 'All', sub_brands: allSubs }, ...SCOPE_GROUPS];
+    [...wrap.children].forEach((el, i) => {
+      const g = t[i];
+      const match = g.sub_brands.length === current.size
+        && g.sub_brands.every(s => current.has(s));
+      el.classList.toggle('active', match);
+    });
+  }
+
+  function fitVisible() {
+    const b = new google.maps.LatLngBounds();
+    let any = false;
+    HOTELS.forEach((h, i) => {
+      if (markers[i].getVisible()) { b.extend({ lat: h.lat, lng: h.lng }); any = true; }
+    });
+    if (any) map.fitBounds(b, { top: 60, right: 60, bottom: 60, left: 60 });
+  }
+
+  // Status pills, one per status actually present in HOTELS. Each pill
+  // toggles its status in filterState and re-applies filters. Order matches
+  // the breakdown table (Operating → UC → Announced → Uncertain).
+  function buildStatusFilters() {
+    const ALL_STATUSES = ['operating', 'under construction', 'announced', 'uncertain'];
+    const STATUS_LABELS = {
+      'operating': 'Operating',
+      'under construction': 'UC',
+      'announced': 'Pipeline',
+      'uncertain': 'Uncertain',
+    };
+    const counts = {};
+    HOTELS.forEach(h => {
+      const s = (h.status || '').toLowerCase();
+      if (!s) return;
+      counts[s] = (counts[s] || 0) + 1;
+    });
+    const statuses = ALL_STATUSES.filter(s => counts[s]);
+    if (!statuses.length) return;
+    const wrap = document.getElementById('status-filters');
+    wrap.innerHTML = statuses.map(s =>
+      `<span class="filter-pill s-${statusClass(s)}" data-status="${s}">${STATUS_LABELS[s]} <span class="pill-count">${counts[s]}</span></span>`
+    ).join('');
+    wrap.querySelectorAll('.filter-pill').forEach(el => {
+      el.addEventListener('click', () => {
+        const s = el.getAttribute('data-status');
+        if (filterState.statuses.has(s)) filterState.statuses.delete(s);
+        else filterState.statuses.add(s);
+        el.classList.toggle('off', !filterState.statuses.has(s));
+        applyFilters();
+      });
+    });
+    document.getElementById('fit-btn').addEventListener('click', fitVisible);
+    document.getElementById('filter-section').style.display = '';
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap" async defer></script>
+
+</body>
+</html>
