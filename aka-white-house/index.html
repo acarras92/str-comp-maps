@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AKA White House – STR Comp Set Map</title>
+  <title>AKA White House — Multi-Comp-Set Map</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -47,28 +47,10 @@
       text-align: center;
       min-width: 90px;
     }
-    .kpi-card .k-label {
-      font-size: 9px;
-      color: #8fa8d8;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-    }
-    .kpi-card .k-value {
-      font-size: 17px;
-      font-weight: 700;
-      color: #ffffff;
-      line-height: 1.2;
-      margin: 1px 0;
-    }
-    .kpi-card .k-index {
-      font-size: 9px;
-      color: #7ed87e;
-    }
-    .kpi-sep {
-      width: 1px;
-      height: 36px;
-      background: rgba(255,255,255,0.15);
-    }
+    .kpi-card .k-label { font-size: 9px; color: #8fa8d8; text-transform: uppercase; letter-spacing: 0.8px; }
+    .kpi-card .k-value { font-size: 17px; font-weight: 700; color: #ffffff; line-height: 1.2; margin: 1px 0; }
+    .kpi-card .k-index { font-size: 9px; color: #7ed87e; }
+    .kpi-sep { width: 1px; height: 36px; background: rgba(255,255,255,0.15); }
     .str-badge {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
@@ -78,13 +60,9 @@
       color: #8fa8d8;
       margin-left: 10px;
     }
-    .main {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
+    .main { display: flex; flex: 1; overflow: hidden; }
     .sidebar {
-      width: 290px;
+      width: 340px;
       background: #ffffff;
       border-right: 1px solid #dde3ed;
       display: flex;
@@ -94,10 +72,7 @@
       box-shadow: 2px 0 8px rgba(0,0,0,0.06);
       z-index: 5;
     }
-    .sb-section {
-      padding: 14px 14px;
-      border-bottom: 1px solid #eaecf0;
-    }
+    .sb-section { padding: 12px 14px; border-bottom: 1px solid #eaecf0; }
     .sb-section h3 {
       font-size: 10px;
       text-transform: uppercase;
@@ -107,48 +82,44 @@
       font-weight: 600;
     }
     .legend-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-      font-size: 12px;
-      color: #334;
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 6px; font-size: 11.5px; color: #334;
     }
-    .leg-dot {
-      width: 13px; height: 13px;
+    .leg-marker {
+      width: 14px; height: 14px;
       border-radius: 50%;
-      border: 2px solid rgba(0,0,0,0.15);
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
       flex-shrink: 0;
     }
-    .perf-label {
-      font-size: 10px;
-      color: #8090b0;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin: 8px 0 5px;
-      font-weight: 600;
+    .leg-marker.leg-star {
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #ffffff; font-size: 9px; font-weight: 700;
     }
-    .perf-label:first-child { margin-top: 0; }
-    .perf-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 5px;
+    .leg-label { line-height: 1.25; }
+    .set-perf-card {
+      background: #f8fafd;
+      border: 1px solid #e3e9f3;
+      border-radius: 6px;
+      padding: 9px 11px;
+      margin-bottom: 9px;
     }
-    .perf-cell {
-      background: #f5f8ff;
-      border: 1px solid #dce6f7;
-      border-radius: 5px;
-      padding: 6px 4px;
+    .set-perf-header { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
+    .set-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .set-perf-title { font-size: 11.5px; font-weight: 700; color: #1a2744; }
+    .set-perf-period { font-size: 9.5px; color: #8090b0; margin-bottom: 6px; }
+    .set-perf-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
+    .set-perf-cell {
+      background: #ffffff;
+      border: 1px solid #e6ebf3;
+      border-radius: 4px;
+      padding: 5px 4px;
       text-align: center;
     }
-    .perf-cell.comp-cell {
-      background: #f8f8f8;
-      border-color: #e0e0e0;
-    }
-    .p-metric { font-size: 9px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.4px; }
-    .p-value { font-size: 13px; font-weight: 700; color: #1a2744; margin: 1px 0; }
-    .p-index { font-size: 9px; color: #2d8a2d; font-weight: 600; }
-    .perf-cell.comp-cell .p-value { color: #444; }
+    .spc-label { font-size: 9px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.3px; }
+    .spc-value { font-size: 13px; font-weight: 700; color: #1a2744; margin: 1px 0; }
+    .spc-vs { font-size: 8.5px; color: #5d6b85; line-height: 1.2; }
     .hotel-item {
       display: flex;
       align-items: flex-start;
@@ -161,117 +132,83 @@
     }
     .hotel-item:last-child { border-bottom: none; }
     .hotel-item:hover { background: #f0f5ff; }
-    .hotel-item.is-subject { background: #fff5f5; }
-    .hotel-item.is-subject:hover { background: #ffe8e8; }
     .h-pin {
-      width: 24px; height: 24px;
+      width: 26px; height: 26px;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 1px;
+      font-size: 11px; font-weight: 700; color: #fff;
+      flex-shrink: 0; margin-top: 1px;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
     }
-    .pin-subject { background: #c62828; color: #fff; }
-    .pin-comp    { background: #1565c0; color: #fff; }
-    .h-info h4 {
-      font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3;
-    }
-    .h-info .h-meta {
-      font-size: 10px; color: #7080a0; margin-top: 1px;
-    }
+    .h-pin.anchor-pin { border: 2px dashed #fff; box-shadow: 0 0 0 2px rgba(0,0,0,0.25); }
+    .h-pin.subject-pin { background: #f59e0b; }
+    .h-info h4 { font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3; }
+    .h-info .h-meta { font-size: 10px; color: #7080a0; margin-top: 1px; }
+    .h-badges { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 3px; }
     .h-badge {
       display: inline-block;
-      background: #e8f0fe;
-      border: 1px solid #c5d5f5;
       border-radius: 3px;
       padding: 1px 5px;
-      font-size: 10px;
-      color: #1a56c4;
-      margin-top: 3px;
+      font-size: 9.5px;
+      color: #fff;
+      font-weight: 600;
     }
     .h-badge.subject-badge {
-      background: #fdecea;
-      border-color: #f5c0bc;
-      color: #b71c1c;
-      margin-left: 4px;
+      background: #f59e0b;
     }
     .sidebar-footer {
       padding: 8px 14px;
-      font-size: 10px;
+      font-size: 9.5px;
       color: #aabbd0;
       border-top: 1px solid #eaecf0;
       margin-top: auto;
+      line-height: 1.45;
     }
     #map { flex: 1; }
     .gm-iw {
       font-family: 'Segoe UI', Arial, sans-serif;
-      min-width: 230px;
-      max-width: 270px;
+      min-width: 240px;
+      max-width: 280px;
     }
-    .gm-iw-title {
-      font-size: 14px; font-weight: 700; color: #1a2744;
-      line-height: 1.3; margin-bottom: 2px;
-    }
-    .gm-iw-brand {
-      font-size: 10px; color: #8090b0; text-transform: uppercase;
-      letter-spacing: 0.5px; margin-bottom: 8px;
-    }
+    .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; margin-bottom: 2px; }
     .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
-    .gm-iw-badge {
-      display: inline-block;
-      background: #e8f0fe; border: 1px solid #c5d5f5;
-      border-radius: 3px; padding: 2px 6px;
-      font-size: 10px; color: #1a56c4; margin-bottom: 6px;
-    }
-    .gm-iw-subject-badge {
-      display: inline-block;
-      background: #fdecea; border: 1px solid #f5c0bc;
-      border-radius: 3px; padding: 2px 6px;
-      font-size: 10px; color: #b71c1c;
-      margin-left: 5px; margin-bottom: 6px;
-    }
-    .gm-iw-divider {
-      border: none; border-top: 1px solid #eaecf0;
-      margin: 8px 0;
-    }
-    .gm-iw-stats {
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 6px; margin-top: 6px;
-    }
+    .gm-iw-badges { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 3px; }
+    .gm-iw-divider { border: none; border-top: 1px solid #eaecf0; margin: 8px 0; }
+    .gm-iw-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 6px; }
     .gm-stat { text-align: center; }
     .gm-stat-label { font-size: 9px; color: #8090b0; text-transform: uppercase; }
-    .gm-stat-value { font-size: 15px; font-weight: 700; color: #1565c0; }
+    .gm-stat-value { font-size: 14px; font-weight: 700; color: #1565c0; }
     .gm-iw-note { font-size: 9px; color: #aabbd0; margin-top: 5px; }
-    .gm-iw-masked { font-size: 10px; color: #aabbd0; margin-top: 6px; font-style: italic; }
-    .gm-iw-str { font-size: 10px; color: #c0c8da; margin-top: 4px; }
+    .gm-iw-masked { font-size: 10px; color: #8090b0; margin-top: 6px; font-style: italic; }
   </style>
 </head>
 <body>
 
 <div class="header">
   <div class="header-left">
-    <h1>AKA White House &mdash; STR Competitive Set Map</h1>
-    <p>Washington, DC &nbsp;&middot;&nbsp; STR Report: December 2025 &nbsp;&middot;&nbsp; 1 Subject + 6 Comps &nbsp;&middot;&nbsp; 1,088 Comp Rooms</p>
+    <h1>AKA White House &mdash; Multi-Comp-Set Map</h1>
+    <p>Washington, DC &middot; 7 STR comp sets &middot; 29 unique hotels plotted &middot; R12 thru Mar 2026</p>
   </div>
   <div class="header-right">
     <div class="kpi-card">
-      <div class="k-label">Occupancy</div>
+      <div class="k-label">AKA WH Occ</div>
       <div class="k-value">80.5%</div>
       <div class="k-index">MPI: 106.8</div>
     </div>
     <div class="kpi-sep"></div>
     <div class="kpi-card">
-      <div class="k-label">ADR</div>
+      <div class="k-label">AKA WH ADR</div>
       <div class="k-value">$302.9</div>
       <div class="k-index">ARI: 119.6</div>
     </div>
     <div class="kpi-sep"></div>
     <div class="kpi-card">
-      <div class="k-label">RevPAR</div>
+      <div class="k-label">AKA WH RevPAR</div>
       <div class="k-value">$244.0</div>
       <div class="k-index">RGI: 127.8</div>
     </div>
-    <div class="str-badge">Running 12-Month &middot; December 2025</div>
+    <div class="str-badge">R12 ending Dec 2025</div>
   </div>
 </div>
 
@@ -279,43 +216,214 @@
   <div class="sidebar">
     <div class="sb-section">
       <h3>Legend</h3>
-      <div class="legend-row"><div class="leg-dot" style="background:#c62828;"></div> Subject Property</div>
-      <div class="legend-row"><div class="leg-dot" style="background:#1565c0;"></div> Competitive Set (6 Hotels)</div>
+      
+      <div class="legend-row">
+        <div class="leg-marker leg-star" style="background:#f59e0b">★</div>
+        <span class="leg-label">AKA White House (Subject)</span>
+      </div>
+
+      <div class="legend-row">
+        <div class="leg-marker" style="background:#d32f2f"></div>
+        <span class="leg-label">Original AKA WH STR Set</span>
+      </div>
+
+      <div class="legend-row">
+        <div class="leg-marker" style="background:#7b1fa2"></div>
+        <span class="leg-label">AKA WH — Luxury</span>
+      </div>
+
+      <div class="legend-row">
+        <div class="leg-marker" style="background:#1565c0"></div>
+        <span class="leg-label">AKA WH — Large Branded</span>
+      </div>
+
+      <div class="legend-row">
+        <div class="leg-marker" style="background:#2e7d32"></div>
+        <span class="leg-label">AKA WH — Branded Small</span>
+      </div>
+
+      <div class="legend-row">
+        <div class="leg-marker" style="background:#c2185b"></div>
+        <span class="leg-label">AKA WH — Independent</span>
+      </div>
+
+      <div class="legend-row">
+        <div class="leg-marker" style="background:#00897b"></div>
+        <span class="leg-label">Capital Hilton STR Set</span>
+      </div>
+
+      <div class="legend-row">
+        <div class="leg-marker" style="background:#6d4c41"></div>
+        <span class="leg-label">Viceroy Washington DC STR Set</span>
+      </div>
+      <div style="margin-top:7px; font-size:9.5px; color:#8090b0; line-height:1.35;">
+        Hotels appearing in multiple sets are plotted once, colored by the highest-priority set; all memberships shown as badges. Dashed pin border = STR subject (anchor) for that set.
+      </div>
     </div>
 
     <div class="sb-section">
-      <h3>R12 Performance &mdash; December 2025</h3>
-      <div class="perf-label">AKA White House (Subject)</div>
-      <div class="perf-grid">
-        <div class="perf-cell">
-          <div class="p-metric">Occ</div>
-          <div class="p-value">80.5%</div>
-          <div class="p-index">MPI 106.8</div>
+      <h3>R12 Performance by Set</h3>
+      
+      <div class="set-perf-card">
+        <div class="set-perf-header">
+          <span class="set-dot" style="background:#d32f2f"></span>
+          <span class="set-perf-title">Original AKA WH STR Set</span>
         </div>
-        <div class="perf-cell">
-          <div class="p-metric">ADR</div>
-          <div class="p-value">$303</div>
-          <div class="p-index">ARI 119.6</div>
-        </div>
-        <div class="perf-cell">
-          <div class="p-metric">RevPAR</div>
-          <div class="p-value">$244</div>
-          <div class="p-index">RGI 127.8</div>
+        <div class="set-perf-period">R12 ending Dec 2025 &middot; 6 comps &middot; 947 comp rooms</div>
+        <div class="set-perf-grid">
+          <div class="set-perf-cell">
+            <div class="spc-label">Occ (AKA White House)</div>
+            <div class="spc-value">80.5%</div>
+            <div class="spc-vs">vs 75.4% comp &middot; MPI 106.8</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">ADR</div>
+            <div class="spc-value">$302.9</div>
+            <div class="spc-vs">vs $253 comp &middot; ARI 119.6</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">RevPAR</div>
+            <div class="spc-value">$244.0</div>
+            <div class="spc-vs">vs $191 comp &middot; RGI 127.8</div>
+          </div>
         </div>
       </div>
-      <div class="perf-label" style="margin-top:10px;">Comp Set (Aggregate)</div>
-      <div class="perf-grid">
-        <div class="perf-cell comp-cell">
-          <div class="p-metric">Occ</div>
-          <div class="p-value">75.4%</div>
+
+      <div class="set-perf-card">
+        <div class="set-perf-header">
+          <span class="set-dot" style="background:#7b1fa2"></span>
+          <span class="set-perf-title">AKA WH — Luxury</span>
         </div>
-        <div class="perf-cell comp-cell">
-          <div class="p-metric">ADR</div>
-          <div class="p-value">$253</div>
+        <div class="set-perf-period">R12 ending Mar 2026 &middot; 6 hotels &middot; 83 rooms</div>
+        <div class="set-perf-grid">
+          <div class="set-perf-cell">
+            <div class="spc-label">Occ</div>
+            <div class="spc-value">67.1%</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">ADR</div>
+            <div class="spc-value">$620</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">RevPAR</div>
+            <div class="spc-value">$416</div>
+          </div>
         </div>
-        <div class="perf-cell comp-cell">
-          <div class="p-metric">RevPAR</div>
-          <div class="p-value">$191</div>
+      </div>
+
+      <div class="set-perf-card">
+        <div class="set-perf-header">
+          <span class="set-dot" style="background:#1565c0"></span>
+          <span class="set-perf-title">AKA WH — Large Branded</span>
+        </div>
+        <div class="set-perf-period">R12 ending Mar 2026 &middot; 4 hotels &middot; 100 rooms</div>
+        <div class="set-perf-grid">
+          <div class="set-perf-cell">
+            <div class="spc-label">Occ</div>
+            <div class="spc-value">71.0%</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">ADR</div>
+            <div class="spc-value">$291</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">RevPAR</div>
+            <div class="spc-value">$206</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-perf-card">
+        <div class="set-perf-header">
+          <span class="set-dot" style="background:#2e7d32"></span>
+          <span class="set-perf-title">AKA WH — Branded Small</span>
+        </div>
+        <div class="set-perf-period">R12 ending Mar 2026 &middot; 6 hotels &middot; 95 rooms</div>
+        <div class="set-perf-grid">
+          <div class="set-perf-cell">
+            <div class="spc-label">Occ</div>
+            <div class="spc-value">68.6%</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">ADR</div>
+            <div class="spc-value">$258</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">RevPAR</div>
+            <div class="spc-value">$177</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-perf-card">
+        <div class="set-perf-header">
+          <span class="set-dot" style="background:#c2185b"></span>
+          <span class="set-perf-title">AKA WH — Independent</span>
+        </div>
+        <div class="set-perf-period">R12 ending Mar 2026 &middot; 5 hotels &middot; 45 rooms</div>
+        <div class="set-perf-grid">
+          <div class="set-perf-cell">
+            <div class="spc-label">Occ</div>
+            <div class="spc-value">67.4%</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">ADR</div>
+            <div class="spc-value">$303</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">RevPAR</div>
+            <div class="spc-value">$204</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-perf-card">
+        <div class="set-perf-header">
+          <span class="set-dot" style="background:#00897b"></span>
+          <span class="set-perf-title">Capital Hilton STR Set</span>
+        </div>
+        <div class="set-perf-period">R12 ending December 2025 &middot; 6 comps &middot; 3,853 comp rooms</div>
+        <div class="set-perf-grid">
+          <div class="set-perf-cell">
+            <div class="spc-label">Occ (Capital Hilton)</div>
+            <div class="spc-value">74.3%</div>
+            <div class="spc-vs">vs 61.7% comp &middot; MPI 120.4</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">ADR</div>
+            <div class="spc-value">$274</div>
+            <div class="spc-vs">vs $289 comp &middot; ARI 94.8</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">RevPAR</div>
+            <div class="spc-value">$204</div>
+            <div class="spc-vs">vs $178 comp &middot; RGI 114.1</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="set-perf-card">
+        <div class="set-perf-header">
+          <span class="set-dot" style="background:#6d4c41"></span>
+          <span class="set-perf-title">Viceroy Washington DC STR Set</span>
+        </div>
+        <div class="set-perf-period">R12 ending March 2026 &middot; 5 comps &middot; 1,387 comp rooms</div>
+        <div class="set-perf-grid">
+          <div class="set-perf-cell">
+            <div class="spc-label">Occ (Viceroy Washington DC)</div>
+            <div class="spc-value">60.6%</div>
+            <div class="spc-vs">vs 71.0% comp &middot; MPI 85.4</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">ADR</div>
+            <div class="spc-value">$238</div>
+            <div class="spc-vs">vs $301 comp &middot; ARI 79.1</div>
+          </div>
+          <div class="set-perf-cell">
+            <div class="spc-label">RevPAR</div>
+            <div class="spc-value">$145</div>
+            <div class="spc-vs">vs $214 comp &middot; RGI 67.6</div>
+          </div>
         </div>
       </div>
     </div>
@@ -326,8 +434,8 @@
     </div>
 
     <div class="sidebar-footer">
-      Source: STR Report &middot; Data through December 2025<br/>
-      Performance set excludes subject property per STR methodology
+      Sources: STR Monthly STAR (Capital Hilton 2025, Viceroy DC Mar 2026); STR HospitalityDataGrid (AKA WH Luxury / Large Branded / Branded Small / Independent, R12 thru Mar 2026); original AKA WH STR comp set (R12 thru Dec 2025).<br/>
+      Subject AKA White House perf carried over from prior single-set map. Per-comp individual perf masked per STR policy.
     </div>
   </div>
 
@@ -335,204 +443,546 @@
 </div>
 
 <script>
-  const HOTELS = [
-    {
-      id: 0, subject: true,
-      name: "AKA White House", brand: "",
-      operator: "",
-      address: "1710 H St NW, Washington, DC 200064699".trim(),
-      city: "Washington, DC",
-      rooms: 141, strId: "57930",
-      lat: 38.9000628, lng: -77.0404004,
-      occ: "80.5%", adr: "$302.9", revpar: "$244.0",
+const SUBJECT = {
+  name: "AKA White House",
+  address: "1710 H St NW, Washington, DC 20006",
+  rooms: 141,
+  strId: "57930",
+  lat: 38.9000628, lng: -77.0404004,
+  occ: "80.5%",
+  adr: "$302.9",
+  revpar: "$244.0",
+};
+
+const SETS = [
+  {"id": "aka_orig", "label": "Original AKA WH STR Set", "short": "AKA Original", "color": "#d32f2f"},
+  {"id": "aka_lux", "label": "AKA WH \u2014 Luxury", "short": "Luxury", "color": "#7b1fa2"},
+  {"id": "aka_largebr", "label": "AKA WH \u2014 Large Branded", "short": "Large Branded", "color": "#1565c0"},
+  {"id": "aka_smallbr", "label": "AKA WH \u2014 Branded Small", "short": "Branded Small", "color": "#2e7d32"},
+  {"id": "aka_indep", "label": "AKA WH \u2014 Independent", "short": "Independent", "color": "#c2185b"},
+  {"id": "cap_hilton", "label": "Capital Hilton STR Set", "short": "Cap Hilton", "color": "#00897b"},
+  {"id": "viceroy_dc", "label": "Viceroy Washington DC STR Set", "short": "Viceroy DC", "color": "#6d4c41"},
+];
+
+const HOTELS = [
+  {
+    name: "Club Quarters Washington, DC, White House",
+    strId: "58724",
+    cityState: "Washington, DC",
+    zip: "20006",
+    rooms: 161,
+    klass: "",
+    lat: 38.9010596, lng: -77.0391674,
+    memberships: ["aka_orig"],
+    primarySet: "aka_orig",
+    anchorFor: [],
+  },
+  {
+    name: "Sofitel Washington DC Lafayette Square",
+    strId: "44237",
+    cityState: "Washington, DC",
+    zip: "20005",
+    rooms: 237,
+    klass: "Luxury",
+    lat: 38.90047819999999, lng: -77.03400599999999,
+    memberships: ["aka_orig", "aka_largebr", "aka_smallbr", "viceroy_dc"],
+    primarySet: "aka_orig",
+    anchorFor: [],
+  },
+  {
+    name: "Hotel AKA Washington Circle",
+    strId: "12755",
+    cityState: "Washington, DC",
+    zip: "20037",
+    rooms: 151,
+    klass: "",
+    lat: 38.9034054, lng: -77.0497749,
+    memberships: ["aka_orig"],
+    primarySet: "aka_orig",
+    anchorFor: [],
+  },
+  {
+    name: "Residence Inn Washington DC Dupont Circle",
+    strId: "39462",
+    cityState: "Washington, DC",
+    zip: "20037",
+    rooms: 107,
+    klass: "",
+    lat: 38.9094048, lng: -77.0473822,
+    memberships: ["aka_orig"],
+    primarySet: "aka_orig",
+    anchorFor: [],
+  },
+  {
+    name: "Homewood Suites by Hilton Washington, D.C. Downtown",
+    strId: "41569",
+    cityState: "Washington, DC",
+    zip: "20005",
+    rooms: 175,
+    klass: "",
+    lat: 38.90653, lng: -77.0334506,
+    memberships: ["aka_orig"],
+    primarySet: "aka_orig",
+    anchorFor: [],
+  },
+  {
+    name: "Hampton by Hilton Inn Washington DC/ White House",
+    strId: "61938",
+    cityState: "Washington, DC",
+    zip: "20006",
+    rooms: 116,
+    klass: "",
+    lat: 38.9006021, lng: -77.031455,
+    memberships: ["aka_orig"],
+    primarySet: "aka_orig",
+    anchorFor: [],
+  },
+  {
+    name: "The St. Regis Washington, D.C.",
+    strId: "1352223",
+    cityState: "Washington, DC",
+    zip: "20006",
+    rooms: 182,
+    klass: "Luxury",
+    lat: 38.9021897, lng: -77.036168,
+    memberships: ["aka_lux"],
+    primarySet: "aka_lux",
+    anchorFor: [],
+  },
+  {
+    name: "The Ritz-Carlton, Washington, D.C.",
+    strId: "1563198",
+    cityState: "Washington, DC",
+    zip: "20037",
+    rooms: 300,
+    klass: "Luxury",
+    lat: 38.9046966, lng: -77.0490792,
+    memberships: ["aka_lux"],
+    primarySet: "aka_lux",
+    anchorFor: [],
+  },
+  {
+    name: "Conrad Washington DC",
+    strId: "11494292",
+    cityState: "Washington, DC",
+    zip: "20001",
+    rooms: 360,
+    klass: "Luxury",
+    lat: 38.9014786, lng: -77.0253522,
+    memberships: ["aka_lux"],
+    primarySet: "aka_lux",
+    anchorFor: [],
+  },
+  {
+    name: "Waldorf Astoria Washington DC",
+    strId: "9408509",
+    cityState: "Washington, DC",
+    zip: "20004",
+    rooms: 263,
+    klass: "Luxury",
+    lat: 38.894108, lng: -77.027582,
+    memberships: ["aka_lux"],
+    primarySet: "aka_lux",
+    anchorFor: [],
+  },
+  {
+    name: "InterContinental The Willard Washington D.C.",
+    strId: "1257135",
+    cityState: "Washington, DC",
+    zip: "20004",
+    rooms: 335,
+    klass: "Luxury",
+    lat: 38.8968125, lng: -77.0322812,
+    memberships: ["aka_lux"],
+    primarySet: "aka_lux",
+    anchorFor: [],
+  },
+  {
+    name: "Four Seasons Hotel Washington, DC",
+    strId: "1319849",
+    cityState: "Washington, DC",
+    zip: "20007",
+    rooms: 212,
+    klass: "Luxury",
+    lat: 38.9048185, lng: -77.0572948,
+    memberships: ["aka_lux"],
+    primarySet: "aka_lux",
+    anchorFor: [],
+  },
+  {
+    name: "Capital Hilton",
+    strId: "1147762",
+    cityState: "Washington, DC",
+    zip: "20036",
+    rooms: 559,
+    klass: "Upper Upscale",
+    lat: 38.9032196, lng: -77.0357171,
+    memberships: ["aka_largebr", "aka_smallbr", "cap_hilton"],
+    primarySet: "cap_hilton",
+    anchorFor: ["cap_hilton"],
+  },
+  {
+    name: "The Westin Washington, D.C. City Center",
+    strId: "1293136",
+    cityState: "Washington, DC",
+    zip: "20005",
+    rooms: 410,
+    klass: "Upper Upscale",
+    lat: 38.9052525, lng: -77.0333279,
+    memberships: ["aka_largebr", "aka_smallbr", "cap_hilton"],
+    primarySet: "aka_largebr",
+    anchorFor: [],
+  },
+  {
+    name: "JW Marriott Hotel Washington",
+    strId: "1300751",
+    cityState: "Washington, DC",
+    zip: "20004",
+    rooms: 777,
+    klass: "Luxury",
+    lat: 38.8889765, lng: -77.0420541,
+    memberships: ["aka_largebr", "cap_hilton"],
+    primarySet: "aka_largebr",
+    anchorFor: [],
+  },
+  {
+    name: "Le Meridien Madison, Washington, DC",
+    strId: "1327151",
+    cityState: "Washington, DC",
+    zip: "20005",
+    rooms: 356,
+    klass: "Upper Upscale",
+    lat: 38.9052359, lng: -77.0340823,
+    memberships: ["aka_smallbr", "cap_hilton", "viceroy_dc"],
+    primarySet: "aka_smallbr",
+    anchorFor: [],
+  },
+  {
+    name: "Kimpton Banneker Hotel",
+    strId: "4319635",
+    cityState: "Washington, DC",
+    zip: "20036",
+    rooms: 144,
+    klass: "Upper Upscale",
+    lat: 38.9082411, lng: -77.0361862,
+    memberships: ["aka_smallbr"],
+    primarySet: "aka_smallbr",
+    anchorFor: [],
+  },
+  {
+    name: "Kimpton Hotel Monaco Washington DC",
+    strId: "5904036",
+    cityState: "Washington, DC",
+    zip: "20004",
+    rooms: 184,
+    klass: "Upper Upscale",
+    lat: 38.8970339, lng: -77.022408,
+    memberships: ["aka_smallbr"],
+    primarySet: "aka_smallbr",
+    anchorFor: [],
+  },
+  {
+    name: "The Jefferson",
+    strId: "4684849",
+    cityState: "Washington, DC",
+    zip: "20036",
+    rooms: 99,
+    klass: "Luxury",
+    lat: 38.9059541, lng: -77.03683029999999,
+    memberships: ["aka_indep", "viceroy_dc"],
+    primarySet: "aka_indep",
+    anchorFor: [],
+  },
+  {
+    name: "Riggs Washington DC",
+    strId: "5081464",
+    cityState: "Washington, DC",
+    zip: "20004",
+    rooms: 181,
+    klass: "Luxury",
+    lat: 38.8971091, lng: -77.0244208,
+    memberships: ["aka_indep"],
+    primarySet: "aka_indep",
+    anchorFor: [],
+  },
+  {
+    name: "The Dupont Circle",
+    strId: "4119509",
+    cityState: "Washington, DC",
+    zip: "20036",
+    rooms: 318,
+    klass: "Luxury",
+    lat: 38.9080786, lng: -77.04061469999999,
+    memberships: ["aka_indep"],
+    primarySet: "aka_indep",
+    anchorFor: [],
+  },
+  {
+    name: "The Darcy Washington DC",
+    strId: "4610511",
+    cityState: "Washington, DC",
+    zip: "20005",
+    rooms: 226,
+    klass: "Luxury",
+    lat: 38.9078331, lng: -77.0356237,
+    memberships: ["aka_indep"],
+    primarySet: "aka_indep",
+    anchorFor: [],
+  },
+  {
+    name: "The Graham Georgetown",
+    strId: "4648285",
+    cityState: "Washington, DC",
+    zip: "20007",
+    rooms: 60,
+    klass: "Luxury",
+    lat: 38.9047703, lng: -77.059985,
+    memberships: ["aka_indep"],
+    primarySet: "aka_indep",
+    anchorFor: [],
+  },
+  {
+    name: "Hyatt Regency Washington on Capitol Hill",
+    strId: "5769",
+    cityState: "Washington, DC",
+    zip: "20001",
+    rooms: 840,
+    klass: "",
+    lat: 38.89543990000001, lng: -77.01168,
+    memberships: ["cap_hilton"],
+    primarySet: "cap_hilton",
+    anchorFor: [],
+  },
+  {
+    name: "The Mayflower Hotel, Autograph Collection",
+    strId: "10342",
+    cityState: "Washington, DC",
+    zip: "20036",
+    rooms: 585,
+    klass: "",
+    lat: 38.9046238, lng: -77.03989949999999,
+    memberships: ["cap_hilton"],
+    primarySet: "cap_hilton",
+    anchorFor: [],
+  },
+  {
+    name: "Hamilton Hotel",
+    strId: "33217",
+    cityState: "Washington, DC",
+    zip: "20005",
+    rooms: 326,
+    klass: "",
+    lat: 38.9029733, lng: -77.03156059999999,
+    memberships: ["cap_hilton"],
+    primarySet: "cap_hilton",
+    anchorFor: [],
+  },
+  {
+    name: "Viceroy Washington DC",
+    strId: "7621",
+    cityState: "Washington, DC",
+    zip: "20005",
+    rooms: 178,
+    klass: "",
+    lat: 38.9081555, lng: -77.03292239999999,
+    memberships: ["viceroy_dc"],
+    primarySet: "viceroy_dc",
+    anchorFor: ["viceroy_dc"],
+  },
+  {
+    name: "Hotel Washington",
+    strId: "12751",
+    cityState: "Washington, DC",
+    zip: "200041006",
+    rooms: 326,
+    klass: "",
+    lat: 38.8969586, lng: -77.03321369999999,
+    memberships: ["viceroy_dc"],
+    primarySet: "viceroy_dc",
+    anchorFor: [],
+  },
+  {
+    name: "Hotel Zena Washington DC",
+    strId: "612",
+    cityState: "Washington, DC",
+    zip: "200054111",
+    rooms: 191,
+    klass: "",
+    lat: 38.9051221, lng: -77.0315845,
+    memberships: ["viceroy_dc"],
+    primarySet: "viceroy_dc",
+    anchorFor: [],
+  },
+];
+
+const SET_BY_ID = {};
+SETS.forEach(s => { SET_BY_ID[s.id] = s; });
+
+let map, infoWindow;
+const markers = [];
+
+function svgPin(color, label, anchor=false, star=false) {
+  const labelText = star ? '★' : (label === '' ? '' : label);
+  const fontSize = star ? 18 : 12;
+  const stroke = anchor ? '3' : '1.5';
+  const strokeDash = anchor ? 'stroke-dasharray="4,2"' : '';
+  return {
+    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="38" height="46" viewBox="0 0 38 46">
+        <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/></filter>
+        <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
+              fill="${color}" stroke="white" stroke-width="${stroke}" ${strokeDash} filter="url(#s)"/>
+        <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
+              font-family="Arial,sans-serif" font-size="${fontSize}"
+              font-weight="bold" fill="white">${labelText}</text>
+      </svg>`),
+    scaledSize: new google.maps.Size(38, 46),
+    anchor: new google.maps.Point(19, 44)
+  };
+}
+
+function membershipBadges(h, inline=false) {
+  const cls = inline ? 'gm-iw-badges' : 'h-badges';
+  const items = h.memberships.map(sid => {
+    const s = SET_BY_ID[sid];
+    const isAnchor = (h.anchorFor || []).includes(sid);
+    const label = (isAnchor ? '★ ' : '') + s.short;
+    return `<span class="h-badge" style="background:${s.color}">${label}</span>`;
+  }).join('');
+  return `<div class="${cls}">${items}</div>`;
+}
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: SUBJECT.lat, lng: SUBJECT.lng },
+    zoom: 14,
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+      style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+      position: google.maps.ControlPosition.TOP_RIGHT
     },
-    {
-      id: 1, subject: false,
-      name: "Club Quarters Washington, DC, White House", brand: "",
-      operator: "",
-      address: ", Washington, DC 20006".trim(),
-      city: "Washington, DC",
-      rooms: 161, strId: "58724",
-      lat: 38.9010596, lng: -77.0391674,
+    streetViewControl: true,
+    fullscreenControl: true,
+    styles: [
+      { featureType: "poi.business", stylers: [{ visibility: "off" }] },
+      { featureType: "transit", stylers: [{ visibility: "simplified" }] }
+    ]
+  });
 
-    },
-    {
-      id: 2, subject: false,
-      name: "Sofitel Washington DC Lafayette Square", brand: "",
-      operator: "",
-      address: ", Washington, DC 20005".trim(),
-      city: "Washington, DC",
-      rooms: 237, strId: "44237",
-      lat: 38.90047819999999, lng: -77.03400599999999,
+  infoWindow = new google.maps.InfoWindow({ maxWidth: 300 });
 
-    },
-    {
-      id: 3, subject: false,
-      name: "Hotel AKA Washington Circle", brand: "",
-      operator: "",
-      address: ", Washington, DC 20037".trim(),
-      city: "Washington, DC",
-      rooms: 151, strId: "12755",
-      lat: 38.9034054, lng: -77.0497749,
+  new google.maps.Circle({
+    map,
+    center: { lat: SUBJECT.lat, lng: SUBJECT.lng },
+    radius: 800,
+    strokeColor: '#f59e0b',
+    strokeOpacity: 0.4,
+    strokeWeight: 1.5,
+    fillColor: '#f59e0b',
+    fillOpacity: 0.04,
+    clickable: false
+  });
 
-    },
-    {
-      id: 4, subject: false,
-      name: "Residence Inn Washington DC Dupont Circle", brand: "",
-      operator: "",
-      address: ", Washington, DC 20037".trim(),
-      city: "Washington, DC",
-      rooms: 107, strId: "39462",
-      lat: 38.9094048, lng: -77.0473822,
+  const bounds = new google.maps.LatLngBounds();
+  const listEl = document.getElementById('hotel-list');
 
-    },
-    {
-      id: 5, subject: false,
-      name: "Homewood Suites by Hilton Washington, D.C. Downtown", brand: "",
-      operator: "",
-      address: ", Washington, DC 20005".trim(),
-      city: "Washington, DC",
-      rooms: 175, strId: "41569",
-      lat: 38.90653, lng: -77.0334506,
+  // SUBJECT (gold star) — always rendered first, highest zIndex
+  const subjMarker = new google.maps.Marker({
+    position: { lat: SUBJECT.lat, lng: SUBJECT.lng },
+    map,
+    icon: svgPin('#f59e0b', '', false, true),
+    title: SUBJECT.name,
+    zIndex: 1000
+  });
+  bounds.extend({ lat: SUBJECT.lat, lng: SUBJECT.lng });
+  const subjIw = `
+    <div class="gm-iw">
+      <div class="gm-iw-title">${SUBJECT.name}</div>
+      <div class="gm-iw-meta">${SUBJECT.address}</div>
+      <div class="gm-iw-meta">${SUBJECT.rooms} keys &middot; STR ID: ${SUBJECT.strId}</div>
+      <div class="gm-iw-badges"><span class="h-badge subject-badge">Subject Property</span></div>
+      <hr class="gm-iw-divider"/>
+      <div class="gm-iw-stats">
+        <div class="gm-stat"><div class="gm-stat-label">OCC</div><div class="gm-stat-value">${SUBJECT.occ}</div></div>
+        <div class="gm-stat"><div class="gm-stat-label">ADR</div><div class="gm-stat-value">${SUBJECT.adr}</div></div>
+        <div class="gm-stat"><div class="gm-stat-label">RevPAR</div><div class="gm-stat-value">${SUBJECT.revpar}</div></div>
+      </div>
+      <div class="gm-iw-note">R12 ending Dec 2025 &middot; Source: STR</div>
+    </div>`;
+  subjMarker.addListener('click', () => { infoWindow.setContent(subjIw); infoWindow.open(map, subjMarker); });
 
-    },
-    {
-      id: 6, subject: false,
-      name: "Hampton by Hilton Inn Washington DC/ White House", brand: "",
-      operator: "",
-      address: ", Washington, DC 200063901".trim(),
-      city: "Washington, DC",
-      rooms: 116, strId: "61938",
-      lat: 38.9006021, lng: -77.031455,
+  // Sidebar entry for subject
+  const subjItem = document.createElement('div');
+  subjItem.className = 'hotel-item';
+  subjItem.innerHTML = `
+    <div class="h-pin subject-pin">★</div>
+    <div class="h-info">
+      <h4>${SUBJECT.name}</h4>
+      <div class="h-meta">${SUBJECT.address}</div>
+      <div class="h-badges"><span class="h-badge subject-badge">Subject</span></div>
+    </div>`;
+  subjItem.addEventListener('click', () => {
+    map.panTo({ lat: SUBJECT.lat, lng: SUBJECT.lng });
+    map.setZoom(16);
+    infoWindow.setContent(subjIw);
+    infoWindow.open(map, subjMarker);
+  });
+  listEl.appendChild(subjItem);
 
-    },
-  ];
+  // Comps
+  HOTELS.forEach((h, i) => {
+    if (!h.lat || !h.lng) return;
+    const primary = SET_BY_ID[h.primarySet];
+    const isAnchor = (h.anchorFor || []).length > 0;
+    const icon = svgPin(primary.color, '', isAnchor, false);
 
-  let map, infoWindow;
-  const markers = [];
-
-  function initMap() {
-    const subj = HOTELS.find(h => h.subject);
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 38.90307755714286, lng: -77.03937664285715 },
-      zoom: 14,
-      mapTypeControl: true,
-      mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: google.maps.ControlPosition.TOP_RIGHT
-      },
-      streetViewControl: true,
-      fullscreenControl: true,
-      styles: [
-        { featureType: "poi.business", stylers: [{ visibility: "off" }] },
-        { featureType: "transit", stylers: [{ visibility: "simplified" }] }
-      ]
-    });
-
-    infoWindow = new google.maps.InfoWindow({ maxWidth: 290 });
-
-    new google.maps.Circle({
+    const marker = new google.maps.Marker({
+      position: { lat: h.lat, lng: h.lng },
       map,
-      center: { lat: subj.lat, lng: subj.lng },
-      radius: 800,
-      strokeColor: '#c62828',
-      strokeOpacity: 0.4,
-      strokeWeight: 1.5,
-      fillColor: '#c62828',
-      fillOpacity: 0.04,
-      clickable: false
+      icon,
+      title: h.name,
+      zIndex: 100 + i
     });
+    markers.push(marker);
+    bounds.extend({ lat: h.lat, lng: h.lng });
 
-    const listEl = document.getElementById('hotel-list');
-    const bounds = new google.maps.LatLngBounds();
+    const iw = `
+      <div class="gm-iw">
+        <div class="gm-iw-title">${h.name}</div>
+        <div class="gm-iw-meta">${h.cityState} ${h.zip}${h.klass ? ' &middot; ' + h.klass : ''}</div>
+        <div class="gm-iw-meta">${h.rooms.toLocaleString()} keys${h.strId ? ' &middot; STR ID: ' + h.strId : ''}</div>
+        ${membershipBadges(h, true)}
+        ${(h.anchorFor || []).length ? '<div class="gm-iw-note">★ STR subject for ' + h.anchorFor.map(sid => SET_BY_ID[sid].short).join(', ') + '</div>' : ''}
+        <hr class="gm-iw-divider"/>
+        <div class="gm-iw-masked">Individual per-comp performance masked per STR policy &mdash; see per-set R12 panels in sidebar.</div>
+      </div>`;
+    marker.addListener('click', () => { infoWindow.setContent(iw); infoWindow.open(map, marker); });
 
-    HOTELS.forEach((h, i) => {
-      const label = h.subject ? '★' : String(i);
-      const color = h.subject ? '#c62828' : '#1565c0';
-
-      const svgIcon = {
-        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="46" viewBox="0 0 38 46">
-            <filter id="s">
-              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/>
-            </filter>
-            <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
-                  fill="${color}" stroke="white" stroke-width="1.5" filter="url(#s)"/>
-            <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
-                  font-family="Arial,sans-serif" font-size="${h.subject ? 14 : 13}"
-                  font-weight="bold" fill="white">${label}</text>
-          </svg>`),
-        scaledSize: new google.maps.Size(38, 46),
-        anchor: new google.maps.Point(19, 44)
-      };
-
-      const marker = new google.maps.Marker({
-        position: { lat: h.lat, lng: h.lng },
-        map,
-        icon: svgIcon,
-        title: h.name,
-        zIndex: h.subject ? 100 : i
-      });
-
-      markers.push(marker);
-      bounds.extend({ lat: h.lat, lng: h.lng });
-
-      const statsHtml = h.subject
-        ? `<hr class="gm-iw-divider"/>
-           <div class="gm-iw-stats">
-             <div class="gm-stat"><div class="gm-stat-label">OCC</div><div class="gm-stat-value">${h.occ}</div></div>
-             <div class="gm-stat"><div class="gm-stat-label">ADR</div><div class="gm-stat-value">${h.adr}</div></div>
-             <div class="gm-stat"><div class="gm-stat-label">RevPAR</div><div class="gm-stat-value">${h.revpar}</div></div>
-           </div>
-           <div class="gm-iw-note">Running 12-Month &middot; Source: STR</div>`
-        : `<div class="gm-iw-masked">Individual comp performance masked per STR policy</div>`;
-
-      const iwContent = `
-        <div class="gm-iw">
-          <div class="gm-iw-title">${h.name}</div>
-          <div class="gm-iw-brand">${h.brand}</div>
-          <div>
-            <span class="gm-iw-badge">${h.rooms.toLocaleString()} Keys</span>
-            ${h.subject ? '<span class="gm-iw-subject-badge">Subject Property</span>' : ''}
-          </div>
-          <div class="gm-iw-meta" style="margin-top:6px;">${h.address}</div>
-          <div class="gm-iw-meta">Operator: ${h.operator}</div>
-          <div class="gm-iw-str">STR ID: ${h.strId}</div>
-          ${statsHtml}
-        </div>`;
-
-      marker.addListener('click', () => {
-        infoWindow.setContent(iwContent);
-        infoWindow.open(map, marker);
-      });
-
-      const item = document.createElement('div');
-      item.className = `hotel-item${h.subject ? ' is-subject' : ''}`;
-      item.innerHTML = `
-        <div class="h-pin ${h.subject ? 'pin-subject' : 'pin-comp'}">${label}</div>
-        <div class="h-info">
-          <h4>${h.name}</h4>
-          <div class="h-meta">${h.address.split(',')[0]}</div>
-          <span class="h-badge">${h.rooms.toLocaleString()} keys</span>
-          ${h.subject ? '<span class="h-badge subject-badge">Subject</span>' : ''}
-        </div>`;
-      item.addEventListener('click', () => {
-        map.panTo({ lat: h.lat, lng: h.lng });
-        map.setZoom(16);
-        infoWindow.setContent(iwContent);
-        infoWindow.open(map, marker);
-      });
-      listEl.appendChild(item);
+    const item = document.createElement('div');
+    item.className = 'hotel-item';
+    item.innerHTML = `
+      <div class="h-pin" style="background:${primary.color};${isAnchor ? 'border-style:dashed;' : ''}">${isAnchor ? '★' : ''}</div>
+      <div class="h-info">
+        <h4>${h.name}</h4>
+        <div class="h-meta">${h.cityState}${h.zip ? ' ' + h.zip : ''} &middot; ${h.rooms.toLocaleString()} keys</div>
+        ${membershipBadges(h, false)}
+      </div>`;
+    item.addEventListener('click', () => {
+      map.panTo({ lat: h.lat, lng: h.lng });
+      map.setZoom(16);
+      infoWindow.setContent(iw);
+      infoWindow.open(map, marker);
     });
+    listEl.appendChild(item);
+  });
 
-    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
-  }
+  map.fitBounds(bounds, { top: 70, right: 70, bottom: 70, left: 70 });
+}
 </script>
 
 <script
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap"
   async defer>
 </script>
-
 </body>
 </html>
