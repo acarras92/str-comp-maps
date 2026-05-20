@@ -485,7 +485,7 @@ def build_perf_panels_html(set_perf):
         if "subj_occ" in perf:
             # Anchor-vs-comp style (Original AKA, Cap Hilton, Viceroy)
             rows.append(f"""
-      <div class="set-perf-card">
+      <div class="set-perf-card" data-set-id="{s['id']}">
         <div class="set-perf-header">
           <span class="set-dot" style="background:{color}"></span>
           <span class="set-perf-title">{s['label']}</span>
@@ -512,7 +512,7 @@ def build_perf_panels_html(set_perf):
         elif "occ" in perf:
             # Composite-only style (AKA segment sets — subject not in set)
             rows.append(f"""
-      <div class="set-perf-card">
+      <div class="set-perf-card" data-set-id="{s['id']}">
         <div class="set-perf-header">
           <span class="set-dot" style="background:{color}"></span>
           <span class="set-perf-title">{s['label']}</span>
@@ -538,15 +538,23 @@ def build_perf_panels_html(set_perf):
 
 def build_legend_rows():
     rows = [f"""
-      <div class="legend-row">
+      <div class="legend-row legend-subject">
         <div class="leg-marker leg-star" style="background:{SUBJECT_COLOR}">★</div>
         <span class="leg-label">{SUBJECT['name']} (Subject)</span>
       </div>"""]
     for s in COMP_SETS:
         rows.append(f"""
-      <div class="legend-row">
+      <label class="legend-row toggle-row" data-set-id="{s['id']}">
+        <input type="checkbox" class="set-toggle" data-set-id="{s['id']}" checked />
         <div class="leg-marker" style="background:{s['color']}"></div>
         <span class="leg-label">{s['label']}</span>
+      </label>""")
+    # Show All / Hide All buttons
+    rows.append("""
+      <div class="legend-controls">
+        <button type="button" id="legend-show-all" class="legend-btn">Show all</button>
+        <button type="button" id="legend-hide-all" class="legend-btn">Hide all</button>
+        <button type="button" id="legend-fit" class="legend-btn">Zoom to visible</button>
       </div>""")
     return "\n".join(rows)
 
@@ -689,6 +697,25 @@ def generate_html(merged, set_perf):
       display: flex; align-items: center; gap: 8px;
       margin-bottom: 6px; font-size: 11.5px; color: #334;
     }}
+    .legend-row.toggle-row {{
+      cursor: pointer;
+      user-select: none;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: background 0.12s;
+    }}
+    .legend-row.toggle-row:hover {{ background: #f3f6fc; }}
+    .legend-row.toggle-row input[type="checkbox"] {{
+      width: 13px; height: 13px;
+      margin: 0;
+      flex-shrink: 0;
+      cursor: pointer;
+      accent-color: #2956b2;
+    }}
+    .legend-row.toggle-row.is-off .leg-label,
+    .legend-row.toggle-row.is-off .leg-marker {{
+      opacity: 0.35;
+    }}
     .leg-marker {{
       width: 14px; height: 14px;
       border-radius: 50%;
@@ -702,6 +729,25 @@ def generate_html(merged, set_perf):
       color: #ffffff; font-size: 9px; font-weight: 700;
     }}
     .leg-label {{ line-height: 1.25; }}
+    .legend-controls {{
+      display: flex; gap: 5px; margin-top: 9px; flex-wrap: wrap;
+    }}
+    .legend-btn {{
+      flex: 1 1 auto;
+      min-width: 0;
+      font-size: 10px;
+      padding: 5px 7px;
+      border: 1px solid #c5d0e0;
+      background: #f8fafd;
+      color: #1a2744;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.12s, border-color 0.12s;
+    }}
+    .legend-btn:hover {{ background: #eef3fb; border-color: #97a8c5; }}
+    .legend-btn:active {{ background: #dde6f3; }}
+    .set-perf-card.is-hidden, .hotel-item.is-hidden {{ display: none; }}
     .set-perf-card {{
       background: #f8fafd;
       border: 1px solid #e3e9f3;
@@ -874,15 +920,73 @@ function svgPin(color, label, anchor=false, star=false) {{
   }};
 }}
 
-function membershipBadges(h, inline=false) {{
+function membershipBadges(h, inline=false, only=null) {{
+  // `only` = Set<setId> of active sets; null = all memberships.
   const cls = inline ? 'gm-iw-badges' : 'h-badges';
-  const items = h.memberships.map(sid => {{
+  const mships = only
+    ? h.memberships.filter(sid => only.has(sid))
+    : h.memberships;
+  const items = mships.map(sid => {{
     const s = SET_BY_ID[sid];
     const isAnchor = (h.anchorFor || []).includes(sid);
     const label = (isAnchor ? '★ ' : '') + s.short;
     return `<span class="h-badge" style="background:${{s.color}}">${{label}}</span>`;
   }}).join('');
   return `<div class="${{cls}}">${{items}}</div>`;
+}}
+
+// Track which sets are active. Start with all enabled.
+const ACTIVE_SETS = new Set(SETS.map(s => s.id));
+
+// Per-hotel records (populated in initMap) so we can re-render on toggle.
+const HOTEL_RECORDS = [];
+
+function visiblePrimary(h, active) {{
+  // Anchor-aware: if hotel anchors any *visible* set, color by that anchor's highest-priority.
+  const visAnchors = (h.anchorFor || []).filter(sid => active.has(sid));
+  if (visAnchors.length) {{
+    return SET_BY_ID[visAnchors[0]]; // already sorted by priority server-side
+  }}
+  const visMships = h.memberships.filter(sid => active.has(sid));
+  return visMships.length ? SET_BY_ID[visMships[0]] : null;
+}}
+
+function refreshFromToggles() {{
+  // 1. Hotels: recompute visibility + primary set + marker icon + sidebar
+  HOTEL_RECORDS.forEach(rec => {{
+    const primary = visiblePrimary(rec.hotel, ACTIVE_SETS);
+    if (!primary) {{
+      rec.marker.setMap(null);
+      rec.item.classList.add('is-hidden');
+      return;
+    }}
+    rec.marker.setMap(map);
+    rec.item.classList.remove('is-hidden');
+    // Anchor styling only if the anchor set is visible
+    const isVisibleAnchor = (rec.hotel.anchorFor || []).some(sid => ACTIVE_SETS.has(sid));
+    rec.marker.setIcon(svgPin(primary.color, '', isVisibleAnchor, false));
+    // Refresh sidebar item color + visible badges
+    const pinEl = rec.item.querySelector('.h-pin');
+    pinEl.style.background = primary.color;
+    pinEl.style.borderStyle = isVisibleAnchor ? 'dashed' : 'solid';
+    pinEl.textContent = isVisibleAnchor ? '★' : '';
+    const badgesEl = rec.item.querySelector('.h-badges');
+    badgesEl.outerHTML = membershipBadges(rec.hotel, false, ACTIVE_SETS);
+    // Rebuild info window content too
+    rec.refreshIw(primary, isVisibleAnchor);
+  }});
+
+  // 2. Per-set perf panels: show/hide
+  document.querySelectorAll('.set-perf-card[data-set-id]').forEach(card => {{
+    const sid = card.getAttribute('data-set-id');
+    card.classList.toggle('is-hidden', !ACTIVE_SETS.has(sid));
+  }});
+
+  // 3. Legend row dimming
+  document.querySelectorAll('.legend-row.toggle-row').forEach(row => {{
+    const sid = row.getAttribute('data-set-id');
+    row.classList.toggle('is-off', !ACTIVE_SETS.has(sid));
+  }});
 }}
 
 function initMap() {{
@@ -979,17 +1083,22 @@ function initMap() {{
     markers.push(marker);
     bounds.extend({{ lat: h.lat, lng: h.lng }});
 
-    const iw = `
-      <div class="gm-iw">
-        <div class="gm-iw-title">${{h.name}}</div>
-        <div class="gm-iw-meta">${{h.cityState}} ${{h.zip}}${{h.klass ? ' &middot; ' + h.klass : ''}}</div>
-        <div class="gm-iw-meta">${{h.rooms.toLocaleString()}} keys${{h.strId ? ' &middot; STR ID: ' + h.strId : ''}}</div>
-        ${{membershipBadges(h, true)}}
-        ${{(h.anchorFor || []).length ? '<div class="gm-iw-note">★ STR subject for ' + h.anchorFor.map(sid => SET_BY_ID[sid].short).join(', ') + '</div>' : ''}}
-        <hr class="gm-iw-divider"/>
-        <div class="gm-iw-masked">Individual per-comp performance masked per STR policy &mdash; see per-set R12 panels in sidebar.</div>
-      </div>`;
-    marker.addListener('click', () => {{ infoWindow.setContent(iw); infoWindow.open(map, marker); }});
+    let iwHtml = '';
+    const refreshIw = (pri, anchorVisible) => {{
+      const anchorSets = (h.anchorFor || []).filter(sid => ACTIVE_SETS.has(sid));
+      iwHtml = `
+        <div class="gm-iw">
+          <div class="gm-iw-title">${{h.name}}</div>
+          <div class="gm-iw-meta">${{h.cityState}} ${{h.zip}}${{h.klass ? ' &middot; ' + h.klass : ''}}</div>
+          <div class="gm-iw-meta">${{h.rooms.toLocaleString()}} keys${{h.strId ? ' &middot; STR ID: ' + h.strId : ''}}</div>
+          ${{membershipBadges(h, true, ACTIVE_SETS)}}
+          ${{anchorSets.length ? '<div class="gm-iw-note">★ STR subject for ' + anchorSets.map(sid => SET_BY_ID[sid].short).join(', ') + '</div>' : ''}}
+          <hr class="gm-iw-divider"/>
+          <div class="gm-iw-masked">Individual per-comp performance masked per STR policy &mdash; see per-set R12 panels in sidebar.</div>
+        </div>`;
+    }};
+    refreshIw(primary, isAnchor);
+    marker.addListener('click', () => {{ infoWindow.setContent(iwHtml); infoWindow.open(map, marker); }});
 
     const item = document.createElement('div');
     item.className = 'hotel-item';
@@ -998,18 +1107,60 @@ function initMap() {{
       <div class="h-info">
         <h4>${{h.name}}</h4>
         <div class="h-meta">${{h.cityState}}${{h.zip ? ' ' + h.zip : ''}} &middot; ${{h.rooms.toLocaleString()}} keys</div>
-        ${{membershipBadges(h, false)}}
+        ${{membershipBadges(h, false, ACTIVE_SETS)}}
       </div>`;
     item.addEventListener('click', () => {{
       map.panTo({{ lat: h.lat, lng: h.lng }});
       map.setZoom(16);
-      infoWindow.setContent(iw);
+      infoWindow.setContent(iwHtml);
       infoWindow.open(map, marker);
     }});
     listEl.appendChild(item);
+
+    HOTEL_RECORDS.push({{ hotel: h, marker, item, refreshIw }});
   }});
 
   map.fitBounds(bounds, {{ top: 70, right: 70, bottom: 70, left: 70 }});
+
+  // ── Wire up the toggle controls ──
+  document.querySelectorAll('.set-toggle').forEach(cb => {{
+    cb.addEventListener('change', () => {{
+      const sid = cb.getAttribute('data-set-id');
+      if (cb.checked) ACTIVE_SETS.add(sid);
+      else ACTIVE_SETS.delete(sid);
+      refreshFromToggles();
+    }});
+  }});
+
+  document.getElementById('legend-show-all').addEventListener('click', () => {{
+    document.querySelectorAll('.set-toggle').forEach(cb => {{
+      cb.checked = true;
+      ACTIVE_SETS.add(cb.getAttribute('data-set-id'));
+    }});
+    refreshFromToggles();
+  }});
+
+  document.getElementById('legend-hide-all').addEventListener('click', () => {{
+    document.querySelectorAll('.set-toggle').forEach(cb => {{
+      cb.checked = false;
+      ACTIVE_SETS.delete(cb.getAttribute('data-set-id'));
+    }});
+    refreshFromToggles();
+  }});
+
+  document.getElementById('legend-fit').addEventListener('click', () => {{
+    const b = new google.maps.LatLngBounds();
+    b.extend({{ lat: SUBJECT.lat, lng: SUBJECT.lng }});
+    let any = false;
+    HOTEL_RECORDS.forEach(rec => {{
+      if (rec.marker.getMap()) {{
+        b.extend({{ lat: rec.hotel.lat, lng: rec.hotel.lng }});
+        any = true;
+      }}
+    }});
+    if (any) map.fitBounds(b, {{ top: 70, right: 70, bottom: 70, left: 70 }});
+    else map.panTo({{ lat: SUBJECT.lat, lng: SUBJECT.lng }});
+  }});
 }}
 </script>
 
