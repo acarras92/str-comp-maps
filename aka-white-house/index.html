@@ -117,6 +117,15 @@
       color: #ffffff; font-size: 9px; font-weight: 700;
     }
     .leg-label { line-height: 1.25; }
+    .leg-marker.leg-glyph {
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 10px; font-weight: 700; line-height: 1;
+    }
+    .legend-subhead {
+      font-size: 9px; text-transform: uppercase; letter-spacing: 0.6px;
+      color: #97a3bd; font-weight: 700;
+      margin: 9px 0 6px; padding-top: 8px; border-top: 1px dashed #e3e8f0;
+    }
     .legend-controls {
       display: flex; gap: 5px; margin-top: 9px; flex-wrap: wrap;
     }
@@ -210,6 +219,7 @@
       max-width: 280px;
     }
     .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; margin-bottom: 2px; }
+    .gm-iw-brand { font-size: 10px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
     .gm-iw-meta { font-size: 11px; color: #556; margin-bottom: 3px; }
     .gm-iw-badges { margin-top: 4px; display: flex; flex-wrap: wrap; gap: 3px; }
     .gm-iw-divider { border: none; border-top: 1px solid #eaecf0; margin: 8px 0; }
@@ -225,6 +235,14 @@
     .h-stat b { color: #1565c0; font-weight: 700; }
     .gm-iw-note { font-size: 9px; color: #aabbd0; margin-top: 5px; }
     .gm-iw-masked { font-size: 10px; color: #8090b0; margin-top: 6px; font-style: italic; }
+    .gm-iw-status { font-size: 10px; color: #5d6b85; margin-top: 6px; }
+    .supply-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+    .supply-cell {
+      background: #f8fafd; border: 1px solid #e3e9f3;
+      border-radius: 6px; padding: 8px 4px; text-align: center;
+    }
+    .supply-num { font-size: 18px; font-weight: 700; line-height: 1.1; }
+    .supply-cap { font-size: 8.5px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }
   </style>
 </head>
 <body>
@@ -232,7 +250,7 @@
 <div class="header">
   <div class="header-left">
     <h1>AKA White House &mdash; Multi-Comp-Set Map</h1>
-    <p>Washington, DC &middot; 7 STR comp sets &middot; 29 unique hotels plotted &middot; R12 thru Mar 2026</p>
+    <p>Washington, DC &middot; 7 STR comp sets + Capital Hilton supply pipeline &middot; 40 hotels plotted &middot; R12 thru Mar 2026</p>
   </div>
   <div class="header-right">
     <div class="kpi-card">
@@ -308,13 +326,27 @@
         <span class="leg-label">Viceroy Washington DC STR Set</span>
       </label>
 
+      <div class="legend-subhead">Submarket Supply Changes (Capital Hilton)</div>
+
+      <label class="legend-row toggle-row" data-set-id="new_supply">
+        <input type="checkbox" class="set-toggle" data-set-id="new_supply" checked />
+        <div class="leg-marker leg-glyph" style="background:#e67e22">+</div>
+        <span class="leg-label">New Supply / Pipeline</span>
+      </label>
+
+      <label class="legend-row toggle-row" data-set-id="former_supply">
+        <input type="checkbox" class="set-toggle" data-set-id="former_supply" checked />
+        <div class="leg-marker leg-glyph" style="background:#757575">✕</div>
+        <span class="leg-label">Former Supply (Closed)</span>
+      </label>
+
       <div class="legend-controls">
         <button type="button" id="legend-show-all" class="legend-btn">Show all</button>
         <button type="button" id="legend-hide-all" class="legend-btn">Hide all</button>
         <button type="button" id="legend-fit" class="legend-btn">Zoom to visible</button>
       </div>
       <div style="margin-top:7px; font-size:9.5px; color:#8090b0; line-height:1.35;">
-        Hotels appearing in multiple sets are plotted once, colored by the highest-priority set; all memberships shown as badges. Dashed pin border = STR subject (anchor) for that set.
+        Hotels appearing in multiple sets are plotted once, colored by the highest-priority set; all memberships shown as badges. Dashed pin border = STR subject (anchor) for that set. Numbers 1&ndash;6 on the Original AKA WH set match the official AKA WH STR file ordering.
       </div>
     </div>
 
@@ -485,6 +517,28 @@
       </div>
     </div>
 
+    <div class="sb-section">
+      <h3>Capital Hilton Submarket Supply Changes</h3>
+      
+      <div class="supply-summary">
+        <div class="supply-cell">
+          <div class="supply-num" style="color:#e67e22">+5</div>
+          <div class="supply-cap">Pipeline hotels</div>
+        </div>
+        <div class="supply-cell">
+          <div class="supply-num" style="color:#757575">&minus;6</div>
+          <div class="supply-cap">Closed hotels</div>
+        </div>
+        <div class="supply-cell">
+          <div class="supply-num" style="color:#757575">&minus;1,795</div>
+          <div class="supply-cap">Keys removed</div>
+        </div>
+      </div>
+      <div style="margin-top:6px; font-size:9px; color:#97a3bd; line-height:1.35;">
+        Source: Capital Hilton new-supply pipeline map. Locations approximate; pipeline room counts TBD.
+      </div>
+    </div>
+
     <div class="sb-section" style="flex:1; border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
       <div id="hotel-list"></div>
@@ -492,7 +546,8 @@
 
     <div class="sidebar-footer">
       Sources: STR Monthly STAR (Capital Hilton 2025, Viceroy DC Mar 2026); STR HospitalityDataGrid (AKA WH Luxury / Large Branded / Branded Small / Independent, R12 thru Mar 2026); original AKA WH STR comp set (R12 thru Dec 2025).<br/>
-      Subject AKA White House perf carried over from prior single-set map. Per-comp individual perf masked per STR policy.
+      Subject AKA White House perf carried over from prior single-set map. Per-comp individual perf masked per STR policy.<br/>
+      Supply pipeline &amp; closures from the Capital Hilton new-supply map (locations approximate).
     </div>
   </div>
 
@@ -519,6 +574,8 @@ const SETS = [
   {"id": "aka_indep", "label": "AKA WH \u2014 Independent", "short": "Independent", "color": "#c2185b"},
   {"id": "cap_hilton", "label": "Capital Hilton STR Set", "short": "Cap Hilton", "color": "#00897b"},
   {"id": "viceroy_dc", "label": "Viceroy Washington DC STR Set", "short": "Viceroy DC", "color": "#6d4c41"},
+  {"id": "new_supply", "label": "New Supply / Pipeline", "short": "Pipeline", "color": "#e67e22"},
+  {"id": "former_supply", "label": "Former Supply (Closed)", "short": "Former Supply", "color": "#757575"},
 ];
 
 const HOTELS = [
@@ -534,6 +591,8 @@ const HOTELS = [
     primarySet: "aka_orig",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 1,
+    brand: "",
   },
   {
     name: "Sofitel Washington DC Lafayette Square",
@@ -547,6 +606,8 @@ const HOTELS = [
     primarySet: "aka_orig",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 2,
+    brand: "",
   },
   {
     name: "Hotel AKA Washington Circle",
@@ -560,6 +621,8 @@ const HOTELS = [
     primarySet: "aka_orig",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 3,
+    brand: "",
   },
   {
     name: "Residence Inn Washington DC Dupont Circle",
@@ -573,6 +636,8 @@ const HOTELS = [
     primarySet: "aka_orig",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 4,
+    brand: "",
   },
   {
     name: "Homewood Suites by Hilton Washington, D.C. Downtown",
@@ -586,6 +651,8 @@ const HOTELS = [
     primarySet: "aka_orig",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 5,
+    brand: "",
   },
   {
     name: "Hampton by Hilton Inn Washington DC/ White House",
@@ -599,6 +666,8 @@ const HOTELS = [
     primarySet: "aka_orig",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 6,
+    brand: "",
   },
   {
     name: "The St. Regis Washington, D.C.",
@@ -612,6 +681,8 @@ const HOTELS = [
     primarySet: "aka_lux",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "The Ritz-Carlton, Washington, D.C.",
@@ -625,6 +696,8 @@ const HOTELS = [
     primarySet: "aka_lux",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Conrad Washington DC",
@@ -638,6 +711,8 @@ const HOTELS = [
     primarySet: "aka_lux",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Waldorf Astoria Washington DC",
@@ -651,6 +726,8 @@ const HOTELS = [
     primarySet: "aka_lux",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "InterContinental The Willard Washington D.C.",
@@ -664,6 +741,8 @@ const HOTELS = [
     primarySet: "aka_lux",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Four Seasons Hotel Washington, DC",
@@ -677,6 +756,8 @@ const HOTELS = [
     primarySet: "aka_lux",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Capital Hilton",
@@ -690,6 +771,8 @@ const HOTELS = [
     primarySet: "cap_hilton",
     anchorFor: ["cap_hilton"],
     anchorPerfs: [{"set_id": "cap_hilton", "period": "R12 ending December 2025", "occ": "74.3%", "adr": "$274", "revpar": "$204", "mpi": "120.4", "ari": "94.8", "rgi": "114.1"}],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "The Westin Washington, D.C. City Center",
@@ -703,6 +786,8 @@ const HOTELS = [
     primarySet: "aka_largebr",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "JW Marriott Hotel Washington",
@@ -716,6 +801,8 @@ const HOTELS = [
     primarySet: "aka_largebr",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Le Meridien Madison, Washington, DC",
@@ -729,6 +816,8 @@ const HOTELS = [
     primarySet: "aka_smallbr",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Kimpton Banneker Hotel",
@@ -742,6 +831,8 @@ const HOTELS = [
     primarySet: "aka_smallbr",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Kimpton Hotel Monaco Washington DC",
@@ -755,6 +846,8 @@ const HOTELS = [
     primarySet: "aka_smallbr",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "The Jefferson",
@@ -768,6 +861,8 @@ const HOTELS = [
     primarySet: "aka_indep",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Riggs Washington DC",
@@ -781,6 +876,8 @@ const HOTELS = [
     primarySet: "aka_indep",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "The Dupont Circle",
@@ -794,6 +891,8 @@ const HOTELS = [
     primarySet: "aka_indep",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "The Darcy Washington DC",
@@ -807,6 +906,8 @@ const HOTELS = [
     primarySet: "aka_indep",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "The Graham Georgetown",
@@ -820,6 +921,8 @@ const HOTELS = [
     primarySet: "aka_indep",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Hyatt Regency Washington on Capitol Hill",
@@ -833,6 +936,8 @@ const HOTELS = [
     primarySet: "cap_hilton",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "The Mayflower Hotel, Autograph Collection",
@@ -846,6 +951,8 @@ const HOTELS = [
     primarySet: "cap_hilton",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Hamilton Hotel",
@@ -859,6 +966,8 @@ const HOTELS = [
     primarySet: "cap_hilton",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Viceroy Washington DC",
@@ -872,6 +981,8 @@ const HOTELS = [
     primarySet: "viceroy_dc",
     anchorFor: ["viceroy_dc"],
     anchorPerfs: [{"set_id": "viceroy_dc", "period": "R12 ending March 2026", "occ": "60.6%", "adr": "$238", "revpar": "$145", "mpi": "85.4", "ari": "79.1", "rgi": "67.6"}],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Hotel Washington",
@@ -885,6 +996,8 @@ const HOTELS = [
     primarySet: "viceroy_dc",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
   },
   {
     name: "Hotel Zena Washington DC",
@@ -898,6 +1011,173 @@ const HOTELS = [
     primarySet: "viceroy_dc",
     anchorFor: [],
     anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+  },
+  {
+    name: "Tempo by Hilton DC Downtown",
+    strId: "",
+    cityState: "1776 K Street NW, Washington, DC",
+    zip: "",
+    rooms: 0,
+    klass: "",
+    lat: 38.90212289999999, lng: -77.0413265,
+    memberships: ["new_supply"],
+    primarySet: "new_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "Tempo by Hilton",
+  },
+  {
+    name: "CitizenM Washington Georgetown",
+    strId: "",
+    cityState: "Near Key Bridge, Georgetown, Washington, DC",
+    zip: "",
+    rooms: 0,
+    klass: "",
+    lat: 38.9050618, lng: -77.0686358,
+    memberships: ["new_supply"],
+    primarySet: "new_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "CitizenM",
+  },
+  {
+    name: "The Hoya Hotel",
+    strId: "",
+    cityState: "Georgetown University, Washington, DC",
+    zip: "",
+    rooms: 0,
+    klass: "",
+    lat: 38.9076089, lng: -77.07225849999999,
+    memberships: ["new_supply"],
+    primarySet: "new_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "Independent",
+  },
+  {
+    name: "Aloft Hotel Mt. Vernon Triangle",
+    strId: "",
+    cityState: "Mt. Vernon Triangle, Washington, DC",
+    zip: "",
+    rooms: 0,
+    klass: "",
+    lat: 38.9024949, lng: -77.01896049999999,
+    memberships: ["new_supply"],
+    primarySet: "new_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "Aloft Hotels",
+  },
+  {
+    name: "Marriott Tribute Portfolio Chinatown",
+    strId: "",
+    cityState: "Near Capital One Arena, Washington, DC",
+    zip: "",
+    rooms: 0,
+    klass: "",
+    lat: 38.8981675, lng: -77.02085679999999,
+    memberships: ["new_supply"],
+    primarySet: "new_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "Tribute Portfolio",
+  },
+  {
+    name: "Fairfax at Embassy Row",
+    strId: "",
+    cityState: "2100 Massachusetts Ave NW, Washington, DC",
+    zip: "",
+    rooms: 259,
+    klass: "",
+    lat: 38.9105256, lng: -77.0471161,
+    memberships: ["former_supply"],
+    primarySet: "former_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "Autograph Collection",
+  },
+  {
+    name: "Avenue Suites",
+    strId: "",
+    cityState: "2500 Pennsylvania Ave NW, Washington, DC",
+    zip: "",
+    rooms: 124,
+    klass: "",
+    lat: 38.90358670000001, lng: -77.0535668,
+    memberships: ["former_supply"],
+    primarySet: "former_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "Independent",
+  },
+  {
+    name: "Embassy Circle Guest House",
+    strId: "",
+    cityState: "2224 R St NW, Washington, DC",
+    zip: "",
+    rooms: 11,
+    klass: "",
+    lat: 38.9124256, lng: -77.0498076,
+    memberships: ["former_supply"],
+    primarySet: "former_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "Independent",
+  },
+  {
+    name: "Georgetown Suites",
+    strId: "",
+    cityState: "1111 30th St NW, Washington, DC",
+    zip: "",
+    rooms: 222,
+    klass: "",
+    lat: 38.9046728, lng: -77.05837910000001,
+    memberships: ["former_supply"],
+    primarySet: "former_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "Independent",
+  },
+  {
+    name: "Adams Inn",
+    strId: "",
+    cityState: "1746 Lanier Pl NW, Washington, DC",
+    zip: "",
+    rooms: 27,
+    klass: "",
+    lat: 38.9245461, lng: -77.0416122,
+    memberships: ["former_supply"],
+    primarySet: "former_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "Independent",
+  },
+  {
+    name: "Marriott Wardman Park",
+    strId: "",
+    cityState: "2660 Woodley Rd NW, Washington, DC",
+    zip: "",
+    rooms: 1152,
+    klass: "",
+    lat: 38.9247051, lng: -77.0542636,
+    memberships: ["former_supply"],
+    primarySet: "former_supply",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "Marriott Hotels",
   },
 ];
 
@@ -925,6 +1205,19 @@ function svgPin(color, label, anchor=false, star=false) {
     scaledSize: new google.maps.Size(38, 46),
     anchor: new google.maps.Point(19, 44)
   };
+}
+
+// Glyph shown on the pin, driven by the set it's displayed as:
+//  - AKA Original set  -> number 1-6 (official AKA WH STR file ordering, incl. Hampton)
+//  - New Supply set     -> '+'  (pipeline / addition)
+//  - Former Supply set  -> '✕' (closed / removed)
+//  - everything else    -> blank (anchors get a dashed border instead)
+function pinGlyph(h, primary) {
+  if (!primary) return '';
+  if (primary.id === 'new_supply') return '+';
+  if (primary.id === 'former_supply') return '✕';
+  if (primary.id === 'aka_orig' && h.akaNum) return String(h.akaNum);
+  return '';
 }
 
 function membershipBadges(h, inline=false, only=null) {
@@ -971,12 +1264,13 @@ function refreshFromToggles() {
     rec.item.classList.remove('is-hidden');
     // Anchor styling only if the anchor set is visible
     const isVisibleAnchor = (rec.hotel.anchorFor || []).some(sid => ACTIVE_SETS.has(sid));
-    rec.marker.setIcon(svgPin(primary.color, '', isVisibleAnchor, false));
+    const glyph = pinGlyph(rec.hotel, primary);
+    rec.marker.setIcon(svgPin(primary.color, glyph, isVisibleAnchor, false));
     // Refresh sidebar item color + visible badges
     const pinEl = rec.item.querySelector('.h-pin');
     pinEl.style.background = primary.color;
     pinEl.style.borderStyle = isVisibleAnchor ? 'dashed' : 'solid';
-    pinEl.textContent = isVisibleAnchor ? '★' : '';
+    pinEl.textContent = glyph || (isVisibleAnchor ? '★' : '');
     const badgesEl = rec.item.querySelector('.h-badges');
     badgesEl.outerHTML = membershipBadges(rec.hotel, false, ACTIVE_SETS);
     // Rebuild info window content too
@@ -1078,7 +1372,12 @@ function initMap() {
     if (!h.lat || !h.lng) return;
     const primary = SET_BY_ID[h.primarySet];
     const isAnchor = (h.anchorFor || []).length > 0;
-    const icon = svgPin(primary.color, '', isAnchor, false);
+    const isFormer = h.memberships.includes('former_supply');
+    const isPipeline = h.memberships.includes('new_supply');
+    const roomsText = (isPipeline && !h.rooms)
+      ? 'Rooms TBD'
+      : (h.rooms ? h.rooms.toLocaleString() + ' keys' + (isFormer ? ' removed' : '') : '');
+    const icon = svgPin(primary.color, pinGlyph(h, primary), isAnchor, false);
 
     const marker = new google.maps.Marker({
       position: { lat: h.lat, lng: h.lng },
@@ -1119,16 +1418,28 @@ function initMap() {
             </div>
           </div>
           <div class="gm-iw-note">${p.period} &middot; indices vs ${SET_BY_ID[p.set_id].short} comp set${setHidden ? ' (currently hidden)' : ''}</div>`;
+      } else if (isPipeline) {
+        statsBlock = `
+          <hr class="gm-iw-divider"/>
+          <div class="gm-iw-status"><b>New supply</b> &mdash; pipeline / under development. Adds keys to the submarket; room count TBD.</div>`;
+      } else if (isFormer) {
+        statsBlock = `
+          <hr class="gm-iw-divider"/>
+          <div class="gm-iw-status"><b>Permanently closed</b> &mdash; ${h.rooms ? h.rooms.toLocaleString() + ' keys removed from the submarket.' : 'supply removed from the submarket.'}</div>`;
       } else {
         statsBlock = `
           <hr class="gm-iw-divider"/>
           <div class="gm-iw-masked">Individual per-comp performance masked per STR policy &mdash; see per-set R12 panels in sidebar.</div>`;
       }
+      const line2 = roomsText
+        ? roomsText + (h.strId ? ' &middot; STR ID: ' + h.strId : '')
+        : (h.strId ? 'STR ID: ' + h.strId : '');
       iwHtml = `
         <div class="gm-iw">
-          <div class="gm-iw-title">${h.name}</div>
-          <div class="gm-iw-meta">${h.cityState} ${h.zip}${h.klass ? ' &middot; ' + h.klass : ''}</div>
-          <div class="gm-iw-meta">${h.rooms.toLocaleString()} keys${h.strId ? ' &middot; STR ID: ' + h.strId : ''}</div>
+          <div class="gm-iw-title">${isFormer ? '<s>' + h.name + '</s>' : h.name}</div>
+          ${h.brand ? '<div class="gm-iw-brand">' + h.brand + '</div>' : ''}
+          <div class="gm-iw-meta">${h.cityState}${h.zip ? ' ' + h.zip : ''}${h.klass ? ' &middot; ' + h.klass : ''}</div>
+          ${line2 ? '<div class="gm-iw-meta">' + line2 + '</div>' : ''}
           ${membershipBadges(h, true, ACTIVE_SETS)}
           ${anchorSets.length ? '<div class="gm-iw-note">★ STR subject for ' + anchorSets.map(sid => SET_BY_ID[sid].short).join(', ') + '</div>' : ''}
           ${statsBlock}
@@ -1139,6 +1450,7 @@ function initMap() {
 
     const item = document.createElement('div');
     item.className = 'hotel-item';
+    if (isFormer) item.style.opacity = '0.8';
     const sidebarStats = (h.anchorPerfs && h.anchorPerfs.length)
       ? `<div class="h-stats">
            <span class="h-stat"><b>${h.anchorPerfs[0].occ}</b> Occ</span>
@@ -1147,10 +1459,10 @@ function initMap() {
          </div>`
       : '';
     item.innerHTML = `
-      <div class="h-pin" style="background:${primary.color};${isAnchor ? 'border-style:dashed;' : ''}">${isAnchor ? '★' : ''}</div>
+      <div class="h-pin" style="background:${primary.color};${isAnchor ? 'border-style:dashed;' : ''}">${pinGlyph(h, primary) || (isAnchor ? '★' : '')}</div>
       <div class="h-info">
-        <h4>${h.name}</h4>
-        <div class="h-meta">${h.cityState}${h.zip ? ' ' + h.zip : ''} &middot; ${h.rooms.toLocaleString()} keys</div>
+        <h4>${isFormer ? '<s>' + h.name + '</s>' : h.name}</h4>
+        <div class="h-meta">${h.cityState}${h.zip ? ' ' + h.zip : ''}${roomsText ? ' &middot; ' + roomsText : ''}</div>
         ${membershipBadges(h, false, ACTIVE_SETS)}
         ${sidebarStats}
       </div>`;

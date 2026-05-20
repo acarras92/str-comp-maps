@@ -120,8 +120,28 @@ COMP_SETS = [
         "color": "#6d4c41",  # brown
         "priority": 7,
     },
+    # Submarket supply-change layers (from Capital Hilton new-supply map).
+    # Not comp sets — no R12 perf; rendered as distinct toggleable layers.
+    {
+        "id": "new_supply",
+        "label": "New Supply / Pipeline",
+        "short": "Pipeline",
+        "color": "#e67e22",  # orange
+        "priority": 8,
+        "kind": "supply",
+    },
+    {
+        "id": "former_supply",
+        "label": "Former Supply (Closed)",
+        "short": "Former Supply",
+        "color": "#757575",  # grey
+        "priority": 9,
+        "kind": "supply",
+    },
 ]
 SET_BY_ID = {s["id"]: s for s in COMP_SETS}
+COMP_ONLY_SETS = [s for s in COMP_SETS if s.get("kind", "comp") == "comp"]
+SUPPLY_SETS = [s for s in COMP_SETS if s.get("kind") == "supply"]
 
 
 # Source files
@@ -310,6 +330,7 @@ def get_original_aka_set():
     Hard-coded because the source file isn't in the 'Additional AKA Sets'
     folder — we're preserving the original layer rather than re-parsing it.
     """
+    # aka_num = position in the official AKA WH STR file (Response sheet, rows 23-28).
     hotels = [
         {
             "name": "Club Quarters Washington, DC, White House",
@@ -320,6 +341,7 @@ def get_original_aka_set():
             "klass": "",
             "set_id": "aka_orig",
             "is_anchor": False,
+            "aka_num": 1,
             "lat": 38.9010596, "lng": -77.0391674,
         },
         {
@@ -331,6 +353,7 @@ def get_original_aka_set():
             "klass": "",
             "set_id": "aka_orig",
             "is_anchor": False,
+            "aka_num": 2,
             "lat": 38.90047819999999, "lng": -77.03400599999999,
         },
         {
@@ -342,6 +365,7 @@ def get_original_aka_set():
             "klass": "",
             "set_id": "aka_orig",
             "is_anchor": False,
+            "aka_num": 3,
             "lat": 38.9034054, "lng": -77.0497749,
         },
         {
@@ -353,6 +377,7 @@ def get_original_aka_set():
             "klass": "",
             "set_id": "aka_orig",
             "is_anchor": False,
+            "aka_num": 4,
             "lat": 38.9094048, "lng": -77.0473822,
         },
         {
@@ -364,6 +389,7 @@ def get_original_aka_set():
             "klass": "",
             "set_id": "aka_orig",
             "is_anchor": False,
+            "aka_num": 5,
             "lat": 38.90653, "lng": -77.0334506,
         },
         {
@@ -375,6 +401,7 @@ def get_original_aka_set():
             "klass": "",
             "set_id": "aka_orig",
             "is_anchor": False,
+            "aka_num": 6,
             "lat": 38.9006021, "lng": -77.031455,
         },
     ]
@@ -389,6 +416,48 @@ def get_original_aka_set():
         "n_comps": 6,
     }
     return hotels, perf
+
+
+def get_capital_hilton_supply():
+    """Capital Hilton submarket supply changes, lifted from the Capital Hilton
+    new-supply pipeline map (capital-hilton/new-supply.html).
+
+    Returns (pipeline, former). lat/lng pre-set so no geocoding is needed.
+    Descriptive locations are stored in city_state; pipeline rooms are unknown (0).
+    """
+    pipeline = [
+        {"name": "Tempo by Hilton DC Downtown", "brand": "Tempo by Hilton",
+         "city_state": "1776 K Street NW, Washington, DC", "lat": 38.90212289999999, "lng": -77.0413265},
+        {"name": "CitizenM Washington Georgetown", "brand": "CitizenM",
+         "city_state": "Near Key Bridge, Georgetown, Washington, DC", "lat": 38.9050618, "lng": -77.0686358},
+        {"name": "The Hoya Hotel", "brand": "Independent",
+         "city_state": "Georgetown University, Washington, DC", "lat": 38.9076089, "lng": -77.07225849999999},
+        {"name": "Aloft Hotel Mt. Vernon Triangle", "brand": "Aloft Hotels",
+         "city_state": "Mt. Vernon Triangle, Washington, DC", "lat": 38.9024949, "lng": -77.01896049999999},
+        {"name": "Marriott Tribute Portfolio Chinatown", "brand": "Tribute Portfolio",
+         "city_state": "Near Capital One Arena, Washington, DC", "lat": 38.8981675, "lng": -77.02085679999999},
+    ]
+    former = [
+        {"name": "Fairfax at Embassy Row", "brand": "Autograph Collection", "rooms": 259,
+         "city_state": "2100 Massachusetts Ave NW, Washington, DC", "lat": 38.9105256, "lng": -77.0471161},
+        {"name": "Avenue Suites", "brand": "Independent", "rooms": 124,
+         "city_state": "2500 Pennsylvania Ave NW, Washington, DC", "lat": 38.90358670000001, "lng": -77.0535668},
+        {"name": "Embassy Circle Guest House", "brand": "Independent", "rooms": 11,
+         "city_state": "2224 R St NW, Washington, DC", "lat": 38.9124256, "lng": -77.04980759999999},
+        {"name": "Georgetown Suites", "brand": "Independent", "rooms": 222,
+         "city_state": "1111 30th St NW, Washington, DC", "lat": 38.9046728, "lng": -77.05837910000001},
+        {"name": "Adams Inn", "brand": "Independent", "rooms": 27,
+         "city_state": "1746 Lanier Pl NW, Washington, DC", "lat": 38.9245461, "lng": -77.0416122},
+        {"name": "Marriott Wardman Park", "brand": "Marriott Hotels", "rooms": 1152,
+         "city_state": "2660 Woodley Rd NW, Washington, DC", "lat": 38.9247051, "lng": -77.0542636},
+    ]
+    for h in pipeline:
+        h.update({"str_id": "", "zip": "", "rooms": 0, "klass": "",
+                  "set_id": "new_supply", "is_anchor": False})
+    for h in former:
+        h.update({"str_id": "", "zip": "", "klass": "",
+                  "set_id": "former_supply", "is_anchor": False})
+    return pipeline, former
 
 
 # ── Geocoding ──
@@ -469,6 +538,12 @@ def merge_hotels(all_lists):
             # Carry STR ID if blank
             if h.get("str_id") and not entry["str_id"]:
                 entry["str_id"] = h["str_id"]
+            # Carry AKA official STR-file number (only set on aka_orig members)
+            if h.get("aka_num") and "aka_num" not in entry:
+                entry["aka_num"] = h["aka_num"]
+            # Carry brand (only set on supply-layer hotels)
+            if h.get("brand") and not entry.get("brand"):
+                entry["brand"] = h["brand"]
             # Carry anchor address if available
             if h.get("anchor_address"):
                 entry["anchor_address"] = h["anchor_address"]
@@ -555,17 +630,55 @@ def build_perf_panels_html(set_perf):
     return "\n".join(rows)
 
 
+def build_supply_summary_html(supply_stats):
+    """Compact card summarizing the Capital Hilton submarket supply changes."""
+    if not supply_stats:
+        return ""
+    ns = SET_BY_ID["new_supply"]["color"]
+    fs = SET_BY_ID["former_supply"]["color"]
+    return f"""
+      <div class="supply-summary">
+        <div class="supply-cell">
+          <div class="supply-num" style="color:{ns}">+{supply_stats['pipeline_n']}</div>
+          <div class="supply-cap">Pipeline hotels</div>
+        </div>
+        <div class="supply-cell">
+          <div class="supply-num" style="color:{fs}">&minus;{supply_stats['former_n']}</div>
+          <div class="supply-cap">Closed hotels</div>
+        </div>
+        <div class="supply-cell">
+          <div class="supply-num" style="color:{fs}">&minus;{supply_stats['keys_removed']:,}</div>
+          <div class="supply-cap">Keys removed</div>
+        </div>
+      </div>
+      <div style="margin-top:6px; font-size:9px; color:#97a3bd; line-height:1.35;">
+        Source: Capital Hilton new-supply pipeline map. Locations approximate; pipeline room counts TBD.
+      </div>"""
+
+
 def build_legend_rows():
     rows = [f"""
       <div class="legend-row legend-subject">
         <div class="leg-marker leg-star" style="background:{SUBJECT_COLOR}">★</div>
         <span class="leg-label">{SUBJECT['name']} (Subject)</span>
       </div>"""]
-    for s in COMP_SETS:
+    for s in COMP_ONLY_SETS:
         rows.append(f"""
       <label class="legend-row toggle-row" data-set-id="{s['id']}">
         <input type="checkbox" class="set-toggle" data-set-id="{s['id']}" checked />
         <div class="leg-marker" style="background:{s['color']}"></div>
+        <span class="leg-label">{s['label']}</span>
+      </label>""")
+    # Submarket supply-change layers (separate group)
+    if SUPPLY_SETS:
+        rows.append("""
+      <div class="legend-subhead">Submarket Supply Changes (Capital Hilton)</div>""")
+        glyph = {"new_supply": "+", "former_supply": "✕"}
+        for s in SUPPLY_SETS:
+            rows.append(f"""
+      <label class="legend-row toggle-row" data-set-id="{s['id']}">
+        <input type="checkbox" class="set-toggle" data-set-id="{s['id']}" checked />
+        <div class="leg-marker leg-glyph" style="background:{s['color']}">{glyph.get(s['id'],'')}</div>
         <span class="leg-label">{s['label']}</span>
       </label>""")
     # Show All / Hide All buttons
@@ -617,17 +730,20 @@ def build_hotels_js(merged):
         out.append(f"    primarySet: {json.dumps(h['primary_set_id'])},")
         out.append(f"    anchorFor: {anchor_js},")
         out.append(f"    anchorPerfs: {json.dumps(h.get('anchor_perfs', []))},")
+        out.append(f"    akaNum: {h.get('aka_num', 0)},")
+        out.append(f"    brand: {json.dumps(h.get('brand', ''))},")
         out.append("  },")
     out.append("];")
     return "\n".join(out)
 
 
-def generate_html(merged, set_perf):
+def generate_html(merged, set_perf, supply_stats=None):
     legend_html = build_legend_rows()
     perf_html = build_perf_panels_html(set_perf)
+    supply_html = build_supply_summary_html(supply_stats)
     hotels_js = build_hotels_js(merged)
 
-    n_sets = len(COMP_SETS)
+    n_sets = len(COMP_ONLY_SETS)
     total_unique = len(merged)
 
     html = f"""<!DOCTYPE html>
@@ -749,6 +865,15 @@ def generate_html(merged, set_perf):
       color: #ffffff; font-size: 9px; font-weight: 700;
     }}
     .leg-label {{ line-height: 1.25; }}
+    .leg-marker.leg-glyph {{
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 10px; font-weight: 700; line-height: 1;
+    }}
+    .legend-subhead {{
+      font-size: 9px; text-transform: uppercase; letter-spacing: 0.6px;
+      color: #97a3bd; font-weight: 700;
+      margin: 9px 0 6px; padding-top: 8px; border-top: 1px dashed #e3e8f0;
+    }}
     .legend-controls {{
       display: flex; gap: 5px; margin-top: 9px; flex-wrap: wrap;
     }}
@@ -842,6 +967,7 @@ def generate_html(merged, set_perf):
       max-width: 280px;
     }}
     .gm-iw-title {{ font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; margin-bottom: 2px; }}
+    .gm-iw-brand {{ font-size: 10px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }}
     .gm-iw-meta {{ font-size: 11px; color: #556; margin-bottom: 3px; }}
     .gm-iw-badges {{ margin-top: 4px; display: flex; flex-wrap: wrap; gap: 3px; }}
     .gm-iw-divider {{ border: none; border-top: 1px solid #eaecf0; margin: 8px 0; }}
@@ -857,6 +983,14 @@ def generate_html(merged, set_perf):
     .h-stat b {{ color: #1565c0; font-weight: 700; }}
     .gm-iw-note {{ font-size: 9px; color: #aabbd0; margin-top: 5px; }}
     .gm-iw-masked {{ font-size: 10px; color: #8090b0; margin-top: 6px; font-style: italic; }}
+    .gm-iw-status {{ font-size: 10px; color: #5d6b85; margin-top: 6px; }}
+    .supply-summary {{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }}
+    .supply-cell {{
+      background: #f8fafd; border: 1px solid #e3e9f3;
+      border-radius: 6px; padding: 8px 4px; text-align: center;
+    }}
+    .supply-num {{ font-size: 18px; font-weight: 700; line-height: 1.1; }}
+    .supply-cap {{ font-size: 8.5px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }}
   </style>
 </head>
 <body>
@@ -864,7 +998,7 @@ def generate_html(merged, set_perf):
 <div class="header">
   <div class="header-left">
     <h1>AKA White House &mdash; Multi-Comp-Set Map</h1>
-    <p>Washington, DC &middot; {n_sets} STR comp sets &middot; {total_unique} unique hotels plotted &middot; R12 thru Mar 2026</p>
+    <p>Washington, DC &middot; {n_sets} STR comp sets + Capital Hilton supply pipeline &middot; {total_unique} hotels plotted &middot; R12 thru Mar 2026</p>
   </div>
   <div class="header-right">
     <div class="kpi-card">
@@ -894,13 +1028,18 @@ def generate_html(merged, set_perf):
       <h3>Legend</h3>
       {legend_html}
       <div style="margin-top:7px; font-size:9.5px; color:#8090b0; line-height:1.35;">
-        Hotels appearing in multiple sets are plotted once, colored by the highest-priority set; all memberships shown as badges. Dashed pin border = STR subject (anchor) for that set.
+        Hotels appearing in multiple sets are plotted once, colored by the highest-priority set; all memberships shown as badges. Dashed pin border = STR subject (anchor) for that set. Numbers 1&ndash;6 on the Original AKA WH set match the official AKA WH STR file ordering.
       </div>
     </div>
 
     <div class="sb-section">
       <h3>R12 Performance by Set</h3>
       {perf_html}
+    </div>
+
+    <div class="sb-section">
+      <h3>Capital Hilton Submarket Supply Changes</h3>
+      {supply_html}
     </div>
 
     <div class="sb-section" style="flex:1; border-bottom:none;">
@@ -910,7 +1049,8 @@ def generate_html(merged, set_perf):
 
     <div class="sidebar-footer">
       Sources: STR Monthly STAR (Capital Hilton 2025, Viceroy DC Mar 2026); STR HospitalityDataGrid (AKA WH Luxury / Large Branded / Branded Small / Independent, R12 thru Mar 2026); original AKA WH STR comp set (R12 thru Dec 2025).<br/>
-      Subject AKA White House perf carried over from prior single-set map. Per-comp individual perf masked per STR policy.
+      Subject AKA White House perf carried over from prior single-set map. Per-comp individual perf masked per STR policy.<br/>
+      Supply pipeline &amp; closures from the Capital Hilton new-supply map (locations approximate).
     </div>
   </div>
 
@@ -944,6 +1084,19 @@ function svgPin(color, label, anchor=false, star=false) {{
     scaledSize: new google.maps.Size(38, 46),
     anchor: new google.maps.Point(19, 44)
   }};
+}}
+
+// Glyph shown on the pin, driven by the set it's displayed as:
+//  - AKA Original set  -> number 1-6 (official AKA WH STR file ordering, incl. Hampton)
+//  - New Supply set     -> '+'  (pipeline / addition)
+//  - Former Supply set  -> '✕' (closed / removed)
+//  - everything else    -> blank (anchors get a dashed border instead)
+function pinGlyph(h, primary) {{
+  if (!primary) return '';
+  if (primary.id === 'new_supply') return '+';
+  if (primary.id === 'former_supply') return '✕';
+  if (primary.id === 'aka_orig' && h.akaNum) return String(h.akaNum);
+  return '';
 }}
 
 function membershipBadges(h, inline=false, only=null) {{
@@ -990,12 +1143,13 @@ function refreshFromToggles() {{
     rec.item.classList.remove('is-hidden');
     // Anchor styling only if the anchor set is visible
     const isVisibleAnchor = (rec.hotel.anchorFor || []).some(sid => ACTIVE_SETS.has(sid));
-    rec.marker.setIcon(svgPin(primary.color, '', isVisibleAnchor, false));
+    const glyph = pinGlyph(rec.hotel, primary);
+    rec.marker.setIcon(svgPin(primary.color, glyph, isVisibleAnchor, false));
     // Refresh sidebar item color + visible badges
     const pinEl = rec.item.querySelector('.h-pin');
     pinEl.style.background = primary.color;
     pinEl.style.borderStyle = isVisibleAnchor ? 'dashed' : 'solid';
-    pinEl.textContent = isVisibleAnchor ? '★' : '';
+    pinEl.textContent = glyph || (isVisibleAnchor ? '★' : '');
     const badgesEl = rec.item.querySelector('.h-badges');
     badgesEl.outerHTML = membershipBadges(rec.hotel, false, ACTIVE_SETS);
     // Rebuild info window content too
@@ -1097,7 +1251,12 @@ function initMap() {{
     if (!h.lat || !h.lng) return;
     const primary = SET_BY_ID[h.primarySet];
     const isAnchor = (h.anchorFor || []).length > 0;
-    const icon = svgPin(primary.color, '', isAnchor, false);
+    const isFormer = h.memberships.includes('former_supply');
+    const isPipeline = h.memberships.includes('new_supply');
+    const roomsText = (isPipeline && !h.rooms)
+      ? 'Rooms TBD'
+      : (h.rooms ? h.rooms.toLocaleString() + ' keys' + (isFormer ? ' removed' : '') : '');
+    const icon = svgPin(primary.color, pinGlyph(h, primary), isAnchor, false);
 
     const marker = new google.maps.Marker({{
       position: {{ lat: h.lat, lng: h.lng }},
@@ -1138,16 +1297,28 @@ function initMap() {{
             </div>
           </div>
           <div class="gm-iw-note">${{p.period}} &middot; indices vs ${{SET_BY_ID[p.set_id].short}} comp set${{setHidden ? ' (currently hidden)' : ''}}</div>`;
+      }} else if (isPipeline) {{
+        statsBlock = `
+          <hr class="gm-iw-divider"/>
+          <div class="gm-iw-status"><b>New supply</b> &mdash; pipeline / under development. Adds keys to the submarket; room count TBD.</div>`;
+      }} else if (isFormer) {{
+        statsBlock = `
+          <hr class="gm-iw-divider"/>
+          <div class="gm-iw-status"><b>Permanently closed</b> &mdash; ${{h.rooms ? h.rooms.toLocaleString() + ' keys removed from the submarket.' : 'supply removed from the submarket.'}}</div>`;
       }} else {{
         statsBlock = `
           <hr class="gm-iw-divider"/>
           <div class="gm-iw-masked">Individual per-comp performance masked per STR policy &mdash; see per-set R12 panels in sidebar.</div>`;
       }}
+      const line2 = roomsText
+        ? roomsText + (h.strId ? ' &middot; STR ID: ' + h.strId : '')
+        : (h.strId ? 'STR ID: ' + h.strId : '');
       iwHtml = `
         <div class="gm-iw">
-          <div class="gm-iw-title">${{h.name}}</div>
-          <div class="gm-iw-meta">${{h.cityState}} ${{h.zip}}${{h.klass ? ' &middot; ' + h.klass : ''}}</div>
-          <div class="gm-iw-meta">${{h.rooms.toLocaleString()}} keys${{h.strId ? ' &middot; STR ID: ' + h.strId : ''}}</div>
+          <div class="gm-iw-title">${{isFormer ? '<s>' + h.name + '</s>' : h.name}}</div>
+          ${{h.brand ? '<div class="gm-iw-brand">' + h.brand + '</div>' : ''}}
+          <div class="gm-iw-meta">${{h.cityState}}${{h.zip ? ' ' + h.zip : ''}}${{h.klass ? ' &middot; ' + h.klass : ''}}</div>
+          ${{line2 ? '<div class="gm-iw-meta">' + line2 + '</div>' : ''}}
           ${{membershipBadges(h, true, ACTIVE_SETS)}}
           ${{anchorSets.length ? '<div class="gm-iw-note">★ STR subject for ' + anchorSets.map(sid => SET_BY_ID[sid].short).join(', ') + '</div>' : ''}}
           ${{statsBlock}}
@@ -1158,6 +1329,7 @@ function initMap() {{
 
     const item = document.createElement('div');
     item.className = 'hotel-item';
+    if (isFormer) item.style.opacity = '0.8';
     const sidebarStats = (h.anchorPerfs && h.anchorPerfs.length)
       ? `<div class="h-stats">
            <span class="h-stat"><b>${{h.anchorPerfs[0].occ}}</b> Occ</span>
@@ -1166,10 +1338,10 @@ function initMap() {{
          </div>`
       : '';
     item.innerHTML = `
-      <div class="h-pin" style="background:${{primary.color}};${{isAnchor ? 'border-style:dashed;' : ''}}">${{isAnchor ? '★' : ''}}</div>
+      <div class="h-pin" style="background:${{primary.color}};${{isAnchor ? 'border-style:dashed;' : ''}}">${{pinGlyph(h, primary) || (isAnchor ? '★' : '')}}</div>
       <div class="h-info">
-        <h4>${{h.name}}</h4>
-        <div class="h-meta">${{h.cityState}}${{h.zip ? ' ' + h.zip : ''}} &middot; ${{h.rooms.toLocaleString()}} keys</div>
+        <h4>${{isFormer ? '<s>' + h.name + '</s>' : h.name}}</h4>
+        <div class="h-meta">${{h.cityState}}${{h.zip ? ' ' + h.zip : ''}}${{roomsText ? ' &middot; ' + roomsText : ''}}</div>
         ${{membershipBadges(h, false, ACTIVE_SETS)}}
         ${{sidebarStats}}
       </div>`;
@@ -1287,8 +1459,17 @@ def main():
     print("Loading original AKA WH comp set…")
     orig_hotels, orig_perf = get_original_aka_set()
 
+    print("Loading Capital Hilton submarket supply changes…")
+    pipeline_hotels, former_hotels = get_capital_hilton_supply()
+    supply_stats = {
+        "pipeline_n": len(pipeline_hotels),
+        "former_n": len(former_hotels),
+        "keys_removed": sum(h["rooms"] for h in former_hotels),
+    }
+
     all_lists = [orig_hotels, aka_lux_hotels, aka_lb_hotels, aka_bs_hotels,
-                 aka_ind_hotels, cap_hotels, vic_hotels]
+                 aka_ind_hotels, cap_hotels, vic_hotels,
+                 pipeline_hotels, former_hotels]
     set_perf = {
         "aka_orig":    orig_perf,
         "aka_lux":     aka_lux_perf,
@@ -1307,7 +1488,7 @@ def main():
     for h in merged:
         geocode_hotel(h, cache)
 
-    html = generate_html(merged, set_perf)
+    html = generate_html(merged, set_perf, supply_stats)
     out_dir = os.path.join(REPO_DIR, OUTPUT_SLUG)
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, "index.html")
@@ -1316,8 +1497,8 @@ def main():
     print(f"\nWrote {out_path}")
 
     if args.deploy:
-        n_sets = len(COMP_SETS)
-        deploy(f"AKA White House: rebuild as multi-comp-set map ({n_sets} sets, {len(merged)} unique hotels)")
+        n_comp = len(COMP_ONLY_SETS)
+        deploy(f"AKA WH map: number Original AKA set to STR file + add Capital Hilton supply pipeline ({n_comp} comp sets + 2 supply layers, {len(merged)} hotels)")
 
 
 if __name__ == "__main__":
