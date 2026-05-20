@@ -1424,8 +1424,9 @@ def run_git(*args, check=True):
 
 
 def deploy(commit_msg):
-    print("\n── Deploying ──")
-    run_git("add", f"{OUTPUT_SLUG}/index.html", "geocache.json", "generate_aka_wh_multi_map.py")
+    print("\n-- Deploying --")
+    # geocache.json is gitignored (local cache) — don't stage it.
+    run_git("add", f"{OUTPUT_SLUG}/index.html", "generate_aka_wh_multi_map.py")
     status = run_git("status", "--porcelain", check=False)
     if not status.stdout.strip():
         print("Nothing to commit.")
