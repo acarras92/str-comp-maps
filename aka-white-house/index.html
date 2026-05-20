@@ -217,6 +217,12 @@
     .gm-stat { text-align: center; }
     .gm-stat-label { font-size: 9px; color: #8090b0; text-transform: uppercase; }
     .gm-stat-value { font-size: 14px; font-weight: 700; color: #1565c0; }
+    .gm-stat-idx { font-size: 8.5px; color: #2d8a2d; font-weight: 600; margin-top: 1px; }
+    .h-stats {
+      display: flex; gap: 8px; margin-top: 5px;
+      font-size: 10px; color: #5d6b85;
+    }
+    .h-stat b { color: #1565c0; font-weight: 700; }
     .gm-iw-note { font-size: 9px; color: #aabbd0; margin-top: 5px; }
     .gm-iw-masked { font-size: 10px; color: #8090b0; margin-top: 6px; font-style: italic; }
   </style>
@@ -527,6 +533,7 @@ const HOTELS = [
     memberships: ["aka_orig"],
     primarySet: "aka_orig",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Sofitel Washington DC Lafayette Square",
@@ -539,6 +546,7 @@ const HOTELS = [
     memberships: ["aka_orig", "aka_largebr", "aka_smallbr", "viceroy_dc"],
     primarySet: "aka_orig",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Hotel AKA Washington Circle",
@@ -551,6 +559,7 @@ const HOTELS = [
     memberships: ["aka_orig"],
     primarySet: "aka_orig",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Residence Inn Washington DC Dupont Circle",
@@ -563,6 +572,7 @@ const HOTELS = [
     memberships: ["aka_orig"],
     primarySet: "aka_orig",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Homewood Suites by Hilton Washington, D.C. Downtown",
@@ -575,6 +585,7 @@ const HOTELS = [
     memberships: ["aka_orig"],
     primarySet: "aka_orig",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Hampton by Hilton Inn Washington DC/ White House",
@@ -587,6 +598,7 @@ const HOTELS = [
     memberships: ["aka_orig"],
     primarySet: "aka_orig",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "The St. Regis Washington, D.C.",
@@ -599,6 +611,7 @@ const HOTELS = [
     memberships: ["aka_lux"],
     primarySet: "aka_lux",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "The Ritz-Carlton, Washington, D.C.",
@@ -611,6 +624,7 @@ const HOTELS = [
     memberships: ["aka_lux"],
     primarySet: "aka_lux",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Conrad Washington DC",
@@ -623,6 +637,7 @@ const HOTELS = [
     memberships: ["aka_lux"],
     primarySet: "aka_lux",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Waldorf Astoria Washington DC",
@@ -635,6 +650,7 @@ const HOTELS = [
     memberships: ["aka_lux"],
     primarySet: "aka_lux",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "InterContinental The Willard Washington D.C.",
@@ -647,6 +663,7 @@ const HOTELS = [
     memberships: ["aka_lux"],
     primarySet: "aka_lux",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Four Seasons Hotel Washington, DC",
@@ -659,6 +676,7 @@ const HOTELS = [
     memberships: ["aka_lux"],
     primarySet: "aka_lux",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Capital Hilton",
@@ -671,6 +689,7 @@ const HOTELS = [
     memberships: ["aka_largebr", "aka_smallbr", "cap_hilton"],
     primarySet: "cap_hilton",
     anchorFor: ["cap_hilton"],
+    anchorPerfs: [{"set_id": "cap_hilton", "period": "R12 ending December 2025", "occ": "74.3%", "adr": "$274", "revpar": "$204", "mpi": "120.4", "ari": "94.8", "rgi": "114.1"}],
   },
   {
     name: "The Westin Washington, D.C. City Center",
@@ -683,6 +702,7 @@ const HOTELS = [
     memberships: ["aka_largebr", "aka_smallbr", "cap_hilton"],
     primarySet: "aka_largebr",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "JW Marriott Hotel Washington",
@@ -695,6 +715,7 @@ const HOTELS = [
     memberships: ["aka_largebr", "cap_hilton"],
     primarySet: "aka_largebr",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Le Meridien Madison, Washington, DC",
@@ -707,6 +728,7 @@ const HOTELS = [
     memberships: ["aka_smallbr", "cap_hilton", "viceroy_dc"],
     primarySet: "aka_smallbr",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Kimpton Banneker Hotel",
@@ -719,6 +741,7 @@ const HOTELS = [
     memberships: ["aka_smallbr"],
     primarySet: "aka_smallbr",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Kimpton Hotel Monaco Washington DC",
@@ -731,6 +754,7 @@ const HOTELS = [
     memberships: ["aka_smallbr"],
     primarySet: "aka_smallbr",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "The Jefferson",
@@ -743,6 +767,7 @@ const HOTELS = [
     memberships: ["aka_indep", "viceroy_dc"],
     primarySet: "aka_indep",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Riggs Washington DC",
@@ -755,6 +780,7 @@ const HOTELS = [
     memberships: ["aka_indep"],
     primarySet: "aka_indep",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "The Dupont Circle",
@@ -767,6 +793,7 @@ const HOTELS = [
     memberships: ["aka_indep"],
     primarySet: "aka_indep",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "The Darcy Washington DC",
@@ -779,6 +806,7 @@ const HOTELS = [
     memberships: ["aka_indep"],
     primarySet: "aka_indep",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "The Graham Georgetown",
@@ -791,6 +819,7 @@ const HOTELS = [
     memberships: ["aka_indep"],
     primarySet: "aka_indep",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Hyatt Regency Washington on Capitol Hill",
@@ -803,6 +832,7 @@ const HOTELS = [
     memberships: ["cap_hilton"],
     primarySet: "cap_hilton",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "The Mayflower Hotel, Autograph Collection",
@@ -815,6 +845,7 @@ const HOTELS = [
     memberships: ["cap_hilton"],
     primarySet: "cap_hilton",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Hamilton Hotel",
@@ -827,6 +858,7 @@ const HOTELS = [
     memberships: ["cap_hilton"],
     primarySet: "cap_hilton",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Viceroy Washington DC",
@@ -839,6 +871,7 @@ const HOTELS = [
     memberships: ["viceroy_dc"],
     primarySet: "viceroy_dc",
     anchorFor: ["viceroy_dc"],
+    anchorPerfs: [{"set_id": "viceroy_dc", "period": "R12 ending March 2026", "occ": "60.6%", "adr": "$238", "revpar": "$145", "mpi": "85.4", "ari": "79.1", "rgi": "67.6"}],
   },
   {
     name: "Hotel Washington",
@@ -851,6 +884,7 @@ const HOTELS = [
     memberships: ["viceroy_dc"],
     primarySet: "viceroy_dc",
     anchorFor: [],
+    anchorPerfs: [],
   },
   {
     name: "Hotel Zena Washington DC",
@@ -863,6 +897,7 @@ const HOTELS = [
     memberships: ["viceroy_dc"],
     primarySet: "viceroy_dc",
     anchorFor: [],
+    anchorPerfs: [],
   },
 ];
 
@@ -1058,6 +1093,37 @@ function initMap() {
     let iwHtml = '';
     const refreshIw = (pri, anchorVisible) => {
       const anchorSets = (h.anchorFor || []).filter(sid => ACTIVE_SETS.has(sid));
+      // Anchor properties (Cap Hilton, Viceroy) carry their own R12 perf —
+      // show it regardless of toggle state since the property's perf is intrinsic.
+      let statsBlock = '';
+      if (h.anchorPerfs && h.anchorPerfs.length) {
+        const p = h.anchorPerfs[0];
+        const setHidden = !ACTIVE_SETS.has(p.set_id);
+        statsBlock = `
+          <hr class="gm-iw-divider"/>
+          <div class="gm-iw-stats">
+            <div class="gm-stat">
+              <div class="gm-stat-label">OCC</div>
+              <div class="gm-stat-value">${p.occ}</div>
+              <div class="gm-stat-idx">MPI ${p.mpi}</div>
+            </div>
+            <div class="gm-stat">
+              <div class="gm-stat-label">ADR</div>
+              <div class="gm-stat-value">${p.adr}</div>
+              <div class="gm-stat-idx">ARI ${p.ari}</div>
+            </div>
+            <div class="gm-stat">
+              <div class="gm-stat-label">RevPAR</div>
+              <div class="gm-stat-value">${p.revpar}</div>
+              <div class="gm-stat-idx">RGI ${p.rgi}</div>
+            </div>
+          </div>
+          <div class="gm-iw-note">${p.period} &middot; indices vs ${SET_BY_ID[p.set_id].short} comp set${setHidden ? ' (currently hidden)' : ''}</div>`;
+      } else {
+        statsBlock = `
+          <hr class="gm-iw-divider"/>
+          <div class="gm-iw-masked">Individual per-comp performance masked per STR policy &mdash; see per-set R12 panels in sidebar.</div>`;
+      }
       iwHtml = `
         <div class="gm-iw">
           <div class="gm-iw-title">${h.name}</div>
@@ -1065,8 +1131,7 @@ function initMap() {
           <div class="gm-iw-meta">${h.rooms.toLocaleString()} keys${h.strId ? ' &middot; STR ID: ' + h.strId : ''}</div>
           ${membershipBadges(h, true, ACTIVE_SETS)}
           ${anchorSets.length ? '<div class="gm-iw-note">★ STR subject for ' + anchorSets.map(sid => SET_BY_ID[sid].short).join(', ') + '</div>' : ''}
-          <hr class="gm-iw-divider"/>
-          <div class="gm-iw-masked">Individual per-comp performance masked per STR policy &mdash; see per-set R12 panels in sidebar.</div>
+          ${statsBlock}
         </div>`;
     };
     refreshIw(primary, isAnchor);
@@ -1074,12 +1139,20 @@ function initMap() {
 
     const item = document.createElement('div');
     item.className = 'hotel-item';
+    const sidebarStats = (h.anchorPerfs && h.anchorPerfs.length)
+      ? `<div class="h-stats">
+           <span class="h-stat"><b>${h.anchorPerfs[0].occ}</b> Occ</span>
+           <span class="h-stat"><b>${h.anchorPerfs[0].adr}</b> ADR</span>
+           <span class="h-stat"><b>${h.anchorPerfs[0].revpar}</b> RevPAR</span>
+         </div>`
+      : '';
     item.innerHTML = `
       <div class="h-pin" style="background:${primary.color};${isAnchor ? 'border-style:dashed;' : ''}">${isAnchor ? '★' : ''}</div>
       <div class="h-info">
         <h4>${h.name}</h4>
         <div class="h-meta">${h.cityState}${h.zip ? ' ' + h.zip : ''} &middot; ${h.rooms.toLocaleString()} keys</div>
         ${membershipBadges(h, false, ACTIVE_SETS)}
+        ${sidebarStats}
       </div>`;
     item.addEventListener('click', () => {
       map.panTo({ lat: h.lat, lng: h.lng });

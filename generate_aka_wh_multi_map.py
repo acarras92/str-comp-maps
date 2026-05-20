@@ -229,6 +229,7 @@ def parse_str_monthly(set_id, path):
 
     # Hotels from row 22 — first row = the STR subject (anchor)
     hotels = []
+    anchor_idx = None
     row = 22
     while row < len(df):
         name = df.iloc[row, 3]
@@ -239,6 +240,8 @@ def parse_str_monthly(set_id, path):
         zip_code = str(int(df.iloc[row, 5])) if pd.notna(df.iloc[row, 5]) else ""
         rooms = int(df.iloc[row, 7]) if pd.notna(df.iloc[row, 7]) else 0
         is_anchor = (row == 22)
+        if is_anchor:
+            anchor_idx = len(hotels)
         hotels.append({
             "name": str(name).strip(),
             "str_id": str_id,
@@ -285,6 +288,19 @@ def parse_str_monthly(set_id, path):
             "comp_rooms":  comp_rooms,
             "n_comps":     len([h for h in hotels if not h["is_anchor"]]),
         }
+        # Attach anchor's own R12 stats to the anchor hotel record so they
+        # surface on the marker / sidebar item.
+        if anchor_idx is not None:
+            hotels[anchor_idx]["anchor_perf"] = {
+                "set_id":  set_id,
+                "period":  f"R12 ending {report_period}",
+                "occ":     perf["subj_occ"],
+                "adr":     perf["subj_adr"],
+                "revpar":  perf["subj_revpar"],
+                "mpi":     perf["mpi"],
+                "ari":     perf["ari"],
+                "rgi":     perf["rgi"],
+            }
     return hotels, perf
 
 
@@ -456,6 +472,9 @@ def merge_hotels(all_lists):
             # Carry anchor address if available
             if h.get("anchor_address"):
                 entry["anchor_address"] = h["anchor_address"]
+            # Carry anchor R12 perf (only present for STR-subject anchors)
+            if h.get("anchor_perf"):
+                entry.setdefault("anchor_perfs", []).append(h["anchor_perf"])
 
     # Sort memberships by COMP_SETS priority
     out = []
@@ -597,6 +616,7 @@ def build_hotels_js(merged):
         out.append(f"    memberships: {memberships_js},")
         out.append(f"    primarySet: {json.dumps(h['primary_set_id'])},")
         out.append(f"    anchorFor: {anchor_js},")
+        out.append(f"    anchorPerfs: {json.dumps(h.get('anchor_perfs', []))},")
         out.append("  },")
     out.append("];")
     return "\n".join(out)
@@ -829,6 +849,12 @@ def generate_html(merged, set_perf):
     .gm-stat {{ text-align: center; }}
     .gm-stat-label {{ font-size: 9px; color: #8090b0; text-transform: uppercase; }}
     .gm-stat-value {{ font-size: 14px; font-weight: 700; color: #1565c0; }}
+    .gm-stat-idx {{ font-size: 8.5px; color: #2d8a2d; font-weight: 600; margin-top: 1px; }}
+    .h-stats {{
+      display: flex; gap: 8px; margin-top: 5px;
+      font-size: 10px; color: #5d6b85;
+    }}
+    .h-stat b {{ color: #1565c0; font-weight: 700; }}
     .gm-iw-note {{ font-size: 9px; color: #aabbd0; margin-top: 5px; }}
     .gm-iw-masked {{ font-size: 10px; color: #8090b0; margin-top: 6px; font-style: italic; }}
   </style>
@@ -1086,6 +1112,37 @@ function initMap() {{
     let iwHtml = '';
     const refreshIw = (pri, anchorVisible) => {{
       const anchorSets = (h.anchorFor || []).filter(sid => ACTIVE_SETS.has(sid));
+      // Anchor properties (Cap Hilton, Viceroy) carry their own R12 perf —
+      // show it regardless of toggle state since the property's perf is intrinsic.
+      let statsBlock = '';
+      if (h.anchorPerfs && h.anchorPerfs.length) {{
+        const p = h.anchorPerfs[0];
+        const setHidden = !ACTIVE_SETS.has(p.set_id);
+        statsBlock = `
+          <hr class="gm-iw-divider"/>
+          <div class="gm-iw-stats">
+            <div class="gm-stat">
+              <div class="gm-stat-label">OCC</div>
+              <div class="gm-stat-value">${{p.occ}}</div>
+              <div class="gm-stat-idx">MPI ${{p.mpi}}</div>
+            </div>
+            <div class="gm-stat">
+              <div class="gm-stat-label">ADR</div>
+              <div class="gm-stat-value">${{p.adr}}</div>
+              <div class="gm-stat-idx">ARI ${{p.ari}}</div>
+            </div>
+            <div class="gm-stat">
+              <div class="gm-stat-label">RevPAR</div>
+              <div class="gm-stat-value">${{p.revpar}}</div>
+              <div class="gm-stat-idx">RGI ${{p.rgi}}</div>
+            </div>
+          </div>
+          <div class="gm-iw-note">${{p.period}} &middot; indices vs ${{SET_BY_ID[p.set_id].short}} comp set${{setHidden ? ' (currently hidden)' : ''}}</div>`;
+      }} else {{
+        statsBlock = `
+          <hr class="gm-iw-divider"/>
+          <div class="gm-iw-masked">Individual per-comp performance masked per STR policy &mdash; see per-set R12 panels in sidebar.</div>`;
+      }}
       iwHtml = `
         <div class="gm-iw">
           <div class="gm-iw-title">${{h.name}}</div>
@@ -1093,8 +1150,7 @@ function initMap() {{
           <div class="gm-iw-meta">${{h.rooms.toLocaleString()}} keys${{h.strId ? ' &middot; STR ID: ' + h.strId : ''}}</div>
           ${{membershipBadges(h, true, ACTIVE_SETS)}}
           ${{anchorSets.length ? '<div class="gm-iw-note">★ STR subject for ' + anchorSets.map(sid => SET_BY_ID[sid].short).join(', ') + '</div>' : ''}}
-          <hr class="gm-iw-divider"/>
-          <div class="gm-iw-masked">Individual per-comp performance masked per STR policy &mdash; see per-set R12 panels in sidebar.</div>
+          ${{statsBlock}}
         </div>`;
     }};
     refreshIw(primary, isAnchor);
@@ -1102,12 +1158,20 @@ function initMap() {{
 
     const item = document.createElement('div');
     item.className = 'hotel-item';
+    const sidebarStats = (h.anchorPerfs && h.anchorPerfs.length)
+      ? `<div class="h-stats">
+           <span class="h-stat"><b>${{h.anchorPerfs[0].occ}}</b> Occ</span>
+           <span class="h-stat"><b>${{h.anchorPerfs[0].adr}}</b> ADR</span>
+           <span class="h-stat"><b>${{h.anchorPerfs[0].revpar}}</b> RevPAR</span>
+         </div>`
+      : '';
     item.innerHTML = `
       <div class="h-pin" style="background:${{primary.color}};${{isAnchor ? 'border-style:dashed;' : ''}}">${{isAnchor ? '★' : ''}}</div>
       <div class="h-info">
         <h4>${{h.name}}</h4>
         <div class="h-meta">${{h.cityState}}${{h.zip ? ' ' + h.zip : ''}} &middot; ${{h.rooms.toLocaleString()}} keys</div>
         ${{membershipBadges(h, false, ACTIVE_SETS)}}
+        ${{sidebarStats}}
       </div>`;
     item.addEventListener('click', () => {{
       map.panTo({{ lat: h.lat, lng: h.lng }});
