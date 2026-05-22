@@ -195,7 +195,9 @@ def build_payload():
     return comp_sets + brand_sets
 
 
-def render_html(comp_sets):
+def render_html(comp_sets, title="STR Comp Sets — Global Map",
+                heading="STR Comp Sets — Global View", subtitle=None,
+                link_subjects=True):
     # Flatten for JS — keep memberships so shared hotels can show all sets
     hotels_by_key = {}  # (name.lower()) → record
     for cs in comp_sets:
@@ -260,12 +262,16 @@ def render_html(comp_sets):
     n_str_sets = sum(1 for c in comp_sets if not c.get("is_brand"))
     n_brand_sets = sum(1 for c in comp_sets if c.get("is_brand"))
 
+    if subtitle is None:
+        subtitle = f"{n_str_sets} comp sets · {n_brand_sets} brand portfolios · {len(hotels)} unique hotels"
+    link_subjects_js = json.dumps(bool(link_subjects))
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>STR Comp Sets — Global Map</title>
+<title>{title}</title>
 <style>
   * {{ box-sizing: border-box; }}
   html, body {{ margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }}
@@ -303,8 +309,8 @@ def render_html(comp_sets):
 <div id="app">
   <aside id="sidebar">
     <header>
-      <h1>STR Comp Sets — Global View</h1>
-      <div class="sub">{n_str_sets} comp sets · {n_brand_sets} brand portfolios · {len(hotels)} unique hotels</div>
+      <h1>{heading}</h1>
+      <div class="sub">{subtitle}</div>
     </header>
     <div id="controls">
       <button onclick="toggleAll(true)">Show all</button>
@@ -319,6 +325,7 @@ def render_html(comp_sets):
 const COMP_SETS = {comp_sets_js};
 const HOTELS = {hotels_js};
 const CENTER = {{ lat: {center_lat}, lng: {center_lng} }};
+const LINK_SUBJECTS = {link_subjects_js};
 let map;
 let markers = [];            // {{ marker, memberships }}
 let bySet = {{}};            // slug → [markerRecord]
@@ -453,7 +460,7 @@ function initMap() {{
         .filter(m => activeSets.has(m.slug))
         .map(m => `<div class="mem">
             <span class="dot" style="background:${{m.color}}"></span>
-            <a href="../${{m.slug}}/">${{m.subject_name}}</a>
+            ${{LINK_SUBJECTS ? `<a href="../${{m.slug}}/">${{m.subject_name}}</a>` : `<span class="setname">${{m.subject_name}}</span>`}}
             <span class="role">${{m.role}}</span>
           </div>`).join('');
       infoWindow.setContent(`

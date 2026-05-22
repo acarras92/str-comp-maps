@@ -1,0 +1,2585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Host 18 Pack — STR Comp Sets</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  #app { display: flex; height: 100vh; }
+  #sidebar { width: 320px; background: #f7f7f8; border-right: 1px solid #e5e5e7; overflow-y: auto; }
+  #sidebar header { padding: 16px 18px; border-bottom: 1px solid #e5e5e7; background: #fff; }
+  #sidebar h1 { font-size: 16px; margin: 0 0 4px; }
+  #sidebar .sub { font-size: 12px; color: #6b7280; }
+  #controls { padding: 10px 14px; border-bottom: 1px solid #e5e5e7; display: flex; gap: 8px; }
+  #controls button { flex: 1; padding: 6px 8px; font-size: 11px; border: 1px solid #d1d5db; background: #fff; border-radius: 6px; cursor: pointer; }
+  #controls button:hover { background: #f3f4f6; }
+  .legend { padding: 6px 0; }
+  .legend-item { display: flex; align-items: center; gap: 10px; padding: 8px 14px; cursor: pointer; border-bottom: 1px solid #eef0f2; font-size: 13px; }
+  .legend-item:hover { background: #eef2ff; }
+  .legend-item.off { opacity: 0.35; }
+  .legend-swatch { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,0.15); }
+  .legend-swatch.diamond { border-radius: 0; transform: rotate(45deg); width: 12px; height: 12px; }
+  .legend-section { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: #6b7280; padding: 12px 14px 4px; }
+  .brand-tag { display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 3px; background: #fef3c7; color: #92400e; margin-left: 6px; vertical-align: middle; letter-spacing: 0.4px; font-weight: 700; }
+  .legend-text { flex: 1; line-height: 1.25; min-width: 0; }
+  .legend-name { font-weight: 600; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .legend-meta { font-size: 11px; color: #6b7280; }
+  #map { flex: 1; }
+  .iw { font-size: 13px; line-height: 1.4; max-width: 240px; }
+  .iw h3 { margin: 0 0 4px; font-size: 14px; }
+  .iw .addr { color: #6b7280; font-size: 12px; margin-bottom: 8px; }
+  .iw .mem { padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+  .iw .mem .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .iw .mem .role { font-size: 11px; color: #6b7280; margin-left: 4px; }
+  .iw a { color: #2563eb; text-decoration: none; font-size: 12px; }
+  .iw a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="sidebar">
+    <header>
+      <h1>Host 18 Pack — Portfolio Comp Sets</h1>
+      <div class="sub">18 comp sets · 129 unique hotels · R12 ending Mar 2026</div>
+    </header>
+    <div id="controls">
+      <button onclick="toggleAll(true)">Show all</button>
+      <button onclick="toggleAll(false)">Hide all</button>
+    </div>
+    <div class="legend" id="legend"></div>
+  </aside>
+  <div id="map"></div>
+</div>
+
+<script>
+const COMP_SETS = [
+  {
+    "slug": "denver-marriott-tech-center",
+    "name": "Denver Marriott Tech Center",
+    "color": "#e6194B",
+    "report_period": "March 2026",
+    "comp_rooms": 1199,
+    "subj_occ": "63.1%",
+    "subj_adr": "$181.5",
+    "subj_revpar": "$114.6",
+    "mpi": "133.9",
+    "ari": "130.5",
+    "rgi": "174.7",
+    "hotel_count": 5,
+    "is_brand": false
+  },
+  {
+    "slug": "embassy-suites-by-hilton-chicago-downtown-magnificent-mile",
+    "name": "Embassy Suites by Hilton Chicago Downtown Magnificent Mile",
+    "color": "#3cb44b",
+    "report_period": "March 2026",
+    "comp_rooms": 2905,
+    "subj_occ": "73.1%",
+    "subj_adr": "$238.2",
+    "subj_revpar": "$174.1",
+    "mpi": "98.6",
+    "ari": "106.1",
+    "rgi": "104.6",
+    "hotel_count": 8,
+    "is_brand": false
+  },
+  {
+    "slug": "houston-airport-marriott-at-george-bush-intercontinental",
+    "name": "Houston Airport Marriott at George Bush Intercontinental",
+    "color": "#4363d8",
+    "report_period": "March 2026",
+    "comp_rooms": 3106,
+    "subj_occ": "77.8%",
+    "subj_adr": "$194.2",
+    "subj_revpar": "$151.1",
+    "mpi": "126.5",
+    "ari": "179.7",
+    "rgi": "227.2",
+    "hotel_count": 8,
+    "is_brand": false
+  },
+  {
+    "slug": "hyatt-place-waikiki-beach",
+    "name": "Hyatt Place Waikiki Beach",
+    "color": "#f58231",
+    "report_period": "March 2026",
+    "comp_rooms": 2318,
+    "subj_occ": "93.3%",
+    "subj_adr": "$207.4",
+    "subj_revpar": "$193.4",
+    "mpi": "116.8",
+    "ari": "102.7",
+    "rgi": "120.0",
+    "hotel_count": 6,
+    "is_brand": false
+  },
+  {
+    "slug": "hyatt-regency-reston",
+    "name": "Hyatt Regency Reston",
+    "color": "#911eb4",
+    "report_period": "March 2026",
+    "comp_rooms": 3278,
+    "subj_occ": "67.5%",
+    "subj_adr": "$205.8",
+    "subj_revpar": "$139.0",
+    "mpi": "106.4",
+    "ari": "97.0",
+    "rgi": "103.2",
+    "hotel_count": 8,
+    "is_brand": false
+  },
+  {
+    "slug": "jw-marriott-atlanta-buckhead",
+    "name": "JW Marriott Atlanta Buckhead",
+    "color": "#42d4f4",
+    "report_period": "March 2026",
+    "comp_rooms": 2756,
+    "subj_occ": "63.6%",
+    "subj_adr": "$219.8",
+    "subj_revpar": "$139.8",
+    "mpi": "102.1",
+    "ari": "109.0",
+    "rgi": "111.3",
+    "hotel_count": 9,
+    "is_brand": false
+  },
+  {
+    "slug": "jw-marriott-houston-by-the-galleria",
+    "name": "JW Marriott Houston by The Galleria",
+    "color": "#f032e6",
+    "report_period": "March 2026",
+    "comp_rooms": 3586,
+    "subj_occ": "58.2%",
+    "subj_adr": "$219.1",
+    "subj_revpar": "$127.5",
+    "mpi": "96.1",
+    "ari": "121.9",
+    "rgi": "117.2",
+    "hotel_count": 8,
+    "is_brand": false
+  },
+  {
+    "slug": "marriott-denver-west",
+    "name": "Marriott Denver West",
+    "color": "#bfef45",
+    "report_period": "March 2026",
+    "comp_rooms": 1101,
+    "subj_occ": "60.6%",
+    "subj_adr": "$181.2",
+    "subj_revpar": "$109.8",
+    "mpi": "111.7",
+    "ari": "146.1",
+    "rgi": "163.3",
+    "hotel_count": 6,
+    "is_brand": false
+  },
+  {
+    "slug": "marriott-gaithersburg-washingtonian-center",
+    "name": "Marriott Gaithersburg Washingtonian Center",
+    "color": "#fabed4",
+    "report_period": "March 2026",
+    "comp_rooms": 1529,
+    "subj_occ": "54.5%",
+    "subj_adr": "$197.9",
+    "subj_revpar": "$107.9",
+    "mpi": "100.0",
+    "ari": "170.1",
+    "rgi": "170.1",
+    "hotel_count": 7,
+    "is_brand": false
+  },
+  {
+    "slug": "marriott-philadelphia-airport",
+    "name": "Marriott Philadelphia Airport",
+    "color": "#469990",
+    "report_period": "March 2026",
+    "comp_rooms": 2424,
+    "subj_occ": "85.5%",
+    "subj_adr": "$234.0",
+    "subj_revpar": "$200.2",
+    "mpi": "140.1",
+    "ari": "185.0",
+    "rgi": "259.2",
+    "hotel_count": 8,
+    "is_brand": false
+  },
+  {
+    "slug": "minneapolis-marriott-city-center",
+    "name": "Minneapolis Marriott City Center",
+    "color": "#dcbeff",
+    "report_period": "March 2026",
+    "comp_rooms": 3376,
+    "subj_occ": "56.7%",
+    "subj_adr": "$173.9",
+    "subj_revpar": "$98.5",
+    "mpi": "103.8",
+    "ari": "98.4",
+    "rgi": "102.2",
+    "hotel_count": 8,
+    "is_brand": false
+  },
+  {
+    "slug": "tampa-airport-marriott",
+    "name": "Tampa Airport Marriott",
+    "color": "#9A6324",
+    "report_period": "March 2026",
+    "comp_rooms": 2721,
+    "subj_occ": "68.3%",
+    "subj_adr": "$258.0",
+    "subj_revpar": "$176.3",
+    "mpi": "96.8",
+    "ari": "134.6",
+    "rgi": "130.2",
+    "hotel_count": 9,
+    "is_brand": false
+  },
+  {
+    "slug": "the-laura-hotel-houston-downtown-autograph-collection",
+    "name": "The Laura Hotel, Houston Downtown, Autograph Collection",
+    "color": "#800000",
+    "report_period": "March 2026",
+    "comp_rooms": 1995,
+    "subj_occ": "70.2%",
+    "subj_adr": "$239.3",
+    "subj_revpar": "$167.9",
+    "mpi": "112.2",
+    "ari": "115.6",
+    "rgi": "129.8",
+    "hotel_count": 7,
+    "is_brand": false
+  },
+  {
+    "slug": "the-logan-philadelphia-curio-collection-by-hilton",
+    "name": "The Logan Philadelphia, Curio Collection by Hilton",
+    "color": "#aaffc3",
+    "report_period": "March 2026",
+    "comp_rooms": 1640,
+    "subj_occ": "75.7%",
+    "subj_adr": "$246.8",
+    "subj_revpar": "$186.9",
+    "mpi": "104.2",
+    "ari": "85.1",
+    "rgi": "88.7",
+    "hotel_count": 6,
+    "is_brand": false
+  },
+  {
+    "slug": "the-westin-chicago-river-north",
+    "name": "The Westin Chicago River North",
+    "color": "#808000",
+    "report_period": "March 2026",
+    "comp_rooms": 3997,
+    "subj_occ": "72.2%",
+    "subj_adr": "$301.3",
+    "subj_revpar": "$217.7",
+    "mpi": "101.6",
+    "ari": "116.9",
+    "rgi": "118.8",
+    "hotel_count": 7,
+    "is_brand": false
+  },
+  {
+    "slug": "the-westin-waltham-boston",
+    "name": "The Westin Waltham Boston",
+    "color": "#ffd8b1",
+    "report_period": "March 2026",
+    "comp_rooms": 2308,
+    "subj_occ": "62.0%",
+    "subj_adr": "$229.6",
+    "subj_revpar": "$142.4",
+    "mpi": "84.9",
+    "ari": "130.9",
+    "rgi": "111.1",
+    "hotel_count": 11,
+    "is_brand": false
+  },
+  {
+    "slug": "w-hotel-seattle",
+    "name": "W Hotel Seattle",
+    "color": "#000075",
+    "report_period": "March 2026",
+    "comp_rooms": 2423,
+    "subj_occ": "66.5%",
+    "subj_adr": "$256.8",
+    "subj_revpar": "$170.7",
+    "mpi": "96.3",
+    "ari": "100.1",
+    "rgi": "96.4",
+    "hotel_count": 6,
+    "is_brand": false
+  },
+  {
+    "slug": "westin-seattle",
+    "name": "Westin Seattle",
+    "color": "#a9a9a9",
+    "report_period": "March 2026",
+    "comp_rooms": 2925,
+    "subj_occ": "68.0%",
+    "subj_adr": "$240.4",
+    "subj_revpar": "$163.3",
+    "mpi": "93.0",
+    "ari": "110.3",
+    "rgi": "102.6",
+    "hotel_count": 6,
+    "is_brand": false
+  }
+];
+const HOTELS = [
+  {
+    "name": "Denver Marriott Tech Center",
+    "city_state": "Denver, CO",
+    "zip": "802372725",
+    "rooms": 605,
+    "lat": 39.6272885,
+    "lng": -104.9014983,
+    "memberships": [
+      {
+        "slug": "denver-marriott-tech-center",
+        "subject_name": "Denver Marriott Tech Center",
+        "color": "#e6194B",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Wyndham Denver Tech Center Hotel",
+    "city_state": "Englewood, CO",
+    "zip": "801123629",
+    "rooms": 263,
+    "lat": 39.5895296,
+    "lng": -104.880134,
+    "memberships": [
+      {
+        "slug": "denver-marriott-tech-center",
+        "subject_name": "Denver Marriott Tech Center",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "DoubleTree by Hilton Hotel Denver Tech Center",
+    "city_state": "Greenwood Village, CO",
+    "zip": "80111",
+    "rooms": 305,
+    "lat": 39.6108085,
+    "lng": -104.8977351,
+    "memberships": [
+      {
+        "slug": "denver-marriott-tech-center",
+        "subject_name": "Denver Marriott Tech Center",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Garden Inn Denver Tech Center",
+    "city_state": "Denver, CO",
+    "zip": "802372742",
+    "rooms": 180,
+    "lat": 39.6289418,
+    "lng": -104.9009129,
+    "memberships": [
+      {
+        "slug": "denver-marriott-tech-center",
+        "subject_name": "Denver Marriott Tech Center",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Regency Denver Tech Center",
+    "city_state": "Denver, CO",
+    "zip": "80237",
+    "rooms": 451,
+    "lat": 39.6303028,
+    "lng": -104.8990094,
+    "memberships": [
+      {
+        "slug": "denver-marriott-tech-center",
+        "subject_name": "Denver Marriott Tech Center",
+        "color": "#e6194B",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Embassy Suites by Hilton Chicago Downtown Magnificent Mile",
+    "city_state": "Chicago, IL",
+    "zip": "60611",
+    "rooms": 455,
+    "lat": 41.8914042,
+    "lng": -87.61996339999999,
+    "memberships": [
+      {
+        "slug": "embassy-suites-by-hilton-chicago-downtown-magnificent-mile",
+        "subject_name": "Embassy Suites by Hilton Chicago Downtown Magnificent Mile",
+        "color": "#3cb44b",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Chicago Magnificent Mile Suites",
+    "city_state": "Chicago, IL",
+    "zip": "60611",
+    "rooms": 345,
+    "lat": 41.8997789,
+    "lng": -87.6220647,
+    "memberships": [
+      {
+        "slug": "embassy-suites-by-hilton-chicago-downtown-magnificent-mile",
+        "subject_name": "Embassy Suites by Hilton Chicago Downtown Magnificent Mile",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Embassy Suites by Hilton Chicago Downtown",
+    "city_state": "Chicago, IL",
+    "zip": "606543853",
+    "rooms": 368,
+    "lat": 41.8914042,
+    "lng": -87.61996339999999,
+    "memberships": [
+      {
+        "slug": "embassy-suites-by-hilton-chicago-downtown-magnificent-mile",
+        "subject_name": "Embassy Suites by Hilton Chicago Downtown Magnificent Mile",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Westin Chicago River North",
+    "city_state": "Chicago, IL",
+    "zip": "606545027",
+    "rooms": 445,
+    "lat": 41.8880493,
+    "lng": -87.6298778,
+    "memberships": [
+      {
+        "slug": "embassy-suites-by-hilton-chicago-downtown-magnificent-mile",
+        "subject_name": "Embassy Suites by Hilton Chicago Downtown Magnificent Mile",
+        "color": "#3cb44b",
+        "role": "comp"
+      },
+      {
+        "slug": "the-westin-chicago-river-north",
+        "subject_name": "The Westin Chicago River North",
+        "color": "#808000",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "The Royal Sonesta Chicago River North",
+    "city_state": "Chicago, IL",
+    "zip": "606544803",
+    "rooms": 261,
+    "lat": 41.8911217,
+    "lng": -87.6278712,
+    "memberships": [
+      {
+        "slug": "embassy-suites-by-hilton-chicago-downtown-magnificent-mile",
+        "subject_name": "Embassy Suites by Hilton Chicago Downtown Magnificent Mile",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Centric Chicago Magnificent Mile",
+    "city_state": "Chicago, IL",
+    "zip": "60611",
+    "rooms": 347,
+    "lat": 41.8938374,
+    "lng": -87.6223754,
+    "memberships": [
+      {
+        "slug": "embassy-suites-by-hilton-chicago-downtown-magnificent-mile",
+        "subject_name": "Embassy Suites by Hilton Chicago Downtown Magnificent Mile",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Omni Chicago Hotel",
+    "city_state": "Chicago, IL",
+    "zip": "606112883",
+    "rooms": 347,
+    "lat": 41.89477650000001,
+    "lng": -87.6248791,
+    "memberships": [
+      {
+        "slug": "embassy-suites-by-hilton-chicago-downtown-magnificent-mile",
+        "subject_name": "Embassy Suites by Hilton Chicago Downtown Magnificent Mile",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "aloft Hotel Chicago Mag Mile",
+    "city_state": "Chicago, IL",
+    "zip": "60611",
+    "rooms": 337,
+    "lat": 41.894809,
+    "lng": -87.6242142,
+    "memberships": [
+      {
+        "slug": "embassy-suites-by-hilton-chicago-downtown-magnificent-mile",
+        "subject_name": "Embassy Suites by Hilton Chicago Downtown Magnificent Mile",
+        "color": "#3cb44b",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Houston Airport Marriott at George Bush Intercontinental",
+    "city_state": "Houston, TX",
+    "zip": "77032",
+    "rooms": 573,
+    "lat": 29.9866556,
+    "lng": -95.34203769999999,
+    "memberships": [
+      {
+        "slug": "houston-airport-marriott-at-george-bush-intercontinental",
+        "subject_name": "Houston Airport Marriott at George Bush Intercontinental",
+        "color": "#4363d8",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Garden Inn Houston/Bush Intercontinental Airport",
+    "city_state": "Houston, TX",
+    "zip": "77032",
+    "rooms": 182,
+    "lat": 29.942036,
+    "lng": -95.33060069999999,
+    "memberships": [
+      {
+        "slug": "houston-airport-marriott-at-george-bush-intercontinental",
+        "subject_name": "Houston Airport Marriott at George Bush Intercontinental",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Houston North",
+    "city_state": "Houston, TX",
+    "zip": "77060",
+    "rooms": 480,
+    "lat": 29.9469118,
+    "lng": -95.40689320000001,
+    "memberships": [
+      {
+        "slug": "houston-airport-marriott-at-george-bush-intercontinental",
+        "subject_name": "Houston Airport Marriott at George Bush Intercontinental",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Holiday Inn Houston-Intercontinental Arpt",
+    "city_state": "Houston, TX",
+    "zip": "77032",
+    "rooms": 414,
+    "lat": 29.9380638,
+    "lng": -95.3302856,
+    "memberships": [
+      {
+        "slug": "houston-airport-marriott-at-george-bush-intercontinental",
+        "subject_name": "Houston Airport Marriott at George Bush Intercontinental",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Marriott Houston North",
+    "city_state": "Houston, TX",
+    "zip": "77060",
+    "rooms": 390,
+    "lat": 29.941954,
+    "lng": -95.403882,
+    "memberships": [
+      {
+        "slug": "houston-airport-marriott-at-george-bush-intercontinental",
+        "subject_name": "Houston Airport Marriott at George Bush Intercontinental",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sonesta Hotel Houston IAH Airport",
+    "city_state": "Houston, TX",
+    "zip": "77060",
+    "rooms": 335,
+    "lat": 29.9401998,
+    "lng": -95.39567300000002,
+    "memberships": [
+      {
+        "slug": "houston-airport-marriott-at-george-bush-intercontinental",
+        "subject_name": "Houston Airport Marriott at George Bush Intercontinental",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "DoubleTree by Hilton Hotel Houston Intercontinental Airport",
+    "city_state": "Houston, TX",
+    "zip": "77032",
+    "rooms": 313,
+    "lat": 29.9465595,
+    "lng": -95.3326444,
+    "memberships": [
+      {
+        "slug": "houston-airport-marriott-at-george-bush-intercontinental",
+        "subject_name": "Houston Airport Marriott at George Bush Intercontinental",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sheraton North Houston at George Bush Intercontinental",
+    "city_state": "Houston, TX",
+    "zip": "77032",
+    "rooms": 419,
+    "lat": 29.9453806,
+    "lng": -95.33051359999999,
+    "memberships": [
+      {
+        "slug": "houston-airport-marriott-at-george-bush-intercontinental",
+        "subject_name": "Houston Airport Marriott at George Bush Intercontinental",
+        "color": "#4363d8",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Place Waikiki Beach",
+    "city_state": "Honolulu, HI",
+    "zip": "96815",
+    "rooms": 426,
+    "lat": 21.2735393,
+    "lng": -157.8213923,
+    "memberships": [
+      {
+        "slug": "hyatt-place-waikiki-beach",
+        "subject_name": "Hyatt Place Waikiki Beach",
+        "color": "#f58231",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "DoubleTree by Hilton Hotel Alana - Waikiki Beach",
+    "city_state": "Honolulu, HI",
+    "zip": "96815",
+    "rooms": 317,
+    "lat": 21.2864069,
+    "lng": -157.8346297,
+    "memberships": [
+      {
+        "slug": "hyatt-place-waikiki-beach",
+        "subject_name": "Hyatt Place Waikiki Beach",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "OUTRIGGER Waikiki Beachcomber Hotel",
+    "city_state": "Honolulu, HI",
+    "zip": "96815",
+    "rooms": 498,
+    "lat": 21.2784163,
+    "lng": -157.8273135,
+    "memberships": [
+      {
+        "slug": "hyatt-place-waikiki-beach",
+        "subject_name": "Hyatt Place Waikiki Beach",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Waikiki Beach",
+    "city_state": "Honolulu, HI",
+    "zip": "96815",
+    "rooms": 601,
+    "lat": 21.2753958,
+    "lng": -157.8219214,
+    "memberships": [
+      {
+        "slug": "hyatt-place-waikiki-beach",
+        "subject_name": "Hyatt Place Waikiki Beach",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Renew",
+    "city_state": "Honolulu, HI",
+    "zip": "968153708",
+    "rooms": 72,
+    "lat": 21.272804,
+    "lng": -157.8222424,
+    "memberships": [
+      {
+        "slug": "hyatt-place-waikiki-beach",
+        "subject_name": "Hyatt Place Waikiki Beach",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard by Marriott Waikiki Beach",
+    "city_state": "Honolulu, HI",
+    "zip": "968152837",
+    "rooms": 404,
+    "lat": 21.2813093,
+    "lng": -157.8279188,
+    "memberships": [
+      {
+        "slug": "hyatt-place-waikiki-beach",
+        "subject_name": "Hyatt Place Waikiki Beach",
+        "color": "#f58231",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Regency Reston",
+    "city_state": "Reston, VA",
+    "zip": "20190",
+    "rooms": 518,
+    "lat": 38.9581336,
+    "lng": -77.35608189999999,
+    "memberships": [
+      {
+        "slug": "hyatt-regency-reston",
+        "subject_name": "Hyatt Regency Reston",
+        "color": "#911eb4",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Sheraton Hotel Tysons Hotel",
+    "city_state": "Vienna, VA",
+    "zip": "22182",
+    "rooms": 449,
+    "lat": 38.9309998,
+    "lng": -77.2460599,
+    "memberships": [
+      {
+        "slug": "hyatt-regency-reston",
+        "subject_name": "Hyatt Regency Reston",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Westfields Marriott Washington Dulles",
+    "city_state": "Chantilly, VA",
+    "zip": "201513800",
+    "rooms": 336,
+    "lat": 38.8748792,
+    "lng": -77.45614929999999,
+    "memberships": [
+      {
+        "slug": "hyatt-regency-reston",
+        "subject_name": "Hyatt Regency Reston",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "DoubleTree by Hilton Washington Dulles Airport",
+    "city_state": "Herndon, VA",
+    "zip": "20171",
+    "rooms": 449,
+    "lat": 38.9325939,
+    "lng": -77.4271251,
+    "memberships": [
+      {
+        "slug": "hyatt-regency-reston",
+        "subject_name": "Hyatt Regency Reston",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sheraton Reston Hotel",
+    "city_state": "Reston, VA",
+    "zip": "20191",
+    "rooms": 302,
+    "lat": 38.9500195,
+    "lng": -77.3545008,
+    "memberships": [
+      {
+        "slug": "hyatt-regency-reston",
+        "subject_name": "Hyatt Regency Reston",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Ritz-Carlton Tysons Corner",
+    "city_state": "McLean, VA",
+    "zip": "22102",
+    "rooms": 398,
+    "lat": 38.9243797,
+    "lng": -77.2235439,
+    "memberships": [
+      {
+        "slug": "hyatt-regency-reston",
+        "subject_name": "Hyatt Regency Reston",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Washington Dulles Airport Marriott",
+    "city_state": "Dulles Town Center, VA",
+    "zip": "20166",
+    "rooms": 368,
+    "lat": 38.9593087,
+    "lng": -77.4484205,
+    "memberships": [
+      {
+        "slug": "hyatt-regency-reston",
+        "subject_name": "Hyatt Regency Reston",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton McLean Tysons Corner",
+    "city_state": "McLean, VA",
+    "zip": "22102",
+    "rooms": 458,
+    "lat": 38.9265061,
+    "lng": -77.21596420000002,
+    "memberships": [
+      {
+        "slug": "hyatt-regency-reston",
+        "subject_name": "Hyatt Regency Reston",
+        "color": "#911eb4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "JW Marriott Atlanta Buckhead",
+    "city_state": "Atlanta, GA",
+    "zip": "30326",
+    "rooms": 371,
+    "lat": 33.84588129999999,
+    "lng": -84.3595155,
+    "memberships": [
+      {
+        "slug": "jw-marriott-atlanta-buckhead",
+        "subject_name": "JW Marriott Atlanta Buckhead",
+        "color": "#42d4f4",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Embassy Suites by Hilton Atlanta Buckhead",
+    "city_state": "Atlanta, GA",
+    "zip": "30305",
+    "rooms": 326,
+    "lat": 33.8445899,
+    "lng": -84.3686474,
+    "memberships": [
+      {
+        "slug": "jw-marriott-atlanta-buckhead",
+        "subject_name": "JW Marriott Atlanta Buckhead",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Westin Buckhead Atlanta",
+    "city_state": "Atlanta, GA",
+    "zip": "303261002",
+    "rooms": 368,
+    "lat": 33.8484282,
+    "lng": -84.3651962,
+    "memberships": [
+      {
+        "slug": "jw-marriott-atlanta-buckhead",
+        "subject_name": "JW Marriott Atlanta Buckhead",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Grand Hyatt Atlanta In Buckhead",
+    "city_state": "Atlanta, GA",
+    "zip": "30305",
+    "rooms": 439,
+    "lat": 33.8448541,
+    "lng": -84.3700497,
+    "memberships": [
+      {
+        "slug": "jw-marriott-atlanta-buckhead",
+        "subject_name": "JW Marriott Atlanta Buckhead",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Colee, Atlanta Buckhead, Autograph Collection",
+    "city_state": "Atlanta, GA",
+    "zip": "303261009",
+    "rooms": 291,
+    "lat": 33.8478702,
+    "lng": -84.3661265,
+    "memberships": [
+      {
+        "slug": "jw-marriott-atlanta-buckhead",
+        "subject_name": "JW Marriott Atlanta Buckhead",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Garden Inn Atlanta - Buckhead",
+    "city_state": "Atlanta, GA",
+    "zip": "30326",
+    "rooms": 230,
+    "lat": 33.8473782,
+    "lng": -84.3697186,
+    "memberships": [
+      {
+        "slug": "jw-marriott-atlanta-buckhead",
+        "subject_name": "JW Marriott Atlanta Buckhead",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "InterContinental Buckhead Atlanta",
+    "city_state": "Atlanta, GA",
+    "zip": "30326",
+    "rooms": 422,
+    "lat": 33.845581,
+    "lng": -84.36785499999999,
+    "memberships": [
+      {
+        "slug": "jw-marriott-atlanta-buckhead",
+        "subject_name": "JW Marriott Atlanta Buckhead",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Waldorf Astoria Atlanta Buckhead",
+    "city_state": "Atlanta, GA",
+    "zip": "303267200",
+    "rooms": 127,
+    "lat": 33.8490989,
+    "lng": -84.36628929999999,
+    "memberships": [
+      {
+        "slug": "jw-marriott-atlanta-buckhead",
+        "subject_name": "JW Marriott Atlanta Buckhead",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Regency Atlanta Perimeter at Villa Christina",
+    "city_state": "Atlanta, GA",
+    "zip": "303191448",
+    "rooms": 182,
+    "lat": 33.913193,
+    "lng": -84.3422856,
+    "memberships": [
+      {
+        "slug": "jw-marriott-atlanta-buckhead",
+        "subject_name": "JW Marriott Atlanta Buckhead",
+        "color": "#42d4f4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "JW Marriott Houston by The Galleria",
+    "city_state": "Houston, TX",
+    "zip": "77056",
+    "rooms": 516,
+    "lat": 29.7412634,
+    "lng": -95.4664975,
+    "memberships": [
+      {
+        "slug": "jw-marriott-houston-by-the-galleria",
+        "subject_name": "JW Marriott Houston by The Galleria",
+        "color": "#f032e6",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "The Greenleigh Hotel, Autograph Collection",
+    "city_state": "Houston, TX",
+    "zip": "770274501",
+    "rooms": 299,
+    "lat": 29.7415223,
+    "lng": -95.4572227,
+    "memberships": [
+      {
+        "slug": "jw-marriott-houston-by-the-galleria",
+        "subject_name": "JW Marriott Houston by The Galleria",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Royal Sonesta Houston Galleria",
+    "city_state": "Houston, TX",
+    "zip": "770273502",
+    "rooms": 485,
+    "lat": 29.7440492,
+    "lng": -95.45888889999999,
+    "memberships": [
+      {
+        "slug": "jw-marriott-houston-by-the-galleria",
+        "subject_name": "JW Marriott Houston by The Galleria",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Houston Post Oak by the Galleria",
+    "city_state": "Houston, TX",
+    "zip": "77056",
+    "rooms": 448,
+    "lat": 29.7458676,
+    "lng": -95.4600978,
+    "memberships": [
+      {
+        "slug": "jw-marriott-houston-by-the-galleria",
+        "subject_name": "JW Marriott Houston by The Galleria",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Westin Galleria Houston",
+    "city_state": "Houston, TX",
+    "zip": "77056",
+    "rooms": 875,
+    "lat": 29.738384,
+    "lng": -95.4646465,
+    "memberships": [
+      {
+        "slug": "jw-marriott-houston-by-the-galleria",
+        "subject_name": "JW Marriott Houston by The Galleria",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Omni Houston Hotel",
+    "city_state": "Houston, TX",
+    "zip": "77056",
+    "rooms": 378,
+    "lat": 29.7613035,
+    "lng": -95.4593725,
+    "memberships": [
+      {
+        "slug": "jw-marriott-houston-by-the-galleria",
+        "subject_name": "JW Marriott Houston by The Galleria",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Houston Marriott West Loop by The Galleria",
+    "city_state": "Houston, TX",
+    "zip": "77027",
+    "rooms": 301,
+    "lat": 29.7497196,
+    "lng": -95.4571891,
+    "memberships": [
+      {
+        "slug": "jw-marriott-houston-by-the-galleria",
+        "subject_name": "JW Marriott Houston by The Galleria",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Chifley Houston, Tapestry Collection by Hilton",
+    "city_state": "Houston, TX",
+    "zip": "77027",
+    "rooms": 284,
+    "lat": 29.7422945,
+    "lng": -95.45896069999999,
+    "memberships": [
+      {
+        "slug": "jw-marriott-houston-by-the-galleria",
+        "subject_name": "JW Marriott Houston by The Galleria",
+        "color": "#f032e6",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Marriott Denver West",
+    "city_state": "Golden, CO",
+    "zip": "80401",
+    "rooms": 305,
+    "lat": 39.7400603,
+    "lng": -105.1624914,
+    "memberships": [
+      {
+        "slug": "marriott-denver-west",
+        "subject_name": "Marriott Denver West",
+        "color": "#bfef45",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hampton Inn Denver West Federal Center",
+    "city_state": "Lakewood, CO",
+    "zip": "80228",
+    "rooms": 170,
+    "lat": 39.7151636,
+    "lng": -105.1349035,
+    "memberships": [
+      {
+        "slug": "marriott-denver-west",
+        "subject_name": "Marriott Denver West",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sheraton Denver West Hotel",
+    "city_state": "Lakewood, CO",
+    "zip": "80228",
+    "rooms": 242,
+    "lat": 39.721681,
+    "lng": -105.1314689,
+    "memberships": [
+      {
+        "slug": "marriott-denver-west",
+        "subject_name": "Marriott Denver West",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Comfort Inn & Suites Lakewood",
+    "city_state": "Lakewood, CO",
+    "zip": "804014022",
+    "rooms": 155,
+    "lat": 39.7047095,
+    "lng": -105.0813734,
+    "memberships": [
+      {
+        "slug": "marriott-denver-west",
+        "subject_name": "Marriott Denver West",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "La Quinta Inn by Wyndham Denver Golden",
+    "city_state": "Golden, CO",
+    "zip": "80401",
+    "rooms": 129,
+    "lat": 39.764144,
+    "lng": -105.1443525,
+    "memberships": [
+      {
+        "slug": "marriott-denver-west",
+        "subject_name": "Marriott Denver West",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Holiday Inn Express & Suites Golden Denver Area",
+    "city_state": "Golden, CO",
+    "zip": "80401",
+    "rooms": 100,
+    "lat": 39.7221946,
+    "lng": -105.1925914,
+    "memberships": [
+      {
+        "slug": "marriott-denver-west",
+        "subject_name": "Marriott Denver West",
+        "color": "#bfef45",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Marriott Gaithersburg Washingtonian Center",
+    "city_state": "Gaithersburg, MD",
+    "zip": "20878",
+    "rooms": 284,
+    "lat": 39.115583,
+    "lng": -77.1951989,
+    "memberships": [
+      {
+        "slug": "marriott-gaithersburg-washingtonian-center",
+        "subject_name": "Marriott Gaithersburg Washingtonian Center",
+        "color": "#fabed4",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Washington DC/Rockville Hotel & Executive Meeting Ctr",
+    "city_state": "Rockville, MD",
+    "zip": "20852",
+    "rooms": 315,
+    "lat": 39.0612428,
+    "lng": -77.12216339999999,
+    "memberships": [
+      {
+        "slug": "marriott-gaithersburg-washingtonian-center",
+        "subject_name": "Marriott Gaithersburg Washingtonian Center",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sheraton Hotel Rockville",
+    "city_state": "Rockville, MD",
+    "zip": "20850",
+    "rooms": 155,
+    "lat": 39.1094758,
+    "lng": -77.18363269999999,
+    "memberships": [
+      {
+        "slug": "marriott-gaithersburg-washingtonian-center",
+        "subject_name": "Marriott Gaithersburg Washingtonian Center",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "EVEN Hotels Rockville - Washington DC Area",
+    "city_state": "Rockville, MD",
+    "zip": "20852",
+    "rooms": 167,
+    "lat": 39.059979,
+    "lng": -77.123517,
+    "memberships": [
+      {
+        "slug": "marriott-gaithersburg-washingtonian-center",
+        "subject_name": "Marriott Gaithersburg Washingtonian Center",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Rockville Hotel, a Ramada by Wyndham",
+    "city_state": "Rockville, MD",
+    "zip": "20850",
+    "rooms": 150,
+    "lat": 39.1073784,
+    "lng": -77.1865285,
+    "memberships": [
+      {
+        "slug": "marriott-gaithersburg-washingtonian-center",
+        "subject_name": "Marriott Gaithersburg Washingtonian Center",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "DoubleTree by Hilton Washington DC North/Gaithersburg",
+    "city_state": "Gaithersburg, MD",
+    "zip": "20877",
+    "rooms": 298,
+    "lat": 39.1494008,
+    "lng": -77.2133209,
+    "memberships": [
+      {
+        "slug": "marriott-gaithersburg-washingtonian-center",
+        "subject_name": "Marriott Gaithersburg Washingtonian Center",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Holiday Inn Gaithersburg",
+    "city_state": "Gaithersburg, MD",
+    "zip": "208793504",
+    "rooms": 160,
+    "lat": 39.1536668,
+    "lng": -77.2120861,
+    "memberships": [
+      {
+        "slug": "marriott-gaithersburg-washingtonian-center",
+        "subject_name": "Marriott Gaithersburg Washingtonian Center",
+        "color": "#fabed4",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Marriott Philadelphia Airport",
+    "city_state": "Philadelphia, PA",
+    "zip": "19153",
+    "rooms": 419,
+    "lat": 39.8779466,
+    "lng": -75.2446348,
+    "memberships": [
+      {
+        "slug": "marriott-philadelphia-airport",
+        "subject_name": "Marriott Philadelphia Airport",
+        "color": "#469990",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Delta Hotel Philadelphia Airport",
+    "city_state": "Philadelphia, PA",
+    "zip": "19113",
+    "rooms": 348,
+    "lat": 39.8730902,
+    "lng": -75.2747966,
+    "memberships": [
+      {
+        "slug": "marriott-philadelphia-airport",
+        "subject_name": "Marriott Philadelphia Airport",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Embassy Suites Philadelphia Airport",
+    "city_state": "Philadelphia, PA",
+    "zip": "19153",
+    "rooms": 263,
+    "lat": 39.8838478,
+    "lng": -75.24970379999999,
+    "memberships": [
+      {
+        "slug": "marriott-philadelphia-airport",
+        "subject_name": "Marriott Philadelphia Airport",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Holiday Inn",
+    "city_state": "Philadelphia, PA",
+    "zip": "19148",
+    "rooms": 208,
+    "lat": 39.9120596,
+    "lng": -75.14870069999999,
+    "memberships": [
+      {
+        "slug": "marriott-philadelphia-airport",
+        "subject_name": "Marriott Philadelphia Airport",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Sheraton Suites Philadelphia Airport",
+    "city_state": "Philadelphia, PA",
+    "zip": "19153",
+    "rooms": 250,
+    "lat": 39.8905171,
+    "lng": -75.2315352,
+    "memberships": [
+      {
+        "slug": "marriott-philadelphia-airport",
+        "subject_name": "Marriott Philadelphia Airport",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "DoubleTree by Hilton Hotel Philadelphia Airport",
+    "city_state": "Philadelphia, PA",
+    "zip": "19153",
+    "rooms": 331,
+    "lat": 39.8889615,
+    "lng": -75.2325572,
+    "memberships": [
+      {
+        "slug": "marriott-philadelphia-airport",
+        "subject_name": "Marriott Philadelphia Airport",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Quality Hotel Essington",
+    "city_state": "Essington, PA",
+    "zip": "19029",
+    "rooms": 308,
+    "lat": 39.8673762,
+    "lng": -75.303617,
+    "memberships": [
+      {
+        "slug": "marriott-philadelphia-airport",
+        "subject_name": "Marriott Philadelphia Airport",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Clarion Hotel Philadelphia International Airport",
+    "city_state": "Essington, PA",
+    "zip": "19029",
+    "rooms": 297,
+    "lat": 39.8662621,
+    "lng": -75.3116227,
+    "memberships": [
+      {
+        "slug": "marriott-philadelphia-airport",
+        "subject_name": "Marriott Philadelphia Airport",
+        "color": "#469990",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Minneapolis Marriott City Center",
+    "city_state": "Minneapolis, MN",
+    "zip": "554021601",
+    "rooms": 585,
+    "lat": 44.9776609,
+    "lng": -93.2735476,
+    "memberships": [
+      {
+        "slug": "minneapolis-marriott-city-center",
+        "subject_name": "Minneapolis Marriott City Center",
+        "color": "#dcbeff",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "The Marquette Hotel, Curio Collection by Hilton",
+    "city_state": "Minneapolis, MN",
+    "zip": "55402",
+    "rooms": 281,
+    "lat": 44.976259,
+    "lng": -93.271479,
+    "memberships": [
+      {
+        "slug": "minneapolis-marriott-city-center",
+        "subject_name": "Minneapolis Marriott City Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hotel Indigo Minneapolis Downtown",
+    "city_state": "Minneapolis, MN",
+    "zip": "554021901",
+    "rooms": 218,
+    "lat": 44.9761129,
+    "lng": -93.269514,
+    "memberships": [
+      {
+        "slug": "minneapolis-marriott-city-center",
+        "subject_name": "Minneapolis Marriott City Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt Regency Minneapolis",
+    "city_state": "Minneapolis, MN",
+    "zip": "55403",
+    "rooms": 644,
+    "lat": 44.9705423,
+    "lng": -93.2781067,
+    "memberships": [
+      {
+        "slug": "minneapolis-marriott-city-center",
+        "subject_name": "Minneapolis Marriott City Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Minneapolis",
+    "city_state": "Minneapolis, MN",
+    "zip": "55403",
+    "rooms": 826,
+    "lat": 44.9727699,
+    "lng": -93.2732673,
+    "memberships": [
+      {
+        "slug": "minneapolis-marriott-city-center",
+        "subject_name": "Minneapolis Marriott City Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Lofton Hotel Minneapolis, Tapestry Collection by Hilton",
+    "city_state": "Minneapolis, MN",
+    "zip": "55403",
+    "rooms": 248,
+    "lat": 44.97887069999999,
+    "lng": -93.2750356,
+    "memberships": [
+      {
+        "slug": "minneapolis-marriott-city-center",
+        "subject_name": "Minneapolis Marriott City Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Westin Minneapolis",
+    "city_state": "Minneapolis, MN",
+    "zip": "55402",
+    "rooms": 214,
+    "lat": 44.9776602,
+    "lng": -93.2702534,
+    "memberships": [
+      {
+        "slug": "minneapolis-marriott-city-center",
+        "subject_name": "Minneapolis Marriott City Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Royal Sonesta Minneapolis Downtown",
+    "city_state": "Minneapolis, MN",
+    "zip": "554021696",
+    "rooms": 360,
+    "lat": 44.9772843,
+    "lng": -93.273443,
+    "memberships": [
+      {
+        "slug": "minneapolis-marriott-city-center",
+        "subject_name": "Minneapolis Marriott City Center",
+        "color": "#dcbeff",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Tampa Airport Marriott",
+    "city_state": "Tampa, FL",
+    "zip": "336071474",
+    "rooms": 298,
+    "lat": 27.981873,
+    "lng": -82.5346119,
+    "memberships": [
+      {
+        "slug": "tampa-airport-marriott",
+        "subject_name": "Tampa Airport Marriott",
+        "color": "#9A6324",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Tampa Airport Westshore",
+    "city_state": "Tampa, FL",
+    "zip": "33607",
+    "rooms": 238,
+    "lat": 27.9624726,
+    "lng": -82.5127302,
+    "memberships": [
+      {
+        "slug": "tampa-airport-marriott",
+        "subject_name": "Tampa Airport Marriott",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Westshore Grand, A Tribute Portfolio Hotel, Tampa",
+    "city_state": "Tampa, FL",
+    "zip": "33609",
+    "rooms": 325,
+    "lat": 27.9435551,
+    "lng": -82.52540359999999,
+    "memberships": [
+      {
+        "slug": "tampa-airport-marriott",
+        "subject_name": "Tampa Airport Marriott",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Marriott Tampa Westshore",
+    "city_state": "Tampa, FL",
+    "zip": "33607",
+    "rooms": 310,
+    "lat": 27.9531323,
+    "lng": -82.5231982,
+    "memberships": [
+      {
+        "slug": "tampa-airport-marriott",
+        "subject_name": "Tampa Airport Marriott",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Four Points by Sheraton Suites Tampa Airport Westshore",
+    "city_state": "Tampa, FL",
+    "zip": "33607",
+    "rooms": 261,
+    "lat": 27.9515075,
+    "lng": -82.5185012,
+    "memberships": [
+      {
+        "slug": "tampa-airport-marriott",
+        "subject_name": "Tampa Airport Marriott",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Embassy Suites by Hilton Tampa Airport Westshore",
+    "city_state": "Tampa, FL",
+    "zip": "33609",
+    "rooms": 269,
+    "lat": 27.9490484,
+    "lng": -82.5234881,
+    "memberships": [
+      {
+        "slug": "tampa-airport-marriott",
+        "subject_name": "Tampa Airport Marriott",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Renaissance Tampa International Plaza Hotel",
+    "city_state": "Tampa, FL",
+    "zip": "33607",
+    "rooms": 293,
+    "lat": 27.9658392,
+    "lng": -82.51992,
+    "memberships": [
+      {
+        "slug": "tampa-airport-marriott",
+        "subject_name": "Tampa Airport Marriott",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Holiday Inn Tampa Westshore - Airport Area",
+    "city_state": "Tampa, FL",
+    "zip": "33609",
+    "rooms": 284,
+    "lat": 27.951611,
+    "lng": -82.525007,
+    "memberships": [
+      {
+        "slug": "tampa-airport-marriott",
+        "subject_name": "Tampa Airport Marriott",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Grand Hyatt Tampa Bay",
+    "city_state": "Tampa, FL",
+    "zip": "33607",
+    "rooms": 443,
+    "lat": 27.9651962,
+    "lng": -82.55008579999999,
+    "memberships": [
+      {
+        "slug": "tampa-airport-marriott",
+        "subject_name": "Tampa Airport Marriott",
+        "color": "#9A6324",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Laura Hotel, Houston Downtown, Autograph Collection",
+    "city_state": "Houston, TX",
+    "zip": "77002",
+    "rooms": 223,
+    "lat": 29.7549693,
+    "lng": -95.3656724,
+    "memberships": [
+      {
+        "slug": "the-laura-hotel-houston-downtown-autograph-collection",
+        "subject_name": "The Laura Hotel, Houston Downtown, Autograph Collection",
+        "color": "#800000",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "The Whitehall",
+    "city_state": "Houston, TX",
+    "zip": "77002",
+    "rooms": 259,
+    "lat": 29.7534111,
+    "lng": -95.37342249999999,
+    "memberships": [
+      {
+        "slug": "the-laura-hotel-houston-downtown-autograph-collection",
+        "subject_name": "The Laura Hotel, Houston Downtown, Autograph Collection",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "C. Baldwin, Curio Collection by Hilton",
+    "city_state": "Houston, TX",
+    "zip": "77002",
+    "rooms": 354,
+    "lat": 29.7578478,
+    "lng": -95.3710462,
+    "memberships": [
+      {
+        "slug": "the-laura-hotel-houston-downtown-autograph-collection",
+        "subject_name": "The Laura Hotel, Houston Downtown, Autograph Collection",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Club Quarters Houston",
+    "city_state": "Houston, TX",
+    "zip": "770023408",
+    "rooms": 382,
+    "lat": 29.7582577,
+    "lng": -95.362962,
+    "memberships": [
+      {
+        "slug": "the-laura-hotel-houston-downtown-autograph-collection",
+        "subject_name": "The Laura Hotel, Houston Downtown, Autograph Collection",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Autograph Collection Hotel ICON",
+    "city_state": "Houston, TX",
+    "zip": "770021706",
+    "rooms": 135,
+    "lat": 29.7625783,
+    "lng": -95.36088509999999,
+    "memberships": [
+      {
+        "slug": "the-laura-hotel-houston-downtown-autograph-collection",
+        "subject_name": "The Laura Hotel, Houston Downtown, Autograph Collection",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Magnolia Hotel Houston, a Tribute Portfolio Hotel",
+    "city_state": "Houston, TX",
+    "zip": "77002",
+    "rooms": 314,
+    "lat": 29.7590942,
+    "lng": -95.3615749,
+    "memberships": [
+      {
+        "slug": "the-laura-hotel-houston-downtown-autograph-collection",
+        "subject_name": "The Laura Hotel, Houston Downtown, Autograph Collection",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "JW Marriott Houston Downtown",
+    "city_state": "Houston, TX",
+    "zip": "770026103",
+    "rooms": 328,
+    "lat": 29.7583321,
+    "lng": -95.3640592,
+    "memberships": [
+      {
+        "slug": "the-laura-hotel-houston-downtown-autograph-collection",
+        "subject_name": "The Laura Hotel, Houston Downtown, Autograph Collection",
+        "color": "#800000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Logan Philadelphia, Curio Collection by Hilton",
+    "city_state": "Philadelphia, PA",
+    "zip": "19103",
+    "rooms": 391,
+    "lat": 39.9569323,
+    "lng": -75.1702705,
+    "memberships": [
+      {
+        "slug": "the-logan-philadelphia-curio-collection-by-hilton",
+        "subject_name": "The Logan Philadelphia, Curio Collection by Hilton",
+        "color": "#aaffc3",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Sofitel Philadelphia at Rittenhouse Square",
+    "city_state": "Philadelphia, PA",
+    "zip": "191035115",
+    "rooms": 306,
+    "lat": 39.950907,
+    "lng": -75.169482,
+    "memberships": [
+      {
+        "slug": "the-logan-philadelphia-curio-collection-by-hilton",
+        "subject_name": "The Logan Philadelphia, Curio Collection by Hilton",
+        "color": "#aaffc3",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Rittenhouse Hotel",
+    "city_state": "Philadelphia, PA",
+    "zip": "191035726",
+    "rooms": 118,
+    "lat": 39.949831,
+    "lng": -75.1732573,
+    "memberships": [
+      {
+        "slug": "the-logan-philadelphia-curio-collection-by-hilton",
+        "subject_name": "The Logan Philadelphia, Curio Collection by Hilton",
+        "color": "#aaffc3",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Westin Philadelphia",
+    "city_state": "Philadelphia, PA",
+    "zip": "19103",
+    "rooms": 294,
+    "lat": 39.952111,
+    "lng": -75.1685155,
+    "memberships": [
+      {
+        "slug": "the-logan-philadelphia-curio-collection-by-hilton",
+        "subject_name": "The Logan Philadelphia, Curio Collection by Hilton",
+        "color": "#aaffc3",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Ritz-Carlton, Philadelphia",
+    "city_state": "Philadelphia, PA",
+    "zip": "19102",
+    "rooms": 301,
+    "lat": 39.95144560000001,
+    "lng": -75.1641494,
+    "memberships": [
+      {
+        "slug": "the-logan-philadelphia-curio-collection-by-hilton",
+        "subject_name": "The Logan Philadelphia, Curio Collection by Hilton",
+        "color": "#aaffc3",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Kimpton Hotel Palomar Philadelphia",
+    "city_state": "Philadelphia, PA",
+    "zip": "19103",
+    "rooms": 230,
+    "lat": 39.9507815,
+    "lng": -75.1686419,
+    "memberships": [
+      {
+        "slug": "the-logan-philadelphia-curio-collection-by-hilton",
+        "subject_name": "The Logan Philadelphia, Curio Collection by Hilton",
+        "color": "#aaffc3",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Fairmont Chicago Millennium Park",
+    "city_state": "Chicago, IL",
+    "zip": "60601",
+    "rooms": 686,
+    "lat": 41.8860915,
+    "lng": -87.62089089999999,
+    "memberships": [
+      {
+        "slug": "the-westin-chicago-river-north",
+        "subject_name": "The Westin Chicago River North",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Swissotel Chicago",
+    "city_state": "Chicago, IL",
+    "zip": "60601",
+    "rooms": 662,
+    "lat": 41.8873928,
+    "lng": -87.6194841,
+    "memberships": [
+      {
+        "slug": "the-westin-chicago-river-north",
+        "subject_name": "The Westin Chicago River North",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "InterContinental Chicago Magnificent Mile",
+    "city_state": "Chicago, IL",
+    "zip": "60611",
+    "rooms": 792,
+    "lat": 41.8911399,
+    "lng": -87.62387079999999,
+    "memberships": [
+      {
+        "slug": "the-westin-chicago-river-north",
+        "subject_name": "The Westin Chicago River North",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Renaissance Chicago Downtown Hotel",
+    "city_state": "Chicago, IL",
+    "zip": "60601",
+    "rooms": 560,
+    "lat": 41.8862002,
+    "lng": -87.62831290000001,
+    "memberships": [
+      {
+        "slug": "the-westin-chicago-river-north",
+        "subject_name": "The Westin Chicago River North",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Loews Chicago Hotel",
+    "city_state": "Chicago, IL",
+    "zip": "60611",
+    "rooms": 400,
+    "lat": 41.8901907,
+    "lng": -87.61908079999999,
+    "memberships": [
+      {
+        "slug": "the-westin-chicago-river-north",
+        "subject_name": "The Westin Chicago River North",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "LondonHouse Chicago, Curio Collection by Hilton",
+    "city_state": "Chicago, IL",
+    "zip": "606013703",
+    "rooms": 452,
+    "lat": 41.8880218,
+    "lng": -87.6250467,
+    "memberships": [
+      {
+        "slug": "the-westin-chicago-river-north",
+        "subject_name": "The Westin Chicago River North",
+        "color": "#808000",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "The Westin Waltham Boston",
+    "city_state": "Waltham, MA",
+    "zip": "2451",
+    "rooms": 351,
+    "lat": 42.3953067,
+    "lng": -71.2597626,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Hilton Garden Inn Boston Waltham",
+    "city_state": "Waltham, MA",
+    "zip": "2451",
+    "rooms": 148,
+    "lat": 42.3963828,
+    "lng": -71.2558758,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt House Boston Waltham",
+    "city_state": "Waltham, MA",
+    "zip": "2451",
+    "rooms": 186,
+    "lat": 42.3944265,
+    "lng": -71.25753739999999,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Boston Marriott  Newton",
+    "city_state": "Newton, MA",
+    "zip": "24661733",
+    "rooms": 430,
+    "lat": 42.3463457,
+    "lng": -71.2584285,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Embassy Suites by Hilton Boston Waltham",
+    "city_state": "Waltham, MA",
+    "zip": "2451",
+    "rooms": 275,
+    "lat": 42.3961213,
+    "lng": -71.266374,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Courtyard Boston Waltham",
+    "city_state": "Waltham, MA",
+    "zip": "2451",
+    "rooms": 171,
+    "lat": 42.3980484,
+    "lng": -71.25903319999999,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Archer Hotel Burlington",
+    "city_state": "Burlington, MA",
+    "zip": "18034414",
+    "rooms": 147,
+    "lat": 42.4883417,
+    "lng": -71.2235583,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hampton Inn and Suites Boston/Waltham",
+    "city_state": "Waltham, MA",
+    "zip": "24511107",
+    "rooms": 138,
+    "lat": 42.3922566,
+    "lng": -71.2657876,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Residence Inn by Marriott Boston Waltham",
+    "city_state": "Waltham, MA",
+    "zip": "2451",
+    "rooms": 96,
+    "lat": 42.3887758,
+    "lng": -71.2630798,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Four Points by Sheraton Boston Newton",
+    "city_state": "Newton, MA",
+    "zip": "24581619",
+    "rooms": 270,
+    "lat": 42.35677219999999,
+    "lng": -71.18700969999999,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Fairfield by Marriott Inn & Suites Boston Waltham",
+    "city_state": "Waltham, MA",
+    "zip": "2451",
+    "rooms": 96,
+    "lat": 42.3888116,
+    "lng": -71.2627833,
+    "memberships": [
+      {
+        "slug": "the-westin-waltham-boston",
+        "subject_name": "The Westin Waltham Boston",
+        "color": "#ffd8b1",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "W Hotel Seattle",
+    "city_state": "Seattle, WA",
+    "zip": "98101",
+    "rooms": 424,
+    "lat": 47.6075437,
+    "lng": -122.3337572,
+    "memberships": [
+      {
+        "slug": "w-hotel-seattle",
+        "subject_name": "W Hotel Seattle",
+        "color": "#000075",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Fairmont Olympic Hotel - Seattle",
+    "city_state": "Seattle, WA",
+    "zip": "98101",
+    "rooms": 450,
+    "lat": 47.6080126,
+    "lng": -122.3338701,
+    "memberships": [
+      {
+        "slug": "w-hotel-seattle",
+        "subject_name": "W Hotel Seattle",
+        "color": "#000075",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Hyatt at Olive 8",
+    "city_state": "Seattle, WA",
+    "zip": "98101",
+    "rooms": 346,
+    "lat": 47.6138017,
+    "lng": -122.3341859,
+    "memberships": [
+      {
+        "slug": "w-hotel-seattle",
+        "subject_name": "W Hotel Seattle",
+        "color": "#000075",
+        "role": "comp"
+      },
+      {
+        "slug": "westin-seattle",
+        "subject_name": "Westin Seattle",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Kimpton Hotel Monaco Seattle Downtown",
+    "city_state": "Seattle, WA",
+    "zip": "98101",
+    "rooms": 189,
+    "lat": 47.6068879,
+    "lng": -122.3341301,
+    "memberships": [
+      {
+        "slug": "w-hotel-seattle",
+        "subject_name": "W Hotel Seattle",
+        "color": "#000075",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Renaissance Seattle Hotel",
+    "city_state": "Seattle, WA",
+    "zip": "98104",
+    "rooms": 557,
+    "lat": 47.6066675,
+    "lng": -122.3306848,
+    "memberships": [
+      {
+        "slug": "w-hotel-seattle",
+        "subject_name": "W Hotel Seattle",
+        "color": "#000075",
+        "role": "comp"
+      },
+      {
+        "slug": "westin-seattle",
+        "subject_name": "Westin Seattle",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Grand Hyatt Seattle",
+    "city_state": "Seattle, WA",
+    "zip": "981011815",
+    "rooms": 457,
+    "lat": 47.6127521,
+    "lng": -122.3334516,
+    "memberships": [
+      {
+        "slug": "w-hotel-seattle",
+        "subject_name": "W Hotel Seattle",
+        "color": "#000075",
+        "role": "comp"
+      },
+      {
+        "slug": "westin-seattle",
+        "subject_name": "Westin Seattle",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Westin Seattle",
+    "city_state": "Seattle, WA",
+    "zip": "98101",
+    "rooms": 891,
+    "lat": 47.6136997,
+    "lng": -122.3381933,
+    "memberships": [
+      {
+        "slug": "westin-seattle",
+        "subject_name": "Westin Seattle",
+        "color": "#a9a9a9",
+        "role": "subject"
+      }
+    ]
+  },
+  {
+    "name": "Coast Seattle Downtown Hotel by APA",
+    "city_state": "Seattle, WA",
+    "zip": "98101",
+    "rooms": 256,
+    "lat": 47.6094,
+    "lng": -122.333268,
+    "memberships": [
+      {
+        "slug": "westin-seattle",
+        "subject_name": "Westin Seattle",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  },
+  {
+    "name": "Crowne Plaza Seattle Downtown",
+    "city_state": "Seattle, WA",
+    "zip": "981013002",
+    "rooms": 418,
+    "lat": 47.6082524,
+    "lng": -122.3322425,
+    "memberships": [
+      {
+        "slug": "westin-seattle",
+        "subject_name": "Westin Seattle",
+        "color": "#a9a9a9",
+        "role": "comp"
+      }
+    ]
+  }
+];
+const CENTER = { lat: 34.44330285, lng: -114.51081969999998 };
+const LINK_SUBJECTS = false;
+let map;
+let markers = [];            // { marker, memberships }
+let bySet = {};            // slug → [markerRecord]
+let infoWindow;
+const activeSets = new Set(COMP_SETS.map(c => c.slug));
+
+function buildLegend() {
+  const el = document.getElementById('legend');
+  const strSets = COMP_SETS.filter(c => !c.is_brand);
+  const brandSets = COMP_SETS.filter(c => c.is_brand);
+
+  function renderRow(cs) {
+    const row = document.createElement('div');
+    row.className = 'legend-item';
+    row.dataset.slug = cs.slug;
+    const swatchClass = cs.is_brand ? 'legend-swatch diamond' : 'legend-swatch';
+    const tag = cs.is_brand ? '<span class="brand-tag">BRAND</span>' : '';
+    row.innerHTML = `
+      <div class="${swatchClass}" style="background:${cs.color}"></div>
+      <div class="legend-text">
+        <div class="legend-name">${cs.name}${tag}</div>
+        <div class="legend-meta">${cs.hotel_count} hotels · ${cs.report_period}</div>
+      </div>
+    `;
+    row.addEventListener('click', () => toggleSet(cs.slug));
+    return row;
+  }
+
+  if (strSets.length) {
+    const h = document.createElement('div');
+    h.className = 'legend-section';
+    h.textContent = 'STR Comp Sets';
+    el.appendChild(h);
+    strSets.forEach(cs => el.appendChild(renderRow(cs)));
+  }
+  if (brandSets.length) {
+    const h = document.createElement('div');
+    h.className = 'legend-section';
+    h.textContent = 'Brand Portfolios';
+    el.appendChild(h);
+    brandSets.forEach(cs => el.appendChild(renderRow(cs)));
+  }
+}
+
+function toggleSet(slug) {
+  if (activeSets.has(slug)) activeSets.delete(slug);
+  else activeSets.add(slug);
+  refresh();
+}
+
+function toggleAll(on) {
+  activeSets.clear();
+  if (on) COMP_SETS.forEach(c => activeSets.add(c.slug));
+  refresh();
+}
+
+function refresh() {
+  document.querySelectorAll('.legend-item').forEach(el => {
+    el.classList.toggle('off', !activeSets.has(el.dataset.slug));
+  });
+  markers.forEach(rec => {
+    const visibleMems = rec.memberships.filter(m => activeSets.has(m.slug));
+    if (visibleMems.length === 0) {
+      rec.marker.setMap(null);
+      return;
+    }
+    rec.marker.setMap(map);
+    // Icon priority: subject > brand > comp.
+    const primary =
+      visibleMems.find(m => m.role === 'subject') ||
+      visibleMems.find(m => m.role === 'brand') ||
+      visibleMems[0];
+    rec.marker.setIcon(iconFor(primary, visibleMems.length > 1));
+  });
+}
+
+function iconFor(primary, multi) {
+  if (primary.role === 'subject') {
+    return {
+      path: 'M 0,-14 L 4,-4 14,-4 6,2 9,12 0,6 -9,12 -6,2 -14,-4 -4,-4 Z',
+      fillColor: primary.color,
+      fillOpacity: 1.0,
+      strokeColor: '#ffffff',
+      strokeWeight: 2,
+      scale: 1.0,
+    };
+  }
+  if (primary.role === 'brand') {
+    return {
+      path: 'M 0,-11 L 11,0 0,11 -11,0 Z',
+      fillColor: primary.color,
+      fillOpacity: 1.0,
+      strokeColor: '#ffffff',
+      strokeWeight: 2,
+      scale: 1.0,
+    };
+  }
+  return {
+    path: google.maps.SymbolPath.CIRCLE,
+    fillColor: primary.color,
+    fillOpacity: 0.95,
+    strokeColor: multi ? '#111827' : '#ffffff',
+    strokeWeight: multi ? 2 : 1.5,
+    scale: 8,
+  };
+}
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: CENTER,
+    zoom: 4,
+    mapTypeControl: true,
+    streetViewControl: false,
+    fullscreenControl: true,
+  });
+  infoWindow = new google.maps.InfoWindow();
+
+  HOTELS.forEach(h => {
+    const primary =
+      h.memberships.find(m => m.role === 'subject') ||
+      h.memberships.find(m => m.role === 'brand') ||
+      h.memberships[0];
+    const marker = new google.maps.Marker({
+      position: { lat: h.lat, lng: h.lng },
+      map,
+      title: h.name,
+      icon: iconFor(primary, h.memberships.length > 1),
+      zIndex: primary.role === 'subject' ? 1000 : (primary.role === 'brand' ? 500 : 100),
+    });
+    marker.addListener('click', () => {
+      const memsHtml = h.memberships
+        .filter(m => activeSets.has(m.slug))
+        .map(m => `<div class="mem">
+            <span class="dot" style="background:${m.color}"></span>
+            ${LINK_SUBJECTS ? `<a href="../${m.slug}/">${m.subject_name}</a>` : `<span class="setname">${m.subject_name}</span>`}
+            <span class="role">${m.role}</span>
+          </div>`).join('');
+      infoWindow.setContent(`
+        <div class="iw">
+          <h3>${h.name}</h3>
+          <div class="addr">${h.city_state} ${h.zip} · ${h.rooms} rooms</div>
+          <div><strong>Appears in:</strong></div>
+          ${memsHtml}
+        </div>
+      `);
+      infoWindow.open(map, marker);
+    });
+    const rec = { marker, memberships: h.memberships };
+    markers.push(rec);
+    h.memberships.forEach(m => {
+      (bySet[m.slug] = bySet[m.slug] || []).push(rec);
+    });
+  });
+
+  // Fit bounds to all visible markers at load
+  const bounds = new google.maps.LatLngBounds();
+  HOTELS.forEach(h => bounds.extend({ lat: h.lat, lng: h.lng }));
+  map.fitBounds(bounds);
+}
+
+buildLegend();
+</script>
+<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap"></script>
+</body>
+</html>
