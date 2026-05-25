@@ -138,10 +138,48 @@ def canonical(name):
     return ALIASES.get(k, name.strip())
 
 
-# Address overrides for hotels whose name alone confuses the geocoder
+# Address overrides for hotels whose name alone confuses the geocoder.
+# The topline comps carry no street address in the source file, so a name-only
+# geocode is ambiguous — Google returned imprecise or duplicate coordinates,
+# stacking distinct hotels on the same point. Each numbered topline hotel below is
+# pinned to its verified street address (all geocode ROOFTOP) so pins match the
+# reference map embedded in 960 Sixth Ave Topline Comps.xlsx. Keyed by the merged
+# canonical hotel name.
 ADDRESS_OVERRIDES = {
     norm_key("Hampton Inn Grand Central"): "231 E 43rd St, New York, NY 10017",
     norm_key("Hampton Inn Manhattan Grand Central"): "231 E 43rd St, New York, NY 10017",
+    # ── 960 Sixth Ave topline numbered comps ──
+    norm_key("Renaissance New York Midtown Hotel"):            "218 W 35th St, New York, NY 10001",
+    norm_key("Renaissance New York Times Square Hotel"):       "714 7th Ave, New York, NY 10036",
+    norm_key("Courtyard New York Manhattan/Midtown West"):     "461 W 34th St, New York, NY 10001",
+    norm_key("Residence Inn Manhattan/Midtown East"):          "148 E 48th St, New York, NY 10017",
+    norm_key("Kimpton Hotel Eventi"):                          "851 6th Ave, New York, NY 10001",
+    norm_key("AC Hotel New York Times Square"):                "260 W 40th St, New York, NY 10018",
+    norm_key("Courtyard Midtown East"):                        "866 3rd Ave, New York, NY 10022",
+    norm_key("Courtyard New York Manhattan/Fifth Avenue"):     "3 E 40th St, New York, NY 10016",
+    norm_key("Courtyard New York Manhattan/Central Park"):     "1717 Broadway, New York, NY 10019",
+    norm_key("Hampton Inn Manhattan-35th St/Empire State Bldg"): "59 W 35th St, New York, NY 10001",
+    norm_key("Courtyard New York Manhattan Times Square South"): "114 W 40th St, New York, NY 10018",
+    norm_key("Hilton Garden Inn New York Times Square Central"): "136 W 42nd St, New York, NY 10036",
+    norm_key("Hilton Garden Inn Midtown East"):                "206 E 52nd St, New York, NY 10022",
+    norm_key("Hyatt Place New York/Midtown-South"):            "52 W 36th St, New York, NY 10018",
+    norm_key("EVEN Hotels Times Square South"):                "321 W 35th St, New York, NY 10001",
+    norm_key("Hilton Garden Inn New York/West 35th Street"):   "63 W 35th St, New York, NY 10001",
+    norm_key("Arlo NoMad"):                                    "11 E 31st St, New York, NY 10016",
+    norm_key("Hilton Fashion District"):                       "152 W 26th St, New York, NY 10001",
+    norm_key("Courtyard Manhattan/Times Square West"):         "307 W 37th St, New York, NY 10018",
+    norm_key("Four Points Midtown - Times Square"):            "326 W 40th St, New York, NY 10018",
+    norm_key("voco Times Square South"):                       "343 W 36th St, New York, NY 10018",
+    norm_key("Holiday Inn Express Manhattan Times Square South"): "60 W 36th St, New York, NY 10018",
+}
+
+# Coordinate overrides for properties with no public street address.
+# "AC Hotel New York Herald Square" is a Highgate run-rate (pro-forma) property with
+# no Marriott listing; placed by hand at its Herald Square location (W 36th near
+# Broadway) per the reference map, since a name-only geocode collided it onto the
+# AC Times Square pin (#6).
+COORD_OVERRIDES = {
+    norm_key("AC Hotel New York Herald Square"): {"lat": 40.7508, "lng": -73.9867},
 }
 
 
@@ -429,6 +467,9 @@ def save_geocache(cache):
         json.dump(cache, f, indent=2)
 
 def geocode_one(name, address, city_state, zip_code, cache):
+    coord = COORD_OVERRIDES.get(norm_key(name))
+    if coord:
+        return coord
     override = ADDRESS_OVERRIDES.get(norm_key(name))
     if override:
         query = f"{name}, {override}"
