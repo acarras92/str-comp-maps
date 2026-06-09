@@ -17,6 +17,7 @@ Usage:
 """
 
 import argparse
+import json
 import os
 
 import generate_str_map as base
@@ -63,11 +64,73 @@ SET2_COMPS = [
      "address": "", "zip": "10001", "rooms": 239, "open": "Apr 2013", "str_id": ""},
 ]
 
+# Set 3 — 960 Sixth Ave topline comps (24, numbered). Verified ROOFTOP coords +
+# per-hotel 2024/2025 performance lifted from the deployed MVC NYC map (the
+# addresses we hand-tweaked). Included on the Holiday Inn map for reference.
+TOPLINE_COMPS = [
+    {"no": 1, "name": "Renaissance New York Midtown Hotel", "rooms": 348, "lat": 40.7517558, "lng": -73.99108860000001,
+     "perf": {"occ_2024": "89.0%", "adr_2024": "$399", "revpar_2024": "$355", "rpi_2024": "1.38", "occ_2025": "90.4%", "adr_2025": "$414", "revpar_2025": "$374", "rpi_2025": "1.38", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 2, "name": "Renaissance New York Times Square Hotel", "rooms": 317, "lat": 40.7598399, "lng": -73.98438759999999,
+     "perf": {"occ_2024": "93.0%", "adr_2024": "$379", "revpar_2024": "$352", "rpi_2024": "1.37", "occ_2025": "94.5%", "adr_2025": "$393", "revpar_2025": "$371", "rpi_2025": "1.37", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 3, "name": "Courtyard New York Manhattan/Midtown West", "rooms": 399, "lat": 40.754585, "lng": -73.998721,
+     "perf": {"occ_2024": "—", "adr_2024": "—", "revpar_2024": "—", "rpi_2024": "—", "occ_2025": "91.2%", "adr_2025": "$397", "revpar_2025": "$362", "rpi_2025": "1.33", "notes_2024": "-", "notes_2025": "Actual"}},
+    {"no": 4, "name": "Residence Inn Manhattan/Midtown East", "rooms": 211, "lat": 40.7547867, "lng": -73.9724892,
+     "perf": {"occ_2024": "91.2%", "adr_2024": "$372", "revpar_2024": "$339", "rpi_2024": "1.32", "occ_2025": "92.7%", "adr_2025": "$385", "revpar_2025": "$357", "rpi_2025": "1.32", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 5, "name": "Kimpton Hotel Eventi", "rooms": 292, "lat": 40.7470222, "lng": -73.9900333,
+     "perf": {"occ_2024": "86.2%", "adr_2024": "$380", "revpar_2024": "$328", "rpi_2024": "1.27", "occ_2025": "87.6%", "adr_2025": "$394", "revpar_2025": "$345", "rpi_2025": "1.27", "notes_2024": "Forecast", "notes_2025": "24 AFF Trended"}},
+    {"no": 6, "name": "AC Hotel New York Times Square", "rooms": 290, "lat": 40.7554316, "lng": -73.9900633,
+     "perf": {"occ_2024": "—", "adr_2024": "—", "revpar_2024": "—", "rpi_2024": "—", "occ_2025": "96.0%", "adr_2025": "$341", "revpar_2025": "$328", "rpi_2025": "1.21", "notes_2024": "-", "notes_2025": "Actual"}},
+    {"no": 7, "name": "Courtyard Midtown East", "rooms": 321, "lat": 40.7574548, "lng": -73.9699241,
+     "perf": {"occ_2024": "92.3%", "adr_2024": "$358", "revpar_2024": "$330", "rpi_2024": "1.28", "occ_2025": "90.9%", "adr_2025": "$357", "revpar_2025": "$324", "rpi_2025": "1.19", "notes_2024": "Actual", "notes_2025": "Actual"}},
+    {"no": 8, "name": "Courtyard New York Manhattan/Fifth Avenue", "rooms": 189, "lat": 40.752124, "lng": -73.981083,
+     "perf": {"occ_2024": "91.5%", "adr_2024": "$306", "revpar_2024": "$280", "rpi_2024": "1.09", "occ_2025": "97.7%", "adr_2025": "$326", "revpar_2025": "$319", "rpi_2025": "1.17", "notes_2024": "Actual", "notes_2025": "Actual"}},
+    {"no": 9, "name": "AC Hotel New York Herald Square", "rooms": 167, "lat": 40.7508, "lng": -73.9867,
+     "perf": {"occ_2024": "—", "adr_2024": "—", "revpar_2024": "—", "rpi_2024": "—", "occ_2025": "94.0%", "adr_2025": "$339", "revpar_2025": "$319", "rpi_2025": "1.17", "notes_2024": "-", "notes_2025": "HG Run Rate"}},
+    {"no": 10, "name": "Courtyard New York Manhattan/Central Park", "rooms": 378, "lat": 40.764346, "lng": -73.9829058,
+     "perf": {"occ_2024": "—", "adr_2024": "—", "revpar_2024": "—", "rpi_2024": "—", "occ_2025": "93.6%", "adr_2025": "$329", "revpar_2025": "$308", "rpi_2025": "1.13", "notes_2024": "-", "notes_2025": "Actual"}},
+    {"no": 11, "name": "Hampton Inn Manhattan-35th St/Empire State Bldg", "rooms": 146, "lat": 40.7502968, "lng": -73.9864343,
+     "perf": {"occ_2024": "96.0%", "adr_2024": "$297", "revpar_2024": "$285", "rpi_2024": "1.11", "occ_2025": "97.6%", "adr_2025": "$308", "revpar_2025": "$300", "rpi_2025": "1.11", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 12, "name": "Courtyard New York Manhattan Times Square South", "rooms": 244, "lat": 40.753502, "lng": -73.9862678,
+     "perf": {"occ_2024": "89.3%", "adr_2024": "$316", "revpar_2024": "$282", "rpi_2024": "1.09", "occ_2025": "90.7%", "adr_2025": "$327", "revpar_2025": "$297", "rpi_2025": "1.09", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 13, "name": "Hilton Garden Inn New York Times Square Central", "rooms": 282, "lat": 40.7552207, "lng": -73.9857177,
+     "perf": {"occ_2024": "92.0%", "adr_2024": "$280", "revpar_2024": "$258", "rpi_2024": "1.00", "occ_2025": "90.7%", "adr_2025": "$296", "revpar_2025": "$269", "rpi_2025": "0.99", "notes_2024": "Actual", "notes_2025": "Actual"}},
+    {"no": 14, "name": "Hilton Garden Inn Midtown East", "rooms": 206, "lat": 40.756653, "lng": -73.9694264,
+     "perf": {"occ_2024": "90.0%", "adr_2024": "$282", "revpar_2024": "$254", "rpi_2024": "0.99", "occ_2025": "91.5%", "adr_2025": "$292", "revpar_2025": "$267", "rpi_2025": "0.99", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 15, "name": "Hyatt Place New York/Midtown-South", "rooms": 185, "lat": 40.7504303, "lng": -73.985832,
+     "perf": {"occ_2024": "96.4%", "adr_2024": "$262", "revpar_2024": "$253", "rpi_2024": "0.98", "occ_2025": "98.0%", "adr_2025": "$272", "revpar_2025": "$266", "rpi_2025": "0.98", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 16, "name": "EVEN Hotels Times Square South", "rooms": 150, "lat": 40.7534672, "lng": -73.9938981,
+     "perf": {"occ_2024": "92.7%", "adr_2024": "$266", "revpar_2024": "$247", "rpi_2024": "0.96", "occ_2025": "94.2%", "adr_2025": "$276", "revpar_2025": "$260", "rpi_2025": "0.96", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 17, "name": "Hilton Garden Inn New York/West 35th Street", "rooms": 298, "lat": 40.7503679, "lng": -73.9865054,
+     "perf": {"occ_2024": "86.0%", "adr_2024": "$279", "revpar_2024": "$240", "rpi_2024": "0.93", "occ_2025": "87.4%", "adr_2025": "$289", "revpar_2025": "$253", "rpi_2025": "0.93", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 18, "name": "Arlo NoMad", "rooms": 248, "lat": 40.7462693, "lng": -73.9849425,
+     "perf": {"occ_2024": "88.3%", "adr_2024": "$269", "revpar_2024": "$238", "rpi_2024": "0.92", "occ_2025": "87.9%", "adr_2025": "$286", "revpar_2025": "$252", "rpi_2025": "0.93", "notes_2024": "Actual", "notes_2025": "Actual"}},
+    {"no": 19, "name": "Hilton Fashion District", "rooms": 280, "lat": 40.7455256, "lng": -73.9937621,
+     "perf": {"occ_2024": "83.3%", "adr_2024": "$280", "revpar_2024": "$233", "rpi_2024": "0.91", "occ_2025": "84.6%", "adr_2025": "$291", "revpar_2025": "$246", "rpi_2025": "0.91", "notes_2024": "Forecast", "notes_2025": "24 AFF Trended"}},
+    {"no": 20, "name": "Courtyard Manhattan/Times Square West", "rooms": 224, "lat": 40.7544472, "lng": -73.9926705,
+     "perf": {"occ_2024": "83.3%", "adr_2024": "$278", "revpar_2024": "$232", "rpi_2024": "0.90", "occ_2025": "84.6%", "adr_2025": "$288", "revpar_2025": "$244", "rpi_2025": "0.90", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 21, "name": "Hampton Inn Grand Central", "rooms": 148, "lat": 40.7509308, "lng": -73.9722361,
+     "perf": {"occ_2024": "86.0%", "adr_2024": "$269", "revpar_2024": "$231", "rpi_2024": "0.90", "occ_2025": "87.4%", "adr_2025": "$279", "revpar_2025": "$244", "rpi_2025": "0.90", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 22, "name": "Four Points Midtown - Times Square", "rooms": 244, "lat": 40.7564385, "lng": -73.9923365,
+     "perf": {"occ_2024": "92.4%", "adr_2024": "$241", "revpar_2024": "$222", "rpi_2024": "0.86", "occ_2025": "93.9%", "adr_2025": "$250", "revpar_2025": "$234", "rpi_2025": "0.86", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 23, "name": "voco Times Square South", "rooms": 224, "lat": 40.7544496, "lng": -73.99410309999999,
+     "perf": {"occ_2024": "84.9%", "adr_2024": "$261", "revpar_2024": "$222", "rpi_2024": "0.86", "occ_2025": "86.3%", "adr_2025": "$271", "revpar_2025": "$234", "rpi_2025": "0.86", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+    {"no": 24, "name": "Holiday Inn Express Manhattan Times Square South", "rooms": 135, "lat": 40.750497, "lng": -73.9860343,
+     "perf": {"occ_2024": "89.7%", "adr_2024": "$245", "revpar_2024": "$220", "rpi_2024": "0.85", "occ_2025": "91.2%", "adr_2025": "$254", "revpar_2025": "$231", "rpi_2025": "0.85", "notes_2024": "Actual", "notes_2025": "24 A Trended"}},
+]
+# Normalize topline entries into the shared comp shape (idx = topline rank).
+for _t in TOPLINE_COMPS:
+    _t.update({"idx": _t["no"], "address": "", "zip": "", "open": "", "str_id": ""})
+
+COMP_COLOR = "#1565c0"     # blue — Sets 1 & 2
+TOPLINE_COLOR = "#6a3d9a"  # purple — Set 3 (topline reference)
+
 SETS = [
     {"id": 1, "label": "Times Square South", "short": "TS South",
-     "perf": PANEL, "comps": SET1_COMPS},
+     "perf": PANEL, "color": COMP_COLOR, "comps": SET1_COMPS},
     {"id": 2, "label": "Chelsea / Penn Station", "short": "Chelsea / Penn",
-     "perf": None, "comps": SET2_COMPS},
+     "perf": None, "color": COMP_COLOR, "comps": SET2_COMPS},
+    {"id": 3, "label": "960 6th Ave Topline", "short": "Topline",
+     "perf": None, "color": TOPLINE_COLOR, "per_hotel": True, "comps": TOPLINE_COMPS},
 ]
 
 # Submarket new-supply pipeline (LMW / Times Square South). Orange "+" layer.
@@ -104,7 +167,11 @@ SUBMARKET_SUPPLY = 23930    # LMW / Times Square South keys
 
 
 def _full_addr(h):
-    return f"{h.get('address', '')}, New York, NY {h['zip']}".strip(", ").replace(" ,", ",")
+    addr = (h.get("address") or "").strip()
+    zip_ = (h.get("zip") or "").strip()
+    if not addr and not zip_:
+        return "New York, NY"
+    return f"{addr}, New York, NY {zip_}".strip(", ").replace(" ,", ",")
 
 
 def render_html(subject, sets, supply):
@@ -112,17 +179,19 @@ def render_html(subject, sets, supply):
 
     # Combined HOTELS array: subject (set 0, idx 1) + each set's comps (idx 2..N).
     rows = [f"""    {{
-      set: 0, idx: 1, subject: true,
+      set: 0, idx: 1, subject: true, color: '#c62828',
       name: {subject['name']!r}, address: {_full_addr(subject)!r},
-      rooms: {subject['rooms']}, open: {subject['open']!r}, strId: {subject['str_id']!r},
+      rooms: {subject['rooms']}, open: {subject['open']!r}, strId: {subject['str_id']!r}, perf: null,
       lat: {subject['lat']}, lng: {subject['lng']},
     }},"""]
     for s in sets:
         for i, h in enumerate(s["comps"]):
+            idx = h.get("idx", i + 2)
+            perf_js = json.dumps(h["perf"]) if h.get("perf") else "null"
             rows.append(f"""    {{
-      set: {s['id']}, idx: {i + 2}, subject: false,
+      set: {s['id']}, idx: {idx}, subject: false, color: {s['color']!r},
       name: {h['name']!r}, address: {_full_addr(h)!r},
-      rooms: {h['rooms']}, open: {h['open']!r}, strId: {h['str_id']!r},
+      rooms: {h['rooms']}, open: {h.get('open', '')!r}, strId: {h.get('str_id', '')!r}, perf: {perf_js},
       lat: {h['lat']}, lng: {h['lng']},
     }},""")
     hotels_js = "const HOTELS = [\n" + "\n".join(rows) + "\n  ];"
@@ -131,13 +200,22 @@ def render_html(subject, sets, supply):
     meta_rows = []
     for s in sets:
         comp_rooms = sum(h["rooms"] for h in s["comps"])
+        legend = f"Competitive Set ({len(s['comps'])} Hotels)"
         if s["perf"]:
             meta_rows.append(f"""    {s['id']}: {{ label: {s['label']!r}, count: {len(s['comps'])}, rooms: {comp_rooms},
+         color: {s['color']!r}, legend: {legend!r},
          perf: true, occ: {s['perf']['occ']!r}, adr: {s['perf']['adr']!r}, revpar: {s['perf']['revpar']!r},
          badge: 'Panel Composite \\u00b7 R12 {REPORT_PERIOD}',
          note: 'Blended R12 performance for the full tracked panel (subject + comps). No subject-vs-comp split or MPI/ARI/RGI in this export.' }},""")
+        elif s.get("per_hotel"):
+            meta_rows.append(f"""    {s['id']}: {{ label: {s['label']!r}, count: {len(s['comps'])}, rooms: {comp_rooms},
+         color: {s['color']!r}, legend: '960 6th Ave Topline ({len(s['comps'])} Hotels)',
+         perf: false, occ: 'per-hotel', adr: 'per-hotel', revpar: 'per-hotel',
+         badge: 'Per-hotel 2024 / 2025 \\u00b7 click a pin',
+         note: '24 individually-tracked topline comps around 960 Sixth Ave (reference layer from the Marriott Vacation Club NYC analysis). Each pin shows that hotel\\u2019s 2024 & 2025 Occ / ADR / RevPAR / RPI \\u2014 click any pin.' }},""")
         else:
             meta_rows.append(f"""    {s['id']}: {{ label: {s['label']!r}, count: {len(s['comps'])}, rooms: {comp_rooms},
+         color: {s['color']!r}, legend: {legend!r},
          perf: false, occ: 'N/A', adr: 'N/A', revpar: 'N/A',
          badge: 'No STR performance for this set',
          note: 'Roster only \\u2014 names, room counts and open dates. No STR performance was provided for this comp set.' }},""")
@@ -249,21 +327,22 @@ def render_html(subject, sets, supply):
     <div class="sb-section">
       <h3>Comp Set</h3>
       <div class="set-toggle">
-        <div class="set-btn active" data-set="1" onclick="showSet(1)">Set 1<small>{set1['label']} &middot; {len(set1['comps'])}</small></div>
-        <div class="set-btn" data-set="2" onclick="showSet(2)">Set 2<small>{sets[1]['label']} &middot; {len(sets[1]['comps'])}</small></div>
+        <div class="set-btn active" data-set="1" onclick="showSet(1)">Set 1<small>{sets[0]['short']} &middot; {len(sets[0]['comps'])}</small></div>
+        <div class="set-btn" data-set="2" onclick="showSet(2)">Set 2<small>{sets[1]['short']} &middot; {len(sets[1]['comps'])}</small></div>
+        <div class="set-btn" data-set="3" onclick="showSet(3)">Set 3<small>{sets[2]['short']} &middot; {len(sets[2]['comps'])}</small></div>
       </div>
     </div>
 
     <div class="sb-section">
       <h3>Legend</h3>
       <div class="legend-row"><div class="leg-dot" style="background:#c62828;"></div> Subject Property</div>
-      <div class="legend-row"><div class="leg-dot" style="background:#1565c0;"></div> Competitive Set (<span id="legend-count">{len(set1['comps'])}</span> Hotels)</div>
+      <div class="legend-row"><div class="leg-dot" id="legend-dot" style="background:{COMP_COLOR};"></div> <span id="legend-label">Competitive Set ({len(set1['comps'])} Hotels)</span></div>
       <div class="legend-row"><div class="leg-dot" style="background:{SUPPLY_COLOR};"></div> New Supply / Pipeline ({len(supply)} Projects)</div>
     </div>
 
     <div class="sb-section">
       <h3 id="perf-head">Set 1 Composite &mdash; R12 ending {REPORT_PERIOD}</h3>
-      <div class="perf-grid">
+      <div class="perf-grid" id="perf-grid">
         <div class="perf-cell"><div class="p-metric">Occ</div><div class="p-value" id="perf-occ">{PANEL['occ']}</div></div>
         <div class="perf-cell"><div class="p-metric">ADR</div><div class="p-value" id="perf-adr">{PANEL['adr']}</div></div>
         <div class="perf-cell"><div class="p-metric">RevPAR</div><div class="p-value" id="perf-revpar">{PANEL['revpar']}</div></div>
@@ -308,24 +387,47 @@ def render_html(subject, sets, supply):
   let subjectMarker = null;
   const supplyMarkers = [];
 
-  function compIcon(label) {{
+  function compIcon(label, color) {{
+    const fs = String(label).length >= 2 ? 12 : 13;
     return {{
       url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
         <svg xmlns="http://www.w3.org/2000/svg" width="38" height="46" viewBox="0 0 38 46">
           <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/></filter>
           <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
-                fill="#1565c0" stroke="white" stroke-width="1.5" filter="url(#s)"/>
+                fill="${{color}}" stroke="white" stroke-width="1.5" filter="url(#s)"/>
           <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
-                font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="white">${{label}}</text>
+                font-family="Arial,sans-serif" font-size="${{fs}}" font-weight="bold" fill="white">${{label}}</text>
         </svg>`),
       scaledSize: new google.maps.Size(38, 46), anchor: new google.maps.Point(19, 44)
     }};
   }}
 
+  function toplinePerfHtml(p) {{
+    const row = (yr, occ, adr, rev, rpi) => `
+      <tr><td style="color:#8090b0;">${{yr}}</td>
+          <td>${{occ}}</td><td>${{adr}}</td><td>${{rev}}</td>
+          <td style="font-weight:700;color:#6a3d9a;">${{rpi}}</td></tr>`;
+    return `
+      <hr style="border:none;border-top:1px solid #eaecf0;margin:8px 0;"/>
+      <table style="width:100%;border-collapse:collapse;font-size:11px;text-align:center;">
+        <tr style="font-size:9px;color:#8090b0;text-transform:uppercase;">
+          <td></td><td>Occ</td><td>ADR</td><td>RevPAR</td><td>RPI</td></tr>
+        ${{row('2024', p.occ_2024, p.adr_2024, p.revpar_2024, p.rpi_2024)}}
+        ${{row('2025', p.occ_2025, p.adr_2025, p.revpar_2025, p.rpi_2025)}}
+      </table>
+      <div class="gm-iw-note" style="font-size:9px;color:#aabbd0;margin-top:4px;">960 Sixth Ave Topline &middot; RPI vs. MVC submarket</div>`;
+  }}
+
   function hotelIW(h) {{
-    const perfLine = h.subject
-      ? `<div class="gm-iw-masked">Subject shown within Set 1 panel composite (no standalone STR figures in this export)</div>`
-      : `<div class="gm-iw-masked">Individual comp performance not provided in this export</div>`;
+    let perfBlock;
+    if (h.perf) {{
+      perfBlock = toplinePerfHtml(h.perf);
+    }} else if (h.subject) {{
+      perfBlock = `<div class="gm-iw-masked">Subject shown within Set 1 panel composite (no standalone STR figures in this export)</div>`;
+    }} else {{
+      perfBlock = `<div class="gm-iw-masked">Individual comp performance not provided for this set</div>`;
+    }}
+    const openLine = h.open ? `<div class="gm-iw-meta">Opened ${{h.open}}</div>` : '';
     return `
       <div class="gm-iw">
         <div class="gm-iw-title">${{h.idx}}. ${{h.name}}</div>
@@ -334,9 +436,9 @@ def render_html(subject, sets, supply):
           ${{h.subject ? '<span class="gm-iw-subject-badge">Subject Property</span>' : ''}}
         </div>
         <div class="gm-iw-meta" style="margin-top:6px;">${{h.address}}</div>
-        <div class="gm-iw-meta">Opened ${{h.open}}</div>
+        ${{openLine}}
         ${{h.strId ? `<div class="gm-iw-str">STR ID: ${{h.strId}}</div>` : ''}}
-        ${{perfLine}}
+        ${{perfBlock}}
       </div>`;
   }}
 
@@ -344,11 +446,16 @@ def render_html(subject, sets, supply):
     const label = h.subject ? '★' : String(h.idx);
     const item = document.createElement('div');
     item.className = `hotel-item${{h.subject ? ' is-subject' : ''}}`;
+    const pinStyle = h.subject ? '' : ` style="background:${{h.color}}"`;
+    let meta;
+    if (h.perf) meta = `RPI ${{h.perf.rpi_2025}} (2025) &middot; ADR ${{h.perf.adr_2025}}`;
+    else if (h.open) meta = `${{h.address.split(',')[0] || h.address}} &middot; Opened ${{h.open}}`;
+    else meta = `${{h.address.split(',')[0] || h.address}}`;
     item.innerHTML = `
-      <div class="h-pin ${{h.subject ? 'pin-subject' : 'pin-comp'}}">${{label}}</div>
+      <div class="h-pin ${{h.subject ? 'pin-subject' : 'pin-comp'}}"${{pinStyle}}>${{label}}</div>
       <div class="h-info">
         <h4>${{h.idx}}. ${{h.name}}</h4>
-        <div class="h-meta">${{h.address.split(',')[0] || h.address}} &middot; Opened ${{h.open}}</div>
+        <div class="h-meta">${{meta}}</div>
         <span class="h-badge">${{h.rooms.toLocaleString()}} keys</span>
         ${{h.subject ? '<span class="h-badge subject-badge">Subject</span>' : ''}}
       </div>`;
@@ -380,13 +487,15 @@ def render_html(subject, sets, supply):
     document.getElementById('perf-head').innerHTML = meta.perf
       ? ('Set ' + n + ' Composite — R12 ending {REPORT_PERIOD}')
       : ('Set ' + n + ' — ' + meta.label);
+    document.getElementById('perf-grid').style.display = meta.perf ? 'grid' : 'none';
     document.getElementById('perf-occ').textContent = meta.occ;
     document.getElementById('perf-adr').textContent = meta.adr;
     document.getElementById('perf-revpar').textContent = meta.revpar;
     document.getElementById('perf-note').textContent = meta.note;
 
     // Legend + list heading
-    document.getElementById('legend-count').textContent = meta.count;
+    document.getElementById('legend-dot').style.background = meta.color;
+    document.getElementById('legend-label').textContent = meta.legend;
     document.getElementById('list-head').textContent = 'Set ' + n + ' Properties — Click to Navigate';
 
     // Markers + list
@@ -442,7 +551,7 @@ def render_html(subject, sets, supply):
         subjectMarker = new google.maps.Marker({{ position: {{ lat: h.lat, lng: h.lng }}, map, icon, title: h.name, zIndex: 100 }});
         subjectMarker.addListener('click', () => {{ infoWindow.setContent(hotelIW(h)); infoWindow.open(map, subjectMarker); }});
       }} else {{
-        const marker = new google.maps.Marker({{ position: {{ lat: h.lat, lng: h.lng }}, map, icon: compIcon(h.idx), title: h.name, zIndex: h.idx }});
+        const marker = new google.maps.Marker({{ position: {{ lat: h.lat, lng: h.lng }}, map, icon: compIcon(h.idx, h.color), title: h.name, zIndex: h.idx }});
         marker.addListener('click', () => {{ infoWindow.setContent(hotelIW(h)); infoWindow.open(map, marker); }});
         compMarkers.push({{ marker, h }});
       }}
@@ -505,7 +614,9 @@ def render_html(subject, sets, supply):
 
 def _geocode_comps(comps):
     for h in comps:
-        loc = base.geocode(h["name"], h.get("address", ""), "New York, NY", h["zip"])
+        if h.get("lat") and h.get("lng"):
+            continue  # pre-set / verified coordinate (e.g. topline comps)
+        loc = base.geocode(h["name"], h.get("address", ""), "New York, NY", h.get("zip", ""))
         h["lat"] = loc["lat"] if loc else 0
         h["lng"] = loc["lng"] if loc else 0
 
@@ -566,7 +677,7 @@ def main():
 
     print("\nDeploying to GitHub Pages...")
     base._commit_and_push(
-        f"Holiday Inn Chelsea map: add Set 2 (Chelsea/Penn Station, {len(SET2_COMPS)} comps) + comp-set toggle")
+        f"Holiday Inn Chelsea map: add Set 3 (960 6th Ave topline, {len(TOPLINE_COMPS)} comps w/ 2024-25 perf) to comp-set toggle")
     ok = base.verify_deploy([url])
     print("\nDEPLOY VERIFIED [OK]" if ok else "\nDEPLOY INCOMPLETE — see warnings above")
     print(f"  {url}")
