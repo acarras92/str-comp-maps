@@ -20,6 +20,10 @@
     .sidebar { width: 300px; background: #fff; border-right: 1px solid #dde3ed; display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; box-shadow: 2px 0 8px rgba(0,0,0,0.06); z-index: 5; }
     .sb-section { padding: 14px; border-bottom: 1px solid #eaecf0; }
     .sb-section h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 0.9px; color: #8090b0; margin-bottom: 10px; font-weight: 600; }
+    .set-toggle { display: flex; gap: 6px; }
+    .set-btn { flex: 1; padding: 8px 8px; border: 1px solid #cdd6e6; background: #f3f6fb; border-radius: 6px; font-size: 11.5px; font-weight: 700; color: #5a6b8c; cursor: pointer; text-align: center; line-height: 1.25; transition: all 0.15s; }
+    .set-btn small { display: block; font-size: 9px; font-weight: 500; opacity: 0.85; margin-top: 1px; }
+    .set-btn.active { background: #1565c0; border-color: #1565c0; color: #fff; }
     .legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 12px; color: #334; }
     .leg-dot { width: 13px; height: 13px; border-radius: 50%; border: 2px solid rgba(0,0,0,0.15); flex-shrink: 0; }
     .perf-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
@@ -62,35 +66,43 @@
 <div class="header">
   <div class="header-left">
     <h1>Holiday Inn Manhattan 6th Ave - Chelsea &mdash; STR Competitive Set Map</h1>
-    <p>New York, NY &nbsp;&middot;&nbsp; R12 ending Apr 2026 &nbsp;&middot;&nbsp; 1 Subject + 7 Comps &nbsp;&middot;&nbsp; 1,800 Comp Rooms &nbsp;&middot;&nbsp; 11 Pipeline (4,234 keys)</p>
+    <p>125 W 26th St, New York, NY &nbsp;&middot;&nbsp; <span id="sub-set">Set 1: Times Square South</span> &nbsp;&middot;&nbsp; 1 Subject + <span id="sub-counts">7 Comps</span> &nbsp;&middot;&nbsp; 11 Pipeline (4,234 keys)</p>
   </div>
   <div class="header-right">
-    <div class="kpi-card"><div class="k-label">Occupancy</div><div class="k-value">91.7%</div></div>
+    <div class="kpi-card"><div class="k-label">Occupancy</div><div class="k-value" id="kpi-occ">91.7%</div></div>
     <div class="kpi-sep"></div>
-    <div class="kpi-card"><div class="k-label">ADR</div><div class="k-value">$278</div></div>
+    <div class="kpi-card"><div class="k-label">ADR</div><div class="k-value" id="kpi-adr">$278</div></div>
     <div class="kpi-sep"></div>
-    <div class="kpi-card"><div class="k-label">RevPAR</div><div class="k-value">$255</div></div>
-    <div class="str-badge">Panel Composite &middot; R12 Apr 2026</div>
+    <div class="kpi-card"><div class="k-label">RevPAR</div><div class="k-value" id="kpi-revpar">$255</div></div>
+    <div class="str-badge" id="str-badge">Panel Composite &middot; R12 Apr 2026</div>
   </div>
 </div>
 
 <div class="main">
   <div class="sidebar">
     <div class="sb-section">
+      <h3>Comp Set</h3>
+      <div class="set-toggle">
+        <div class="set-btn active" data-set="1" onclick="showSet(1)">Set 1<small>Times Square South &middot; 7</small></div>
+        <div class="set-btn" data-set="2" onclick="showSet(2)">Set 2<small>Chelsea / Penn Station &middot; 5</small></div>
+      </div>
+    </div>
+
+    <div class="sb-section">
       <h3>Legend</h3>
       <div class="legend-row"><div class="leg-dot" style="background:#c62828;"></div> Subject Property</div>
-      <div class="legend-row"><div class="leg-dot" style="background:#1565c0;"></div> Competitive Set (7 Hotels)</div>
+      <div class="legend-row"><div class="leg-dot" style="background:#1565c0;"></div> Competitive Set (<span id="legend-count">7</span> Hotels)</div>
       <div class="legend-row"><div class="leg-dot" style="background:#e67e22;"></div> New Supply / Pipeline (11 Projects)</div>
     </div>
 
     <div class="sb-section">
-      <h3>Tracked Panel Composite &mdash; R12 ending Apr 2026</h3>
+      <h3 id="perf-head">Set 1 Composite &mdash; R12 ending Apr 2026</h3>
       <div class="perf-grid">
-        <div class="perf-cell"><div class="p-metric">Occ</div><div class="p-value">91.7%</div></div>
-        <div class="perf-cell"><div class="p-metric">ADR</div><div class="p-value">$278</div></div>
-        <div class="perf-cell"><div class="p-metric">RevPAR</div><div class="p-value">$255</div></div>
+        <div class="perf-cell"><div class="p-metric">Occ</div><div class="p-value" id="perf-occ">91.7%</div></div>
+        <div class="perf-cell"><div class="p-metric">ADR</div><div class="p-value" id="perf-adr">$278</div></div>
+        <div class="perf-cell"><div class="p-metric">RevPAR</div><div class="p-value" id="perf-revpar">$255</div></div>
       </div>
-      <div class="perf-note">Blended performance for the full tracked panel (subject + comps). Source export does not provide a subject-vs-comp split or MPI/ARI/RGI indices.</div>
+      <div class="perf-note" id="perf-note">Blended R12 performance for the full tracked panel (subject + comps). No subject-vs-comp split or MPI/ARI/RGI in this export.</div>
     </div>
 
     <div class="sb-section">
@@ -104,14 +116,14 @@
     </div>
 
     <div class="sb-section" style="flex:1; border-bottom:none;">
-      <h3>Properties &mdash; Click to Navigate</h3>
+      <h3 id="list-head">Set 1 Properties &mdash; Click to Navigate</h3>
       <div id="hotel-list"></div>
       <h3 style="margin-top:14px;">New Supply &mdash; Click to Navigate</h3>
       <div id="supply-list"></div>
     </div>
 
     <div class="sidebar-footer">
-      Source: STR HospitalityDataGrid / Participation export &middot; R12 ending Apr 2026
+      Set 1: STR HospitalityDataGrid / Participation export (R12 ending Apr 2026) &middot; Set 2: roster only
     </div>
   </div>
 
@@ -121,54 +133,95 @@
 <script>
   const HOTELS = [
     {
-      idx: 1, subject: true,
+      set: 0, idx: 1, subject: true,
       name: 'Holiday Inn Manhattan 6th Ave - Chelsea', address: '125 W 26th St, New York, NY 10001',
-      city: 'New York, NY', rooms: 226, strId: '',
+      rooms: 226, open: 'Jun 2008', strId: '',
       lat: 40.745414, lng: -73.99224199999999,
     },
     {
-      idx: 2, subject: false,
+      set: 1, idx: 2, subject: false,
       name: 'Hilton Garden Inn New York Times Square South', address: 'New York, NY 10018',
-      city: 'New York, NY', rooms: 250, strId: '9571683',
+      rooms: 250, open: 'Oct 2017', strId: '9571683',
       lat: 40.75448249999999, lng: -73.99359849999999,
     },
     {
-      idx: 3, subject: false,
+      set: 1, idx: 3, subject: false,
       name: 'Fairfield by Marriott Inn & Suites New York Midtown Manhattan/Penn Station', address: 'New York, NY 10001',
-      city: 'New York, NY', rooms: 239, strId: '9208355',
+      rooms: 239, open: 'Apr 2013', strId: '9208355',
       lat: 40.7522536, lng: -73.9950612,
     },
     {
-      idx: 4, subject: false,
+      set: 1, idx: 4, subject: false,
       name: 'Hilton Garden Inn New York Times Square Central', address: 'New York, NY 10036',
-      city: 'New York, NY', rooms: 282, strId: '6529472',
+      rooms: 282, open: 'Sep 2014', strId: '6529472',
       lat: 40.7552207, lng: -73.9857177,
     },
     {
-      idx: 5, subject: false,
+      set: 1, idx: 5, subject: false,
       name: 'Holiday Inn New York City Times Square', address: 'New York, NY 10018',
-      city: 'New York, NY', rooms: 271, strId: '9569480',
+      rooms: 271, open: 'Oct 2015', strId: '9569480',
       lat: 40.7552207, lng: -73.99165959999999,
     },
     {
-      idx: 6, subject: false,
+      set: 1, idx: 6, subject: false,
       name: 'Delta Hotels New York Times Square', address: 'New York, NY 10018',
-      city: 'New York, NY', rooms: 310, strId: '8229453',
+      rooms: 310, open: 'Apr 2010', strId: '8229453',
       lat: 40.756511, lng: -73.9926904,
     },
     {
-      idx: 7, subject: false,
+      set: 1, idx: 7, subject: false,
       name: 'Courtyard New York Manhattan/Times Square West', address: 'New York, NY 10018',
-      city: 'New York, NY', rooms: 224, strId: '5000125',
+      rooms: 224, open: 'May 2013', strId: '5000125',
       lat: 40.7544472, lng: -73.9926705,
     },
     {
-      idx: 8, subject: false,
+      set: 1, idx: 8, subject: false,
       name: 'voco Times Square South', address: 'New York, NY 10018',
-      city: 'New York, NY', rooms: 224, strId: '6209181',
+      rooms: 224, open: 'Nov 2008', strId: '6209181',
       lat: 40.7544496, lng: -73.99410309999999,
     },
+    {
+      set: 2, idx: 2, subject: false,
+      name: 'Hampton by Hilton Manhattan-Chelsea', address: '108 W 24th St, New York, NY 10011',
+      rooms: 144, open: 'Aug 2003', strId: '',
+      lat: 40.7436955, lng: -73.9930449,
+    },
+    {
+      set: 2, idx: 3, subject: false,
+      name: 'Hilton Garden Inn New York Chelsea', address: '121 W 28th St, New York, NY 10001',
+      rooms: 169, open: 'Oct 2007', strId: '',
+      lat: 40.74668330000001, lng: -73.991368,
+    },
+    {
+      set: 2, idx: 4, subject: false,
+      name: 'Holiday Inn Express New York City Chelsea', address: 'New York, NY 10001',
+      rooms: 228, open: 'Oct 2006', strId: '',
+      lat: 40.7483258, lng: -73.99466199999999,
+    },
+    {
+      set: 2, idx: 5, subject: false,
+      name: 'TRYP by Wyndham New York City Times Square / Midtown', address: 'New York, NY 10001',
+      rooms: 173, open: 'Feb 2012', strId: '',
+      lat: 40.7537791, lng: -73.9946197,
+    },
+    {
+      set: 2, idx: 6, subject: false,
+      name: 'Fairfield by Marriott Inn & Suites New York Midtown Manhattan/Penn Station', address: 'New York, NY 10001',
+      rooms: 239, open: 'Apr 2013', strId: '',
+      lat: 40.7522536, lng: -73.9950612,
+    },
   ];
+
+  const SETS_META = {
+    1: { label: 'Times Square South', count: 7, rooms: 1800,
+         perf: true, occ: '91.7%', adr: '$278', revpar: '$255',
+         badge: 'Panel Composite \u00b7 R12 Apr 2026',
+         note: 'Blended R12 performance for the full tracked panel (subject + comps). No subject-vs-comp split or MPI/ARI/RGI in this export.' },
+    2: { label: 'Chelsea / Penn Station', count: 5, rooms: 953,
+         perf: false, occ: 'N/A', adr: 'N/A', revpar: 'N/A',
+         badge: 'No STR performance for this set',
+         note: 'Roster only \u2014 names, room counts and open dates. No STR performance was provided for this comp set.' },
+  };
 
   const SUPPLY = [
     {
@@ -228,95 +281,155 @@
     },
   ];
 
-  let map, infoWindow;
-  const markers = [];
+  let map, infoWindow, activeSet = 1;
+  const compMarkers = [];   // { marker, h }
+  let subjectMarker = null;
+  const supplyMarkers = [];
+
+  function compIcon(label) {
+    return {
+      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="46" viewBox="0 0 38 46">
+          <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/></filter>
+          <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
+                fill="#1565c0" stroke="white" stroke-width="1.5" filter="url(#s)"/>
+          <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
+                font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="white">${label}</text>
+        </svg>`),
+      scaledSize: new google.maps.Size(38, 46), anchor: new google.maps.Point(19, 44)
+    };
+  }
+
+  function hotelIW(h) {
+    const perfLine = h.subject
+      ? `<div class="gm-iw-masked">Subject shown within Set 1 panel composite (no standalone STR figures in this export)</div>`
+      : `<div class="gm-iw-masked">Individual comp performance not provided in this export</div>`;
+    return `
+      <div class="gm-iw">
+        <div class="gm-iw-title">${h.idx}. ${h.name}</div>
+        <div>
+          <span class="gm-iw-badge">${h.rooms.toLocaleString()} Keys</span>
+          ${h.subject ? '<span class="gm-iw-subject-badge">Subject Property</span>' : ''}
+        </div>
+        <div class="gm-iw-meta" style="margin-top:6px;">${h.address}</div>
+        <div class="gm-iw-meta">Opened ${h.open}</div>
+        ${h.strId ? `<div class="gm-iw-str">STR ID: ${h.strId}</div>` : ''}
+        ${perfLine}
+      </div>`;
+  }
+
+  function makeHotelItem(h, marker) {
+    const label = h.subject ? '★' : String(h.idx);
+    const item = document.createElement('div');
+    item.className = `hotel-item${h.subject ? ' is-subject' : ''}`;
+    item.innerHTML = `
+      <div class="h-pin ${h.subject ? 'pin-subject' : 'pin-comp'}">${label}</div>
+      <div class="h-info">
+        <h4>${h.idx}. ${h.name}</h4>
+        <div class="h-meta">${h.address.split(',')[0] || h.address} &middot; Opened ${h.open}</div>
+        <span class="h-badge">${h.rooms.toLocaleString()} keys</span>
+        ${h.subject ? '<span class="h-badge subject-badge">Subject</span>' : ''}
+      </div>`;
+    item.addEventListener('click', () => {
+      map.panTo({ lat: h.lat, lng: h.lng });
+      map.setZoom(16);
+      infoWindow.setContent(hotelIW(h));
+      infoWindow.open(map, marker);
+    });
+    return item;
+  }
+
+  function showSet(n) {
+    activeSet = n;
+    const meta = SETS_META[n];
+
+    document.querySelectorAll('.set-btn').forEach(b =>
+      b.classList.toggle('active', +b.dataset.set === n));
+
+    // Header
+    document.getElementById('kpi-occ').textContent = meta.occ;
+    document.getElementById('kpi-adr').textContent = meta.adr;
+    document.getElementById('kpi-revpar').textContent = meta.revpar;
+    document.getElementById('str-badge').textContent = meta.badge;
+    document.getElementById('sub-set').textContent = 'Set ' + n + ': ' + meta.label;
+    document.getElementById('sub-counts').textContent = meta.count + ' Comps';
+
+    // Performance panel
+    document.getElementById('perf-head').innerHTML = meta.perf
+      ? ('Set ' + n + ' Composite — R12 ending Apr 2026')
+      : ('Set ' + n + ' — ' + meta.label);
+    document.getElementById('perf-occ').textContent = meta.occ;
+    document.getElementById('perf-adr').textContent = meta.adr;
+    document.getElementById('perf-revpar').textContent = meta.revpar;
+    document.getElementById('perf-note').textContent = meta.note;
+
+    // Legend + list heading
+    document.getElementById('legend-count').textContent = meta.count;
+    document.getElementById('list-head').textContent = 'Set ' + n + ' Properties — Click to Navigate';
+
+    // Markers + list
+    const listEl = document.getElementById('hotel-list');
+    listEl.innerHTML = '';
+    const bounds = new google.maps.LatLngBounds();
+    bounds.extend({ lat: subjectMarker.getPosition().lat(), lng: subjectMarker.getPosition().lng() });
+
+    // Subject first
+    const subj = HOTELS.find(h => h.subject);
+    listEl.appendChild(makeHotelItem(subj, subjectMarker));
+
+    compMarkers.forEach(({ marker, h }) => {
+      const visible = h.set === n;
+      marker.setVisible(visible);
+      if (visible) {
+        bounds.extend({ lat: h.lat, lng: h.lng });
+        listEl.appendChild(makeHotelItem(h, marker));
+      }
+    });
+
+    // Keep the supply pipeline in frame too
+    SUPPLY.forEach(s => bounds.extend({ lat: s.lat, lng: s.lng }));
+    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+  }
 
   function initMap() {
-    const subj = HOTELS.find(h => h.subject);
     map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 40.7534999125, lng: -73.992217875 },
-      zoom: 14,
-      mapTypeControl: true,
+      center: { lat: 40.751748969230775, lng: -73.99280759999999 },
+      zoom: 14, mapTypeControl: true,
       mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR, position: google.maps.ControlPosition.TOP_RIGHT },
-      streetViewControl: true,
-      fullscreenControl: true,
+      streetViewControl: true, fullscreenControl: true,
       styles: [
         { featureType: "poi.business", stylers: [{ visibility: "off" }] },
         { featureType: "transit", stylers: [{ visibility: "simplified" }] }
       ]
     });
-
     infoWindow = new google.maps.InfoWindow({ maxWidth: 290 });
 
-    const listEl = document.getElementById('hotel-list');
-    const bounds = new google.maps.LatLngBounds();
-
     HOTELS.forEach((h) => {
-      const label = h.subject ? '★' : String(h.idx);
-      const color = h.subject ? '#c62828' : '#1565c0';
-
-      const svgIcon = {
-        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-          <svg xmlns="http://www.w3.org/2000/svg" width="38" height="46" viewBox="0 0 38 46">
-            <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/></filter>
-            <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
-                  fill="${color}" stroke="white" stroke-width="1.5" filter="url(#s)"/>
-            <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
-                  font-family="Arial,sans-serif" font-size="${h.subject ? 14 : 13}"
-                  font-weight="bold" fill="white">${label}</text>
-          </svg>`),
-        scaledSize: new google.maps.Size(38, 46),
-        anchor: new google.maps.Point(19, 44)
-      };
-
-      const marker = new google.maps.Marker({
-        position: { lat: h.lat, lng: h.lng },
-        map, icon: svgIcon, title: h.name,
-        zIndex: h.subject ? 100 : h.idx
-      });
-
-      markers.push(marker);
-      bounds.extend({ lat: h.lat, lng: h.lng });
-
-      const iwContent = `
-        <div class="gm-iw">
-          <div class="gm-iw-title">${h.idx}. ${h.name}</div>
-          <div>
-            <span class="gm-iw-badge">${h.rooms.toLocaleString()} Keys</span>
-            ${h.subject ? '<span class="gm-iw-subject-badge">Subject Property</span>' : ''}
-          </div>
-          <div class="gm-iw-meta" style="margin-top:6px;">${h.address}</div>
-          ${h.strId ? `<div class="gm-iw-str">STR ID: ${h.strId}</div>` : ''}
-          ${h.subject
-              ? '<div class="gm-iw-masked">Subject shown within tracked panel composite (no standalone STR figures in this export)</div>'
-              : '<div class="gm-iw-masked">Individual comp performance not provided in this export</div>'}
-        </div>`;
-
-      marker.addListener('click', () => { infoWindow.setContent(iwContent); infoWindow.open(map, marker); });
-
-      const item = document.createElement('div');
-      item.className = `hotel-item${h.subject ? ' is-subject' : ''}`;
-      item.innerHTML = `
-        <div class="h-pin ${h.subject ? 'pin-subject' : 'pin-comp'}">${label}</div>
-        <div class="h-info">
-          <h4>${h.idx}. ${h.name}</h4>
-          <div class="h-meta">${h.address}</div>
-          <span class="h-badge">${h.rooms.toLocaleString()} keys</span>
-          ${h.subject ? '<span class="h-badge subject-badge">Subject</span>' : ''}
-        </div>`;
-      item.addEventListener('click', () => {
-        map.panTo({ lat: h.lat, lng: h.lng });
-        map.setZoom(16);
-        infoWindow.setContent(iwContent);
-        infoWindow.open(map, marker);
-      });
-      listEl.appendChild(item);
+      if (h.subject) {
+        const icon = {
+          url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="46" viewBox="0 0 38 46">
+              <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/></filter>
+              <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
+                    fill="#c62828" stroke="white" stroke-width="1.5" filter="url(#s)"/>
+              <text x="19" y="22" text-anchor="middle" dominant-baseline="middle"
+                    font-family="Arial,sans-serif" font-size="14" font-weight="bold" fill="white">★</text>
+            </svg>`),
+          scaledSize: new google.maps.Size(38, 46), anchor: new google.maps.Point(19, 44)
+        };
+        subjectMarker = new google.maps.Marker({ position: { lat: h.lat, lng: h.lng }, map, icon, title: h.name, zIndex: 100 });
+        subjectMarker.addListener('click', () => { infoWindow.setContent(hotelIW(h)); infoWindow.open(map, subjectMarker); });
+      } else {
+        const marker = new google.maps.Marker({ position: { lat: h.lat, lng: h.lng }, map, icon: compIcon(h.idx), title: h.name, zIndex: h.idx });
+        marker.addListener('click', () => { infoWindow.setContent(hotelIW(h)); infoWindow.open(map, marker); });
+        compMarkers.push({ marker, h });
+      }
     });
 
-    // ── New supply / pipeline layer (orange "+" pins) ──
+    // ── New supply / pipeline layer (orange "+" pins, always shown) ──
     const supplyListEl = document.getElementById('supply-list');
     SUPPLY.forEach((s) => {
-      const svgIcon = {
+      const icon = {
         url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
           <svg xmlns="http://www.w3.org/2000/svg" width="34" height="42" viewBox="0 0 38 46">
             <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/></filter>
@@ -325,16 +438,10 @@
             <text x="19" y="21" text-anchor="middle" dominant-baseline="middle"
                   font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="white">+</text>
           </svg>`),
-        scaledSize: new google.maps.Size(34, 42),
-        anchor: new google.maps.Point(17, 40)
+        scaledSize: new google.maps.Size(34, 42), anchor: new google.maps.Point(17, 40)
       };
-
-      const marker = new google.maps.Marker({
-        position: { lat: s.lat, lng: s.lng },
-        map, icon: svgIcon, title: s.name, zIndex: 50
-      });
-      markers.push(marker);
-      bounds.extend({ lat: s.lat, lng: s.lng });
+      const marker = new google.maps.Marker({ position: { lat: s.lat, lng: s.lng }, map, icon, title: s.name, zIndex: 50 });
+      supplyMarkers.push(marker);
 
       const iwContent = `
         <div class="gm-iw">
@@ -346,7 +453,6 @@
           <div class="gm-iw-meta" style="margin-top:6px;">${s.address}</div>
           <div class="gm-iw-status"><b>Status:</b> ${s.status} &middot; <b>Open:</b> ${s.open}</div>
         </div>`;
-
       marker.addListener('click', () => { infoWindow.setContent(iwContent); infoWindow.open(map, marker); });
 
       const item = document.createElement('div');
@@ -359,15 +465,13 @@
           <span class="h-badge supply-badge">${s.keys.toLocaleString()} keys</span>
         </div>`;
       item.addEventListener('click', () => {
-        map.panTo({ lat: s.lat, lng: s.lng });
-        map.setZoom(16);
-        infoWindow.setContent(iwContent);
-        infoWindow.open(map, marker);
+        map.panTo({ lat: s.lat, lng: s.lng }); map.setZoom(16);
+        infoWindow.setContent(iwContent); infoWindow.open(map, marker);
       });
       supplyListEl.appendChild(item);
     });
 
-    map.fitBounds(bounds, { top: 60, right: 60, bottom: 60, left: 60 });
+    showSet(1);
   }
 </script>
 
