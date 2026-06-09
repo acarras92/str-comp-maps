@@ -53,8 +53,42 @@ HOTELS = [
      "rooms": 224, "str_id": "6209181"},
 ]
 
+# Submarket new-supply pipeline (LMW / Times Square South). Orange "+" layer,
+# same convention as the AKA WH / Capital Hilton pipeline map.
+SUPPLY_COLOR = "#e67e22"  # orange
+NEW_SUPPLY = [
+    {"name": "Hotel 38 NY, Tapestry Collection", "address": "321 W 38th St",
+     "status": "Opening", "open": "Apr 2026", "keys": 175},
+    {"name": "Row NYC (reopening)", "address": "700 8th Ave",
+     "status": "Opened", "open": "May 2026", "keys": 1331},
+    # Hardcoded: geocoder mis-resolves "450 11th Ave"; this is the verified
+    # corner of 11th Ave & W 37th St (Hudson Yards, by the Javits Center).
+    {"name": "Hotel Meta, Tribute Portfolio", "address": "450 11th Ave at W 37th St",
+     "zip": "10018", "status": "Near Completion", "open": "Q2/Q3 2026", "keys": 379,
+     "lat": 40.7576, "lng": -73.9986},
+    {"name": "Jade Hotel @ Garment District", "address": "36 W 38th St",
+     "status": "Under Construction", "open": "Sep 2026", "keys": 200},
+    {"name": "Unbranded Hotel", "address": "319 W 35th St",
+     "status": "Stalled", "open": "TBD", "keys": 166},
+    {"name": "Cambria Suites", "address": "224 W 47th St",
+     "status": "Opening", "open": "Jul 2026", "keys": 136},
+    {"name": "Canopy by Hilton NY Midtown", "address": "255 W 34th St",
+     "status": "Under Construction", "open": "Fall 2026", "keys": 365},
+    {"name": "The Torch", "address": "740 8th Ave",
+     "status": "Under Construction", "open": "Aug 2028", "keys": 825},
+    {"name": "AC Hotel NY Midtown West", "address": "495 11th Ave",
+     "status": "Planned", "open": "Sep 2029", "keys": 341},
+    {"name": "Aloft Midtown West", "address": "495 11th Ave",
+     "status": "Planned", "open": "Sep 2029", "keys": 220},
+    {"name": "Residence Inn NY Midtown", "address": "495 11th Ave",
+     "status": "Planned", "open": "Sep 2029", "keys": 96},
+]
+# Market context (from the supply table header / footer)
+MARKET_SUPPLY = 103462      # Manhattan (NYC) keys
+SUBMARKET_SUPPLY = 23930    # LMW / Times Square South keys
 
-def render_html(hotels, comp_rooms):
+
+def render_html(hotels, comp_rooms, supply):
     subject = next(h for h in hotels if h["subject"])
     comps = [h for h in hotels if not h["subject"]]
     hotel_name = subject["name"]
@@ -70,6 +104,21 @@ def render_html(hotels, comp_rooms):
       lat: {h['lat']}, lng: {h['lng']},
     }},\n"""
     hotels_js += "  ];"
+
+    # Build SUPPLY JS array
+    supply_js = "const SUPPLY = [\n"
+    for s in supply:
+        full_addr = f"{s['address']}, New York, NY"
+        supply_js += f"""    {{
+      name: {s['name']!r}, address: {full_addr!r},
+      status: {s['status']!r}, open: {s['open']!r}, keys: {s['keys']},
+      lat: {s['lat']}, lng: {s['lng']},
+    }},\n"""
+    supply_js += "  ];"
+
+    supply_keys = sum(s["keys"] for s in supply)
+    pct_market = supply_keys / MARKET_SUPPLY * 100
+    pct_submkt = supply_keys / SUBMARKET_SUPPLY * 100
 
     avg_lat = sum(h["lat"] for h in hotels) / len(hotels)
     avg_lng = sum(h["lng"] for h in hotels) / len(hotels)
@@ -111,6 +160,13 @@ def render_html(hotels, comp_rooms):
     .h-pin {{ width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }}
     .pin-subject {{ background: #c62828; color: #fff; }}
     .pin-comp {{ background: #1565c0; color: #fff; }}
+    .pin-supply {{ background: {SUPPLY_COLOR}; color: #fff; }}
+    .supply-summary {{ display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 10px; }}
+    .supply-cell {{ background: #fff6ee; border: 1px solid #f5d8bf; border-radius: 5px; padding: 6px 4px; text-align: center; }}
+    .supply-num {{ font-size: 16px; font-weight: 700; color: {SUPPLY_COLOR}; line-height: 1.1; }}
+    .supply-cap {{ font-size: 8.5px; color: #8090b0; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 2px; }}
+    .h-badge.supply-badge {{ background: #fff1e3; border-color: #f5d8bf; color: #b35e12; }}
+    .gm-iw-status {{ font-size: 10px; color: #5d6b85; margin-top: 6px; }}
     .h-info h4 {{ font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3; }}
     .h-info .h-meta {{ font-size: 10px; color: #7080a0; margin-top: 1px; }}
     .h-badge {{ display: inline-block; background: #e8f0fe; border: 1px solid #c5d5f5; border-radius: 3px; padding: 1px 5px; font-size: 10px; color: #1a56c4; margin-top: 3px; }}
@@ -131,7 +187,7 @@ def render_html(hotels, comp_rooms):
 <div class="header">
   <div class="header-left">
     <h1>{hotel_name} &mdash; STR Competitive Set Map</h1>
-    <p>{subject['city_state']} &nbsp;&middot;&nbsp; R12 ending {REPORT_PERIOD} &nbsp;&middot;&nbsp; 1 Subject + {len(comps)} Comps &nbsp;&middot;&nbsp; {comp_rooms:,} Comp Rooms</p>
+    <p>{subject['city_state']} &nbsp;&middot;&nbsp; R12 ending {REPORT_PERIOD} &nbsp;&middot;&nbsp; 1 Subject + {len(comps)} Comps &nbsp;&middot;&nbsp; {comp_rooms:,} Comp Rooms &nbsp;&middot;&nbsp; {len(supply)} Pipeline ({supply_keys:,} keys)</p>
   </div>
   <div class="header-right">
     <div class="kpi-card"><div class="k-label">Occupancy</div><div class="k-value">{PANEL['occ']}</div></div>
@@ -149,6 +205,7 @@ def render_html(hotels, comp_rooms):
       <h3>Legend</h3>
       <div class="legend-row"><div class="leg-dot" style="background:#c62828;"></div> Subject Property</div>
       <div class="legend-row"><div class="leg-dot" style="background:#1565c0;"></div> Competitive Set ({len(comps)} Hotels)</div>
+      <div class="legend-row"><div class="leg-dot" style="background:{SUPPLY_COLOR};"></div> New Supply / Pipeline ({len(supply)} Projects)</div>
     </div>
 
     <div class="sb-section">
@@ -161,9 +218,21 @@ def render_html(hotels, comp_rooms):
       <div class="perf-note">Blended performance for the full tracked panel (subject + comps). Source export does not provide a subject-vs-comp split or MPI/ARI/RGI indices.</div>
     </div>
 
+    <div class="sb-section">
+      <h3>New Supply Pipeline &mdash; LMW / Times Square South</h3>
+      <div class="supply-summary">
+        <div class="supply-cell"><div class="supply-num">{len(supply)}</div><div class="supply-cap">Projects</div></div>
+        <div class="supply-cell"><div class="supply-num">{supply_keys:,}</div><div class="supply-cap">New Keys</div></div>
+        <div class="supply-cell"><div class="supply-num">{pct_submkt:.1f}%</div><div class="supply-cap">of Submkt</div></div>
+      </div>
+      <div class="perf-note">{supply_keys:,} projected new keys = {pct_market:.2f}% of Manhattan ({MARKET_SUPPLY:,}) &middot; {pct_submkt:.2f}% of the {SUBMARKET_SUPPLY:,}-key submarket. Locations approximate (geocoded from address).</div>
+    </div>
+
     <div class="sb-section" style="flex:1; border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
       <div id="hotel-list"></div>
+      <h3 style="margin-top:14px;">New Supply &mdash; Click to Navigate</h3>
+      <div id="supply-list"></div>
     </div>
 
     <div class="sidebar-footer">
@@ -176,6 +245,8 @@ def render_html(hotels, comp_rooms):
 
 <script>
   {hotels_js}
+
+  {supply_js}
 
   let map, infoWindow;
   const markers = [];
@@ -262,6 +333,60 @@ def render_html(hotels, comp_rooms):
       listEl.appendChild(item);
     }});
 
+    // ── New supply / pipeline layer (orange "+" pins) ──
+    const supplyListEl = document.getElementById('supply-list');
+    SUPPLY.forEach((s) => {{
+      const svgIcon = {{
+        url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+          <svg xmlns="http://www.w3.org/2000/svg" width="34" height="42" viewBox="0 0 38 46">
+            <filter id="s"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.35"/></filter>
+            <path d="M19 2C10.16 2 3 9.16 3 18C3 30 19 44 19 44C19 44 35 30 35 18C35 9.16 27.84 2 19 2Z"
+                  fill="{SUPPLY_COLOR}" stroke="white" stroke-width="1.5" filter="url(#s)"/>
+            <text x="19" y="21" text-anchor="middle" dominant-baseline="middle"
+                  font-family="Arial,sans-serif" font-size="20" font-weight="bold" fill="white">+</text>
+          </svg>`),
+        scaledSize: new google.maps.Size(34, 42),
+        anchor: new google.maps.Point(17, 40)
+      }};
+
+      const marker = new google.maps.Marker({{
+        position: {{ lat: s.lat, lng: s.lng }},
+        map, icon: svgIcon, title: s.name, zIndex: 50
+      }});
+      markers.push(marker);
+      bounds.extend({{ lat: s.lat, lng: s.lng }});
+
+      const iwContent = `
+        <div class="gm-iw">
+          <div class="gm-iw-title">${{s.name}}</div>
+          <div>
+            <span class="gm-iw-badge" style="background:#fff1e3;border-color:#f5d8bf;color:#b35e12;">${{s.keys.toLocaleString()}} Keys</span>
+            <span class="gm-iw-subject-badge" style="background:#fff1e3;border-color:#f5d8bf;color:#b35e12;">New Supply</span>
+          </div>
+          <div class="gm-iw-meta" style="margin-top:6px;">${{s.address}}</div>
+          <div class="gm-iw-status"><b>Status:</b> ${{s.status}} &middot; <b>Open:</b> ${{s.open}}</div>
+        </div>`;
+
+      marker.addListener('click', () => {{ infoWindow.setContent(iwContent); infoWindow.open(map, marker); }});
+
+      const item = document.createElement('div');
+      item.className = 'hotel-item';
+      item.innerHTML = `
+        <div class="h-pin pin-supply">+</div>
+        <div class="h-info">
+          <h4>${{s.name}}</h4>
+          <div class="h-meta">${{s.address.split(',')[0]}} &middot; ${{s.status}} &middot; ${{s.open}}</div>
+          <span class="h-badge supply-badge">${{s.keys.toLocaleString()}} keys</span>
+        </div>`;
+      item.addEventListener('click', () => {{
+        map.panTo({{ lat: s.lat, lng: s.lng }});
+        map.setZoom(16);
+        infoWindow.setContent(iwContent);
+        infoWindow.open(map, marker);
+      }});
+      supplyListEl.appendChild(item);
+    }});
+
     map.fitBounds(bounds, {{ top: 60, right: 60, bottom: 60, left: 60 }});
   }}
 </script>
@@ -280,11 +405,32 @@ def main():
     hotels = [dict(h) for h in HOTELS]
     base.geocode_all(hotels)
 
+    # Geocode supply pipeline by address.
+    supply = [dict(s) for s in NEW_SUPPLY]
+    print("Geocoding supply pipeline...")
+    for s in supply:
+        if "lat" in s and "lng" in s:
+            continue  # pre-set / verified coordinate
+        loc = base.geocode(s["name"], s["address"], "New York, NY", s.get("zip", ""))
+        s["lat"] = loc["lat"] if loc else 0
+        s["lng"] = loc["lng"] if loc else 0
+
+    # Fan out co-located projects (e.g. the 495 11th Ave tri-brand) so each pin
+    # is individually clickable instead of stacking on one point.
+    seen = {}
+    for s in supply:
+        key = (round(s["lat"], 5), round(s["lng"], 5))
+        n = seen.get(key, 0)
+        if n:
+            s["lat"] += 0.00045 * n
+            s["lng"] += 0.00045 * n
+        seen[key] = n + 1
+
     comp_rooms = sum(h["rooms"] for h in hotels if not h["subject"])
     subject = next(h for h in hotels if h["subject"])
 
     print("Generating HTML...")
-    html = render_html(hotels, comp_rooms)
+    html = render_html(hotels, comp_rooms, supply)
 
     slug = SLUG
     output_dir = os.path.join(base.REPO_DIR, slug)
@@ -304,7 +450,7 @@ def main():
         return
 
     print("\nDeploying to GitHub Pages...")
-    base._commit_and_push(f"Add {subject['name']} comp set map - R12 {REPORT_PERIOD}")
+    base._commit_and_push(f"Holiday Inn Chelsea map: add LMW/TS South new-supply pipeline layer ({len(NEW_SUPPLY)} projects, {sum(s['keys'] for s in NEW_SUPPLY):,} keys)")
     ok = base.verify_deploy([url])
     print("\nDEPLOY VERIFIED [OK]" if ok else "\nDEPLOY INCOMPLETE — see warnings above")
     print(f"  {url}")
