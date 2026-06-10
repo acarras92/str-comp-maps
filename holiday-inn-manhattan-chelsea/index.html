@@ -86,6 +86,7 @@
         <div class="set-btn active" data-set="1" onclick="showSet(1)">Set 1<small>TS South &middot; 7</small></div>
         <div class="set-btn" data-set="2" onclick="showSet(2)">Set 2<small>Chelsea / Penn &middot; 5</small></div>
         <div class="set-btn" data-set="3" onclick="showSet(3)">Set 3<small>Topline &middot; 24</small></div>
+        <div class="set-btn" data-set="4" onclick="showSet(4)">Set 4<small>Chelsea Grid &middot; 6</small></div>
       </div>
     </div>
 
@@ -124,7 +125,7 @@
     </div>
 
     <div class="sidebar-footer">
-      Set 1: STR HospitalityDataGrid / Participation export (R12 ending Apr 2026) &middot; Set 2: roster only
+      Set 1: STR HospitalityDataGrid / Participation export (R12 ending Apr 2026) &middot; Set 2: roster only &middot; Set 4: Chelsea STR grid composite (R12 Apr 2026)
     </div>
   </div>
 
@@ -355,6 +356,42 @@
       rooms: 135, open: '', strId: '', perf: {"occ_2024": "89.7%", "adr_2024": "$245", "revpar_2024": "$220", "rpi_2024": "0.85", "occ_2025": "91.2%", "adr_2025": "$254", "revpar_2025": "$231", "rpi_2025": "0.85", "notes_2024": "Actual", "notes_2025": "24 A Trended"},
       lat: 40.750497, lng: -73.9860343,
     },
+    {
+      set: 4, idx: 1, subject: false, color: '#00897b',
+      name: 'Hilton New York Fashion District', address: '152 W 26th St, New York, NY 10001',
+      rooms: 280, open: 'Apr 2010', strId: '6505537', perf: null,
+      lat: 40.7455256, lng: -73.9937621,
+    },
+    {
+      set: 4, idx: 2, subject: false, color: '#00897b',
+      name: 'Hampton by Hilton Manhattan-Chelsea', address: '108 W 24th St, New York, NY 10011',
+      rooms: 144, open: 'Aug 2003', strId: '4773655', perf: null,
+      lat: 40.7436955, lng: -73.9930449,
+    },
+    {
+      set: 4, idx: 3, subject: false, color: '#00897b',
+      name: 'Hyatt Place New York / Chelsea', address: '140 W 24th St, New York, NY 10011',
+      rooms: 510, open: 'Dec 2021', strId: '11492950', perf: null,
+      lat: 40.7442595, lng: -73.9941592,
+    },
+    {
+      set: 4, idx: 4, subject: false, color: '#00897b',
+      name: 'Fairfield Inn & Suites New York Manhattan/Chelsea', address: '116 W 28th St, New York, NY 10001',
+      rooms: 110, open: 'Dec 2010', strId: '7157926', perf: null,
+      lat: 40.7462361, lng: -73.99145070000002,
+    },
+    {
+      set: 4, idx: 5, subject: false, color: '#00897b',
+      name: 'Hilton Garden Inn New York Chelsea', address: '121 W 28th St, New York, NY 10001',
+      rooms: 169, open: 'Oct 2007', strId: '7156213', perf: null,
+      lat: 40.74668330000001, lng: -73.991368,
+    },
+    {
+      set: 4, idx: 6, subject: false, color: '#00897b',
+      name: 'Holiday Inn Express NYC Chelsea - NoMad Area', address: 'New York, NY 10001',
+      rooms: 232, open: 'Oct 2006', strId: '7982491', perf: null,
+      lat: 40.7483258, lng: -73.99466199999999,
+    },
   ];
 
   const SETS_META = {
@@ -373,6 +410,11 @@
          perf: false, occ: 'per-hotel', adr: 'per-hotel', revpar: 'per-hotel',
          badge: 'Per-hotel 2024 / 2025 \u00b7 click a pin',
          note: '24 individually-tracked topline comps around 960 Sixth Ave (reference layer from the Marriott Vacation Club NYC analysis). Each pin shows that hotel\u2019s 2024 & 2025 Occ / ADR / RevPAR / RPI \u2014 click any pin.' },
+    4: { label: 'Chelsea (STR Grid)', count: 6, rooms: 1445,
+         color: '#00897b', legend: 'Chelsea Comp Set (6 Hotels)',
+         perf: true, occ: '94.8%', adr: '$279', revpar: '$264',
+         badge: 'Set composite \u00b7 R12 Apr 2026',
+         note: '6-hotel Chelsea comp set from STR\u2019s Hospitality Data Grid. Composite R12 ending Apr 2026: Occ 94.8% \u00b7 ADR $279 \u00b7 RevPAR $264. No subject-vs-comp split or per-hotel detail in this export.' },
   };
 
   const SUPPLY = [
