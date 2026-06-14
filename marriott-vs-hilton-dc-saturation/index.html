@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marriott vs. Hilton &mdash; Washington, DC Hotel Saturation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; height: 100vh; display: flex; flex-direction: column; background: #f5f5f5; }
+    .header { background: #1a2744; border-bottom: 3px solid #c8102e; padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+    .header-left h1 { font-size: 18px; font-weight: 700; color: #fff; }
+    .header-left p { font-size: 11px; color: #8fa8d8; margin-top: 3px; }
+    .header-right { font-size: 11px; color: #8fa8d8; }
+    .header-right a { color: #8fa8d8; text-decoration: none; }
+    .header-right a:hover { color: #fff; }
+    .main { display: flex; flex: 1; overflow: hidden; }
+    .sidebar { width: 340px; background: #fff; border-right: 1px solid #dde3ed; overflow-y: auto; flex-shrink: 0; box-shadow: 2px 0 8px rgba(0,0,0,0.06); }
+    .sb-section { padding: 14px; border-bottom: 1px solid #eaecf0; }
+    .sb-section h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 0.9px; color: #8090b0; margin-bottom: 10px; font-weight: 600; }
+    .legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; font-size: 12.5px; color: #334; padding: 5px 6px; margin-left: -6px; margin-right: -6px; border-radius: 4px; }
+    .legend-row.clickable { cursor: pointer; user-select: none; }
+    .legend-row.clickable:hover { background: #f0f5ff; }
+    .legend-row.off { opacity: 0.35; }
+    .legend-row.off .leg-dot { background: #cbd5e1 !important; border-color: #cbd5e1 !important; }
+    .legend-row .leg-count { margin-left: auto; color: #8090b0; font-variant-numeric: tabular-nums; font-weight: 600; }
+    .leg-dot { width: 14px; height: 14px; transform: rotate(45deg); border: 2px solid rgba(0,0,0,0.15); flex-shrink: 0; }
+    .leg-star { width: 18px; height: 18px; flex-shrink: 0; color: #f4c20d; filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3)); }
+    .filter-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .filter-pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: 12px; font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; cursor: pointer; user-select: none; border: 1.5px solid; background: #fff; }
+    .filter-pill.off { opacity: 0.35; background: #f3f4f6; }
+    .filter-pill .pill-count { font-weight: 400; opacity: 0.7; font-variant-numeric: tabular-nums; letter-spacing: 0; }
+    .filter-pill.s-operating { color: #047857; border-color: #047857; }
+    .filter-pill.s-pipeline  { color: #b45309; border-color: #b45309; }
+    .filter-pill.s-inactive  { color: #6b7280; border-color: #6b7280; }
+    .fit-btn { width: 100%; margin-top: 10px; padding: 6px 10px; font-size: 11px; font-weight: 600; color: #1a2744; background: #f0f5ff; border: 1px solid #c8d4e8; border-radius: 4px; cursor: pointer; }
+    .fit-btn:hover { background: #e0eaff; }
+    .filter-note { font-size: 10px; color: #8090b0; margin-top: 8px; font-style: italic; line-height: 1.4; }
+    .matrix { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+    .matrix th, .matrix td { padding: 5px 6px; text-align: right; }
+    .matrix th:first-child, .matrix td:first-child { text-align: left; }
+    .matrix thead th { font-size: 9.5px; color: #fff; text-transform: uppercase; letter-spacing: 0.4px; font-weight: 700; }
+    .matrix thead th.c-fam { background: #1a2744; border-top-left-radius: 4px; }
+    .matrix thead th.s-operating { background: #047857; }
+    .matrix thead th.s-pipeline  { background: #b45309; }
+    .matrix thead th.s-inactive  { background: #6b7280; }
+    .matrix thead th.s-total     { background: #1a2744; border-top-right-radius: 4px; }
+    .matrix tbody td { border-bottom: 1px solid #eef0f3; }
+    .matrix tbody tr td:first-child { font-weight: 600; color: #1a2744; }
+    .matrix .fam-dot { display: inline-block; width: 9px; height: 9px; transform: rotate(45deg); margin-right: 6px; vertical-align: middle; border: 1px solid rgba(0,0,0,0.15); }
+    .matrix td.tot { font-weight: 700; color: #1a2744; }
+    .matrix td.dash { color: #d1d5db; }
+    .matrix tfoot td { font-weight: 800; color: #1a2744; border-top: 2px solid #1a2744; padding-top: 7px; }
+    .matrix-note { font-size: 10px; color: #8090b0; margin-top: 9px; line-height: 1.45; font-style: italic; }
+    .rba-row { display: flex; justify-content: space-between; font-size: 11.5px; padding: 3px 0; color: #334; }
+    .rba-row .rba-lab { display: flex; align-items: center; gap: 7px; }
+    .hotel-item { display: flex; align-items: flex-start; gap: 9px; padding: 9px 6px; cursor: pointer; border-bottom: 1px solid #f0f2f5; }
+    .hotel-item:hover { background: #f0f5ff; }
+    .hotel-item.off { display: none; }
+    .h-pin { width: 22px; height: 22px; transform: rotate(45deg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .h-pin-num { transform: rotate(-45deg); color: #fff; font-weight: 700; font-size: 10px; }
+    .h-info h4 { font-size: 12px; font-weight: 600; color: #1a2744; line-height: 1.3; }
+    .h-info .h-meta { font-size: 10px; color: #7080a0; margin-top: 2px; }
+    .h-status-badge { font-size: 8px; padding: 1px 4px; border-radius: 2px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px; margin-left: 4px; vertical-align: middle; }
+    .h-status-badge.operating { background: #d1fae5; color: #047857; }
+    .h-status-badge.pipeline  { background: #fef3c7; color: #b45309; }
+    .h-status-badge.inactive  { background: #f3f4f6; color: #6b7280; }
+    .sidebar-footer { padding: 10px 14px; font-size: 10px; color: #aabbd0; border-top: 1px solid #eaecf0; line-height: 1.5; }
+    #map { flex: 1; }
+    .gm-iw { font-family: 'Segoe UI', Arial, sans-serif; min-width: 230px; max-width: 290px; }
+    .gm-iw-title { font-size: 14px; font-weight: 700; color: #1a2744; line-height: 1.3; }
+    .gm-iw-brand { font-size: 10px; color: #fff; display: inline-block; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.6px; margin: 5px 6px 8px 0; font-weight: 700; }
+    .gm-iw-status { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+    .gm-iw-status.operating { background: #d1fae5; color: #047857; }
+    .gm-iw-status.pipeline  { background: #fef3c7; color: #b45309; }
+    .gm-iw-status.inactive  { background: #f3f4f6; color: #6b7280; }
+    .gm-iw-meta { font-size: 11px; color: #556; margin: 4px 0 3px; }
+    .gm-iw-stats { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; font-size: 11px; margin: 8px 0 4px; padding-top: 8px; border-top: 1px solid #eee; }
+    .gm-iw-stats dt { color: #7080a0; font-weight: 600; }
+    .gm-iw-stats dd { color: #1a2744; }
+    .gm-iw-notes { font-size: 10px; color: #556; margin-top: 6px; line-height: 1.4; font-style: italic; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Marriott vs. Hilton &mdash; Washington, DC Hotel Saturation</h1>
+    <p>CoStar export &middot; 74 properties &middot; Marriott 45 (34 operating) vs. Hilton 26 (26 operating) &middot; Subject: AKA White House</p>
+  </div>
+  <div class="header-right"><a href="../">&larr; All Maps</a></div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sb-section">
+      <h3>Brand family <span style="font-size:9px;color:#8090b0;text-transform:none;letter-spacing:0;font-style:italic;">&middot; click to toggle</span></h3>
+      <div id="legend"></div>
+    </div>
+    <div class="sb-section">
+      <h3>Status (CoStar) &middot; click to toggle</h3>
+      <div class="filter-pills" id="status-filters"></div>
+      <button class="fit-btn" id="fit-btn">Fit map to visible</button>
+      <div class="filter-note" id="filter-note"></div>
+    </div>
+    <div class="sb-section">
+      <h3>Saturation matrix &mdash; hotels by family &times; status</h3>
+      <div id="matrix"></div>
+    </div>
+    <div class="sb-section">
+      <h3>Operating room-supply scale (RBA proxy)</h3>
+      <div id="rba"></div>
+      <div class="matrix-note">CoStar exports building area (RBA), not room counts. Total rentable building SF across <em>operating</em> hotels is shown as a rough scale proxy for each flag's footprint.</div>
+    </div>
+    <div class="sb-section" style="border-bottom:none;">
+      <h3>Properties &mdash; nearest to AKA first</h3>
+      <div id="hotel-list"></div>
+    </div>
+    <div class="sidebar-footer">Universe = CoStar hotel export for the Washington DC CBD submarket (Marriott &amp; Hilton brand families plus citizenM); not every DC hotel. Brand family inferred from flag name; status and building area (RBA) per CoStar. The AKA White House (independent serviced residence) is the starred subject, not part of either flag.</div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script>
+  const HOTELS = [
+  {
+    "name": "Hampton by Hilton Inn Washington DC/ White House",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 2,
+    "rba": 72000,
+    "year": 1949,
+    "stories": 10,
+    "lat": 38.9004805,
+    "lng": -77.0411191,
+    "dist": 0.05,
+    "n": 1
+  },
+  {
+    "name": "Tempo by Hilton Washington DC Downtown",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 3,
+    "rba": 176430,
+    "year": 1969,
+    "stories": 12,
+    "lat": 38.902216,
+    "lng": -77.0412275,
+    "dist": 0.16,
+    "n": 2
+  },
+  {
+    "name": "The St. Regis Washington, D.C.",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 197613,
+    "year": 1926,
+    "stories": 8,
+    "lat": 38.9020847,
+    "lng": -77.0361591,
+    "dist": 0.27,
+    "n": 3
+  },
+  {
+    "name": "The Mayflower Hotel, Autograph Collection",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 438750,
+    "year": 1925,
+    "stories": null,
+    "lat": 38.9044854,
+    "lng": -77.040031,
+    "dist": 0.31,
+    "n": 4
+  },
+  {
+    "name": "Courtyard Washington DC Foggy Bottom",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 79875,
+    "year": 2012,
+    "stories": 9,
+    "lat": 38.8963822,
+    "lng": -77.0441438,
+    "dist": 0.32,
+    "n": 5
+  },
+  {
+    "name": "Capital Hilton",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 621190,
+    "year": 1943,
+    "stories": 14,
+    "lat": 38.9032516,
+    "lng": -77.0357317,
+    "dist": 0.33,
+    "n": 6
+  },
+  {
+    "name": "AC Hotels by Marriott Washington DC Downtown",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 125440,
+    "year": 2019,
+    "stories": 13,
+    "lat": 38.9043023,
+    "lng": -77.0439381,
+    "dist": 0.35,
+    "n": 7
+  },
+  {
+    "name": "Hilton Garden Inn Washington DC Downtown",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 214509,
+    "year": 2000,
+    "stories": 14,
+    "lat": 38.9006127,
+    "lng": -77.0316246,
+    "dist": 0.47,
+    "n": 8
+  },
+  {
+    "name": "Canopy by Hilton Washington DC Embassy Row",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 126185,
+    "year": 1956,
+    "stories": 8,
+    "lat": 38.9065494,
+    "lng": -77.0369644,
+    "dist": 0.48,
+    "n": 9
+  },
+  {
+    "name": "Le Meridien Madison, Washington, DC",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 375877,
+    "year": 1963,
+    "stories": 15,
+    "lat": 38.9053996,
+    "lng": -77.0341237,
+    "dist": 0.5,
+    "n": 10
+  },
+  {
+    "name": "West End Washington DC, Tapestry Collection by Hilton",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 52700,
+    "year": 1925,
+    "stories": 8,
+    "lat": 38.9042484,
+    "lng": -77.0479659,
+    "dist": 0.5,
+    "n": 11
+  },
+  {
+    "name": "Courtyard Washington, DC Dupont Circle",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 61774,
+    "year": 1964,
+    "stories": 10,
+    "lat": 38.9075067,
+    "lng": -77.0396981,
+    "dist": 0.52,
+    "n": 12
+  },
+  {
+    "name": "The Westin Washington, D.C. City Center",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 567413,
+    "year": 1982,
+    "stories": 12,
+    "lat": 38.9055193,
+    "lng": -77.0333526,
+    "dist": 0.53,
+    "n": 13
+  },
+  {
+    "name": "Residence Inn Washington, D.C. Downtown",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 353755,
+    "year": 1967,
+    "stories": 12,
+    "lat": 38.9043698,
+    "lng": -77.0322906,
+    "dist": 0.53,
+    "n": 14
+  },
+  {
+    "name": "The Ritz-Carlton, Washington, D.C.",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 588055,
+    "year": 2000,
+    "stories": 10,
+    "lat": 38.9047239,
+    "lng": -77.0490328,
+    "dist": 0.56,
+    "n": 15
+  },
+  {
+    "name": "JW Marriott Hotel Washington",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 602234,
+    "year": 1984,
+    "stories": 15,
+    "lat": 38.8963704,
+    "lng": -77.0311025,
+    "dist": 0.56,
+    "n": 16
+  },
+  {
+    "name": "Homewood Suites by Hilton Washington, D.C. Downtown",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 175573,
+    "year": 2001,
+    "stories": 8,
+    "lat": 38.9066039,
+    "lng": -77.0334852,
+    "dist": 0.59,
+    "n": 17
+  },
+  {
+    "name": "Washington Marriott Georgetown",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 236846,
+    "year": 1980,
+    "stories": 9,
+    "lat": 38.905926,
+    "lng": -77.048511,
+    "dist": 0.6,
+    "n": 18
+  },
+  {
+    "name": "Hilton Garden Inn Washington DC/Georgetown Area",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 129960,
+    "year": 2014,
+    "stories": 10,
+    "lat": 38.9055316,
+    "lng": -77.0491366,
+    "dist": 0.6,
+    "n": 19
+  },
+  {
+    "name": "Residence Inn Washington, DC/Foggy Bottom",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 113734,
+    "year": 1973,
+    "stories": 10,
+    "lat": 38.8999073,
+    "lng": -77.0521947,
+    "dist": 0.63,
+    "n": 20
+  },
+  {
+    "name": "The Westin Georgetown, Washington D.C.",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 254862,
+    "year": 1984,
+    "stories": 8,
+    "lat": 38.9048103,
+    "lng": -77.0511298,
+    "dist": 0.66,
+    "n": 21
+  },
+  {
+    "name": "ARC Hotel, Washington DC, Series by Marriott",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 96599,
+    "year": 1960,
+    "stories": null,
+    "lat": 38.900226,
+    "lng": -77.0526741,
+    "dist": 0.66,
+    "n": 22
+  },
+  {
+    "name": "Embassy Suites by Hilton Washington DC Georgetown",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 147750,
+    "year": 1987,
+    "stories": 9,
+    "lat": 38.9068667,
+    "lng": -77.0494008,
+    "dist": 0.67,
+    "n": 23
+  },
+  {
+    "name": "Washington Marriott at Metro Center",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 449473,
+    "year": 1989,
+    "stories": 15,
+    "lat": 38.8993922,
+    "lng": -77.0277814,
+    "dist": 0.68,
+    "n": 24
+  },
+  {
+    "name": "Residence Inn Washington DC Dupont Circle",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 105565,
+    "year": 1927,
+    "stories": 8,
+    "lat": 38.909335,
+    "lng": -77.047312,
+    "dist": 0.74,
+    "n": 25
+  },
+  {
+    "name": "Embassy Suites by Hilton Washington DC Convention Center",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 227934,
+    "year": 2005,
+    "stories": 14,
+    "lat": 38.9020073,
+    "lng": -77.0264518,
+    "dist": 0.76,
+    "n": 26
+  },
+  {
+    "name": "MOXY Washington, DC Downtown",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 76180,
+    "year": 2018,
+    "stories": 13,
+    "lat": 38.9028714,
+    "lng": -77.0265148,
+    "dist": 0.77,
+    "n": 27
+  },
+  {
+    "name": "The Ven at Embassy Row, Washington, D.C., a Tribute Portfolio Hotel",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 123844,
+    "year": 1970,
+    "stories": 9,
+    "lat": 38.9107676,
+    "lng": -77.0455854,
+    "dist": 0.79,
+    "n": 28
+  },
+  {
+    "name": "Waldorf Astoria Washington DC",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 378662,
+    "year": 1899,
+    "stories": 9,
+    "lat": 38.894146,
+    "lng": -77.027481,
+    "dist": 0.81,
+    "n": 29
+  },
+  {
+    "name": "Conrad Washington DC",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 319800,
+    "year": 2019,
+    "stories": 10,
+    "lat": 38.901126,
+    "lng": -77.0252628,
+    "dist": 0.82,
+    "n": 30
+  },
+  {
+    "name": "Marriott Marquis Washington, DC",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 1262000,
+    "year": 2014,
+    "stories": 14,
+    "lat": 38.9034899,
+    "lng": -77.0244044,
+    "dist": 0.89,
+    "n": 31
+  },
+  {
+    "name": "The Westin DC Downtown",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 342778,
+    "year": 1989,
+    "stories": 15,
+    "lat": 38.9015562,
+    "lng": -77.0235915,
+    "dist": 0.91,
+    "n": 32
+  },
+  {
+    "name": "Residence Inn Washington Downtown/Convention Center",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 369644,
+    "year": 2018,
+    "stories": 11,
+    "lat": 38.9044042,
+    "lng": -77.0243791,
+    "dist": 0.91,
+    "n": 33
+  },
+  {
+    "name": "Courtyard Washington Downtown/Convention Center",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 369644,
+    "year": 2018,
+    "stories": 11,
+    "lat": 38.9045204,
+    "lng": -77.0245084,
+    "dist": 0.91,
+    "n": 34
+  },
+  {
+    "name": "Motto by Hilton Washington DC City Center",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 3,
+    "rba": 73995,
+    "year": 2017,
+    "stories": 11,
+    "lat": 38.900123,
+    "lng": -77.021232,
+    "dist": 1.03,
+    "n": 35
+  },
+  {
+    "name": "AC Hotel Washington DC Convention Center",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 98072,
+    "year": 2020,
+    "stories": 13,
+    "lat": 38.9029377,
+    "lng": -77.0201731,
+    "dist": 1.11,
+    "n": 36
+  },
+  {
+    "name": "Canal House of Georgetown, a Tribute Portfolio Hotel",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 31810,
+    "year": 1910,
+    "stories": 5,
+    "lat": 38.9033135,
+    "lng": -77.0608752,
+    "dist": 1.12,
+    "n": 37
+  },
+  {
+    "name": "Hampton by Hilton Inn Washington-Downtown-Convention Center",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 3,
+    "rba": 200451,
+    "year": 2005,
+    "stories": 13,
+    "lat": 38.90177,
+    "lng": -77.0195174,
+    "dist": 1.13,
+    "n": 38
+  },
+  {
+    "name": "Tribute Portfolio Hotel Washington, DC Downtown",
+    "family": "Marriott",
+    "status": "pipeline",
+    "raw_status": "Final Planning",
+    "star": 4,
+    "rba": 106500,
+    "year": 2028,
+    "stories": 9,
+    "lat": 38.899989,
+    "lng": -77.019324,
+    "dist": 1.13,
+    "n": 39
+  },
+  {
+    "name": "Fairfield Inn & Suites Washington, DC/Downtown",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 3,
+    "rba": 135206,
+    "year": 1986,
+    "stories": 10,
+    "lat": 38.8995736,
+    "lng": -77.0192013,
+    "dist": 1.14,
+    "n": 40
+  },
+  {
+    "name": "AC Hotel Washington, DC National Mall",
+    "family": "Marriott",
+    "status": "pipeline",
+    "raw_status": "Final Planning",
+    "star": 4,
+    "rba": 53190,
+    "year": 2027,
+    "stories": 10,
+    "lat": 38.8946789,
+    "lng": -77.0203289,
+    "dist": 1.14,
+    "n": 41
+  },
+  {
+    "name": "Washington Hilton",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 973414,
+    "year": 1965,
+    "stories": 10,
+    "lat": 38.9164973,
+    "lng": -77.0451571,
+    "dist": 1.16,
+    "n": 42
+  },
+  {
+    "name": "The Ritz-Carlton Georgetown, Washington, D.C.",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 5,
+    "rba": 148255,
+    "year": 1932,
+    "stories": 7,
+    "lat": 38.9031051,
+    "lng": -77.0617529,
+    "dist": 1.17,
+    "n": 43
+  },
+  {
+    "name": "Aloft Hotel Washington, DC",
+    "family": "Marriott",
+    "status": "pipeline",
+    "raw_status": "Final Planning",
+    "star": 4,
+    "rba": 114000,
+    "year": 2028,
+    "stories": 11,
+    "lat": 38.9020542,
+    "lng": -77.0186634,
+    "dist": 1.18,
+    "n": 44
+  },
+  {
+    "name": "Homewood Suites by Hilton Washington DC Convention Center",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 118000,
+    "year": 2016,
+    "stories": 13,
+    "lat": 38.9044238,
+    "lng": -77.0182712,
+    "dist": 1.23,
+    "n": 45
+  },
+  {
+    "name": "Hilton Washington DC National Mall",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 275250,
+    "year": 1973,
+    "stories": 10,
+    "lat": 38.8838949,
+    "lng": -77.0238366,
+    "dist": 1.43,
+    "n": 46
+  },
+  {
+    "name": "citizenM Washington, DC Georgetown",
+    "family": "Other",
+    "status": "pipeline",
+    "raw_status": "Under Construction",
+    "star": 4,
+    "rba": 86000,
+    "year": 2026,
+    "stories": 7,
+    "lat": 38.9041511,
+    "lng": -77.0681883,
+    "dist": 1.52,
+    "n": 47
+  },
+  {
+    "name": "citizenM Washington Capitol",
+    "family": "Other",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 300000,
+    "year": 2020,
+    "stories": 12,
+    "lat": 38.8837581,
+    "lng": -77.0195198,
+    "dist": 1.59,
+    "n": 48
+  },
+  {
+    "name": "Hilton Washington DC Capitol Hill",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 275396,
+    "year": 1984,
+    "stories": 16,
+    "lat": 38.8968548,
+    "lng": -77.010679,
+    "dist": 1.61,
+    "n": 49
+  },
+  {
+    "name": "Canopy by Hilton Washington DC The Wharf",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 109368,
+    "year": 2017,
+    "stories": 7,
+    "lat": 38.8787715,
+    "lng": -77.0233135,
+    "dist": 1.73,
+    "n": 50
+  },
+  {
+    "name": "Residence Inn Washington, DC National Mall",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 175121,
+    "year": 2003,
+    "stories": 13,
+    "lat": 38.88354,
+    "lng": -77.0160646,
+    "dist": 1.74,
+    "n": 51
+  },
+  {
+    "name": "Marriott Washington Wardman Park",
+    "family": "Marriott",
+    "status": "inactive",
+    "raw_status": "Demolished",
+    "star": 4,
+    "rba": 1999872,
+    "year": 1928,
+    "stories": 10,
+    "lat": 38.9241846,
+    "lng": -77.0546818,
+    "dist": 1.84,
+    "n": 52
+  },
+  {
+    "name": "MOXY Washington, DC Northeast",
+    "family": "Marriott",
+    "status": "pipeline",
+    "raw_status": "Final Planning",
+    "star": 3,
+    "rba": 99000,
+    "year": 2028,
+    "stories": 6,
+    "lat": 38.9075686,
+    "lng": -77.0073657,
+    "dist": 1.85,
+    "n": 53
+  },
+  {
+    "name": "citizenM Washington DC NoMa",
+    "family": "Other",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 102823,
+    "year": 2022,
+    "stories": 10,
+    "lat": 38.9065896,
+    "lng": -77.0061559,
+    "dist": 1.9,
+    "n": 54
+  },
+  {
+    "name": "Hilton Garden Inn Washington DC US Capitol",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 124200,
+    "year": 2011,
+    "stories": 13,
+    "lat": 38.9060295,
+    "lng": -77.0056281,
+    "dist": 1.91,
+    "n": 55
+  },
+  {
+    "name": "Washington Marriott Capitol Hill",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 176250,
+    "year": 2023,
+    "stories": 12,
+    "lat": 38.9034014,
+    "lng": -77.0048098,
+    "dist": 1.93,
+    "n": 56
+  },
+  {
+    "name": "Courtyard by Marriott Washington, DC/U.S. Capitol",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 137974,
+    "year": 2009,
+    "stories": 8,
+    "lat": 38.9078393,
+    "lng": -77.0032637,
+    "dist": 2.07,
+    "n": 57
+  },
+  {
+    "name": "The Morrow Washington DC, Curio Collection by Hilton",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 143191,
+    "year": 2022,
+    "stories": 12,
+    "lat": 38.906007,
+    "lng": -77.0026184,
+    "dist": 2.07,
+    "n": 58
+  },
+  {
+    "name": "AC Hotel Washington DC Capitol Hill Navy Yard",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 3,
+    "rba": 91406,
+    "year": 2022,
+    "stories": 11,
+    "lat": 38.8801902,
+    "lng": -77.0057001,
+    "dist": 2.32,
+    "n": 59
+  },
+  {
+    "name": "Homewood Suites by Hilton Washington DC Capitol Navy Yard",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 132000,
+    "year": 2016,
+    "stories": 10,
+    "lat": 38.876708,
+    "lng": -77.007014,
+    "dist": 2.41,
+    "n": 60
+  },
+  {
+    "name": "Hampton Inn Washington DC NoMa Union Station",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 80000,
+    "year": 2016,
+    "stories": 9,
+    "lat": 38.911141,
+    "lng": -76.9966918,
+    "dist": 2.47,
+    "n": 61
+  },
+  {
+    "name": "Courtyard by Marriott Washington Capitol Hill/Navy Yard",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 121000,
+    "year": 2006,
+    "stories": 14,
+    "lat": 38.8778784,
+    "lng": -77.0042467,
+    "dist": 2.48,
+    "n": 62
+  },
+  {
+    "name": "Homewood Suites by Hilton Washington DC NoMa Union Station",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 80000,
+    "year": 2016,
+    "stories": 9,
+    "lat": 38.9110166,
+    "lng": -76.9965517,
+    "dist": 2.48,
+    "n": 63
+  },
+  {
+    "name": "Residence Inn By Marriott Washington Capitol Hill/Navy Yard",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 194337,
+    "year": 2017,
+    "stories": 12,
+    "lat": 38.8755245,
+    "lng": -77.0061907,
+    "dist": 2.5,
+    "n": 64
+  },
+  {
+    "name": "Hampton Inn & Suites Washington DC-Navy Yard",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 3,
+    "rba": 138230,
+    "year": 2015,
+    "stories": 13,
+    "lat": 38.8749591,
+    "lng": -77.0063276,
+    "dist": 2.52,
+    "n": 65
+  },
+  {
+    "name": "MOXY Washington, DC Southwest",
+    "family": "Marriott",
+    "status": "pipeline",
+    "raw_status": "Final Planning",
+    "star": 4,
+    "rba": 152598,
+    "year": 2028,
+    "stories": 11,
+    "lat": 38.8711196,
+    "lng": -77.0103752,
+    "dist": 2.57,
+    "n": 66
+  },
+  {
+    "name": "Courtyard By Marriott Washington, DC/Northeast",
+    "family": "Marriott",
+    "status": "pipeline",
+    "raw_status": "Final Planning",
+    "star": 4,
+    "rba": 78750,
+    "year": 2028,
+    "stories": 8,
+    "lat": 38.9309185,
+    "lng": -77.0049848,
+    "dist": 2.86,
+    "n": 67
+  },
+  {
+    "name": "SpringHill Suites Washington DC",
+    "family": "Marriott",
+    "status": "inactive",
+    "raw_status": "Abandoned",
+    "star": 4,
+    "rba": 173250,
+    "year": null,
+    "stories": 6,
+    "lat": 38.9306682,
+    "lng": -77.0044518,
+    "dist": 2.86,
+    "n": 68
+  },
+  {
+    "name": "Residence Inn by Marriott Washington, DC/Northeast",
+    "family": "Marriott",
+    "status": "pipeline",
+    "raw_status": "Final Planning",
+    "star": 4,
+    "rba": 120750,
+    "year": 2028,
+    "stories": 8,
+    "lat": 38.9308807,
+    "lng": -77.0049961,
+    "dist": 2.86,
+    "n": 69
+  },
+  {
+    "name": "Apartments by Marriott Washington DC Southeast",
+    "family": "Marriott",
+    "status": "pipeline",
+    "raw_status": "Final Planning",
+    "star": 4,
+    "rba": 82500,
+    "year": 2027,
+    "stories": 4,
+    "lat": 38.8646677,
+    "lng": -77.0007293,
+    "dist": 3.25,
+    "n": 70
+  },
+  {
+    "name": "Residence Inn Washington DC",
+    "family": "Marriott",
+    "status": "inactive",
+    "raw_status": "Deferred",
+    "star": 4,
+    "rba": 112500,
+    "year": 2027,
+    "stories": 5,
+    "lat": 38.8869019,
+    "lng": -76.9731613,
+    "dist": 3.73,
+    "n": 71
+  },
+  {
+    "name": "City Express By Marriott Washington, DC Northeast",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 3,
+    "rba": 104972,
+    "year": 2008,
+    "stories": 5,
+    "lat": 38.916414,
+    "lng": -76.972371,
+    "dist": 3.83,
+    "n": 72
+  },
+  {
+    "name": "Fairfield Inn & Suites Washington, DC/New York Avenue",
+    "family": "Marriott",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 3,
+    "rba": 84180,
+    "year": 2008,
+    "stories": 6,
+    "lat": 38.9164243,
+    "lng": -76.9715465,
+    "dist": 3.87,
+    "n": 73
+  },
+  {
+    "name": "Embassy Suites by Hilton Washington DC Chevy Chase Pavilion",
+    "family": "Hilton",
+    "status": "operating",
+    "raw_status": "Existing",
+    "star": 4,
+    "rba": 173028,
+    "year": 1990,
+    "stories": 8,
+    "lat": 38.9606464,
+    "lng": -77.0848323,
+    "dist": 4.82,
+    "n": 74
+  }
+];
+  const AKA = {"name": "AKA White House", "address": "1710 H St NW, Washington, DC 20006", "lat": 38.9000628, "lng": -77.0404004, "note": "Subject property \u2014 luxury serviced residence, two blocks from the White House. Independent (not a Marriott or Hilton flag)."};
+  const FAM = {"Marriott": {"color": "#c8102e", "stroke": "#ffffff", "label": "#ffffff"}, "Hilton": {"color": "#0a4d8c", "stroke": "#ffffff", "label": "#ffffff"}};
+  const OTHER = {"color": "#94a3b8", "stroke": "#ffffff", "label": "#1a2744"};
+  const SUMMARY = {"matrix": {"Marriott": {"operating": 34, "pipeline": 8, "inactive": 3}, "Hilton": {"operating": 26, "pipeline": 0, "inactive": 0}, "Other": {"operating": 2, "pipeline": 1, "inactive": 0}}, "op_rba": {"Marriott": 8690538, "Hilton": 5539216, "Other": 402823}, "fams": ["Marriott", "Hilton", "Other"], "states": ["operating", "pipeline", "inactive"]};
+
+  const STATUS_META = {
+    operating: { label: 'Operating', opacity: 1.0 },
+    pipeline:  { label: 'Pipeline',  opacity: 0.6 },
+    inactive:  { label: 'Inactive',  opacity: 0.28 },
+  };
+
+  function famStyle(family) { return FAM[family] || OTHER; }
+
+  let map, infoWindow;
+  const markers = [];
+  const listItems = [];
+  const filterState = { families: new Set(['Marriott', 'Hilton', 'Other']), statuses: new Set(['operating', 'pipeline', 'inactive']) };
+
+  function diamondIcon(family, label, status) {
+    const s = famStyle(family);
+    const op = STATUS_META[status].opacity;
+    return {
+      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
+          <filter id="d"><feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-opacity="0.35"/></filter>
+          <rect x="6" y="6" width="22" height="22" transform="rotate(45 17 17)"
+                fill="${s.color}" fill-opacity="${op}" stroke="${s.stroke}" stroke-width="2" filter="url(#d)"/>
+          <text x="17" y="20" text-anchor="middle" font-family="Arial,sans-serif"
+                font-size="11" font-weight="bold" fill="${s.label}">${label}</text>
+        </svg>`),
+      scaledSize: new google.maps.Size(34, 34),
+      anchor: new google.maps.Point(17, 17),
+    };
+  }
+
+  function starIcon() {
+    return {
+      url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46">
+          <filter id="ss"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.45"/></filter>
+          <circle cx="23" cy="23" r="15" fill="#1a2744" filter="url(#ss)"/>
+          <path d="M23 11 L26.7 19 L35 20 L29 26 L30.6 34.5 L23 30.3 L15.4 34.5 L17 26 L11 20 L19.3 19 Z"
+                fill="#f4c20d" stroke="#fff" stroke-width="1"/>
+        </svg>`),
+      scaledSize: new google.maps.Size(46, 46),
+      anchor: new google.maps.Point(23, 23),
+    };
+  }
+
+  function fmt(n) { return n ? Number(n).toLocaleString() : ''; }
+
+  function buildInfoWindow(h) {
+    const s = famStyle(h.family);
+    const rows = [];
+    if (h.star)        rows.push(`<dt>Class</dt><dd>${h.star}-Star (CoStar)</dd>`);
+    if (h.rba)         rows.push(`<dt>RBA</dt><dd>${fmt(h.rba)} SF</dd>`);
+    if (h.year)        rows.push(`<dt>${h.status === 'operating' ? 'Built' : 'Year'}</dt><dd>${h.year}</dd>`);
+    if (h.stories)     rows.push(`<dt>Stories</dt><dd>${h.stories}</dd>`);
+    rows.push(`<dt>From AKA</dt><dd>${h.dist} mi</dd>`);
+    const statsBlock = `<dl class="gm-iw-stats">${rows.join('')}</dl>`;
+    return `
+      <div class="gm-iw">
+        <div class="gm-iw-title">${h.name}</div>
+        <span class="gm-iw-brand" style="background:${s.color};color:${s.label};">${h.family}</span>
+        <span class="gm-iw-status ${h.status}">${h.raw_status}</span>
+        ${statsBlock}
+      </div>`;
+  }
+
+  function buildAkaInfoWindow() {
+    return `
+      <div class="gm-iw">
+        <div class="gm-iw-title">&#9733; ${AKA.name}</div>
+        <span class="gm-iw-brand" style="background:#f4c20d;color:#1a2744;">Subject</span>
+        <div class="gm-iw-meta">${AKA.address}</div>
+        <div class="gm-iw-notes">${AKA.note}</div>
+      </div>`;
+  }
+
+  function buildLegend() {
+    const counts = { Marriott: 0, Hilton: 0, Other: 0 };
+    HOTELS.forEach(h => { counts[h.family] = (counts[h.family] || 0) + 1; });
+    const order = ['Marriott', 'Hilton', 'Other'];
+    const el = document.getElementById('legend');
+    let html = order.filter(f => counts[f]).map(f => {
+      const s = famStyle(f);
+      return `<div class="legend-row clickable" data-family="${f}">
+                <div class="leg-dot" style="background:${s.color};border-color:${s.stroke};"></div>
+                ${f}<span class="leg-count">${counts[f]}</span>
+              </div>`;
+    }).join('');
+    // Subject star row (non-toggle).
+    html += `<div class="legend-row" style="margin-top:6px;border-top:1px solid #eef0f3;padding-top:8px;">
+               <svg class="leg-star" viewBox="0 0 24 24"><path fill="currentColor" stroke="#1a2744" stroke-width="0.5" d="M12 2l3 7h7l-5.5 4.5L18.5 22 12 17.5 5.5 22l2-8.5L2 9h7z"/></svg>
+               ${AKA.name} <span class="leg-count" style="color:#b8860b;">Subject</span>
+             </div>`;
+    el.innerHTML = html;
+    el.querySelectorAll('.legend-row.clickable').forEach(row => {
+      row.addEventListener('click', () => {
+        const f = row.getAttribute('data-family');
+        if (filterState.families.has(f)) filterState.families.delete(f);
+        else filterState.families.add(f);
+        row.classList.toggle('off', !filterState.families.has(f));
+        applyFilters();
+      });
+    });
+  }
+
+  function buildStatusFilters() {
+    const counts = { operating: 0, pipeline: 0, inactive: 0 };
+    HOTELS.forEach(h => { counts[h.status] += 1; });
+    const wrap = document.getElementById('status-filters');
+    wrap.innerHTML = ['operating', 'pipeline', 'inactive'].map(s =>
+      `<span class="filter-pill s-${s}" data-status="${s}">${STATUS_META[s].label} <span class="pill-count">${counts[s]}</span></span>`
+    ).join('');
+    wrap.querySelectorAll('.filter-pill').forEach(el => {
+      el.addEventListener('click', () => {
+        const s = el.getAttribute('data-status');
+        if (filterState.statuses.has(s)) filterState.statuses.delete(s);
+        else filterState.statuses.add(s);
+        el.classList.toggle('off', !filterState.statuses.has(s));
+        applyFilters();
+      });
+    });
+    document.getElementById('fit-btn').addEventListener('click', fitVisible);
+  }
+
+  function buildMatrix() {
+    const m = SUMMARY.matrix, fams = SUMMARY.fams, states = SUMMARY.states;
+    const SLAB = { operating: 'Operating', pipeline: 'Pipeline', inactive: 'Inactive' };
+    const cell = v => v ? v : '<span class="dash">&mdash;</span>';
+    const colTot = {}; states.forEach(s => colTot[s] = 0);
+    let grand = 0;
+    const body = fams.filter(f => states.reduce((a, s) => a + m[f][s], 0) > 0).map(f => {
+      const st = famStyle(f);
+      let rowTot = 0;
+      const tds = states.map(s => { rowTot += m[f][s]; colTot[s] += m[f][s]; return `<td>${cell(m[f][s])}</td>`; }).join('');
+      grand += rowTot;
+      return `<tr><td><span class="fam-dot" style="background:${st.color};"></span>${f}</td>${tds}<td class="tot">${rowTot}</td></tr>`;
+    }).join('');
+    const foot = `<tr><td>Total</td>${states.map(s => `<td>${colTot[s]}</td>`).join('')}<td>${grand}</td></tr>`;
+    document.getElementById('matrix').innerHTML = `
+      <table class="matrix">
+        <thead><tr>
+          <th class="c-fam">Family</th>
+          ${states.map(s => `<th class="s-${s}">${SLAB[s]}</th>`).join('')}
+          <th class="s-total">Total</th>
+        </tr></thead>
+        <tbody>${body}</tbody>
+        <tfoot>${foot}</tfoot>
+      </table>
+      <div class="matrix-note">Operating = CoStar &ldquo;Existing.&rdquo; Pipeline = Under Construction + Final Planning. Inactive = Demolished / Abandoned / Deferred (incl. the demolished Marriott Wardman Park).</div>`;
+  }
+
+  function buildRba() {
+    const r = SUMMARY.op_rba;
+    const order = ['Marriott', 'Hilton', 'Other'].filter(f => r[f]);
+    const max = Math.max(1, ...order.map(f => r[f]));
+    document.getElementById('rba').innerHTML = order.map(f => {
+      const st = famStyle(f);
+      const mm = (r[f] / 1e6).toFixed(2);
+      const pct = Math.round(100 * r[f] / max);
+      return `<div class="rba-row">
+                <span class="rba-lab"><span class="fam-dot" style="display:inline-block;width:9px;height:9px;transform:rotate(45deg);background:${st.color};border:1px solid rgba(0,0,0,0.15);"></span>${f}</span>
+                <span style="font-variant-numeric:tabular-nums;font-weight:600;color:#1a2744;">${mm}M SF</span>
+              </div>
+              <div style="height:5px;background:#eef0f3;border-radius:3px;margin:1px 0 5px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:${st.color};opacity:0.8;"></div></div>`;
+    }).join('');
+  }
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: { lat: AKA.lat, lng: AKA.lng },
+      zoom: 13,
+      mapTypeControl: true,
+      streetViewControl: false,
+      fullscreenControl: true,
+    });
+    infoWindow = new google.maps.InfoWindow({ maxWidth: 310 });
+
+    const listEl = document.getElementById('hotel-list');
+
+    HOTELS.forEach((h, i) => {
+      const marker = new google.maps.Marker({
+        position: { lat: h.lat, lng: h.lng },
+        map,
+        icon: diamondIcon(h.family, String(h.n), h.status),
+        title: h.name,
+        zIndex: h.status === 'operating' ? 50 : (h.status === 'pipeline' ? 30 : 10),
+      });
+      markers.push(marker);
+      const iw = buildInfoWindow(h);
+      marker.addListener('click', () => { infoWindow.setContent(iw); infoWindow.open(map, marker); });
+
+      const s = famStyle(h.family);
+      const item = document.createElement('div');
+      item.className = 'hotel-item';
+      item.innerHTML = `
+        <div class="h-pin" style="background:${s.color};border:1.5px solid ${s.stroke};opacity:${STATUS_META[h.status].opacity};"><span class="h-pin-num" style="color:${s.label}">${h.n}</span></div>
+        <div class="h-info">
+          <h4>${h.name}<span class="h-status-badge ${h.status}">${STATUS_META[h.status].label}</span></h4>
+          <div class="h-meta">${h.family} &middot; ${h.dist} mi from AKA${h.rba ? ' &middot; ' + fmt(h.rba) + ' SF' : ''}</div>
+        </div>`;
+      item.addEventListener('click', () => {
+        map.panTo({ lat: h.lat, lng: h.lng });
+        map.setZoom(15);
+        infoWindow.setContent(iw);
+        infoWindow.open(map, marker);
+      });
+      listEl.appendChild(item);
+      listItems.push(item);
+    });
+
+    // Starred subject — AKA White House, always on top.
+    const akaMarker = new google.maps.Marker({
+      position: { lat: AKA.lat, lng: AKA.lng },
+      map,
+      icon: starIcon(),
+      title: AKA.name,
+      zIndex: 999,
+    });
+    const akaIw = buildAkaInfoWindow();
+    akaMarker.addListener('click', () => { infoWindow.setContent(akaIw); infoWindow.open(map, akaMarker); });
+
+    buildLegend();
+    buildStatusFilters();
+    buildMatrix();
+    buildRba();
+    applyFilters();
+  }
+
+  function applyFilters() {
+    let visible = 0;
+    HOTELS.forEach((h, i) => {
+      const on = filterState.families.has(h.family) && filterState.statuses.has(h.status);
+      markers[i].setVisible(on);
+      listItems[i].classList.toggle('off', !on);
+      if (on) visible += 1;
+    });
+    const note = document.getElementById('filter-note');
+    if (note) note.textContent = `${visible} of ${HOTELS.length} hotels visible (AKA subject always shown)`;
+  }
+
+  function fitVisible() {
+    const b = new google.maps.LatLngBounds();
+    b.extend({ lat: AKA.lat, lng: AKA.lng });
+    let any = false;
+    HOTELS.forEach((h, i) => { if (markers[i].getVisible()) { b.extend({ lat: h.lat, lng: h.lng }); any = true; } });
+    if (any) map.fitBounds(b, { top: 60, right: 60, bottom: 60, left: 60 });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTAmcCrmL2Z-SerlTKHoG3xPQaGcvmKcU&callback=initMap" async defer></script>
+
+</body>
+</html>
