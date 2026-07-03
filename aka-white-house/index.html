@@ -236,6 +236,13 @@
     .gm-iw-note { font-size: 9px; color: #aabbd0; margin-top: 5px; }
     .gm-iw-masked { font-size: 10px; color: #8090b0; margin-top: 6px; font-style: italic; }
     .gm-iw-status { font-size: 10px; color: #5d6b85; margin-top: 6px; }
+    .gm-iw-supply { font-size: 10.5px; color: #445; line-height: 1.5; }
+    .gm-iw-supply .sup-cat { font-weight: 700; color: #1a2744; }
+    .om-line { margin-top: 6px; font-size: 10px; font-weight: 700; padding: 3px 7px; border-radius: 4px; display: inline-block; }
+    .om-in { background: #e6f4ea; color: #1e7e34; }
+    .om-missing { background: #fdecea; color: #c0392b; }
+    .om-base, .om-horizon { background: #eef1f6; color: #5d6b85; }
+    .om-note { margin-top: 5px; font-size: 9.5px; color: #6b7688; line-height: 1.45; font-style: italic; }
     .supply-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
     .supply-cell {
       background: #f8fafd; border: 1px solid #e3e9f3;
@@ -250,7 +257,7 @@
 <div class="header">
   <div class="header-left">
     <h1>AKA White House &mdash; Multi-Comp-Set Map</h1>
-    <p>Washington, DC &middot; 7 STR comp sets + Capital Hilton supply pipeline &middot; 40 hotels plotted &middot; R12 thru Mar 2026</p>
+    <p>Washington, DC &middot; 7 STR comp sets + DC raw new-supply overlay (66 properties, 2019&ndash;2034) &middot; 94 hotels mapped &middot; R12 thru Mar 2026</p>
   </div>
   <div class="header-right">
     <div class="kpi-card">
@@ -338,6 +345,32 @@
         <input type="checkbox" class="set-toggle" data-set-id="former_supply" checked />
         <div class="leg-marker leg-glyph" style="background:#757575">✕</div>
         <span class="leg-label">Former Supply (Closed)</span>
+      </label>
+
+      <div class="legend-subhead">Raw New Supply &mdash; DC Market (CBRE, Jul 2026)</div>
+
+      <label class="legend-row toggle-row" data-set-id="dc_recent">
+        <input type="checkbox" class="set-toggle" data-set-id="dc_recent" />
+        <div class="leg-marker leg-glyph" style="background:#0097a7">✓</div>
+        <span class="leg-label">Recently Completed (2019–25)</span>
+      </label>
+
+      <label class="legend-row toggle-row" data-set-id="dc_pipeline">
+        <input type="checkbox" class="set-toggle" data-set-id="dc_pipeline" />
+        <div class="leg-marker leg-glyph" style="background:#3949ab">+</div>
+        <span class="leg-label">Pipeline / Under Constr. (2026–27)</span>
+      </label>
+
+      <label class="legend-row toggle-row" data-set-id="dc_reduction">
+        <input type="checkbox" class="set-toggle" data-set-id="dc_reduction" />
+        <div class="leg-marker leg-glyph" style="background:#546e7a">✕</div>
+        <span class="leg-label">Supply Reduction (Closures)</span>
+      </label>
+
+      <label class="legend-row toggle-row" data-set-id="dc_planning">
+        <input type="checkbox" class="set-toggle" data-set-id="dc_planning" />
+        <div class="leg-marker leg-glyph" style="background:#7e57c2">◇</div>
+        <span class="leg-label">2028+ Early Planning</span>
       </label>
 
       <div class="legend-controls">
@@ -539,6 +572,35 @@
       </div>
     </div>
 
+    <div class="sb-section">
+      <h3>DC Market &mdash; Raw New Supply (toggle layers above)</h3>
+      
+      <div class="supply-summary" style="grid-template-columns:1fr 1fr 1fr 1fr;">
+        <div class="supply-cell">
+          <div class="supply-num" style="color:#0097a7; font-size:15px;">+4,874</div>
+          <div class="supply-cap">Completed<br/>2019&ndash;25 &middot; 27</div>
+        </div>
+        <div class="supply-cell">
+          <div class="supply-num" style="color:#3949ab; font-size:15px;">+969</div>
+          <div class="supply-cap">Pipeline<br/>2026&ndash;27 &middot; 6</div>
+        </div>
+        <div class="supply-cell">
+          <div class="supply-num" style="color:#546e7a; font-size:15px;">&minus;2,156</div>
+          <div class="supply-cap">Closures<br/>&middot; 6</div>
+        </div>
+        <div class="supply-cell">
+          <div class="supply-num" style="color:#7e57c2; font-size:15px;">+4,257</div>
+          <div class="supply-cap">2028+ plan<br/>&middot; 27</div>
+        </div>
+      </div>
+      <div style="margin-top:7px; font-size:9.5px; color:#5d6b85; line-height:1.4;">
+        <b>15</b> of these properties are <b>omitted</b> from the OM's competitive-supply page (p.13) &mdash; click any pin for the in-OM vs. omitted status &amp; broker-omission assessment. Keys are room counts (&plusmn;); early-planning sites are low-certainty.
+      </div>
+      <div style="margin-top:5px; font-size:9px; color:#97a3bd; line-height:1.35;">
+        Source: CBRE 2026 &amp; 2027 Market Overview for DC (Supply Summary, 06/22/26), cross-referenced vs. 1710 H St OM (04/02/26). Toggle the four layers on in the legend above.
+      </div>
+    </div>
+
     <div class="sb-section" style="flex:1; border-bottom:none;">
       <h3>Properties &mdash; Click to Navigate</h3>
       <div id="hotel-list"></div>
@@ -547,7 +609,8 @@
     <div class="sidebar-footer">
       Sources: STR Monthly STAR (Capital Hilton 2025, Viceroy DC Mar 2026); STR HospitalityDataGrid (AKA WH Luxury / Large Branded / Branded Small / Independent, R12 thru Mar 2026); original AKA WH STR comp set (R12 thru Dec 2025).<br/>
       Subject AKA White House perf carried over from prior single-set map. Per-comp individual perf masked per STR policy.<br/>
-      Supply pipeline &amp; closures from the Capital Hilton new-supply map (locations approximate).
+      Supply pipeline &amp; closures from the Capital Hilton new-supply map (locations approximate).<br/>
+      DC raw new-supply overlay (66 properties): CBRE 2026 &amp; 2027 Market Overview for DC (06/22/26), cross-referenced vs. 1710 H St OM (04/02/26); addresses geocoded, early-planning/unnamed sites approximate.
     </div>
   </div>
 
@@ -574,8 +637,12 @@ const SETS = [
   {"id": "aka_indep", "label": "AKA WH \u2014 Independent", "short": "Independent", "color": "#c2185b"},
   {"id": "cap_hilton", "label": "Capital Hilton STR Set", "short": "Cap Hilton", "color": "#00897b"},
   {"id": "viceroy_dc", "label": "Viceroy Washington DC STR Set", "short": "Viceroy DC", "color": "#6d4c41"},
-  {"id": "new_supply", "label": "New Supply / Pipeline", "short": "Pipeline", "color": "#e67e22"},
-  {"id": "former_supply", "label": "Former Supply (Closed)", "short": "Former Supply", "color": "#757575"},
+  {"id": "new_supply", "label": "New Supply / Pipeline", "short": "Pipeline", "color": "#e67e22", "glyph": "+", "supply": "add", "group": "caphilton"},
+  {"id": "former_supply", "label": "Former Supply (Closed)", "short": "Former Supply", "color": "#757575", "glyph": "\u2715", "supply": "remove", "group": "caphilton"},
+  {"id": "dc_recent", "label": "Recently Completed (2019\u201325)", "short": "DC Completed", "color": "#0097a7", "glyph": "\u2713", "supply": "add", "group": "dc_supply", "defaultOff": true},
+  {"id": "dc_pipeline", "label": "Pipeline / Under Constr. (2026\u201327)", "short": "DC Pipeline", "color": "#3949ab", "glyph": "+", "supply": "add", "group": "dc_supply", "defaultOff": true},
+  {"id": "dc_reduction", "label": "Supply Reduction (Closures)", "short": "DC Closure", "color": "#546e7a", "glyph": "\u2715", "supply": "remove", "group": "dc_supply", "defaultOff": true},
+  {"id": "dc_planning", "label": "2028+ Early Planning", "short": "DC 2028+", "color": "#7e57c2", "glyph": "\u25c7", "supply": "add", "group": "dc_supply", "defaultOff": true},
 ];
 
 const HOTELS = [
@@ -593,6 +660,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 1,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Sofitel Washington DC Lafayette Square",
@@ -608,6 +679,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 2,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Hotel AKA Washington Circle",
@@ -623,6 +698,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 3,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Residence Inn Washington DC Dupont Circle",
@@ -638,6 +717,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 4,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Homewood Suites by Hilton Washington, D.C. Downtown",
@@ -653,6 +736,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 5,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Hampton by Hilton Inn Washington DC/ White House",
@@ -661,13 +748,17 @@ const HOTELS = [
     zip: "20006",
     rooms: 116,
     klass: "",
-    lat: 38.9004681, lng: -77.0411196,
+    lat: 38.9006021, lng: -77.031455,
     memberships: ["aka_orig"],
     primarySet: "aka_orig",
     anchorFor: [],
     anchorPerfs: [],
     akaNum: 6,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "The St. Regis Washington, D.C.",
@@ -683,6 +774,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "The Ritz-Carlton, Washington, D.C.",
@@ -698,6 +793,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Conrad Washington DC",
@@ -707,12 +806,16 @@ const HOTELS = [
     rooms: 360,
     klass: "Luxury",
     lat: 38.9014786, lng: -77.0253522,
-    memberships: ["aka_lux"],
+    memberships: ["aka_lux", "dc_recent"],
     primarySet: "aka_lux",
     anchorFor: [],
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "Full-Service / Luxury",
+    openDate: "Mar-19",
+    omFlag: "base",
+    omNote: "",
   },
   {
     name: "Waldorf Astoria Washington DC",
@@ -728,6 +831,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "InterContinental The Willard Washington D.C.",
@@ -743,6 +850,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Four Seasons Hotel Washington, DC",
@@ -758,6 +869,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Capital Hilton",
@@ -773,6 +888,10 @@ const HOTELS = [
     anchorPerfs: [{"set_id": "cap_hilton", "period": "R12 ending December 2025", "occ": "74.3%", "adr": "$274", "revpar": "$204", "mpi": "120.4", "ari": "94.8", "rgi": "114.1"}],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "The Westin Washington, D.C. City Center",
@@ -788,6 +907,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "JW Marriott Hotel Washington",
@@ -803,6 +926,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Le Meridien Madison, Washington, DC",
@@ -818,6 +945,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Kimpton Banneker Hotel",
@@ -833,6 +964,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Kimpton Hotel Monaco Washington DC",
@@ -848,6 +983,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "The Jefferson",
@@ -863,6 +1002,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Riggs Washington DC",
@@ -878,6 +1021,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "The Dupont Circle",
@@ -893,6 +1040,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "The Darcy Washington DC",
@@ -908,6 +1059,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "The Graham Georgetown",
@@ -923,6 +1078,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Hyatt Regency Washington on Capitol Hill",
@@ -938,6 +1097,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "The Mayflower Hotel, Autograph Collection",
@@ -953,6 +1116,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Hamilton Hotel",
@@ -968,6 +1135,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Viceroy Washington DC",
@@ -983,6 +1154,10 @@ const HOTELS = [
     anchorPerfs: [{"set_id": "viceroy_dc", "period": "R12 ending March 2026", "occ": "60.6%", "adr": "$238", "revpar": "$145", "mpi": "85.4", "ari": "79.1", "rgi": "67.6"}],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Hotel Washington",
@@ -998,6 +1173,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Hotel Zena Washington DC",
@@ -1013,36 +1192,48 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Tempo by Hilton DC Downtown",
     strId: "",
     cityState: "1776 K Street NW, Washington, DC",
     zip: "",
-    rooms: 0,
+    rooms: 278,
     klass: "",
     lat: 38.90212289999999, lng: -77.0413265,
-    memberships: ["new_supply"],
+    memberships: ["new_supply", "dc_pipeline"],
     primarySet: "new_supply",
     anchorFor: [],
     anchorPerfs: [],
     akaNum: 0,
     brand: "Tempo by Hilton",
+    productType: "Select-Service / Upscale",
+    openDate: "Apr-26",
+    omFlag: "in",
+    omNote: "",
   },
   {
     name: "CitizenM Washington Georgetown",
     strId: "",
     cityState: "Near Key Bridge, Georgetown, Washington, DC",
     zip: "",
-    rooms: 0,
+    rooms: 230,
     klass: "",
     lat: 38.9050618, lng: -77.0686358,
-    memberships: ["new_supply"],
+    memberships: ["new_supply", "dc_pipeline"],
     primarySet: "new_supply",
     anchorFor: [],
     anchorPerfs: [],
     akaNum: 0,
     brand: "CitizenM",
+    productType: "Select-Service (Lifestyle)",
+    openDate: "Jun-26",
+    omFlag: "in",
+    omNote: "",
   },
   {
     name: "The Hoya Hotel",
@@ -1058,6 +1249,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "Independent",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Aloft Hotel Mt. Vernon Triangle",
@@ -1073,6 +1268,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "Aloft Hotels",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Marriott Tribute Portfolio Chinatown",
@@ -1088,6 +1287,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "Tribute Portfolio",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Fairfax at Embassy Row",
@@ -1097,12 +1300,16 @@ const HOTELS = [
     rooms: 259,
     klass: "",
     lat: 38.9105256, lng: -77.0471161,
-    memberships: ["former_supply"],
+    memberships: ["former_supply", "dc_reduction"],
     primarySet: "former_supply",
     anchorFor: [],
     anchorPerfs: [],
     akaNum: 0,
     brand: "Autograph Collection",
+    productType: "Full-Service / Luxury",
+    openDate: "Sep-21",
+    omFlag: "in",
+    omNote: "",
   },
   {
     name: "Avenue Suites",
@@ -1118,6 +1325,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "Independent",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Embassy Circle Guest House",
@@ -1133,6 +1344,10 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "Independent",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Georgetown Suites",
@@ -1142,12 +1357,16 @@ const HOTELS = [
     rooms: 222,
     klass: "",
     lat: 38.9046728, lng: -77.05837910000001,
-    memberships: ["former_supply"],
+    memberships: ["former_supply", "dc_reduction"],
     primarySet: "former_supply",
     anchorFor: [],
     anchorPerfs: [],
     akaNum: 0,
     brand: "Independent",
+    productType: "Apartment-Style (historical, extended-stay)",
+    openDate: "Nov-20",
+    omFlag: "in",
+    omNote: "",
   },
   {
     name: "Adams Inn",
@@ -1163,21 +1382,1055 @@ const HOTELS = [
     anchorPerfs: [],
     akaNum: 0,
     brand: "Independent",
+    productType: "",
+    openDate: "",
+    omFlag: "",
+    omNote: "",
   },
   {
     name: "Marriott Wardman Park",
     strId: "",
     cityState: "2660 Woodley Rd NW, Washington, DC",
     zip: "",
-    rooms: 1152,
+    rooms: 1153,
     klass: "",
     lat: 38.9247051, lng: -77.0542636,
-    memberships: ["former_supply"],
+    memberships: ["former_supply", "dc_reduction"],
     primarySet: "former_supply",
     anchorFor: [],
     anchorPerfs: [],
     akaNum: 0,
     brand: "Marriott Hotels",
+    productType: "Full-Service / Convention",
+    openDate: "Nov-21",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Hilton Washington DC National Mall (fka L'Enfant Plaza Hotel)",
+    strId: "",
+    cityState: "480 L'Enfant Plaza, Washington, DC",
+    zip: "",
+    rooms: 367,
+    klass: "",
+    lat: 38.8838109, lng: -77.0239713,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service / Luxury",
+    openDate: "Apr-19",
+    omFlag: "base",
+    omNote: "",
+  },
+  {
+    name: "Lyric Suites at Liz",
+    strId: "",
+    cityState: "1360 R St NW, Washington, DC",
+    zip: "",
+    rooms: 11,
+    klass: "",
+    lat: 38.9124032, lng: -77.0316016,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style / Extended-Stay",
+    openDate: "Dec-19",
+    omFlag: "base",
+    omNote: "",
+  },
+  {
+    name: "AC Hotel",
+    strId: "",
+    cityState: "1112 19th St NW, Washington, DC",
+    zip: "",
+    rooms: 219,
+    klass: "",
+    lat: 38.9042043, lng: -77.0438734,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service / Upscale",
+    openDate: "Dec-19",
+    omFlag: "base",
+    omNote: "",
+  },
+  {
+    name: "Hyatt Thompson Washington DC",
+    strId: "",
+    cityState: "221 Tingey St SE, Washington, DC",
+    zip: "",
+    rooms: 225,
+    klass: "",
+    lat: 38.874712, lng: -77.002753,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service / Upscale",
+    openDate: "Jan-20",
+    omFlag: "missing",
+    omNote: "Defensible exclusion \u2014 Navy Yard/ballpark submarket, ~2.5 mi from 1710 H - different demand driver (stadium/waterfront vs. federal/CBD).",
+  },
+  {
+    name: "citizenM Washington DC Capitol",
+    strId: "",
+    cityState: "550 School Street SW, Washington, DC",
+    zip: "",
+    rooms: 252,
+    klass: "",
+    lat: 38.8837279, lng: -77.0194263,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service (Lifestyle)",
+    openDate: "Oct-20",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Yotel (rebranded from Liaison Capitol Hill)",
+    strId: "",
+    cityState: "415 New Jersey Ave NW, Washington, DC",
+    zip: "",
+    rooms: 34,
+    klass: "",
+    lat: 38.8951871, lng: -77.0105468,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Budget / Pod",
+    openDate: "Oct-20",
+    omFlag: "missing",
+    omNote: "Defensible exclusion \u2014 Budget pod-hotel tier - not a comparable product to a luxury apartment-suite asset.",
+  },
+  {
+    name: "AC Hotel Washington DC Convention Center",
+    strId: "",
+    cityState: "601 K Street NW, Washington, DC",
+    zip: "",
+    rooms: 234,
+    klass: "",
+    lat: 38.9027941, lng: -77.0201362,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service / Upscale",
+    openDate: "Oct-20",
+    omFlag: "missing",
+    omNote: "Likely genuine miss \u2014 <1 mi away on the K St corridor. Tier is below AKA's positioning, but OM's own list includes lower-tier Holiday Inn Express & Selina elsewhere, so tier alone doesn't explain this exclusion.",
+  },
+  {
+    name: "Cambria Hotels Washington D.C. Capitol Riverfront",
+    strId: "",
+    cityState: "69 Q St SW, Washington, DC",
+    zip: "",
+    rooms: 154,
+    klass: "",
+    lat: 38.8709289, lng: -77.0113068,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service / Upscale",
+    openDate: "Feb-21",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Courtyard Washington, DC Dupont Circle",
+    strId: "",
+    cityState: "1733 N Street NW, Washington, DC",
+    zip: "",
+    rooms: 143,
+    klass: "",
+    lat: 38.9074484, lng: -77.039708,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service / Upscale",
+    openDate: "Dec-21",
+    omFlag: "missing",
+    omNote: "Ambiguous / modest \u2014 ~1 mi away, select-service tier below AKA. Reasonable submarket/tier edit, but proximity keeps it in the gray zone.",
+  },
+  {
+    name: "AC Hotel Washington DC Capitol Hill Navy Yard",
+    strId: "",
+    cityState: "867 New Jersey Ave SE, Washington, DC",
+    zip: "",
+    rooms: 225,
+    klass: "",
+    lat: 38.8802579, lng: -77.0056775,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service / Upscale",
+    openDate: "Feb-22",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Selina Hotel DC",
+    strId: "",
+    cityState: "1309 5th Street NE, Washington, DC",
+    zip: "",
+    rooms: 106,
+    klass: "",
+    lat: 38.9080686, lng: -76.997787,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Boutique / Lifestyle",
+    openDate: "Jun-22",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "citizenM Washington DC NoMa",
+    strId: "",
+    cityState: "1222 First St NE, Washington, DC",
+    zip: "",
+    rooms: 296,
+    klass: "",
+    lat: 38.9067475, lng: -77.0065196,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service (Lifestyle)",
+    openDate: "Aug-22",
+    omFlag: "missing",
+    omNote: "Likely genuine miss \u2014 Largest single omission (296 keys). OM includes sibling citizenM Capitol (Recently Completed) AND citizenM Georgetown (Pipeline) - NoMa is geographically closer to 1710 H than Georgetown. No principled reason for this specific gap.",
+  },
+  {
+    name: "The Pendry Washington DC - The Wharf",
+    strId: "",
+    cityState: "655 Water St, Washington, DC",
+    zip: "",
+    rooms: 131,
+    klass: "",
+    lat: 38.8771026, lng: -77.0218163,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service / Luxury",
+    openDate: "Oct-22",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "The Morrow Hotel, Curio Collection",
+    strId: "",
+    cityState: "222 M Street NE, Washington, DC",
+    zip: "",
+    rooms: 203,
+    klass: "",
+    lat: 38.906095, lng: -77.0022631,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Boutique / Lifestyle",
+    openDate: "Nov-22",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Holiday Inn Express Washington DC Downtown",
+    strId: "",
+    cityState: "317 K Street NW, Washington, DC",
+    zip: "",
+    rooms: 247,
+    klass: "",
+    lat: 38.9026066, lng: -77.0160098,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service",
+    openDate: "Nov-22",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Washington Marriott Capitol Hill",
+    strId: "",
+    cityState: "1005 First St NE, Washington, DC",
+    zip: "",
+    rooms: 235,
+    klass: "",
+    lat: 38.9031826, lng: -77.0053934,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service / Upscale",
+    openDate: "Jan-23",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Royal Sonesta Washington, DC Capitol Hill",
+    strId: "",
+    cityState: "20 Massachusetts Ave NW, Washington, DC",
+    zip: "",
+    rooms: 274,
+    klass: "",
+    lat: 38.8975797, lng: -77.0107773,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service / Upscale",
+    openDate: "Sep-23",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Sonder Vicino",
+    strId: "",
+    cityState: "1324 North Capitol Street NW, Washington, DC",
+    zip: "",
+    rooms: 69,
+    klass: "",
+    lat: 38.908088, lng: -77.0093736,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style / Extended-Stay",
+    openDate: "Nov-23",
+    omFlag: "missing",
+    omNote: "Defensible exclusion \u2014 Small (69 keys), peripheral North Capitol St location; Sonder's brand distress (acquired by Marriott in 2024) plausibly makes it non-comparable in CBRE's view.",
+  },
+  {
+    name: "Placemakr Cathedral Heights",
+    strId: "",
+    cityState: "4000 Wisconsin Ave NW, Washington, DC",
+    zip: "",
+    rooms: 150,
+    klass: "",
+    lat: 38.9420732, lng: -77.0768762,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style / Extended-Stay",
+    openDate: "Apr-24",
+    omFlag: "missing",
+    omNote: "Defensible exclusion \u2014 Far NW submarket (~3.5 mi) near American University/Cathedral - different demand base entirely.",
+  },
+  {
+    name: "Arlo D.C",
+    strId: "",
+    cityState: "333 G St. NW, Washington, DC",
+    zip: "",
+    rooms: 445,
+    klass: "",
+    lat: 38.8984889, lng: -77.0158718,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Boutique / Lifestyle",
+    openDate: "Nov-24",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Canal House of Georgetown, a Tribute Portfolio Hotel",
+    strId: "",
+    cityState: "1023 31st St NW, Washington, DC",
+    zip: "",
+    rooms: 108,
+    klass: "",
+    lat: 38.9032683, lng: -77.0607925,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Boutique / Lifestyle",
+    openDate: "Feb-25",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Placemakr Buzzard Point",
+    strId: "",
+    cityState: "101 V St SW, Washington, DC",
+    zip: "",
+    rooms: 120,
+    klass: "",
+    lat: 38.8648017, lng: -77.0134161,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style / Extended-Stay",
+    openDate: "Mar-25",
+    omFlag: "missing",
+    omNote: "Defensible exclusion \u2014 Far SW/Buzzard Point stadium submarket (~3 mi) - different demand base.",
+  },
+  {
+    name: "I Street Capsule Hostel",
+    strId: "",
+    cityState: "512 I Street Northwest, Washington, DC",
+    zip: "",
+    rooms: 75,
+    klass: "",
+    lat: 38.9006467, lng: -77.0196615,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Budget / Hostel",
+    openDate: "Apr-25",
+    omFlag: "missing",
+    omNote: "Defensible exclusion \u2014 Geographically close but a hostel/capsule concept - tier gap too large to be a real comp.",
+  },
+  {
+    name: "Mint House Downtown Washington D.C.",
+    strId: "",
+    cityState: "1010 Vermont Ave NW, Washington, DC",
+    zip: "",
+    rooms: 85,
+    klass: "",
+    lat: 38.9030859, lng: -77.033718,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style / Extended-Stay",
+    openDate: "May-25",
+    omFlag: "missing",
+    omNote: "Likely genuine miss \u2014 <0.7 mi from 1710 H, same downtown core, and the closest product-type match on the entire list (apartment-style extended-stay). The single most relevant comp the OM's table omits.",
+  },
+  {
+    name: "Sixty DC",
+    strId: "",
+    cityState: "1337 Connecticut Ave NW, Washington, DC",
+    zip: "",
+    rooms: 73,
+    klass: "",
+    lat: 38.9082842, lng: -77.0422279,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Boutique / Lifestyle",
+    openDate: "Jun-25",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "ROOST White House",
+    strId: "",
+    cityState: "1425 New York Ave NW, Washington, DC",
+    zip: "",
+    rooms: 33,
+    klass: "",
+    lat: 38.899526, lng: -77.0325852,
+    memberships: ["dc_recent"],
+    primarySet: "dc_recent",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style (Boutique)",
+    openDate: "Sep-25",
+    omFlag: "missing",
+    omNote: "Likely genuine miss \u2014 Apartment-style/aparthotel concept ~0.5 mi away, opened Sep-25 (7 months before the OM), named after the same landmark as the subject. Small size (33 keys) may explain low materiality to CBRE's headline number, but it's directly on-thesis competitively.",
+  },
+  {
+    name: "Sonder Georgetown C&O Apartments Georgetown (CLOSED)",
+    strId: "",
+    cityState: "1111 30th St NW, Washington, DC",
+    zip: "",
+    rooms: 134,
+    klass: "",
+    lat: 38.9046728, lng: -77.0583791,
+    memberships: ["dc_reduction"],
+    primarySet: "dc_reduction",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style (closure)",
+    openDate: "Jan-26",
+    omFlag: "missing",
+    omNote: "Likely genuine miss \u2014 A closure works IN the broker's favor (less competition = more bullish for the 'high barriers to entry' story), so there's no strategic reason to hide it. Most likely explanation: too recent (Jan-26 closure vs. Apr-26 OM) or excluded because it was apartment-flagged, not hotel-flagged, in CBRE's internal supply tracker.",
+  },
+  {
+    name: "Registry Collection by Wyndham Washington DC",
+    strId: "",
+    cityState: "1626 N Capitol St NW, Washington, DC",
+    zip: "",
+    rooms: 85,
+    klass: "",
+    lat: 38.9120095, lng: -77.0094463,
+    memberships: ["dc_pipeline"],
+    primarySet: "dc_pipeline",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service / Upscale",
+    openDate: "Dec-26",
+    omFlag: "missing",
+    omNote: "Ambiguous / modest \u2014 ~1.7 mi (NoMa-adjacent), modest size (85 keys), less-established local brand tier. Plausible but not clearly principled exclusion.",
+  },
+  {
+    name: "AC Hotel Washington, DC National Mall",
+    strId: "",
+    cityState: "601 Indiana Ave NW, Washington, DC",
+    zip: "",
+    rooms: 122,
+    klass: "",
+    lat: 38.8946745, lng: -77.0202617,
+    memberships: ["dc_pipeline"],
+    primarySet: "dc_pipeline",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service / Upscale",
+    openDate: "Nov-27",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "MOB Hotel Washington DC Union Market",
+    strId: "",
+    cityState: "400 Florida Avenue NE, Washington, DC",
+    zip: "",
+    rooms: 144,
+    klass: "",
+    lat: 38.9137349, lng: -77.0163293,
+    memberships: ["dc_pipeline"],
+    primarySet: "dc_pipeline",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service / Lifestyle",
+    openDate: "Dec-27",
+    omFlag: "missing",
+    omNote: "Defensible exclusion \u2014 Union Market submarket (~2 mi) - different arts/food-district demand base.",
+  },
+  {
+    name: "Apartments by Marriott Bonvoy Washington DC Southeast",
+    strId: "",
+    cityState: "633 Howard Road Southeast, Washington, DC",
+    zip: "",
+    rooms: 110,
+    klass: "",
+    lat: 38.8646176, lng: -77.0008014,
+    memberships: ["dc_pipeline"],
+    primarySet: "dc_pipeline",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style (Branded)",
+    openDate: "Dec-27",
+    omFlag: "missing",
+    omNote: "Defensible exclusion \u2014 SE DC/Anacostia (~3 mi), stadium-driven submarket - genuinely not a locational comp. Notable, though, that CBRE didn't cite it as brand-concept proof given the OM markets the apartment-conversion optionality (p.5) - omission reads as a missed opportunity for their own narrative, not concealment.",
+  },
+  {
+    name: "Aloft Hotel Washington, DC",
+    strId: "",
+    cityState: "925 5th St NW, Washington, DC",
+    zip: "",
+    rooms: 152,
+    klass: "",
+    lat: 38.90208, lng: -77.0185343,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service",
+    openDate: "May-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "The Bazaar House by Jose Andres",
+    strId: "",
+    cityState: "3000 M St NW, Washington, DC",
+    zip: "",
+    rooms: 67,
+    klass: "",
+    lat: 38.905035, lng: -77.0595194,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Boutique / Lifestyle",
+    openDate: "Jun-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Unnamed Hotel",
+    strId: "",
+    cityState: "3071 Canal St NW, Washington, DC",
+    zip: "",
+    rooms: 234,
+    klass: "",
+    lat: 38.9043391, lng: -77.060726,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "TBD",
+    openDate: "Jun-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Placemakr Washington DC",
+    strId: "",
+    cityState: "1735 K St NW, Washington, DC",
+    zip: "",
+    rooms: 106,
+    klass: "",
+    lat: 38.9028625, lng: -77.0408623,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style / Extended-Stay",
+    openDate: "Aug-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Moxy Washington, DC Southwest",
+    strId: "",
+    cityState: "45 Q St SW, Washington, DC",
+    zip: "",
+    rooms: 166,
+    klass: "",
+    lat: 38.8712109, lng: -77.0104749,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service (Lifestyle)",
+    openDate: "Aug-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Moxy Washington, DC Northeast",
+    strId: "",
+    cityState: "37 New York Ave NW, Washington, DC",
+    zip: "",
+    rooms: 198,
+    klass: "",
+    lat: 38.9070923, lng: -77.0104667,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service (Lifestyle)",
+    openDate: "Sep-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Residence Inn by Marriott Washington, DC/Northeast",
+    strId: "",
+    cityState: "SWQ Michigan Ave, Washington, DC",
+    zip: "",
+    rooms: 161,
+    klass: "",
+    lat: 38.9264439, lng: -77.0147716,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Extended-Stay",
+    openDate: "Sep-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Courtyard By Marriott Washington, DC/Northeast",
+    strId: "",
+    cityState: "SWQ Michigan Ave, Washington, DC",
+    zip: "",
+    rooms: 105,
+    klass: "",
+    lat: 38.9261676, lng: -77.014518,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service",
+    openDate: "Sep-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Tribute Portfolio Hotel Washington, DC Downtown",
+    strId: "",
+    cityState: "509 H St NW, Washington, DC",
+    zip: "",
+    rooms: 142,
+    klass: "",
+    lat: 38.8999864, lng: -77.019299,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service / Upscale (Lifestyle)",
+    openDate: "Sep-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Registry Collection Hotels, Washington DC",
+    strId: "",
+    cityState: "1333 G St NW, Washington, DC",
+    zip: "",
+    rooms: 94,
+    klass: "",
+    lat: 38.8985949, lng: -77.0311639,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service / Upscale",
+    openDate: "Sep-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Avid Downtown Washington, D.C.",
+    strId: "",
+    cityState: "311 H St NW, Washington, DC",
+    zip: "",
+    rooms: 144,
+    klass: "",
+    lat: 38.900421, lng: -77.0157909,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Select-Service (Budget-Upscale)",
+    openDate: "Dec-28",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Hotel Indigo Washington DC",
+    strId: "",
+    cityState: "921 6th St NW, Washington, DC",
+    zip: "",
+    rooms: 116,
+    klass: "",
+    lat: 38.9022249, lng: -77.0196439,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Boutique / Lifestyle",
+    openDate: "Dec-29",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Capitol Crossing Hotel",
+    strId: "",
+    cityState: "201 F St NW, Washington, DC",
+    zip: "",
+    rooms: 220,
+    klass: "",
+    lat: 38.8976098, lng: -77.0141618,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service (brand TBD)",
+    openDate: "Jun-31",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Burnham Place Hotel",
+    strId: "",
+    cityState: "100 Columbus Cir NE, Washington, DC",
+    zip: "",
+    rooms: 500,
+    klass: "",
+    lat: 38.896057, lng: -77.0058219,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service (brand TBD)",
+    openDate: "Jan-34",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "WaterWalk Extended Stay by Wyndham Capitol Hill/Navy Yard",
+    strId: "",
+    cityState: "1220 Pennsylvania Ave SE, Washington, DC",
+    zip: "",
+    rooms: 100,
+    klass: "",
+    lat: 38.8822807, lng: -76.9896129,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style / Extended-Stay",
+    openDate: "TBD",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "SLS Lux Hotel & Residences",
+    strId: "",
+    cityState: "901 5th St NW, Washington, DC",
+    zip: "",
+    rooms: 198,
+    klass: "",
+    lat: 38.901224, lng: -77.0181408,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service / Luxury",
+    openDate: "TBD",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Residence Inn Washington DC",
+    strId: "",
+    cityState: "1901 Independence Ave SE, Washington, DC",
+    zip: "",
+    rooms: 150,
+    klass: "",
+    lat: 38.8868805, lng: -76.97659,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Extended-Stay",
+    openDate: "TBD",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Maison Kesh",
+    strId: "",
+    cityState: "1634 North Capitol St NW, Washington, DC",
+    zip: "",
+    rooms: 105,
+    klass: "",
+    lat: 38.9121547, lng: -77.0094005,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Apartment-Style / Boutique",
+    openDate: "TBD",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Unnamed Hotel @ Riverfront On The Anacostia",
+    strId: "",
+    cityState: "100 Potomac Ave SE, Washington, DC",
+    zip: "",
+    rooms: 325,
+    klass: "",
+    lat: 38.8717669, lng: -77.0054359,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "TBD",
+    openDate: "TBD",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Meininger Hotel Washington",
+    strId: "",
+    cityState: "35 New York Ave NE, Washington, DC",
+    zip: "",
+    rooms: 135,
+    klass: "",
+    lat: 38.9075778, lng: -77.0074229,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Budget / Hostel",
+    openDate: "TBD",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Unnamed Hotel @ Maritime Plaza",
+    strId: "",
+    cityState: "1201 M St, Washington, DC",
+    zip: "",
+    rooms: 250,
+    klass: "",
+    lat: 38.9058379, lng: -77.028351,
+    memberships: ["dc_planning"],
+    primarySet: "dc_planning",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "TBD",
+    openDate: "TBD",
+    omFlag: "horizon",
+    omNote: "",
+  },
+  {
+    name: "Georgetown University Hotel and Conference Center (closure)",
+    strId: "",
+    cityState: "3800 Reservoir Rd NW, Washington, DC",
+    zip: "",
+    rooms: 146,
+    klass: "",
+    lat: 38.91228, lng: -77.0751871,
+    memberships: ["dc_reduction"],
+    primarySet: "dc_reduction",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Full-Service (Conference)",
+    openDate: "2022",
+    omFlag: "in",
+    omNote: "",
+  },
+  {
+    name: "Hotel Harrington (closure)",
+    strId: "",
+    cityState: "436 11th St NW, Washington, DC",
+    zip: "",
+    rooms: 242,
+    klass: "",
+    lat: 38.8959394, lng: -77.0273194,
+    memberships: ["dc_reduction"],
+    primarySet: "dc_reduction",
+    anchorFor: [],
+    anchorPerfs: [],
+    akaNum: 0,
+    brand: "",
+    productType: "Budget / Historic",
+    openDate: "Dec-23",
+    omFlag: "in",
+    omNote: "",
   },
 ];
 
@@ -1208,16 +2461,22 @@ function svgPin(color, label, anchor=false, star=false) {
 }
 
 // Glyph shown on the pin, driven by the set it's displayed as:
-//  - AKA Original set  -> number 1-6 (official AKA WH STR file ordering, incl. Hampton)
-//  - New Supply set     -> '+'  (pipeline / addition)
-//  - Former Supply set  -> '✕' (closed / removed)
-//  - everything else    -> blank (anchors get a dashed border instead)
+//  - supply layers      -> the set's own glyph (+ addition, ✕ removal, ✓ completed, ◇ planned)
+//  - AKA Original set    -> number 1-6 (official AKA WH STR file ordering, incl. Hampton)
+//  - everything else     -> blank (anchors get a dashed border instead)
 function pinGlyph(h, primary) {
   if (!primary) return '';
-  if (primary.id === 'new_supply') return '+';
-  if (primary.id === 'former_supply') return '✕';
+  if (primary.glyph) return primary.glyph;
   if (primary.id === 'aka_orig' && h.akaNum) return String(h.akaNum);
   return '';
+}
+
+// Does a hotel belong to any *removal* supply layer (closures)? Drives strikethrough.
+function isRemovalHotel(h) {
+  return (h.memberships || []).some(sid => (SET_BY_ID[sid] || {}).supply === 'remove');
+}
+function isAdditionHotel(h) {
+  return (h.memberships || []).some(sid => (SET_BY_ID[sid] || {}).supply === 'add');
 }
 
 function membershipBadges(h, inline=false, only=null) {
@@ -1235,8 +2494,9 @@ function membershipBadges(h, inline=false, only=null) {
   return `<div class="${cls}">${items}</div>`;
 }
 
-// Track which sets are active. Start with all enabled.
-const ACTIVE_SETS = new Set(SETS.map(s => s.id));
+// Track which sets are active. Start with all enabled EXCEPT default-off layers
+// (the DC raw new-supply overlay loads off so the base map is unchanged).
+const ACTIVE_SETS = new Set(SETS.filter(s => !s.defaultOff).map(s => s.id));
 
 // Per-hotel records (populated in initMap) so we can re-render on toggle.
 const HOTEL_RECORDS = [];
@@ -1372,22 +2632,25 @@ function initMap() {
     if (!h.lat || !h.lng) return;
     const primary = SET_BY_ID[h.primarySet];
     const isAnchor = (h.anchorFor || []).length > 0;
-    const isFormer = h.memberships.includes('former_supply');
-    const isPipeline = h.memberships.includes('new_supply');
-    const roomsText = (isPipeline && !h.rooms)
-      ? 'Rooms TBD'
-      : (h.rooms ? h.rooms.toLocaleString() + ' keys' + (isFormer ? ' removed' : '') : '');
+    const isRemoval = isRemovalHotel(h);            // any closure layer
+    const isPipeline = h.memberships.includes('new_supply');  // legacy Cap-Hilton pipeline
+    const isDcSupply = !!h.omFlag;                   // DC raw new-supply hotel
+    const roomsText = (!h.rooms)
+      ? (isPipeline ? 'Rooms TBD' : '')
+      : (h.rooms.toLocaleString() + ' keys' + (isRemoval ? ' removed' : ''));
     const icon = svgPin(primary.color, pinGlyph(h, primary), isAnchor, false);
 
+    const initiallyVisible = h.memberships.some(sid => ACTIVE_SETS.has(sid));
     const marker = new google.maps.Marker({
       position: { lat: h.lat, lng: h.lng },
-      map,
+      map: initiallyVisible ? map : null,
       icon,
       title: h.name,
       zIndex: 100 + i
     });
     markers.push(marker);
-    bounds.extend({ lat: h.lat, lng: h.lng });
+    // Only frame the initial view around layers that load on (DC overlay is off).
+    if (initiallyVisible) bounds.extend({ lat: h.lat, lng: h.lng });
 
     let iwHtml = '';
     const refreshIw = (pri, anchorVisible) => {
@@ -1418,11 +2681,32 @@ function initMap() {
             </div>
           </div>
           <div class="gm-iw-note">${p.period} &middot; indices vs ${SET_BY_ID[p.set_id].short} comp set${setHidden ? ' (currently hidden)' : ''}</div>`;
+      } else if (isDcSupply) {
+        const CATLABEL = {dc_recent:'Recently completed', dc_pipeline:'Pipeline &mdash; under construction', dc_reduction:'Supply reduction (closure)', dc_planning:'2028+ early planning'};
+        const VERB = {dc_recent:'Opened', dc_pipeline:'Opens', dc_reduction:'Closed', dc_planning:'Target'};
+        const OMDISP = {'in':'✔ In OM competitive-supply page', 'missing':'✖ Omitted from OM competitive-supply page', 'base':'Base year &mdash; embedded in YE2019 supply', 'horizon':'Beyond OM\'s stated horizon'};
+        const dcSid = h.memberships.find(sid => (SET_BY_ID[sid] || {}).group === 'dc_supply') || h.primarySet;
+        const cat = CATLABEL[dcSid] || 'DC new supply';
+        const isEst = dcSid === 'dc_pipeline' || dcSid === 'dc_planning';
+        const dateTxt = (h.openDate && h.openDate !== 'TBD')
+          ? ((VERB[dcSid] || 'Date') + ' ' + h.openDate + (isEst ? ' (est.)' : ''))
+          : 'Date TBD';
+        const kw = dcSid === 'dc_reduction' ? 'removed' : (dcSid === 'dc_planning' ? 'planned' : 'added');
+        const keysTxt = h.rooms ? (h.rooms.toLocaleString() + ' keys ' + kw) : '';
+        statsBlock = `
+          <hr class="gm-iw-divider"/>
+          <div class="gm-iw-supply">
+            <div><span class="sup-cat">${cat}</span> &middot; ${dateTxt}</div>
+            ${keysTxt ? '<div>' + keysTxt + '</div>' : ''}
+            ${h.productType ? '<div>Product: ' + h.productType + '</div>' : ''}
+            <div class="om-line om-${h.omFlag}">${OMDISP[h.omFlag] || ''}</div>
+            ${h.omNote ? '<div class="om-note">' + h.omNote + '</div>' : ''}
+          </div>`;
       } else if (isPipeline) {
         statsBlock = `
           <hr class="gm-iw-divider"/>
           <div class="gm-iw-status"><b>New supply</b> &mdash; pipeline / under development. Adds keys to the submarket; room count TBD.</div>`;
-      } else if (isFormer) {
+      } else if (isRemoval) {
         statsBlock = `
           <hr class="gm-iw-divider"/>
           <div class="gm-iw-status"><b>Permanently closed</b> &mdash; ${h.rooms ? h.rooms.toLocaleString() + ' keys removed from the submarket.' : 'supply removed from the submarket.'}</div>`;
@@ -1436,7 +2720,7 @@ function initMap() {
         : (h.strId ? 'STR ID: ' + h.strId : '');
       iwHtml = `
         <div class="gm-iw">
-          <div class="gm-iw-title">${isFormer ? '<s>' + h.name + '</s>' : h.name}</div>
+          <div class="gm-iw-title">${isRemoval ? '<s>' + h.name + '</s>' : h.name}</div>
           ${h.brand ? '<div class="gm-iw-brand">' + h.brand + '</div>' : ''}
           <div class="gm-iw-meta">${h.cityState}${h.zip ? ' ' + h.zip : ''}${h.klass ? ' &middot; ' + h.klass : ''}</div>
           ${line2 ? '<div class="gm-iw-meta">' + line2 + '</div>' : ''}
@@ -1450,7 +2734,7 @@ function initMap() {
 
     const item = document.createElement('div');
     item.className = 'hotel-item';
-    if (isFormer) item.style.opacity = '0.8';
+    if (isRemoval) item.style.opacity = '0.8';
     const sidebarStats = (h.anchorPerfs && h.anchorPerfs.length)
       ? `<div class="h-stats">
            <span class="h-stat"><b>${h.anchorPerfs[0].occ}</b> Occ</span>
@@ -1461,7 +2745,7 @@ function initMap() {
     item.innerHTML = `
       <div class="h-pin" style="background:${primary.color};${isAnchor ? 'border-style:dashed;' : ''}">${pinGlyph(h, primary) || (isAnchor ? '★' : '')}</div>
       <div class="h-info">
-        <h4>${isFormer ? '<s>' + h.name + '</s>' : h.name}</h4>
+        <h4>${isRemoval ? '<s>' + h.name + '</s>' : h.name}</h4>
         <div class="h-meta">${h.cityState}${h.zip ? ' ' + h.zip : ''}${roomsText ? ' &middot; ' + roomsText : ''}</div>
         ${membershipBadges(h, false, ACTIVE_SETS)}
         ${sidebarStats}
@@ -1472,12 +2756,15 @@ function initMap() {
       infoWindow.setContent(iwHtml);
       infoWindow.open(map, marker);
     });
+    if (!initiallyVisible) item.classList.add('is-hidden');
     listEl.appendChild(item);
 
     HOTEL_RECORDS.push({ hotel: h, marker, item, refreshIw });
   });
 
   map.fitBounds(bounds, { top: 70, right: 70, bottom: 70, left: 70 });
+  // Reconcile marker/sidebar/legend state with the default toggles (DC overlay off).
+  refreshFromToggles();
 
   // ── Wire up the toggle controls ──
   document.querySelectorAll('.set-toggle').forEach(cb => {
