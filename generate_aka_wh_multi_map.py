@@ -522,7 +522,7 @@ def get_dc_new_supply():
 
     Source: CBRE '2026 & 2027 Market Overview for DC' (Supply Summary, 06/22/26),
     cross-referenced against the 1710 H St Chairman's Book OM (CBRE, 04/02/26, p.13).
-    66 properties, 2019 base through 2034, bucketed into four toggleable layers:
+    Properties span 2019 base through 2034, bucketed into four toggleable layers:
     dc_recent (Recently Completed 2019-25), dc_pipeline (2026-27 under construction),
     dc_reduction (closures), dc_planning (2028+ early planning). lat/lng pre-geocoded.
 
@@ -565,11 +565,9 @@ def get_dc_new_supply():
         {"name": "Registry Collection by Wyndham Washington DC", "brand": "", "str_id": "", "zip": "", "city_state": "1626 N Capitol St NW, Washington, DC", "rooms": 85, "klass": "", "product_type": "Full-Service / Upscale", "open_date": "Dec-26", "om_flag": "missing", "om_note": "Ambiguous / modest — ~1.7 mi (NoMa-adjacent), modest size (85 keys), less-established local brand tier. Plausible but not clearly principled exclusion.", "set_id": "dc_pipeline", "is_anchor": False, "lat": 38.9120095, "lng": -77.0094463},
         {"name": "AC Hotel Washington, DC National Mall", "brand": "", "str_id": "", "zip": "", "city_state": "601 Indiana Ave NW, Washington, DC", "rooms": 122, "klass": "", "product_type": "Select-Service / Upscale", "open_date": "Nov-27", "om_flag": "in", "om_note": "", "set_id": "dc_pipeline", "is_anchor": False, "lat": 38.8946745, "lng": -77.0202617},
         {"name": "MOB Hotel Washington DC Union Market", "brand": "", "str_id": "", "zip": "", "city_state": "400 Florida Avenue NE, Washington, DC", "rooms": 144, "klass": "", "product_type": "Full-Service / Lifestyle", "open_date": "Dec-27", "om_flag": "missing", "om_note": "Defensible exclusion — Union Market submarket (~2 mi) - different arts/food-district demand base.", "set_id": "dc_pipeline", "is_anchor": False, "lat": 38.9137349, "lng": -77.0163293},
-        {"name": "Apartments by Marriott Bonvoy Washington DC Southeast", "brand": "", "str_id": "", "zip": "", "city_state": "633 Howard Road Southeast, Washington, DC", "rooms": 110, "klass": "", "product_type": "Apartment-Style (Branded)", "open_date": "Dec-27", "om_flag": "missing", "om_note": "Defensible exclusion — SE DC/Anacostia (~3 mi), stadium-driven submarket - genuinely not a locational comp. Notable, though, that CBRE didn't cite it as brand-concept proof given the OM markets the apartment-conversion optionality (p.5) - omission reads as a missed opportunity for their own narrative, not concealment.", "set_id": "dc_pipeline", "is_anchor": False, "lat": 38.8646176, "lng": -77.0008014},
         {"name": "Aloft Hotel Washington, DC", "brand": "", "str_id": "", "zip": "", "city_state": "925 5th St NW, Washington, DC", "rooms": 152, "klass": "", "product_type": "Select-Service", "open_date": "May-28", "om_flag": "horizon", "om_note": "", "set_id": "dc_planning", "is_anchor": False, "lat": 38.9020800, "lng": -77.0185343},
         {"name": "The Bazaar House by Jose Andres", "brand": "", "str_id": "", "zip": "", "city_state": "3000 M St NW, Washington, DC", "rooms": 67, "klass": "", "product_type": "Boutique / Lifestyle", "open_date": "Jun-28", "om_flag": "horizon", "om_note": "", "set_id": "dc_planning", "is_anchor": False, "lat": 38.9050350, "lng": -77.0595194},
         {"name": "Unnamed Hotel", "brand": "", "str_id": "", "zip": "", "city_state": "3071 Canal St NW, Washington, DC", "rooms": 9, "klass": "", "product_type": "TBD", "open_date": "Jun-28", "om_flag": "horizon", "om_note": "", "set_id": "dc_planning", "is_anchor": False, "lat": 38.9043391, "lng": -77.0607260},
-        {"name": "Placemakr Washington DC", "brand": "", "str_id": "", "zip": "", "city_state": "1735 K St NW, Washington, DC", "rooms": 106, "klass": "", "product_type": "Apartment-Style / Extended-Stay", "open_date": "Aug-28", "om_flag": "horizon", "om_note": "", "set_id": "dc_planning", "is_anchor": False, "lat": 38.9028625, "lng": -77.0408623},
         {"name": "Moxy Washington, DC Southwest", "brand": "", "str_id": "", "zip": "", "city_state": "45 Q St SW, Washington, DC", "rooms": 166, "klass": "", "product_type": "Select-Service (Lifestyle)", "open_date": "Aug-28", "om_flag": "horizon", "om_note": "", "set_id": "dc_planning", "is_anchor": False, "lat": 38.8712109, "lng": -77.0104749},
         {"name": "Moxy Washington, DC Northeast", "brand": "", "str_id": "", "zip": "", "city_state": "37 New York Ave NW, Washington, DC", "rooms": 198, "klass": "", "product_type": "Select-Service (Lifestyle)", "open_date": "Sep-28", "om_flag": "horizon", "om_note": "", "set_id": "dc_planning", "is_anchor": False, "lat": 38.9070923, "lng": -77.0104667},
         {"name": "Residence Inn by Marriott Washington, DC/Northeast", "brand": "", "str_id": "", "zip": "", "city_state": "SWQ Michigan Ave, Washington, DC", "rooms": 161, "klass": "", "product_type": "Extended-Stay", "open_date": "Sep-28", "om_flag": "horizon", "om_note": "", "set_id": "dc_planning", "is_anchor": False, "lat": 38.9264439, "lng": -77.0147716},
@@ -1033,6 +1031,7 @@ def generate_html(merged, set_perf, supply_stats=None, dc_stats=None, dc_hotels=
 
     n_sets = len(COMP_ONLY_SETS)
     total_unique = len(merged)
+    n_dc = len(dc_hotels) if dc_hotels else 0
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -1313,7 +1312,7 @@ def generate_html(merged, set_perf, supply_stats=None, dc_stats=None, dc_hotels=
 <div class="header">
   <div class="header-left">
     <h1>AKA White House &mdash; Multi-Comp-Set Map</h1>
-    <p>Washington, DC &middot; {n_sets} STR comp sets + DC raw new-supply overlay (66 properties, 2019&ndash;2034) &middot; {total_unique} hotels mapped &middot; R12 thru Mar 2026</p>
+    <p>Washington, DC &middot; {n_sets} STR comp sets + DC raw new-supply overlay ({n_dc} properties, 2019&ndash;2034) &middot; {total_unique} hotels mapped &middot; R12 thru Mar 2026</p>
   </div>
   <div class="header-right">
     <div class="kpi-card">
@@ -1373,7 +1372,7 @@ def generate_html(merged, set_perf, supply_stats=None, dc_stats=None, dc_hotels=
       Sources: STR Monthly STAR (Capital Hilton 2025, Viceroy DC Mar 2026); STR HospitalityDataGrid (AKA WH Luxury / Large Branded / Branded Small / Independent, R12 thru Mar 2026); original AKA WH STR comp set (R12 thru Dec 2025).<br/>
       Subject AKA White House perf carried over from prior single-set map. Per-comp individual perf masked per STR policy.<br/>
       Supply pipeline &amp; closures from the Capital Hilton new-supply map (locations approximate).<br/>
-      DC raw new-supply overlay (66 properties): CBRE 2026 &amp; 2027 Market Overview for DC (06/22/26), cross-referenced vs. 1710 H St OM (04/02/26); addresses geocoded, early-planning/unnamed sites approximate.
+      DC raw new-supply overlay ({n_dc} properties): CBRE 2026 &amp; 2027 Market Overview for DC (06/22/26), cross-referenced vs. 1710 H St OM (04/02/26); addresses geocoded, early-planning/unnamed sites approximate.
     </div>
   </div>
 
@@ -1917,11 +1916,12 @@ def main():
 
     if args.deploy:
         deploy(
-            "AKA WH map: add toggleable ½/1/1½-mi distance rings + within-radius supply counts\n\n"
-            "New 'Distance from AKA White House' legend toggle draws three amber radius "
-            "bands (½ / 1 / 1½ mi) with on-map labels, default off. Adds a cumulative "
-            "'New Supply Within Radius' count table (by category, with keys) to the DC "
-            "section, and each DC pin now shows its exact distance from the subject.\n\n"
+            "AKA WH map: drop 2 DC supply comps per research (Placemakr 1735 K St, "
+            "Apartments by Marriott Bonvoy SE)\n\n"
+            "Placemakr Washington DC (1735 K St NW, 2028+ planning) is no longer moving "
+            "forward, and Apartments by Marriott Bonvoy DC Southeast (633 Howard Rd SE, "
+            "Anacostia) removed as non-comparable. DC overlay now 64 properties; counts, "
+            "radius table, and OM-omission tally recompute automatically.\n\n"
             "Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>\n"
             "Claude-Session: https://claude.ai/code/session_016e56zxGMudTDk755fMnDH5"
         )
