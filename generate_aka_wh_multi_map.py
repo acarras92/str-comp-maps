@@ -562,7 +562,6 @@ def get_dc_new_supply():
         {"name": "Sonder Georgetown C&O Apartments Georgetown (CLOSED)", "brand": "", "str_id": "", "zip": "", "city_state": "1111 30th St NW, Washington, DC", "rooms": 134, "klass": "", "product_type": "Apartment-Style (closure)", "open_date": "Jan-26", "om_flag": "missing", "om_note": "Likely genuine miss — A closure works IN the broker's favor (less competition = more bullish for the 'high barriers to entry' story), so there's no strategic reason to hide it. Most likely explanation: too recent (Jan-26 closure vs. Apr-26 OM) or excluded because it was apartment-flagged, not hotel-flagged, in CBRE's internal supply tracker.", "set_id": "dc_reduction", "is_anchor": False, "lat": 38.9046728, "lng": -77.0583791},
         {"name": "Tempo by Hilton DC Downtown", "brand": "", "str_id": "", "zip": "", "city_state": "1776 K St NW, Washington, DC", "rooms": 278, "klass": "", "product_type": "Select-Service / Upscale", "open_date": "Apr-26", "om_flag": "in", "om_note": "", "set_id": "dc_pipeline", "is_anchor": False, "lat": 38.9021229, "lng": -77.0413265},
         {"name": "CitizenM Washington Georgetown", "brand": "", "str_id": "", "zip": "", "city_state": "3401 Water St NW, Washington, DC", "rooms": 230, "klass": "", "product_type": "Select-Service (Lifestyle)", "open_date": "Jun-26", "om_flag": "in", "om_note": "", "set_id": "dc_pipeline", "is_anchor": False, "lat": 38.9050618, "lng": -77.0686358},
-        {"name": "Registry Collection by Wyndham Washington DC", "brand": "", "str_id": "", "zip": "", "city_state": "1626 N Capitol St NW, Washington, DC", "rooms": 85, "klass": "", "product_type": "Full-Service / Upscale", "open_date": "Dec-26", "om_flag": "missing", "om_note": "Ambiguous / modest — ~1.7 mi (NoMa-adjacent), modest size (85 keys), less-established local brand tier. Plausible but not clearly principled exclusion.", "set_id": "dc_pipeline", "is_anchor": False, "lat": 38.9120095, "lng": -77.0094463},
         {"name": "AC Hotel Washington, DC National Mall", "brand": "", "str_id": "", "zip": "", "city_state": "601 Indiana Ave NW, Washington, DC", "rooms": 122, "klass": "", "product_type": "Select-Service / Upscale", "open_date": "Nov-27", "om_flag": "in", "om_note": "", "set_id": "dc_pipeline", "is_anchor": False, "lat": 38.8946745, "lng": -77.0202617},
         {"name": "MOB Hotel Washington DC Union Market", "brand": "", "str_id": "", "zip": "", "city_state": "400 Florida Avenue NE, Washington, DC", "rooms": 144, "klass": "", "product_type": "Full-Service / Lifestyle", "open_date": "Dec-27", "om_flag": "missing", "om_note": "Defensible exclusion — Union Market submarket (~2 mi) - different arts/food-district demand base.", "set_id": "dc_pipeline", "is_anchor": False, "lat": 38.9137349, "lng": -77.0163293},
         {"name": "Aloft Hotel Washington, DC", "brand": "", "str_id": "", "zip": "", "city_state": "925 5th St NW, Washington, DC", "rooms": 152, "klass": "", "product_type": "Select-Service", "open_date": "May-28", "om_flag": "horizon", "om_note": "", "set_id": "dc_planning", "is_anchor": False, "lat": 38.9020800, "lng": -77.0185343},
@@ -1916,12 +1915,12 @@ def main():
 
     if args.deploy:
         deploy(
-            "AKA WH map: drop 2 DC supply comps per research (Placemakr 1735 K St, "
-            "Apartments by Marriott Bonvoy SE)\n\n"
-            "Placemakr Washington DC (1735 K St NW, 2028+ planning) is no longer moving "
-            "forward, and Apartments by Marriott Bonvoy DC Southeast (633 Howard Rd SE, "
-            "Anacostia) removed as non-comparable. DC overlay now 64 properties; counts, "
-            "radius table, and OM-omission tally recompute automatically.\n\n"
+            "AKA WH map: drop Registry Collection by Wyndham (1626 N Capitol St) from DC "
+            "supply overlay\n\n"
+            "Removed per research, following the earlier Placemakr 1735 K St and "
+            "Apartments by Marriott Bonvoy SE removals. The separate Registry Collection "
+            "Hotels 2028+ site (1333 G St NW) is retained. DC overlay now 63 properties; "
+            "counts, radius table, and OM-omission tally recompute automatically.\n\n"
             "Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>\n"
             "Claude-Session: https://claude.ai/code/session_016e56zxGMudTDk755fMnDH5"
         )
