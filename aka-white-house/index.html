@@ -85,25 +85,45 @@
       display: flex; align-items: center; gap: 8px;
       margin-bottom: 6px; font-size: 11.5px; color: #334;
     }
-    .legend-row.toggle-row {
+    .legend-row.toggle-row, .legend-row.ring-row {
       cursor: pointer;
       user-select: none;
       padding: 2px 4px;
       border-radius: 4px;
       transition: background 0.12s;
     }
-    .legend-row.toggle-row:hover { background: #f3f6fc; }
-    .legend-row.toggle-row input[type="checkbox"] {
+    .legend-row.toggle-row:hover, .legend-row.ring-row:hover { background: #f3f6fc; }
+    .legend-row.toggle-row input[type="checkbox"], .legend-row.ring-row input[type="checkbox"] {
       width: 13px; height: 13px;
       margin: 0;
       flex-shrink: 0;
       cursor: pointer;
       accent-color: #2956b2;
     }
+    .legend-row.ring-row input[type="checkbox"] { accent-color: #f59e0b; }
     .legend-row.toggle-row.is-off .leg-label,
-    .legend-row.toggle-row.is-off .leg-marker {
+    .legend-row.toggle-row.is-off .leg-marker,
+    .legend-row.ring-row.is-off .leg-label,
+    .legend-row.ring-row.is-off .leg-marker {
       opacity: 0.35;
     }
+    .radius-table {
+      width: 100%; border-collapse: collapse; margin-top: 4px;
+      font-size: 10px; color: #334;
+    }
+    .radius-table th, .radius-table td {
+      padding: 4px 3px; text-align: center; border-bottom: 1px solid #eef1f6;
+    }
+    .radius-table thead th {
+      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.2px; color: #8090b0; border-bottom: 1px solid #dde3ed;
+    }
+    .radius-table tbody th {
+      text-align: left; font-weight: 700; color: #1a2744; white-space: nowrap;
+    }
+    .radius-table td.rt-tot { font-weight: 700; color: #b45309; background: #fff8ec; }
+    .radius-table th.rt-tot { color: #b45309; }
+    .radius-table td.rt-keys, .radius-table th.rt-keys { color: #8090b0; font-size: 9px; }
     .leg-marker {
       width: 14px; height: 14px;
       border-radius: 50%;
@@ -373,6 +393,13 @@
         <span class="leg-label">2028+ Early Planning</span>
       </label>
 
+      <div class="legend-subhead">Distance from AKA White House</div>
+      <label class="legend-row ring-row is-off" data-ring-toggle="1">
+        <input type="checkbox" class="ring-toggle" />
+        <div class="leg-marker" style="background:#f59e0b22; border:2px solid #f59e0b; box-shadow:none;"></div>
+        <span class="leg-label">Radius rings (&frac12; / 1 / 1&frac12; mi)</span>
+      </label>
+
       <div class="legend-controls">
         <button type="button" id="legend-show-all" class="legend-btn">Show all</button>
         <button type="button" id="legend-hide-all" class="legend-btn">Hide all</button>
@@ -599,6 +626,15 @@
       <div style="margin-top:5px; font-size:9px; color:#97a3bd; line-height:1.35;">
         Source: CBRE 2026 &amp; 2027 Market Overview for DC (Supply Summary, 06/22/26), cross-referenced vs. 1710 H St OM (04/02/26). Toggle the four layers on in the legend above.
       </div>
+      <div class="legend-subhead" style="margin-top:12px;">New Supply Within Radius</div>
+      
+      <table class="radius-table">
+        <thead><tr><th>Within</th><th style="color:#0097a7">Compl.</th><th style="color:#3949ab">Pipe</th><th style="color:#7e57c2">2028+</th><th style="color:#546e7a">Closed</th><th class="rt-tot">New&nbsp;+</th><th class="rt-keys">Keys</th></tr></thead>
+        <tbody><tr><th>&#8804;&nbsp;&frac12; mi</th><td>3</td><td>1</td><td>1</td><td>&middot;</td><td class="rt-tot">5</td><td class="rt-keys">721</td></tr><tr><th>&#8804;&nbsp;1 mi</th><td>7</td><td>1</td><td>3</td><td>3</td><td class="rt-tot">11</td><td class="rt-keys">1,652</td></tr><tr><th>&#8804;&nbsp;1&frac12; mi</th><td>13</td><td>2</td><td>13</td><td>4</td><td class="rt-tot">28</td><td class="rt-keys">4,522</td></tr></tbody>
+      </table>
+      <div style="margin-top:6px; font-size:9px; color:#97a3bd; line-height:1.35;">
+        Cumulative &mdash; each row counts every property within that radius of AKA White House. &ldquo;New&nbsp;+&rdquo; = additions only (excludes closures). Toggle the amber rings in the legend to see the bands on the map; click a pin for its exact distance.
+      </div>
     </div>
 
     <div class="sb-section" style="flex:1; border-bottom:none;">
@@ -664,6 +700,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Sofitel Washington DC Lafayette Square",
@@ -683,6 +720,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Hotel AKA Washington Circle",
@@ -702,6 +740,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Residence Inn Washington DC Dupont Circle",
@@ -721,6 +760,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Homewood Suites by Hilton Washington, D.C. Downtown",
@@ -740,6 +780,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Hampton by Hilton Inn Washington DC/ White House",
@@ -759,6 +800,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "The St. Regis Washington, D.C.",
@@ -778,6 +820,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "The Ritz-Carlton, Washington, D.C.",
@@ -797,6 +840,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Conrad Washington DC",
@@ -816,6 +860,7 @@ const HOTELS = [
     openDate: "Mar-19",
     omFlag: "base",
     omNote: "",
+    distMi: 0.82,
   },
   {
     name: "Waldorf Astoria Washington DC",
@@ -835,6 +880,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "InterContinental The Willard Washington D.C.",
@@ -854,6 +900,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Four Seasons Hotel Washington, DC",
@@ -873,6 +920,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Capital Hilton",
@@ -892,6 +940,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "The Westin Washington, D.C. City Center",
@@ -911,6 +960,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "JW Marriott Hotel Washington",
@@ -930,6 +980,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Le Meridien Madison, Washington, DC",
@@ -949,6 +1000,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Kimpton Banneker Hotel",
@@ -968,6 +1020,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Kimpton Hotel Monaco Washington DC",
@@ -987,6 +1040,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "The Jefferson",
@@ -1006,6 +1060,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Riggs Washington DC",
@@ -1025,6 +1080,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "The Dupont Circle",
@@ -1044,6 +1100,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "The Darcy Washington DC",
@@ -1063,6 +1120,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "The Graham Georgetown",
@@ -1082,6 +1140,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Hyatt Regency Washington on Capitol Hill",
@@ -1101,6 +1160,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "The Mayflower Hotel, Autograph Collection",
@@ -1120,6 +1180,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Hamilton Hotel",
@@ -1139,6 +1200,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Viceroy Washington DC",
@@ -1158,6 +1220,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Hotel Washington",
@@ -1177,6 +1240,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Hotel Zena Washington DC",
@@ -1196,6 +1260,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Tempo by Hilton DC Downtown",
@@ -1215,6 +1280,7 @@ const HOTELS = [
     openDate: "Apr-26",
     omFlag: "in",
     omNote: "",
+    distMi: 0.15,
   },
   {
     name: "CitizenM Washington Georgetown",
@@ -1234,6 +1300,7 @@ const HOTELS = [
     openDate: "Jun-26",
     omFlag: "in",
     omNote: "",
+    distMi: 1.56,
   },
   {
     name: "The Hoya Hotel",
@@ -1253,6 +1320,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Aloft Hotel Mt. Vernon Triangle",
@@ -1272,6 +1340,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Marriott Tribute Portfolio Chinatown",
@@ -1291,6 +1360,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Fairfax at Embassy Row",
@@ -1310,6 +1380,7 @@ const HOTELS = [
     openDate: "Sep-21",
     omFlag: "in",
     omNote: "",
+    distMi: 0.81,
   },
   {
     name: "Avenue Suites",
@@ -1329,6 +1400,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Embassy Circle Guest House",
@@ -1348,6 +1420,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Georgetown Suites",
@@ -1367,6 +1440,7 @@ const HOTELS = [
     openDate: "Nov-20",
     omFlag: "in",
     omNote: "",
+    distMi: 1.0,
   },
   {
     name: "Adams Inn",
@@ -1386,6 +1460,7 @@ const HOTELS = [
     openDate: "",
     omFlag: "",
     omNote: "",
+    distMi: null,
   },
   {
     name: "Marriott Wardman Park",
@@ -1405,6 +1480,7 @@ const HOTELS = [
     openDate: "Nov-21",
     omFlag: "in",
     omNote: "",
+    distMi: 1.86,
   },
   {
     name: "Hilton Washington DC National Mall (fka L'Enfant Plaza Hotel)",
@@ -1424,6 +1500,7 @@ const HOTELS = [
     openDate: "Apr-19",
     omFlag: "base",
     omNote: "",
+    distMi: 1.43,
   },
   {
     name: "Lyric Suites at Liz",
@@ -1443,6 +1520,7 @@ const HOTELS = [
     openDate: "Dec-19",
     omFlag: "base",
     omNote: "",
+    distMi: 0.98,
   },
   {
     name: "AC Hotel",
@@ -1462,6 +1540,7 @@ const HOTELS = [
     openDate: "Dec-19",
     omFlag: "base",
     omNote: "",
+    distMi: 0.34,
   },
   {
     name: "Hyatt Thompson Washington DC",
@@ -1481,6 +1560,7 @@ const HOTELS = [
     openDate: "Jan-20",
     omFlag: "missing",
     omNote: "Defensible exclusion \u2014 Navy Yard/ballpark submarket, ~2.5 mi from 1710 H - different demand driver (stadium/waterfront vs. federal/CBD).",
+    distMi: 2.68,
   },
   {
     name: "citizenM Washington DC Capitol",
@@ -1500,6 +1580,7 @@ const HOTELS = [
     openDate: "Oct-20",
     omFlag: "in",
     omNote: "",
+    distMi: 1.6,
   },
   {
     name: "Yotel (rebranded from Liaison Capitol Hill)",
@@ -1519,6 +1600,7 @@ const HOTELS = [
     openDate: "Oct-20",
     omFlag: "missing",
     omNote: "Defensible exclusion \u2014 Budget pod-hotel tier - not a comparable product to a luxury apartment-suite asset.",
+    distMi: 1.64,
   },
   {
     name: "AC Hotel Washington DC Convention Center",
@@ -1538,6 +1620,7 @@ const HOTELS = [
     openDate: "Oct-20",
     omFlag: "missing",
     omNote: "Likely genuine miss \u2014 <1 mi away on the K St corridor. Tier is below AKA's positioning, but OM's own list includes lower-tier Holiday Inn Express & Selina elsewhere, so tier alone doesn't explain this exclusion.",
+    distMi: 1.11,
   },
   {
     name: "Cambria Hotels Washington D.C. Capitol Riverfront",
@@ -1557,6 +1640,7 @@ const HOTELS = [
     openDate: "Feb-21",
     omFlag: "in",
     omNote: "",
+    distMi: 2.55,
   },
   {
     name: "Courtyard Washington, DC Dupont Circle",
@@ -1576,6 +1660,7 @@ const HOTELS = [
     openDate: "Dec-21",
     omFlag: "missing",
     omNote: "Ambiguous / modest \u2014 ~1 mi away, select-service tier below AKA. Reasonable submarket/tier edit, but proximity keeps it in the gray zone.",
+    distMi: 0.51,
   },
   {
     name: "AC Hotel Washington DC Capitol Hill Navy Yard",
@@ -1595,6 +1680,7 @@ const HOTELS = [
     openDate: "Feb-22",
     omFlag: "in",
     omNote: "",
+    distMi: 2.32,
   },
   {
     name: "Selina Hotel DC",
@@ -1614,6 +1700,7 @@ const HOTELS = [
     openDate: "Jun-22",
     omFlag: "in",
     omNote: "",
+    distMi: 2.36,
   },
   {
     name: "citizenM Washington DC NoMa",
@@ -1633,6 +1720,7 @@ const HOTELS = [
     openDate: "Aug-22",
     omFlag: "missing",
     omNote: "Likely genuine miss \u2014 Largest single omission (296 keys). OM includes sibling citizenM Capitol (Recently Completed) AND citizenM Georgetown (Pipeline) - NoMa is geographically closer to 1710 H than Georgetown. No principled reason for this specific gap.",
+    distMi: 1.88,
   },
   {
     name: "The Pendry Washington DC - The Wharf",
@@ -1652,6 +1740,7 @@ const HOTELS = [
     openDate: "Oct-22",
     omFlag: "in",
     omNote: "",
+    distMi: 1.87,
   },
   {
     name: "The Morrow Hotel, Curio Collection",
@@ -1671,6 +1760,7 @@ const HOTELS = [
     openDate: "Nov-22",
     omFlag: "in",
     omNote: "",
+    distMi: 2.09,
   },
   {
     name: "Holiday Inn Express Washington DC Downtown",
@@ -1690,6 +1780,7 @@ const HOTELS = [
     openDate: "Nov-22",
     omFlag: "in",
     omNote: "",
+    distMi: 1.32,
   },
   {
     name: "Washington Marriott Capitol Hill",
@@ -1709,6 +1800,7 @@ const HOTELS = [
     openDate: "Jan-23",
     omFlag: "in",
     omNote: "",
+    distMi: 1.89,
   },
   {
     name: "Royal Sonesta Washington, DC Capitol Hill",
@@ -1728,6 +1820,7 @@ const HOTELS = [
     openDate: "Sep-23",
     omFlag: "in",
     omNote: "",
+    distMi: 1.6,
   },
   {
     name: "Sonder Vicino",
@@ -1747,6 +1840,7 @@ const HOTELS = [
     openDate: "Nov-23",
     omFlag: "missing",
     omNote: "Defensible exclusion \u2014 Small (69 keys), peripheral North Capitol St location; Sonder's brand distress (acquired by Marriott in 2024) plausibly makes it non-comparable in CBRE's view.",
+    distMi: 1.76,
   },
   {
     name: "Placemakr Cathedral Heights",
@@ -1766,6 +1860,7 @@ const HOTELS = [
     openDate: "Apr-24",
     omFlag: "missing",
     omNote: "Defensible exclusion \u2014 Far NW submarket (~3.5 mi) near American University/Cathedral - different demand base entirely.",
+    distMi: 3.5,
   },
   {
     name: "Arlo D.C",
@@ -1785,6 +1880,7 @@ const HOTELS = [
     openDate: "Nov-24",
     omFlag: "in",
     omNote: "",
+    distMi: 1.32,
   },
   {
     name: "Canal House of Georgetown, a Tribute Portfolio Hotel",
@@ -1804,6 +1900,7 @@ const HOTELS = [
     openDate: "Feb-25",
     omFlag: "in",
     omNote: "",
+    distMi: 1.12,
   },
   {
     name: "Placemakr Buzzard Point",
@@ -1823,6 +1920,7 @@ const HOTELS = [
     openDate: "Mar-25",
     omFlag: "missing",
     omNote: "Defensible exclusion \u2014 Far SW/Buzzard Point stadium submarket (~3 mi) - different demand base.",
+    distMi: 2.84,
   },
   {
     name: "I Street Capsule Hostel",
@@ -1842,6 +1940,7 @@ const HOTELS = [
     openDate: "Apr-25",
     omFlag: "missing",
     omNote: "Defensible exclusion \u2014 Geographically close but a hostel/capsule concept - tier gap too large to be a real comp.",
+    distMi: 1.12,
   },
   {
     name: "Mint House Downtown Washington D.C.",
@@ -1861,6 +1960,7 @@ const HOTELS = [
     openDate: "May-25",
     omFlag: "missing",
     omNote: "Likely genuine miss \u2014 <0.7 mi from 1710 H, same downtown core, and the closest product-type match on the entire list (apartment-style extended-stay). The single most relevant comp the OM's table omits.",
+    distMi: 0.42,
   },
   {
     name: "Sixty DC",
@@ -1880,6 +1980,7 @@ const HOTELS = [
     openDate: "Jun-25",
     omFlag: "in",
     omNote: "",
+    distMi: 0.58,
   },
   {
     name: "ROOST White House",
@@ -1899,6 +2000,7 @@ const HOTELS = [
     openDate: "Sep-25",
     omFlag: "missing",
     omNote: "Likely genuine miss \u2014 Apartment-style/aparthotel concept ~0.5 mi away, opened Sep-25 (7 months before the OM), named after the same landmark as the subject. Small size (33 keys) may explain low materiality to CBRE's headline number, but it's directly on-thesis competitively.",
+    distMi: 0.42,
   },
   {
     name: "Sonder Georgetown C&O Apartments Georgetown (CLOSED)",
@@ -1918,6 +2020,7 @@ const HOTELS = [
     openDate: "Jan-26",
     omFlag: "missing",
     omNote: "Likely genuine miss \u2014 A closure works IN the broker's favor (less competition = more bullish for the 'high barriers to entry' story), so there's no strategic reason to hide it. Most likely explanation: too recent (Jan-26 closure vs. Apr-26 OM) or excluded because it was apartment-flagged, not hotel-flagged, in CBRE's internal supply tracker.",
+    distMi: 1.02,
   },
   {
     name: "Registry Collection by Wyndham Washington DC",
@@ -1937,6 +2040,7 @@ const HOTELS = [
     openDate: "Dec-26",
     omFlag: "missing",
     omNote: "Ambiguous / modest \u2014 ~1.7 mi (NoMa-adjacent), modest size (85 keys), less-established local brand tier. Plausible but not clearly principled exclusion.",
+    distMi: 1.86,
   },
   {
     name: "AC Hotel Washington, DC National Mall",
@@ -1956,6 +2060,7 @@ const HOTELS = [
     openDate: "Nov-27",
     omFlag: "in",
     omNote: "",
+    distMi: 1.15,
   },
   {
     name: "MOB Hotel Washington DC Union Market",
@@ -1975,6 +2080,7 @@ const HOTELS = [
     openDate: "Dec-27",
     omFlag: "missing",
     omNote: "Defensible exclusion \u2014 Union Market submarket (~2 mi) - different arts/food-district demand base.",
+    distMi: 1.6,
   },
   {
     name: "Apartments by Marriott Bonvoy Washington DC Southeast",
@@ -1994,6 +2100,7 @@ const HOTELS = [
     openDate: "Dec-27",
     omFlag: "missing",
     omNote: "Defensible exclusion \u2014 SE DC/Anacostia (~3 mi), stadium-driven submarket - genuinely not a locational comp. Notable, though, that CBRE didn't cite it as brand-concept proof given the OM markets the apartment-conversion optionality (p.5) - omission reads as a missed opportunity for their own narrative, not concealment.",
+    distMi: 3.25,
   },
   {
     name: "Aloft Hotel Washington, DC",
@@ -2013,6 +2120,7 @@ const HOTELS = [
     openDate: "May-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.18,
   },
   {
     name: "The Bazaar House by Jose Andres",
@@ -2032,6 +2140,7 @@ const HOTELS = [
     openDate: "Jun-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.08,
   },
   {
     name: "Unnamed Hotel",
@@ -2051,6 +2160,7 @@ const HOTELS = [
     openDate: "Jun-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.13,
   },
   {
     name: "Placemakr Washington DC",
@@ -2070,6 +2180,7 @@ const HOTELS = [
     openDate: "Aug-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 0.2,
   },
   {
     name: "Moxy Washington, DC Southwest",
@@ -2089,6 +2200,7 @@ const HOTELS = [
     openDate: "Aug-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 2.56,
   },
   {
     name: "Moxy Washington, DC Northeast",
@@ -2108,6 +2220,7 @@ const HOTELS = [
     openDate: "Sep-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.68,
   },
   {
     name: "Residence Inn by Marriott Washington, DC/Northeast",
@@ -2127,6 +2240,7 @@ const HOTELS = [
     openDate: "Sep-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 2.28,
   },
   {
     name: "Courtyard By Marriott Washington, DC/Northeast",
@@ -2146,6 +2260,7 @@ const HOTELS = [
     openDate: "Sep-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 2.28,
   },
   {
     name: "Tribute Portfolio Hotel Washington, DC Downtown",
@@ -2165,6 +2280,7 @@ const HOTELS = [
     openDate: "Sep-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.13,
   },
   {
     name: "Registry Collection Hotels, Washington DC",
@@ -2184,6 +2300,7 @@ const HOTELS = [
     openDate: "Sep-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 0.51,
   },
   {
     name: "Avid Downtown Washington, D.C.",
@@ -2203,6 +2320,7 @@ const HOTELS = [
     openDate: "Dec-28",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.32,
   },
   {
     name: "Hotel Indigo Washington DC",
@@ -2222,6 +2340,7 @@ const HOTELS = [
     openDate: "Dec-29",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.13,
   },
   {
     name: "Capitol Crossing Hotel",
@@ -2241,6 +2360,7 @@ const HOTELS = [
     openDate: "Jun-31",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.42,
   },
   {
     name: "Burnham Place Hotel",
@@ -2260,6 +2380,7 @@ const HOTELS = [
     openDate: "Jan-34",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.88,
   },
   {
     name: "WaterWalk Extended Stay by Wyndham Capitol Hill/Navy Yard",
@@ -2279,6 +2400,7 @@ const HOTELS = [
     openDate: "TBD",
     omFlag: "horizon",
     omNote: "",
+    distMi: 2.99,
   },
   {
     name: "SLS Lux Hotel & Residences",
@@ -2298,6 +2420,7 @@ const HOTELS = [
     openDate: "TBD",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.2,
   },
   {
     name: "Residence Inn Washington DC",
@@ -2317,6 +2440,7 @@ const HOTELS = [
     openDate: "TBD",
     omFlag: "horizon",
     omNote: "",
+    distMi: 3.55,
   },
   {
     name: "Maison Kesh",
@@ -2336,6 +2460,7 @@ const HOTELS = [
     openDate: "TBD",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.86,
   },
   {
     name: "Unnamed Hotel @ Riverfront On The Anacostia",
@@ -2355,6 +2480,7 @@ const HOTELS = [
     openDate: "TBD",
     omFlag: "horizon",
     omNote: "",
+    distMi: 2.71,
   },
   {
     name: "Meininger Hotel Washington",
@@ -2374,6 +2500,7 @@ const HOTELS = [
     openDate: "TBD",
     omFlag: "horizon",
     omNote: "",
+    distMi: 1.85,
   },
   {
     name: "Unnamed Hotel @ Maritime Plaza",
@@ -2393,6 +2520,7 @@ const HOTELS = [
     openDate: "TBD",
     omFlag: "horizon",
     omNote: "",
+    distMi: 0.76,
   },
   {
     name: "Georgetown University Hotel and Conference Center (closure)",
@@ -2412,6 +2540,7 @@ const HOTELS = [
     openDate: "2022",
     omFlag: "in",
     omNote: "",
+    distMi: 2.05,
   },
   {
     name: "Hotel Harrington (closure)",
@@ -2431,6 +2560,7 @@ const HOTELS = [
     openDate: "Dec-23",
     omFlag: "in",
     omNote: "",
+    distMi: 0.76,
   },
 ];
 
@@ -2457,6 +2587,20 @@ function svgPin(color, label, anchor=false, star=false) {
       </svg>`),
     scaledSize: new google.maps.Size(38, 46),
     anchor: new google.maps.Point(19, 44)
+  };
+}
+
+// Small amber pill label that sits on a distance ring (e.g. "1 mi").
+function svgRingLabel(text) {
+  const w = 14 + text.length * 6;
+  return {
+    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="18" viewBox="0 0 ' + w + ' 18">' +
+      '<rect x="0.5" y="0.5" width="' + (w - 1) + '" height="17" rx="8.5" fill="white" stroke="#f59e0b" stroke-width="1"/>' +
+      '<text x="' + (w / 2) + '" y="13" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#b45309">' + text + '</text>' +
+      '</svg>'),
+    scaledSize: new google.maps.Size(w, 18),
+    anchor: new google.maps.Point(w / 2, 9)
   };
 }
 
@@ -2581,6 +2725,36 @@ function initMap() {
     clickable: false
   });
 
+  // ── Distance rings (½ / 1 / 1½ mi) — measurement overlay, default off ──
+  const M_PER_MI = 1609.344;
+  const RING_DEFS = [
+    { mi: 0.5, label: '½ mi',  fill: 0.07,  strokeOp: 0.9  },
+    { mi: 1.0, label: '1 mi',       fill: 0.045, strokeOp: 0.7  },
+    { mi: 1.5, label: '1½ mi', fill: 0.03,  strokeOp: 0.55 },
+  ];
+  const ringOverlays = [];
+  // Draw largest first so inner rings render on top (cumulative amber shading).
+  RING_DEFS.slice().reverse().forEach((rd, i) => {
+    ringOverlays.push(new google.maps.Circle({
+      map: null,
+      center: { lat: SUBJECT.lat, lng: SUBJECT.lng },
+      radius: rd.mi * M_PER_MI,
+      strokeColor: '#f59e0b', strokeOpacity: rd.strokeOp, strokeWeight: 1.5,
+      fillColor: '#f59e0b', fillOpacity: rd.fill,
+      clickable: false, zIndex: i
+    }));
+  });
+  const ringLabels = RING_DEFS.map(rd => new google.maps.Marker({
+    map: null,
+    position: { lat: SUBJECT.lat + (rd.mi * M_PER_MI) / 111320, lng: SUBJECT.lng },
+    icon: svgRingLabel(rd.label),
+    clickable: false, zIndex: 900
+  }));
+  function setRingsVisible(on) {
+    ringOverlays.forEach(c => c.setMap(on ? map : null));
+    ringLabels.forEach(m => m.setMap(on ? map : null));
+  }
+
   const bounds = new google.maps.LatLngBounds();
   const listEl = document.getElementById('hotel-list');
 
@@ -2699,6 +2873,7 @@ function initMap() {
             <div><span class="sup-cat">${cat}</span> &middot; ${dateTxt}</div>
             ${keysTxt ? '<div>' + keysTxt + '</div>' : ''}
             ${h.productType ? '<div>Product: ' + h.productType + '</div>' : ''}
+            ${h.distMi != null ? '<div><b>' + h.distMi + ' mi</b> from AKA White House</div>' : ''}
             <div class="om-line om-${h.omFlag}">${OMDISP[h.omFlag] || ''}</div>
             ${h.omNote ? '<div class="om-note">' + h.omNote + '</div>' : ''}
           </div>`;
@@ -2775,6 +2950,16 @@ function initMap() {
       refreshFromToggles();
     });
   });
+
+  // Distance-ring toggle — independent measurement overlay, not a hotel set.
+  const ringToggle = document.querySelector('.ring-toggle');
+  if (ringToggle) {
+    ringToggle.addEventListener('change', () => {
+      setRingsVisible(ringToggle.checked);
+      const row = ringToggle.closest('.ring-row');
+      if (row) row.classList.toggle('is-off', !ringToggle.checked);
+    });
+  }
 
   document.getElementById('legend-show-all').addEventListener('click', () => {
     document.querySelectorAll('.set-toggle').forEach(cb => {

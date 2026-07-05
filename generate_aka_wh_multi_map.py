@@ -30,6 +30,7 @@ Usage:
 
 import argparse
 import json
+import math
 import os
 import re
 import subprocess
@@ -618,6 +619,21 @@ def dc_supply_stats(dc):
     }
 
 
+def haversine_mi(lat1, lng1, lat2, lng2):
+    """Great-circle distance in statute miles."""
+    R = 3958.7613
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dp = math.radians(lat2 - lat1)
+    dl = math.radians(lng2 - lng1)
+    a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return 2 * R * math.asin(math.sqrt(a))
+
+
+# Distance rings drawn around the subject (statute miles). Shared by the map
+# overlay (JS) and the sidebar count table (Python) so the two never drift.
+RING_RADII_MI = [0.5, 1.0, 1.5]
+
+
 # ── Geocoding ──
 
 def load_cache():
@@ -706,6 +722,8 @@ def merge_hotels(all_lists):
             for _f in ("product_type", "open_date", "om_flag", "om_note"):
                 if h.get(_f) and not entry.get(_f):
                     entry[_f] = h[_f]
+            if h.get("dist_mi") is not None and entry.get("dist_mi") is None:
+                entry["dist_mi"] = h["dist_mi"]
             # Carry anchor address if available
             if h.get("anchor_address"):
                 entry["anchor_address"] = h["anchor_address"]
@@ -853,6 +871,48 @@ def build_dc_supply_summary_html(dc):
       </div>"""
 
 
+def build_radius_table_html(dc):
+    """Cumulative counts of DC new-supply properties within each distance ring."""
+    if not dc:
+        return ""
+    cats = [
+        ("dc_recent", "Compl."),
+        ("dc_pipeline", "Pipe"),
+        ("dc_planning", "2028+"),
+        ("dc_reduction", "Closed"),
+    ]
+    head_cells = "".join(
+        f'<th style="color:{SET_BY_ID[cid]["color"]}">{lbl}</th>' for cid, lbl in cats
+    )
+    body = []
+    for r in RING_RADII_MI:
+        rlabel = {0.5: "&frac12; mi", 1.0: "1 mi", 1.5: "1&frac12; mi"}[r]
+        cells = []
+        for cid, _ in cats:
+            c = sum(1 for h in dc if h["set_id"] == cid and h.get("dist_mi", 99) <= r)
+            cells.append(f'<td>{c if c else "&middot;"}</td>')
+        add_tot = sum(
+            1 for h in dc if h["set_id"] != "dc_reduction" and h.get("dist_mi", 99) <= r
+        )
+        add_keys = sum(
+            h["rooms"] for h in dc
+            if h["set_id"] != "dc_reduction" and h.get("dist_mi", 99) <= r
+        )
+        body.append(
+            f'<tr><th>&#8804;&nbsp;{rlabel}</th>{"".join(cells)}'
+            f'<td class="rt-tot">{add_tot}</td>'
+            f'<td class="rt-keys">{add_keys:,}</td></tr>'
+        )
+    return f"""
+      <table class="radius-table">
+        <thead><tr><th>Within</th>{head_cells}<th class="rt-tot">New&nbsp;+</th><th class="rt-keys">Keys</th></tr></thead>
+        <tbody>{"".join(body)}</tbody>
+      </table>
+      <div style="margin-top:6px; font-size:9px; color:#97a3bd; line-height:1.35;">
+        Cumulative &mdash; each row counts every property within that radius of AKA White House. &ldquo;New&nbsp;+&rdquo; = additions only (excludes closures). Toggle the amber rings in the legend to see the bands on the map; click a pin for its exact distance.
+      </div>"""
+
+
 def build_legend_rows():
     rows = [f"""
       <div class="legend-row legend-subject">
@@ -884,6 +944,14 @@ def build_legend_rows():
         <input type="checkbox" class="set-toggle" data-set-id="{s['id']}"{checked} />
         <div class="leg-marker leg-glyph" style="background:{s['color']}">{s.get('glyph','')}</div>
         <span class="leg-label">{s['label']}</span>
+      </label>""")
+    # Distance rings — a measurement overlay (not a hotel set), toggled on its own.
+    rows.append(f"""
+      <div class="legend-subhead">Distance from AKA White House</div>
+      <label class="legend-row ring-row is-off" data-ring-toggle="1">
+        <input type="checkbox" class="ring-toggle" />
+        <div class="leg-marker" style="background:{SUBJECT_COLOR}22; border:2px solid {SUBJECT_COLOR}; box-shadow:none;"></div>
+        <span class="leg-label">Radius rings (&frac12; / 1 / 1&frac12; mi)</span>
       </label>""")
     # Show All / Hide All buttons
     rows.append("""
@@ -949,16 +1017,18 @@ def build_hotels_js(merged):
         out.append(f"    openDate: {json.dumps(h.get('open_date', ''))},")
         out.append(f"    omFlag: {json.dumps(h.get('om_flag', ''))},")
         out.append(f"    omNote: {json.dumps(h.get('om_note', ''))},")
+        out.append(f"    distMi: {json.dumps(h.get('dist_mi'))},")
         out.append("  },")
     out.append("];")
     return "\n".join(out)
 
 
-def generate_html(merged, set_perf, supply_stats=None, dc_stats=None):
+def generate_html(merged, set_perf, supply_stats=None, dc_stats=None, dc_hotels=None):
     legend_html = build_legend_rows()
     perf_html = build_perf_panels_html(set_perf)
     supply_html = build_supply_summary_html(supply_stats)
     dc_summary_html = build_dc_supply_summary_html(dc_stats)
+    radius_table_html = build_radius_table_html(dc_hotels)
     hotels_js = build_hotels_js(merged)
 
     n_sets = len(COMP_ONLY_SETS)
@@ -1051,25 +1121,45 @@ def generate_html(merged, set_perf, supply_stats=None, dc_stats=None):
       display: flex; align-items: center; gap: 8px;
       margin-bottom: 6px; font-size: 11.5px; color: #334;
     }}
-    .legend-row.toggle-row {{
+    .legend-row.toggle-row, .legend-row.ring-row {{
       cursor: pointer;
       user-select: none;
       padding: 2px 4px;
       border-radius: 4px;
       transition: background 0.12s;
     }}
-    .legend-row.toggle-row:hover {{ background: #f3f6fc; }}
-    .legend-row.toggle-row input[type="checkbox"] {{
+    .legend-row.toggle-row:hover, .legend-row.ring-row:hover {{ background: #f3f6fc; }}
+    .legend-row.toggle-row input[type="checkbox"], .legend-row.ring-row input[type="checkbox"] {{
       width: 13px; height: 13px;
       margin: 0;
       flex-shrink: 0;
       cursor: pointer;
       accent-color: #2956b2;
     }}
+    .legend-row.ring-row input[type="checkbox"] {{ accent-color: #f59e0b; }}
     .legend-row.toggle-row.is-off .leg-label,
-    .legend-row.toggle-row.is-off .leg-marker {{
+    .legend-row.toggle-row.is-off .leg-marker,
+    .legend-row.ring-row.is-off .leg-label,
+    .legend-row.ring-row.is-off .leg-marker {{
       opacity: 0.35;
     }}
+    .radius-table {{
+      width: 100%; border-collapse: collapse; margin-top: 4px;
+      font-size: 10px; color: #334;
+    }}
+    .radius-table th, .radius-table td {{
+      padding: 4px 3px; text-align: center; border-bottom: 1px solid #eef1f6;
+    }}
+    .radius-table thead th {{
+      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.2px; color: #8090b0; border-bottom: 1px solid #dde3ed;
+    }}
+    .radius-table tbody th {{
+      text-align: left; font-weight: 700; color: #1a2744; white-space: nowrap;
+    }}
+    .radius-table td.rt-tot {{ font-weight: 700; color: #b45309; background: #fff8ec; }}
+    .radius-table th.rt-tot {{ color: #b45309; }}
+    .radius-table td.rt-keys, .radius-table th.rt-keys {{ color: #8090b0; font-size: 9px; }}
     .leg-marker {{
       width: 14px; height: 14px;
       border-radius: 50%;
@@ -1270,6 +1360,8 @@ def generate_html(merged, set_perf, supply_stats=None, dc_stats=None):
     <div class="sb-section">
       <h3>DC Market &mdash; Raw New Supply (toggle layers above)</h3>
       {dc_summary_html}
+      <div class="legend-subhead" style="margin-top:12px;">New Supply Within Radius</div>
+      {radius_table_html}
     </div>
 
     <div class="sb-section" style="flex:1; border-bottom:none;">
@@ -1314,6 +1406,20 @@ function svgPin(color, label, anchor=false, star=false) {{
       </svg>`),
     scaledSize: new google.maps.Size(38, 46),
     anchor: new google.maps.Point(19, 44)
+  }};
+}}
+
+// Small amber pill label that sits on a distance ring (e.g. "1 mi").
+function svgRingLabel(text) {{
+  const w = 14 + text.length * 6;
+  return {{
+    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="18" viewBox="0 0 ' + w + ' 18">' +
+      '<rect x="0.5" y="0.5" width="' + (w - 1) + '" height="17" rx="8.5" fill="white" stroke="{SUBJECT_COLOR}" stroke-width="1"/>' +
+      '<text x="' + (w / 2) + '" y="13" text-anchor="middle" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#b45309">' + text + '</text>' +
+      '</svg>'),
+    scaledSize: new google.maps.Size(w, 18),
+    anchor: new google.maps.Point(w / 2, 9)
   }};
 }}
 
@@ -1438,6 +1544,36 @@ function initMap() {{
     clickable: false
   }});
 
+  // ── Distance rings (½ / 1 / 1½ mi) — measurement overlay, default off ──
+  const M_PER_MI = 1609.344;
+  const RING_DEFS = [
+    {{ mi: 0.5, label: '½ mi',  fill: 0.07,  strokeOp: 0.9  }},
+    {{ mi: 1.0, label: '1 mi',       fill: 0.045, strokeOp: 0.7  }},
+    {{ mi: 1.5, label: '1½ mi', fill: 0.03,  strokeOp: 0.55 }},
+  ];
+  const ringOverlays = [];
+  // Draw largest first so inner rings render on top (cumulative amber shading).
+  RING_DEFS.slice().reverse().forEach((rd, i) => {{
+    ringOverlays.push(new google.maps.Circle({{
+      map: null,
+      center: {{ lat: SUBJECT.lat, lng: SUBJECT.lng }},
+      radius: rd.mi * M_PER_MI,
+      strokeColor: '{SUBJECT_COLOR}', strokeOpacity: rd.strokeOp, strokeWeight: 1.5,
+      fillColor: '{SUBJECT_COLOR}', fillOpacity: rd.fill,
+      clickable: false, zIndex: i
+    }}));
+  }});
+  const ringLabels = RING_DEFS.map(rd => new google.maps.Marker({{
+    map: null,
+    position: {{ lat: SUBJECT.lat + (rd.mi * M_PER_MI) / 111320, lng: SUBJECT.lng }},
+    icon: svgRingLabel(rd.label),
+    clickable: false, zIndex: 900
+  }}));
+  function setRingsVisible(on) {{
+    ringOverlays.forEach(c => c.setMap(on ? map : null));
+    ringLabels.forEach(m => m.setMap(on ? map : null));
+  }}
+
   const bounds = new google.maps.LatLngBounds();
   const listEl = document.getElementById('hotel-list');
 
@@ -1556,6 +1692,7 @@ function initMap() {{
             <div><span class="sup-cat">${{cat}}</span> &middot; ${{dateTxt}}</div>
             ${{keysTxt ? '<div>' + keysTxt + '</div>' : ''}}
             ${{h.productType ? '<div>Product: ' + h.productType + '</div>' : ''}}
+            ${{h.distMi != null ? '<div><b>' + h.distMi + ' mi</b> from AKA White House</div>' : ''}}
             <div class="om-line om-${{h.omFlag}}">${{OMDISP[h.omFlag] || ''}}</div>
             ${{h.omNote ? '<div class="om-note">' + h.omNote + '</div>' : ''}}
           </div>`;
@@ -1632,6 +1769,16 @@ function initMap() {{
       refreshFromToggles();
     }});
   }});
+
+  // Distance-ring toggle — independent measurement overlay, not a hotel set.
+  const ringToggle = document.querySelector('.ring-toggle');
+  if (ringToggle) {{
+    ringToggle.addEventListener('change', () => {{
+      setRingsVisible(ringToggle.checked);
+      const row = ringToggle.closest('.ring-row');
+      if (row) row.classList.toggle('is-off', !ringToggle.checked);
+    }});
+  }}
 
   document.getElementById('legend-show-all').addEventListener('click', () => {{
     document.querySelectorAll('.set-toggle').forEach(cb => {{
@@ -1735,6 +1882,8 @@ def main():
 
     print("Loading DC market raw new-supply list…")
     dc_supply = get_dc_new_supply()
+    for h in dc_supply:
+        h["dist_mi"] = round(haversine_mi(SUBJECT_LAT, SUBJECT_LNG, h["lat"], h["lng"]), 2)
     dc_stats = dc_supply_stats(dc_supply)
 
     all_lists = [orig_hotels, aka_lux_hotels, aka_lb_hotels, aka_bs_hotels,
@@ -1758,7 +1907,7 @@ def main():
     for h in merged:
         geocode_hotel(h, cache)
 
-    html = generate_html(merged, set_perf, supply_stats, dc_stats)
+    html = generate_html(merged, set_perf, supply_stats, dc_stats, dc_supply)
     out_dir = os.path.join(REPO_DIR, OUTPUT_SLUG)
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, "index.html")
@@ -1768,14 +1917,11 @@ def main():
 
     if args.deploy:
         deploy(
-            "AKA WH map: add DC raw new-supply overlay (66 properties, 4 toggleable "
-            "layers, default off)\n\n"
-            "New 'Raw New Supply — DC Market (CBRE Jul '26)' section: Recently Completed "
-            "(2019–25), Pipeline (2026–27), Supply Reduction (closures), and 2028+ Early "
-            "Planning as independent toggles. Each pin surfaces open/close date, keys ±, "
-            "product type, and the OM competitive-supply cross-reference (in vs. omitted) "
-            "with the broker-omission assessment. 6 shared properties merged into existing "
-            "supply/comp pins.\n\n"
+            "AKA WH map: add toggleable ½/1/1½-mi distance rings + within-radius supply counts\n\n"
+            "New 'Distance from AKA White House' legend toggle draws three amber radius "
+            "bands (½ / 1 / 1½ mi) with on-map labels, default off. Adds a cumulative "
+            "'New Supply Within Radius' count table (by category, with keys) to the DC "
+            "section, and each DC pin now shows its exact distance from the subject.\n\n"
             "Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>\n"
             "Claude-Session: https://claude.ai/code/session_016e56zxGMudTDk755fMnDH5"
         )
